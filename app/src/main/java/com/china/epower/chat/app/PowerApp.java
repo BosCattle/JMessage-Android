@@ -40,19 +40,4 @@ public class PowerApp extends Application {
     Intent intent = new Intent(this, XmppService.class);
     startService(intent);
   }
-
-  @Override public void onTerminate() {
-    super.onTerminate();
-  }
-
-  public static XMPPConnection getmXmppConnect(){
-    if (mXmppConnect==null){
-      throw  new NullPointerException("AbstractXMPPConnection can not be null");
-    }
-    return mXmppConnect;
-  }
-
-  public static void setmXmppConnect(XMPPConnection connect){
-    mXmppConnect = connect;
-  }
 }
