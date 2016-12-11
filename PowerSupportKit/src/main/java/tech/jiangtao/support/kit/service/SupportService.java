@@ -68,7 +68,11 @@ public class SupportService extends Service implements ChatManagerListener, Conn
   }
 
   public static XMPPConnection getmXMPPConnection() {
+    if (mXMPPConnection!=null) {
     return mXMPPConnection;
+    }else {
+      throw new NullPointerException("连接不能为空...");
+    }
   }
 
   @Override public void onDestroy() {
