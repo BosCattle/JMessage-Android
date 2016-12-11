@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="tech.jiangtao.support.ui.fragment.AddFriendFragment"
+    >
+<RelativeLayout
+    android:layout_margin="@dimen/divider_normal_height"
+    android:id="@+id/add_friend_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+  <EditText
+      android:hint="@string/app_name"
+      android:id="@+id/search_view"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      />
+
+  <TextView
+      android:id="@+id/search_submit"
+      android:background="@drawable/shape_add_friend_text"
+      android:layout_alignParentRight="true"
+      android:text="发送"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:padding="@dimen/divider_default_height"
+      android:layout_centerVertical="true"
+      android:clickable="true"
+      />
+</RelativeLayout>
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/friend_list"
+      android:layout_below="@+id/add_friend_container"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+
+</RelativeLayout>

@@ -1,0 +1,42 @@
+<resources>
+  <string name="app_name">统一通信</string>
+  <string name="text_login">登 录</string>
+  <string name="text_exit">注 销</string>
+  <string name="hint_dialog_input">用户名</string>
+  <string name="hint_dialog_email">工作邮箱</string>
+  <string name="hint_dialog_phone">手机号</string>
+  <string name="profile_max_length">温馨提示:用户名最大长度为6位</string>
+  <string name="profile_email_pro">温馨提示:邮箱格式必须正确</string>
+  <string name="profile_phone_pro">温馨提示:电话格式必须正确</string>
+  <string name="profile_min_length">用户名不能为空</string>
+  <string name="profile_uploading">正在上传...</string>
+  <string name="profile_sex">性别</string>
+  <string name="profile_sure">确定</string>
+  <string name="profile_loading">正在获取数据...</string>
+  <string name="profile_subject">部门</string>
+  <string name="profile_office">职位</string>
+  <string name="connect_success">连接成功</string>
+  <string name="connect_fail">连接失败</string>
+  <string name="regist">快速注册</string>
+
+
+  <!--列表-->
+  <string-array name="sex">
+    <item>男</item>
+    <item>女</item>
+  </string-array>
+
+  <string-array name="subject">
+    <item>新业务拓展部</item>
+    <item>云服务部门</item>
+    <item>安全部门</item>
+  </string-array>
+  <string-array name="office">
+    <item>经理</item>
+    <item>开发</item>
+    <item>运维</item>
+  </string-array>
+
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
