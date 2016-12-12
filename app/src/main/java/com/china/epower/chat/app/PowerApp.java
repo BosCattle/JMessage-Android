@@ -23,7 +23,6 @@ import work.wanghao.simplehud.SimpleHUD;
 
 public class PowerApp extends Application {
 
-  private static XMPPConnection mXmppConnect;
   private static final String TAG = PowerApp.class.getSimpleName();
   @Override public void onCreate() {
     super.onCreate();

@@ -90,9 +90,10 @@ public class LoginActivity extends BaseActivity implements ConnectionCallback {
 
   @Override public void connection(XMPPConnection connection) {
     SimpleHUD.dismiss();
-    SimpleHUD.showSuccessMessage(this, (String) getText(R.string.connect_success));
     saveSharePreference(mLoginUsername.getText().toString(), mLoginPassword.getText().toString());
-    MainActivity.startMain(this);
+    SimpleHUD.showSuccessMessage(this, (String) getText(R.string.connect_success), () -> {
+      MainActivity.startMain(LoginActivity.this);
+    });
   }
 
   public void saveSharePreference(String name, String passwd) {
