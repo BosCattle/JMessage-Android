@@ -105,7 +105,6 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
   public static void startMain(Activity activity) {
     Intent intent = new Intent(activity, MainActivity.class);
     activity.startActivity(intent);
-    activity.finish();
   }
 
   public void showPopupMenu() {
@@ -149,7 +148,7 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
   }
 
   public void updateCheck() {
-    PgyUpdateManager.register(MainActivity.this, new UpdateManagerListener() {
+    PgyUpdateManager.register(this, new UpdateManagerListener() {
 
       @Override public void onUpdateAvailable(final String result) {
 

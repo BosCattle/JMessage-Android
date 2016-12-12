@@ -31,7 +31,7 @@
     <activity android:name="com.pgyersdk.activity.FeedbackActivity"/>
     <activity
         android:name=".ui.activity.MainActivity"
-        android:launchMode="singleInstance"
+        android:launchMode="singleTask"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar"/>
     <activity

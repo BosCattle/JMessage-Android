@@ -11,7 +11,7 @@ public abstract class ErrorAction implements Action1<Throwable> {
   protected static final String TAG = ErrorAction.class.getSimpleName();
 
   @Override public void call(Throwable throwable) {
-    Log.d(TAG, "call: ");
+    Log.d(TAG, "call: "+throwable);
   }
 
 }
