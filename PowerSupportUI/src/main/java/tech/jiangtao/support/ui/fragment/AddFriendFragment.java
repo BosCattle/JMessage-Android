@@ -30,6 +30,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.service.SupportService;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
@@ -131,11 +132,12 @@ public class AddFriendFragment extends BaseFragment implements TextWatcher,EasyV
     Form anwserForm = null;
     try {
       if (connect.getServiceName()!=null) {
-        Log.d("------>", "receiveData: "+StringSplitUtil.splitDivider(connect.getServiceName()));
-        Form form = manager.getSearchForm("search." + StringSplitUtil.splitDivider(connect.getServiceName()));
+        Log.d("------>", "receiveData: "+connect.getServiceName());
+        Form form = manager.getSearchForm("search." + connect.getServiceName());
         anwserForm = form.createAnswerForm();
         anwserForm.setAnswer("Username", true);
-        anwserForm.setAnswer("search", text);
+        Log.d("用户信息", "receiveData: "+text+"@"+ SupportIM.mDomain);
+        anwserForm.setAnswer("search", text+"@"+ SupportIM.mDomain);
       }else {
         throw new NullPointerException("connect not be null");
       }
@@ -146,7 +148,7 @@ public class AddFriendFragment extends BaseFragment implements TextWatcher,EasyV
     rx.Observable.create(new rx.Observable.OnSubscribe<ReportedData>() {
       @Override public void call(Subscriber<? super ReportedData> subscriber) {
         try {
-          subscriber.onNext(manager.getSearchResults(finalAnwserForm,"search."+StringSplitUtil.splitDivider(connect.getServiceName())));
+          subscriber.onNext(manager.getSearchResults(finalAnwserForm,"search."+connect.getServiceName()));
         } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
           subscriber.onError(e);
           e.printStackTrace();

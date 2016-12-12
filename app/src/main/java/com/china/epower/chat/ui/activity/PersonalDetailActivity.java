@@ -208,7 +208,6 @@ public class PersonalDetailActivity extends BaseActivity
   public static void startPersonalDetail(Activity activity) {
     Intent intent = new Intent(activity, PersonalDetailActivity.class);
     activity.startActivity(intent);
-    activity.finish();
   }
 
   public void showDialog() {

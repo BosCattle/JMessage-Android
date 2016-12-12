@@ -154,6 +154,8 @@ public class SupportService extends Service implements ChatManagerListener, Conn
         }, new ErrorAction() {
           @Override public void call(Throwable throwable) {
             super.call(throwable);
+            // TODO: 2016/12/12 流氓了,后期再改吧
+            connect();
           }
         });
   }
@@ -212,7 +214,6 @@ public class SupportService extends Service implements ChatManagerListener, Conn
   }
 
   @Override public void connectionClosedOnError(Exception e) {
-
   }
 
   @Override public void reconnectionSuccessful() {
@@ -224,7 +225,7 @@ public class SupportService extends Service implements ChatManagerListener, Conn
   }
 
   @Override public void reconnectionFailed(Exception e) {
-
+    connect();
   }
 
   public void connectSuccessPerform() {

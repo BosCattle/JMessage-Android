@@ -24,7 +24,6 @@ import work.wanghao.simplehud.SimpleHUD;
 
 public class PowerApp extends Application {
 
-  private static XMPPConnection mXmppConnect;
   private static final String TAG = PowerApp.class.getSimpleName();
   @Override public void onCreate() {
     super.onCreate();
@@ -33,8 +32,8 @@ public class PowerApp extends Application {
     MultiDex.install(this);
     PgyCrashManager.register(this);
     SimpleHUD.backgroundHexColor="#FF4081";
-    SupportIM.initialize(this,"desktop-9o1rifc","desktop-9o1rifc","139.162.73.105",5222);
     SupportUI.initialize(this);
+    SupportIM.initialize(this,"debian","debian","139.162.73.105",5222);
     startXMPPService();
   }
 
