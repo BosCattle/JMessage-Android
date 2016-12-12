@@ -32,8 +32,8 @@ public class PowerApp extends Application {
     MultiDex.install(this);
     PgyCrashManager.register(this);
     SimpleHUD.backgroundHexColor="#FF4081";
-    SupportUI.initialize(this);
     SupportIM.initialize(this,"debian","debian","139.162.73.105",5222);
+    SupportUI.initialize(this);
     startXMPPService();
   }
 
