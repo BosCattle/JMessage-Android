@@ -10,6 +10,7 @@ import com.squareup.leakcanary.LeakCanary;
 import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.XMPPConnection;
 import tech.jiangtao.support.kit.init.SupportIM;
+import tech.jiangtao.support.ui.SupportUI;
 import work.wanghao.simplehud.SimpleHUD;
 
 /**
@@ -33,6 +34,7 @@ public class PowerApp extends Application {
     PgyCrashManager.register(this);
     SimpleHUD.backgroundHexColor="#FF4081";
     SupportIM.initialize(this,"desktop-9o1rifc","desktop-9o1rifc","139.162.73.105",5222);
+    SupportUI.initialize(this);
     startXMPPService();
   }
 
