@@ -136,8 +136,8 @@ public class AddFriendFragment extends BaseFragment implements TextWatcher,EasyV
         Form form = manager.getSearchForm("search." + connect.getServiceName());
         anwserForm = form.createAnswerForm();
         anwserForm.setAnswer("Username", true);
-        Log.d("用户信息", "receiveData: "+text+"@"+ SupportIM.mDomain);
-        anwserForm.setAnswer("search", text+"@"+ SupportIM.mDomain);
+        Log.d("用户信息", "receiveData: "+text);
+        anwserForm.setAnswer("search", text);
       }else {
         throw new NullPointerException("connect not be null");
       }
