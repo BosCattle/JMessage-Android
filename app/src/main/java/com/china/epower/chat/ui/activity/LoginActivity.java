@@ -23,6 +23,8 @@ import tech.jiangtao.support.kit.realm.sharepreference.Account;
 import tech.jiangtao.support.kit.service.SupportService;
 import work.wanghao.simplehud.SimpleHUD;
 
+import static java.lang.System.exit;
+
 /**
  * Class: LoginActivity </br>
  * Description: 登录界面 </br>
@@ -111,5 +113,11 @@ public class LoginActivity extends BaseActivity implements ConnectionCallback {
     Intent intent = new Intent(activity, LoginActivity.class);
     activity.startActivity(intent);
     activity.finish();
+  }
+
+  @Override
+  public void onBackPressed() {
+    super.onBackPressed();
+    exit(0);
   }
 }

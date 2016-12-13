@@ -1,6 +1,10 @@
 [
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/menu/main.xml",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/menu/main.xml"
+        "merged": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\menu\\main.xml",
+        "source": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\menu\\main.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\menu\\main.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\menu\\main.xml"
     }
 ]

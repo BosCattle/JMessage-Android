@@ -46,17 +46,12 @@ public class SupportService extends Service implements ChatManagerListener, Conn
   private static final String TAG = SupportService.class.getSimpleName();
   private static XMPPTCPConnection mXMPPConnection;
 
-  public SupportService() {
-    Log.d("------>", "SupportService: ");
-  }
-
-
   @Override public int onStartCommand(Intent intent, int flags, int startId) {
     if (!EventBus.getDefault().isRegistered(this)) {
       EventBus.getDefault().register(this);
     }
     connect();
-    return super.onStartCommand(intent, flags, startId);
+    return START_STICKY;
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(MessageTest connection) {
@@ -64,7 +59,7 @@ public class SupportService extends Service implements ChatManagerListener, Conn
   }
 
   @Override public IBinder onBind(Intent intent) {
-    throw new UnsupportedOperationException("Not yet implemented");
+    throw null;
   }
 
   public static XMPPConnection getmXMPPConnection() {
