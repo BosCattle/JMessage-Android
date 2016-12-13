@@ -165,4 +165,9 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
       }
     });
   }
+
+  @Override protected void onDestroy() {
+    super.onDestroy();
+    PgyUpdateManager.unregister();
+  }
 }

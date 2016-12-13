@@ -15,8 +15,8 @@ import com.pgyersdk.crash.PgyCrashManager;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-  @BindView(R.id.tv_toolbar) TextView mTvToolbar;
-  @BindView(R.id.toolbar) Toolbar mToolbar;
+  @Nullable @BindView(R.id.tv_toolbar) TextView mTvToolbar;
+  @Nullable @BindView(R.id.toolbar) Toolbar mToolbar;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
