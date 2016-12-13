@@ -170,7 +170,6 @@ public class AddFriendFragment extends BaseFragment implements TextWatcher,EasyV
               user.name = row.getValues("Name").iterator().next();
               user.email = row.getValues("Email").iterator().next();
               String jid = row.getValues("jid").iterator().next();
-              Log.e("----->", "receiveData: " + jid);
               mList.add(user);
             }
             mBaseEasyAdapter.clear();
