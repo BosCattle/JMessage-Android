@@ -13,6 +13,9 @@ android {
     targetSdkVersion 24
     versionCode 1
     versionName "1.0"
+
+    buildConfigField("String", "MM_AppId", "\"6e7ea2251ca5479d875916785c4418f1\"")
+    buildConfigField("String", "MM_AppSecret", "\"026eb8a2cb7b4ab18135a6a0454fd698\"")
   }
   buildTypes {
     release {
@@ -45,4 +48,7 @@ dependencies {
   compile 'com.github.jiangTaoQuite:ViewCollection:0.0.2_alpha'
   compile 'com.github.Doublemine:SimpleHud:0.1.2'
   compile 'com.github.BosCattle:MultiType-FilePicker:1.0.1'
+  compile project(':Emoji')
+  compile 'com.github.hotchemi:permissionsdispatcher:2.1.3'
+  apt 'com.github.hotchemi:permissionsdispatcher-processor:2.1.3'
 }

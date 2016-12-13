@@ -10,6 +10,7 @@ import com.squareup.leakcanary.LeakCanary;
 import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.XMPPConnection;
 import tech.jiangtao.support.kit.init.SupportIM;
+import tech.jiangtao.support.ui.SupportUI;
 import work.wanghao.simplehud.SimpleHUD;
 
 /**
@@ -31,7 +32,9 @@ public class PowerApp extends Application {
     MultiDex.install(this);
     PgyCrashManager.register(this);
     SimpleHUD.backgroundHexColor="#FF4081";
-    SupportIM.initialize(this,"debian","debian","139.162.73.105",5222);
+    //SupportIM.initialize(this,"_tigase.me._tcp.tigase.","","139.162.73.105",5222);
+    SupportIM.initialize(this,"debian","","139.162.73.105",5222);
+    SupportUI.initialize(this);
     startXMPPService();
   }
 

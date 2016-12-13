@@ -12,6 +12,7 @@ import org.jivesoftware.smack.XMPPConnection;
 
 import tech.jiangtao.support.kit.callback.ConnectionCallback;
 import tech.jiangtao.support.kit.realm.sharepreference.Account;
+import tech.jiangtao.support.kit.realm.sharepreference.FirstEnter;
 import tech.jiangtao.support.kit.service.SupportService;
 import work.wanghao.simplehud.SimpleHUD;
 
@@ -28,24 +29,28 @@ public class LauncherActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             Account account =
                     new FavorAdapter.Builder(LauncherActivity.this).build().create(Account.class);
-            if (account.getUserName() != null && SupportService.getmXMPPConnection() != null) {
-                if (SupportService.getmXMPPConnection().getUser() != null && !SupportService.getmXMPPConnection().getUser().equals("")) {
-                    MainActivity.startMain(LauncherActivity.this);
-                } else {
-                    SupportService.login(account.getUserName(), account.getPassword(), new ConnectionCallback() {
-                        @Override
-                        public void connection(XMPPConnection connection) {
-                            MainActivity.startMain(LauncherActivity.this);
-                        }
+            FirstEnter enter = new FavorAdapter.Builder(this).build().create(FirstEnter.class);
+            if (enter.getEntered())
+            {
+                if (account.getUserName() != null && SupportService.getmXMPPConnection() != null) {
+                    if (SupportService.getmXMPPConnection().getUser() != null && !SupportService.getmXMPPConnection().getUser().equals("")) {
+                        MainActivity.startMain(LauncherActivity.this);
+                    } else {
+                        SupportService.login(account.getUserName(), account.getPassword(), new ConnectionCallback() {
+                            @Override public void connection(XMPPConnection connection) {
+                                MainActivity.startMain(LauncherActivity.this);
+                            }
 
-                        @Override
-                        public void connectionFailed(Exception e) {
-                            SimpleHUD.showErrorMessage(LauncherActivity.this, "登录失败" + e);
-                        }
-                    });
+                            @Override public void connectionFailed(Exception e) {
+                                SimpleHUD.showErrorMessage(LauncherActivity.this, "登录失败" + e);
+                            }
+                        });
+                    }
+                } else {
+                    LoginActivity.startLogin(LauncherActivity.this);
                 }
             }else {
-                LoginActivity.startLogin(LauncherActivity.this);
+                IndexActivity.startIndex(this);
             }
         }, SPLASH_DISPLAY_LENGTH);
     }

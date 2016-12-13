@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/kevin/Project/Android/Company/PowerChat/Emoji/src/main/shaders"/></dataSet><dataSet config="release"><source path="/Users/kevin/Project/Android/Company/PowerChat/Emoji/build-types/release/shaders"/></dataSet></merger>
