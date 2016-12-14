@@ -146,6 +146,10 @@ public class SupportService extends Service implements ChatManagerListener, Conn
         .subscribe(abstractXMPPConnection -> {
           // TODO: 10/12/2016  读取本地数据库，判断有无账户，有，则登录，无---
           mXMPPConnection = (XMPPTCPConnection) abstractXMPPConnection;
+          Account account = new FavorAdapter.Builder(this).build().create(Account.class);
+          if (account!=null&&account.getUserName()!=null&&account.getPassword()!=null) {
+            login(account.getUserName(),account.getPassword(),null);
+          }
         }, new ErrorAction() {
           @Override public void call(Throwable throwable) {
             super.call(throwable);

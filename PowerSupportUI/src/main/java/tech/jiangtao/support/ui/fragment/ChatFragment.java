@@ -110,7 +110,7 @@ public class ChatFragment extends BaseFragment implements TextWatcher {
   public void loadOwnRealm() {
     mRealm = Realm.getDefaultInstance();
     RealmResults<VCardRealm> realms = mRealm.where(VCardRealm.class)
-        .equalTo("jid", SupportService.getmXMPPConnection().getUser())
+        .equalTo("jid", StringSplitUtil.splitDivider(SupportService.getmXMPPConnection().getUser()))
         .findAll();
     if (realms.size() != 0) {
       mOwnVCardRealm = realms.first();
@@ -216,7 +216,7 @@ public class ChatFragment extends BaseFragment implements TextWatcher {
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveMessage message) {
     Log.d("----------->", "onMessage: " + message);
     // 根据消息类型，作出调转服务
-    if (message.message.toString() != null) {
+    if (String.valueOf(message.message)!=null) {
       Message message1 = new Message();
       message1.paramContent = (String) message.message;
       mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)

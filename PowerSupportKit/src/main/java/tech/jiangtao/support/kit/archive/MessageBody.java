@@ -27,7 +27,6 @@ public class MessageBody {
   }
 
   public String getWith() {
-
     return with;
   }
 

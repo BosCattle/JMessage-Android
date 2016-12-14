@@ -97,7 +97,7 @@ public class ContactFragment extends BaseFragment
   private void getContact() {
     Realm realm = Realm.getDefaultInstance();
     RealmQuery<VCardRealm> realmQuery = realm.where(VCardRealm.class);
-    RealmResults<VCardRealm> realmResult = realmQuery.findAll();
+    RealmResults<VCardRealm> realmResult = realmQuery.equalTo("friend",true).findAll();
     mBaseEasyAdapter.clear();
     buildHeadView();
     for (VCardRealm entry : realmResult) {
@@ -139,7 +139,7 @@ public class ContactFragment extends BaseFragment
     Set<RosterEntry> set = new HashSet<>();
     set.addAll(entries);
     for (RosterEntry en : set) {
-      SimpleVCard sVCard = new SimpleVCard(en.getUser());
+      SimpleVCard sVCard = new SimpleVCard(en.getUser(),true);
       sVCard.getVCard();
     }
   }

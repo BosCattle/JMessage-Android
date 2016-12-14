@@ -66,7 +66,7 @@ public class DateUtils {
    * @return timestamp
    */
   public static long UTCConvertToLong(String utc){
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'", Locale.US);
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ", Locale.US);
     long time = 0;
     try {
       time = sdf.parse(utc).getTime();
