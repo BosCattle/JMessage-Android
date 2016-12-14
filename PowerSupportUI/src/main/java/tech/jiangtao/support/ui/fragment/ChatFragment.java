@@ -48,6 +48,7 @@ import tech.jiangtao.support.ui.model.type.MessageType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
 
 import static android.content.ContentValues.TAG;
+import static tech.jiangtao.support.kit.service.SupportService.requestAllMessageArchive;
 
 /**
  * Class: ChatFragment </br>
@@ -76,7 +77,6 @@ public class ChatFragment extends BaseFragment implements TextWatcher {
   private VCardRealm mVCardRealm;
   private VCardRealm mOwnVCardRealm;
   private Realm mRealm;
-  private SimpleArchiveMessage mSimpleArchiveMessage;
 
   public static ChatFragment newInstance() {
     return new ChatFragment();
@@ -168,7 +168,7 @@ public class ChatFragment extends BaseFragment implements TextWatcher {
 
   public void loadArchiveMessage() {
     if (mVCardRealm != null) {
-      mSimpleArchiveMessage = new SimpleArchiveMessage();
+      SimpleArchiveMessage mSimpleArchiveMessage = new SimpleArchiveMessage();
       MessageRealm messageRealm = null;
       RealmResults<MessageRealm> messageDatas =
           mSimpleArchiveMessage.loadArchiveMessage(mVCardRealm.getJid());
@@ -216,7 +216,7 @@ public class ChatFragment extends BaseFragment implements TextWatcher {
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveMessage message) {
     Log.d("----------->", "onMessage: " + message);
     // 根据消息类型，作出调转服务
-    if (String.valueOf(message.message)!=null) {
+    if (message.message!=null&&!String.valueOf(message.message).equals("")) {
       Message message1 = new Message();
       message1.paramContent = (String) message.message;
       mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
@@ -237,7 +237,7 @@ public class ChatFragment extends BaseFragment implements TextWatcher {
     message1.paramContent = realm.getTextMessage();
     Log.d(TAG, "addMessageToAdapter: " + realm.getMainJID());
     Log.d(TAG, "addMessageToAdapter-----: " + StringSplitUtil.splitDivider(mVCardRealm.getJid()));
-    if (Objects.equals(StringSplitUtil.splitDivider(realm.getMainJID()),
+    if (StringSplitUtil.splitDivider(realm.getMainJID()).equals(
         StringSplitUtil.splitDivider(mVCardRealm.getJid()))) {
       mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
           .avatar(mVCardRealm != null ? mVCardRealm.getAvatar() : null)
@@ -250,5 +250,11 @@ public class ChatFragment extends BaseFragment implements TextWatcher {
           .build());
     }
     mChatMessageAdapter.notifyDataSetChanged();
+  }
+
+  @Override public void onPause() {
+    super.onPause();
+    SimpleArchiveMessage message = new SimpleArchiveMessage();
+    requestAllMessageArchive(message.getLastUpdateTime());
   }
 }

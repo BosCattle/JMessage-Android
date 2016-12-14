@@ -133,7 +133,7 @@ public class IndexActivity extends BaseActivity
             } else if (permission.shouldShowRequestPermissionRationale) {
                 showRationaleDialog();
             } else {
-                neverAskAgainCallback();
+                //neverAskAgainCallback();
             }
         });
     }
@@ -193,7 +193,7 @@ public class IndexActivity extends BaseActivity
         new AlertDialog.Builder(this).setIcon(getApplicationInfo().icon)
                 .setTitle("授权失败")
                 .setMessage("缺失必要的权限,无法正常工作!请清除应用数据以重新授权!")
-                .setCancelable(true)
+                .setCancelable(false)
                 .setPositiveButton("确定", (dialog, button) -> dialog.dismiss())
                 .show();
     }

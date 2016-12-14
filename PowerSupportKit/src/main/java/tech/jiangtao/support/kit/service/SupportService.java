@@ -32,6 +32,7 @@ import tech.jiangtao.support.kit.archive.MessageArchiveIQProvider;
 import tech.jiangtao.support.kit.archive.MessageArchiveRequestIQ;
 import tech.jiangtao.support.kit.archive.MessageArchiveStanzaFilter;
 import tech.jiangtao.support.kit.archive.MessageArchiveStanzaListener;
+import tech.jiangtao.support.kit.archive.MessageBody;
 import tech.jiangtao.support.kit.callback.ConnectionCallback;
 import tech.jiangtao.support.kit.eventbus.MessageTest;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
@@ -45,6 +46,7 @@ public class SupportService extends Service implements ChatManagerListener, Conn
 
   private static final String TAG = SupportService.class.getSimpleName();
   private static XMPPTCPConnection mXMPPConnection;
+  public static boolean mNeedAutoLogin = true;
 
   @Override public int onStartCommand(Intent intent, int flags, int startId) {
     if (!EventBus.getDefault().isRegistered(this)) {
@@ -79,6 +81,7 @@ public class SupportService extends Service implements ChatManagerListener, Conn
     chat.addMessageListener((chat1, message) -> {
       Log.d(TAG, "processMessage: " + message.getBody());
       Log.d(TAG, "processMessage: " + chat1.getParticipant());
+      //先缓存消息
       EventBus.getDefault()
           .post(new RecieveMessage(message.getBody(), message.getType(), chat1.getParticipant()));
     });
@@ -147,7 +150,7 @@ public class SupportService extends Service implements ChatManagerListener, Conn
           // TODO: 10/12/2016  读取本地数据库，判断有无账户，有，则登录，无---
           mXMPPConnection = (XMPPTCPConnection) abstractXMPPConnection;
           Account account = new FavorAdapter.Builder(this).build().create(Account.class);
-          if (account!=null&&account.getUserName()!=null&&account.getPassword()!=null) {
+          if (account!=null&&account.getUserName()!=null&&account.getPassword()!=null&&mNeedAutoLogin) {
             login(account.getUserName(),account.getPassword(),null);
           }
         }, new ErrorAction() {

@@ -16,7 +16,6 @@ import org.jivesoftware.smack.packet.Stanza;
 public class MessageArchiveStanzaFilter implements StanzaFilter {
   @Override public boolean accept(Stanza stanza) {
 //    return stanza.hasExtension("chat", "urn:xmpp:archive");
-    Log.d("-----------", "accept: "+stanza.toXML());
     return true;
   }
 }

@@ -138,6 +138,7 @@ public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemC
     public void onClick(View v) {
         XMPPTCPConnection connection = (XMPPTCPConnection) SupportService.getmXMPPConnection();
         connection.disconnect();
+        SupportService.mNeedAutoLogin = false;
         LoginActivity.startLogin(getActivity());
     }
 

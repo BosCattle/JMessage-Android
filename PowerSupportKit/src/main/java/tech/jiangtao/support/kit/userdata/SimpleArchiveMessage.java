@@ -46,4 +46,8 @@ public class SimpleArchiveMessage {
     }
     return DateUtils.getDefaultUTCTimeZone(date.getTime()/1000);
   }
+
+  public void persistMessage(){
+
+  }
 }
