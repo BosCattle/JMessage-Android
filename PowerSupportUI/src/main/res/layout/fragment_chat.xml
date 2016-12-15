@@ -14,7 +14,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
 
   </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -25,11 +26,12 @@
       >
 
     <RelativeLayout
-        android:layout_alignParentBottom="true"
         android:id="@+id/chat_inline_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_send_message">
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_send_message"
+        >
 
       <ImageView
           android:id="@+id/chat_speak"
@@ -38,25 +40,14 @@
           android:layout_alignParentLeft="true"
           android:contentDescription=""
           android:padding="8dp"
-          android:src="@mipmap/ic_chat_speak" />
-
+          android:src="@mipmap/ic_chat_speak"
+          />
       <FrameLayout
-          android:id="@+id/add_other_message"
+          android:id="@+id/container_send"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignParentRight="true"
-          android:layout_marginRight="8dp">
-
-        <TextView
-            android:id="@+id/chat_send_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/shapr_add_friend"
-            android:gravity="center_vertical"
-            android:text="发 送"
-            android:textColor="@color/white"
-            android:visibility="gone" />
+          >
 
         <ImageView
             android:id="@+id/chat_add_other_information"
@@ -64,32 +55,60 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="8dp"
-            android:src="@mipmap/ic_chat_add" />
+            android:src="@mipmap/ic_chat_add"
+            />
+
+        <com.melink.bqmmsdk.widget.BQMMSendButton
+            android:id="@+id/chat_send_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/shape_sendbutton_bg_selector"
+            android:text="发送"
+            android:textColor="#ffffffff"
+            android:textSize="16sp"
+            android:visibility="gone"
+            />
       </FrameLayout>
 
-      <ImageView
+      <CheckBox
           android:id="@+id/add_smile"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_toLeftOf="@+id/add_other_message"
-          android:padding="8dp"
-          android:src="@mipmap/ic_chat_smile" />
+          android:layout_width="40dp"
+          android:layout_height="40dp"
+          android:layout_centerVertical="true"
+          android:layout_toLeftOf="@+id/container_send"
+          android:background="@drawable/ui_selector_chat_face"
+          android:button="@null"
+          android:gravity="center"
+          android:padding="10dp"
+          />
 
-      <EditText
+      <com.melink.bqmmsdk.widget.BQMMEditView
           android:id="@+id/chat_input"
-          android:layout_width="wrap_content"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:layout_centerVertical="true"
           android:layout_toLeftOf="@+id/add_smile"
-          android:layout_toRightOf="@+id/chat_speak" />
+          android:layout_toRightOf="@+id/chat_speak"
+          android:background="#f6f5f5"
+          android:inputType="textMultiLine"
+          android:paddingBottom="10dp"
+          android:paddingTop="10dp"
+          android:textSize="18sp"
+          />
     </RelativeLayout>
-
-    <FrameLayout
-        android:id="@+id/chat_func_detail"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+    <com.melink.bqmmsdk.ui.keyboard.BQMMKeyboard
         android:layout_below="@+id/chat_inline_container"
-        android:visibility="gone" />
-
+        android:id="@+id/chat_msg_input_box"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/chat_inline_container"
+        android:id="@+id/chat_send_other"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
   </RelativeLayout>
 
 </RelativeLayout>

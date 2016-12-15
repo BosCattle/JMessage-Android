@@ -31,7 +31,7 @@ public class ExpressViewHolder extends EasyViewHolder<ChatExtraModel> {
         Glide.with(mContext)
                 .load(chatExtraModel.id)
                 .centerCrop()
-                .placeholder(R.mipmap.ex_childrien_a)
+                .placeholder(0)
                 .crossFade()
                 .into(mChatExpress);
     }

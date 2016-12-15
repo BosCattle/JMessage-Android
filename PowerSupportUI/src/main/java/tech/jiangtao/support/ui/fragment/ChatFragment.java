@@ -14,25 +14,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+import com.melink.bqmmsdk.ui.keyboard.BQMMKeyboard;
+import com.melink.bqmmsdk.widget.BQMMEditView;
+import com.melink.bqmmsdk.widget.BQMMSendButton;
+import io.realm.Realm;
+import io.realm.RealmResults;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.realm.MessageRealm;
@@ -43,6 +42,7 @@ import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ChatMessageAdapter;
+import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.model.Message;
 import tech.jiangtao.support.ui.model.type.MessageType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
@@ -58,22 +58,24 @@ import static tech.jiangtao.support.kit.service.SupportService.requestAllMessage
  * Date: 02/12/2016 11:40 AM</br>
  * Update: 02/12/2016 11:40 AM </br>
  **/
-public class ChatFragment extends BaseFragment implements TextWatcher {
+public class ChatFragment extends BaseFragment
+    implements TextWatcher, View.OnClickListener, EasyViewHolder.OnItemClickListener,
+    View.OnLongClickListener {
 
   @BindView(R2.id.recycler) RecyclerView mRecycler;
   @BindView(R2.id.swift_refresh) SwipeRefreshLayout mSwiftRefresh;
   @BindView(R2.id.chat_speak) ImageView mChatSpeak;
-  @BindView(R2.id.chat_send_message) TextView mChatSendMessage;
   @BindView(R2.id.chat_add_other_information) ImageView mChatAddOtherInformation;
-  @BindView(R2.id.add_other_message) FrameLayout mAddOtherMessage;
-  @BindView(R2.id.add_smile) ImageView mAddSmile;
-  @BindView(R2.id.chat_input) EditText mChatInput;
+  @BindView(R2.id.chat_send_message) BQMMSendButton mChatSendMessage;
+  @BindView(R2.id.container_send) FrameLayout mContainerSend;
+  @BindView(R2.id.add_smile) CheckBox mAddSmile;
+  @BindView(R2.id.chat_input) BQMMEditView mChatInput;
   @BindView(R2.id.chat_inline_container) RelativeLayout mChatInlineContainer;
-  @BindView(R2.id.chat_func_detail) FrameLayout mChatFuncDetail;
+  @BindView(R2.id.chat_msg_input_box) BQMMKeyboard mChatMsgInputBox;
+  @BindView(R2.id.chat_send_other) RecyclerView mChatSendOther;
   @BindView(R2.id.chat_bottom) RelativeLayout mChatBottom;
   private ChatMessageAdapter mChatMessageAdapter;
   private List<ConstructMessage> mMessages;
-  private List<Fragment> mDetailFragments;
   private VCardRealm mVCardRealm;
   private VCardRealm mOwnVCardRealm;
   private Realm mRealm;
@@ -104,6 +106,7 @@ public class ChatFragment extends BaseFragment implements TextWatcher {
         mChatInput.clearFocus();
       }
     });
+    ButterKnife.bind(this, getView());
     return getView();
   }
 
@@ -124,22 +127,17 @@ public class ChatFragment extends BaseFragment implements TextWatcher {
   private void init() {
     mVCardRealm = getArguments().getParcelable("vCard");
     loadOwnRealm();
-    mChatInput.addTextChangedListener(this);
+    setViewListener();
     setAdapter();
     loadArchiveMessage();
-    setUpFragment();
   }
 
-  public void setUpFragment() {
-    mDetailFragments = new ArrayList<>();
-    mDetailFragments.add(ExtraFragment.newInstance());
-    mDetailFragments.add(ExpressionFragment.newInstance());
-  }
-
-  public void navigationFragment(Fragment fragment) {
-    FragmentTransaction mTransaction = getFragmentManager().beginTransaction();
-    mTransaction.replace(R.id.chat_func_detail, fragment);
-    mTransaction.commit();
+  private void setViewListener() {
+    mChatInput.addTextChangedListener(this);
+    mChatSpeak.setOnLongClickListener(this);
+    mChatAddOtherInformation.setOnClickListener(this);
+    mChatSendMessage.setOnClickListener(this);
+    mAddSmile.setOnClickListener(this);
   }
 
   public void setAdapter() {
@@ -188,35 +186,10 @@ public class ChatFragment extends BaseFragment implements TextWatcher {
 
   }
 
-  @OnClick({ R2.id.chat_send_message, R2.id.chat_add_other_information, R2.id.add_smile })
-  public void onClick(View v) {
-    switch (v.getId()) {
-      case R2.id.chat_send_message:
-        Log.d(TAG, "onClick: 点击发送消息");
-        break;
-      case R2.id.chat_add_other_information:
-        if (mChatFuncDetail.getVisibility() == View.VISIBLE) {
-          mChatFuncDetail.setVisibility(View.GONE);
-        } else {
-          mChatFuncDetail.setVisibility(View.VISIBLE);
-          navigationFragment(mDetailFragments.get(0));
-        }
-        break;
-      case R2.id.add_smile:
-        if (mChatFuncDetail.getVisibility() == View.VISIBLE) {
-          mChatFuncDetail.setVisibility(View.GONE);
-        } else {
-          mChatFuncDetail.setVisibility(View.VISIBLE);
-          navigationFragment(mDetailFragments.get(1));
-        }
-        break;
-    }
-  }
-
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveMessage message) {
     Log.d("----------->", "onMessage: " + message);
     // 根据消息类型，作出调转服务
-    if (message.message!=null&&!String.valueOf(message.message).equals("")) {
+    if (message.message != null && !String.valueOf(message.message).equals("")) {
       Message message1 = new Message();
       message1.paramContent = (String) message.message;
       mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
@@ -237,8 +210,8 @@ public class ChatFragment extends BaseFragment implements TextWatcher {
     message1.paramContent = realm.getTextMessage();
     Log.d(TAG, "addMessageToAdapter: " + realm.getMainJID());
     Log.d(TAG, "addMessageToAdapter-----: " + StringSplitUtil.splitDivider(mVCardRealm.getJid()));
-    if (StringSplitUtil.splitDivider(realm.getMainJID()).equals(
-        StringSplitUtil.splitDivider(mVCardRealm.getJid()))) {
+    if (StringSplitUtil.splitDivider(realm.getMainJID())
+        .equals(StringSplitUtil.splitDivider(mVCardRealm.getJid()))) {
       mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
           .avatar(mVCardRealm != null ? mVCardRealm.getAvatar() : null)
           .message(message1)
@@ -256,5 +229,28 @@ public class ChatFragment extends BaseFragment implements TextWatcher {
     super.onPause();
     SimpleArchiveMessage message = new SimpleArchiveMessage();
     requestAllMessageArchive(message.getLastUpdateTime());
+  }
+
+  @Override public void onItemClick(int position, View view) {
+
+  }
+
+  @Override public boolean onLongClick(View v) {
+    switch (v.getId()){
+      case R2.id.chat_speak:
+        break;
+    }
+    return true;
+  }
+
+  @Override public void onClick(View v) {
+    switch (v.getId()){
+      case R2.id.chat_add_other_information:
+        break;
+      case R2.id.chat_send_message:
+        break;
+      case R2.id.add_smile:
+        break;
+    }
   }
 }

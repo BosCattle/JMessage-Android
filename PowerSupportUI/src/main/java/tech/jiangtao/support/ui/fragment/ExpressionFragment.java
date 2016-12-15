@@ -53,7 +53,7 @@ public class ExpressionFragment extends Fragment implements EasyViewHolder.OnIte
         mChatExtraItems = new ArrayList<>();
         mListExpress.setAdapter(mBaseEasyAdapter);
         for (int i = 0; i <26; i++) {
-            ChatExtraModel model = new ChatExtraModel(R.mipmap.ex_childrien_a);
+            ChatExtraModel model = new ChatExtraModel(0);
             mChatExtraItems.add(model);
         }
         mBaseEasyAdapter.addAll(mChatExtraItems);
