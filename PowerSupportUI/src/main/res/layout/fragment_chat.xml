@@ -22,9 +22,10 @@
       android:id="@+id/chat_bottom"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true">
+      >
 
     <RelativeLayout
+        android:layout_alignParentBottom="true"
         android:id="@+id/chat_inline_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
