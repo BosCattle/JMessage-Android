@@ -19,11 +19,15 @@ import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.chat.ChatManager;
 import org.jivesoftware.smack.chat.ChatManagerListener;
 import org.jivesoftware.smack.packet.IQ;
+import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.jivesoftware.smackx.pubsub.PublishItem;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -33,27 +37,71 @@ import tech.jiangtao.support.kit.archive.MessageArchiveRequestIQ;
 import tech.jiangtao.support.kit.archive.MessageArchiveStanzaFilter;
 import tech.jiangtao.support.kit.archive.MessageArchiveStanzaListener;
 import tech.jiangtao.support.kit.archive.MessageBody;
+import tech.jiangtao.support.kit.archive.type.MessageBodyType;
 import tech.jiangtao.support.kit.callback.ConnectionCallback;
 import tech.jiangtao.support.kit.eventbus.MessageTest;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.init.SupportIM;
+import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.sharepreference.Account;
 import tech.jiangtao.support.kit.userdata.SimpleArchiveMessage;
+import tech.jiangtao.support.kit.util.DateUtils;
 import tech.jiangtao.support.kit.util.ErrorAction;
+import tech.jiangtao.support.kit.util.StringSplitUtil;
 
 public class SupportService extends Service implements ChatManagerListener, ConnectionListener {
 
   private static final String TAG = SupportService.class.getSimpleName();
   private static XMPPTCPConnection mXMPPConnection;
   public static boolean mNeedAutoLogin = true;
+  private Realm mRealm;
 
   @Override public int onStartCommand(Intent intent, int flags, int startId) {
     if (!EventBus.getDefault().isRegistered(this)) {
       EventBus.getDefault().register(this);
     }
+    if (mRealm == null) {
+      mRealm = Realm.getDefaultInstance();
+    }
     connect();
     return START_STICKY;
+  }
+
+
+  private void setMessageRealm(MessageBody body, String time) {
+    //首先，判断数据库中是否有改内容
+    MessageRealm messageRealm;
+    //date有问题,老子也是醉了
+    java.util.Date date =
+            DateUtils.getSumUTCTimeZone(DateUtils.UTCConvertToLong(time), Long.valueOf(body.getSecs()));
+    RealmResults<MessageRealm> realms = mRealm.where(MessageRealm.class).equalTo("thread",body.getThread()).findAll();
+    if (realms.size()==0){
+      messageRealm = new MessageRealm();
+      createMessageRealm(messageRealm, body, date);
+      mRealm.beginTransaction();
+      mRealm.copyToRealm(messageRealm);
+      mRealm.commitTransaction();
+    }else {
+      Log.d(TAG, "setMessageRealm: 本地数据库已经有这条消息了。");
+    }
+  }
+
+  private void createMessageRealm(MessageRealm messageRealm, MessageBody body,
+                                  java.util.Date time) {
+    messageRealm.setThread(body.getThread());
+    messageRealm.setTextMessage(body.getBody());
+    messageRealm.setTime(time);
+    String other = StringSplitUtil.splitDivider(body.getWith());
+    String main = StringSplitUtil.splitDivider(SupportService.getmXMPPConnection().getUser());
+    Log.d(TAG, "createMessageRealm: "+other+"       "+main);
+    if (body.getType() == MessageBodyType.TYPE_FROM) {
+      messageRealm.setMainJID(other);
+      messageRealm.setWithJID(main);
+    } else {
+      messageRealm.setMainJID(main);
+      messageRealm.setWithJID(other);
+    }
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(MessageTest connection) {
@@ -81,10 +129,19 @@ public class SupportService extends Service implements ChatManagerListener, Conn
     chat.addMessageListener((chat1, message) -> {
       Log.d(TAG, "processMessage: " + message.getBody());
       Log.d(TAG, "processMessage: " + chat1.getParticipant());
-      //先缓存消息
       EventBus.getDefault()
           .post(new RecieveMessage(message.getBody(), message.getType(), chat1.getParticipant()));
+      //缓存消息
+//      setMessageRealm(buildMessageBody(),null);
     });
+  }
+
+  public MessageBody buildMessageBody(Message message){
+//    MessageBody body = new MessageBody(MessageBodyType.TYPE_FROM);
+    if (message.getBody()!=null&&!message.getBody().equals("")) {
+
+    }
+    return null;
   }
 
   @Subscribe public void sendMessage(TextMessage message) {
@@ -95,11 +152,17 @@ public class SupportService extends Service implements ChatManagerListener, Conn
           chat.sendMessage(message.message);
           subscriber.onNext("");
         } catch (SmackException.NotConnectedException e) {
+          subscriber.onError(e);
           e.printStackTrace();
         }
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
       Log.d(TAG, "sendMessage: 发送成功");
+    }, new ErrorAction() {
+      @Override
+      public void call(Throwable throwable) {
+        super.call(throwable);
+      }
     });
   }
 
