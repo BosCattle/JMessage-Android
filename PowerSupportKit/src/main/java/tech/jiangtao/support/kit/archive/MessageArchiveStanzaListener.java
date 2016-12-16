@@ -49,15 +49,20 @@ public class MessageArchiveStanzaListener implements StanzaListener {
 
   private void setMessageRealm(MessageBody body, String time) {
     //首先，判断数据库中是否有改内容
-    MessageRealm messageRealm = null;
+    MessageRealm messageRealm;
     //date有问题,老子也是醉了
     java.util.Date date =
         DateUtils.getSumUTCTimeZone(DateUtils.UTCConvertToLong(time), Long.valueOf(body.getSecs()));
-    messageRealm = new MessageRealm();
-    createMessageRealm(messageRealm, body, date);
-    mRealm.beginTransaction();
-    mRealm.copyToRealm(messageRealm);
-    mRealm.commitTransaction();
+      RealmResults<MessageRealm> realms = mRealm.where(MessageRealm.class).equalTo("thread",body.getThread()).findAll();
+    if (realms.size()==0){
+      messageRealm = new MessageRealm();
+      createMessageRealm(messageRealm, body, date);
+      mRealm.beginTransaction();
+      mRealm.copyToRealm(messageRealm);
+      mRealm.commitTransaction();
+    }else {
+      Log.d(TAG, "setMessageRealm: 本地数据库已经有这条消息了。");
+    }
   }
 
   private void updateMessageRealm(MessageRealm messageRealm, MessageBody body) {
