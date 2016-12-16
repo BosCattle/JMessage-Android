@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 import com.cocosw.favor.FavorAdapter;
+import java.io.File;
 import java.io.IOException;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -23,10 +24,16 @@ import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+import org.jivesoftware.smackx.filetransfer.FileTransferListener;
+import org.jivesoftware.smackx.filetransfer.FileTransferManager;
+import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
+import org.jivesoftware.smackx.filetransfer.IncomingFileTransfer;
+import org.jivesoftware.smackx.filetransfer.OutgoingFileTransfer;
 import org.jivesoftware.smackx.pubsub.PublishItem;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.archive.MessageArchiveIQProvider;
 import tech.jiangtao.support.kit.archive.MessageArchiveRequestIQ;
@@ -42,11 +49,13 @@ import tech.jiangtao.support.kit.realm.sharepreference.Account;
 import tech.jiangtao.support.kit.userdata.SimpleArchiveMessage;
 import tech.jiangtao.support.kit.util.ErrorAction;
 
-public class SupportService extends Service implements ChatManagerListener, ConnectionListener {
+public class SupportService extends Service
+    implements ChatManagerListener, ConnectionListener, FileTransferListener {
 
   private static final String TAG = SupportService.class.getSimpleName();
   private static XMPPTCPConnection mXMPPConnection;
   public static boolean mNeedAutoLogin = true;
+  private static FileTransferManager mFileTransferManager;
 
   @Override public int onStartCommand(Intent intent, int flags, int startId) {
     if (!EventBus.getDefault().isRegistered(this)) {
@@ -65,9 +74,9 @@ public class SupportService extends Service implements ChatManagerListener, Conn
   }
 
   public static XMPPConnection getmXMPPConnection() {
-    if (mXMPPConnection!=null) {
-    return mXMPPConnection;
-    }else {
+    if (mXMPPConnection != null) {
+      return mXMPPConnection;
+    } else {
       throw new NullPointerException("连接不能为空...");
     }
   }
@@ -132,7 +141,7 @@ public class SupportService extends Service implements ChatManagerListener, Conn
     }
   }
 
-  public  void connect() {
+  public void connect() {
     init();
     Observable.create(new Observable.OnSubscribe<AbstractXMPPConnection>() {
       @Override public void call(Subscriber<? super AbstractXMPPConnection> subscriber) {
@@ -150,8 +159,11 @@ public class SupportService extends Service implements ChatManagerListener, Conn
           // TODO: 10/12/2016  读取本地数据库，判断有无账户，有，则登录，无---
           mXMPPConnection = (XMPPTCPConnection) abstractXMPPConnection;
           Account account = new FavorAdapter.Builder(this).build().create(Account.class);
-          if (account!=null&&account.getUserName()!=null&&account.getPassword()!=null&&mNeedAutoLogin) {
-            login(account.getUserName(),account.getPassword(),null);
+          if (account != null
+              && account.getUserName() != null
+              && account.getPassword() != null
+              && mNeedAutoLogin) {
+            login(account.getUserName(), account.getPassword(), null);
           }
         }, new ErrorAction() {
           @Override public void call(Throwable throwable) {
@@ -239,5 +251,30 @@ public class SupportService extends Service implements ChatManagerListener, Conn
     requestAllMessageArchive(message.getLastUpdateTime());
     ChatManager manager = ChatManager.getInstanceFor(mXMPPConnection);
     manager.addChatListener(this);
+    mFileTransferManager = FileTransferManager.getInstanceFor(mXMPPConnection);
+    mFileTransferManager.addFileTransferListener(this);
+  }
+
+  @Override public void fileTransferRequest(FileTransferRequest request) {
+      // Accept it
+    IncomingFileTransfer transfer = request.accept();
+    Observable.create(subscriber -> {
+      try {
+        transfer.recieveFile(new File(request.getFileName()));
+        subscriber.onCompleted();
+      } catch (SmackException | IOException e) {
+        subscriber.onError(e);
+        e.printStackTrace();
+      }
+    }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+
+    }, new ErrorAction() {
+      @Override public void call(Throwable throwable) {
+        super.call(throwable);
+        Log.d(TAG, "发送文件发生错误");
+      }
+    }, () -> {
+      Log.d(TAG, "fileTransferRequest: 传输完成");
+    });
   }
 }

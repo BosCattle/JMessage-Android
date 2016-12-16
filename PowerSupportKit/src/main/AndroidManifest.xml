@@ -11,6 +11,10 @@
         android:enabled="true"
         android:exported="true">
     </service>
+    <service
+        android:name=".service.FileTransferService"
+        android:exported="false">
+    </service>
   </application>
 
 </manifest>
