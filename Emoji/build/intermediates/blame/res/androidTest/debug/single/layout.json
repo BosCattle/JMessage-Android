@@ -1,66 +1,82 @@
 [
     {
-        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_message_view_left.xml",
-        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_message_view_left.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_message_view_left.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_message_view_left.xml"
     },
     {
-        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_message_view_right.xml",
-        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_message_view_right.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_message_view_right.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_message_view_right.xml"
     },
     {
-        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_item_face.xml",
-        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_item_face.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_message_view_left.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_message_view_left.xml"
     },
     {
-        "merged": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_message_view_left.xml",
-        "source": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_message_view_left.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_item_face.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_item_face.xml"
     },
     {
-        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_message_view_right.xml",
-        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_message_view_right.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_item_emoji.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_item_emoji.xml"
     },
     {
-        "merged": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_item_emoji.xml",
-        "source": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_item_emoji.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_message_view_left.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_message_view_left.xml"
     },
     {
-        "merged": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_message_view_right.xml",
-        "source": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_message_view_right.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/layout/bqmm_message_view_left.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/layout/bqmm_message_view_left.xml"
     },
     {
-        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_item_emoji.xml",
-        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_item_emoji.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_item_emoji.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_item_emoji.xml"
     },
     {
-        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_item_face.xml",
-        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_item_face.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/layout/bqmm_message_view_right.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/layout/bqmm_message_view_right.xml"
     },
     {
-        "merged": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_item_face.xml",
-        "source": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_item_face.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_item_emoji.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_item_emoji.xml"
     },
     {
-        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_message_view_left.xml",
-        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_message_view_left.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_message_view_right.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_message_view_right.xml"
     },
     {
-        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_item_emoji.xml",
-        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_item_emoji.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_message_view_right.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_message_view_right.xml"
     },
     {
-        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_item_face.xml",
-        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_item_face.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/layout/bqmm_item_emoji.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/layout/bqmm_item_emoji.xml"
     },
     {
-        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_message_view_left.xml",
-        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_message_view_left.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_message_view_left.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_message_view_left.xml"
     },
     {
-        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_message_view_right.xml",
-        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_message_view_right.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_message_view_right.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_message_view_right.xml"
     },
     {
-        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_item_emoji.xml",
-        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_item_emoji.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_item_face.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_item_face.xml"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/layout/bqmm_item_face.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/layout/bqmm_item_face.xml"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_item_face.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_item_face.xml"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_item_emoji.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_item_emoji.xml"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\bqmm_item_face.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\layout\\bqmm_item_face.xml"
     }
 ]

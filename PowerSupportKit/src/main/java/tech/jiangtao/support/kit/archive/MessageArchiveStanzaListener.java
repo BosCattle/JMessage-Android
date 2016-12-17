@@ -82,8 +82,8 @@ public class MessageArchiveStanzaListener implements StanzaListener {
     messageRealm.setThread(body.getThread());
     messageRealm.setTextMessage(body.getBody());
     messageRealm.setTime(time);
-    String other = StringSplitUtil.splitDivider(body.getWith());
-    String main = StringSplitUtil.splitDivider(SupportService.getmXMPPConnection().getUser());
+    String other = body.getWith();
+    String main =SupportService.getmXMPPConnection().getUser();
     Log.d(TAG, "createMessageRealm: "+other+"       "+main);
     if (body.getType() == MessageBodyType.TYPE_FROM) {
       messageRealm.setMainJID(other);

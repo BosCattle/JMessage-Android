@@ -39,11 +39,11 @@ public class SimpleVCard {
     private boolean mIsFriend;
 
     public SimpleVCard(String userJID) {
-        mUserJID = StringSplitUtil.splitDivider(userJID);
+        mUserJID = userJID;
     }
 
     public SimpleVCard(String userJID ,boolean friend) {
-        mUserJID = StringSplitUtil.splitDivider(userJID);
+        mUserJID = userJID;
         mIsFriend = friend;
     }
 
@@ -64,9 +64,9 @@ public class SimpleVCard {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(vCard -> {
-                    updateRealm(StringSplitUtil.splitDivider(mUserJID), vCard);
+                    updateRealm(mUserJID, vCard);
                     if (mVCardCallback != null) {
-                        mVCardCallback.recieveVCard(vCard, StringSplitUtil.splitDivider(mUserJID));
+                        mVCardCallback.recieveVCard(vCard, mUserJID);
                     }
                 }, new ErrorAction() {
                     @Override
@@ -119,7 +119,7 @@ public class SimpleVCard {
     }
 
     private void setVCardTrans(VCardRealm vCardRealm, VCard vCard) {
-        vCardRealm.setJid(StringSplitUtil.splitDivider(mUserJID));
+        vCardRealm.setJid(mUserJID);
         updateVCardTrans(vCardRealm, vCard);
     }
 

@@ -3,6 +3,7 @@ package tech.jiangtao.support.kit.service;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
+import android.util.Log;
 import java.io.File;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smackx.filetransfer.FileTransferListener;
@@ -17,22 +18,32 @@ import org.jivesoftware.smackx.filetransfer.OutgoingFileTransfer;
  */
 public class FileTransferService extends IntentService{
 
+  public static final String TAG = FileTransferService.class.getSimpleName();
   public static final String FILE_TRANSFER_FILE_NAME = "file_name";
   public static final String FILE_TRANSFER_USER_JID = "user_jid";
   public static final String FILE_TRANSFER_EXTRA_MESSAGE = "extra_message";
   public static final String FILE_TRANSFER_MESSAGE_TYPE = "message_type";
   private FileTransferManager mFileTransferManager;
 
-  public FileTransferService(String name) {
-    super(name);
+  public FileTransferService() {
+    super("FileTransferService");
+    Log.d(TAG, "FileTransferService: ");
+  }
+
+  @Override public void onStart(Intent intent, int startId) {
+    super.onStart(intent, startId);
+    Log.d(TAG, "onStart: ");
   }
 
   @Override public int onStartCommand(Intent intent, int flags, int startId) {
-    mFileTransferManager = FileTransferManager.getInstanceFor(SupportService.getmXMPPConnection());
-    return START_STICKY;
+    Log.d(TAG, "onStartCommand: ");
+    onHandleIntent(intent);
+    return super.onStartCommand(intent,flags,startId);
   }
 
   @Override protected void onHandleIntent(Intent intent) {
+    mFileTransferManager = FileTransferManager.getInstanceFor(SupportService.getmXMPPConnection());
+    Log.d(TAG, "onHandleIntent: ");
     String fileName = intent.getStringExtra(FILE_TRANSFER_FILE_NAME);
     String userJID = intent.getStringExtra(FILE_TRANSFER_USER_JID);
     String message = intent.getStringExtra(FILE_TRANSFER_EXTRA_MESSAGE);

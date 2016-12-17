@@ -139,6 +139,7 @@ public class ContactFragment extends BaseFragment
     Set<RosterEntry> set = new HashSet<>();
     set.addAll(entries);
     for (RosterEntry en : set) {
+      Log.d(TAG, "updateContact: "+en.getUser());
       SimpleVCard sVCard = new SimpleVCard(en.getUser(),true);
       sVCard.getVCard();
     }

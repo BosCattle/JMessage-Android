@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import java.util.List;
 import tech.jiangtao.support.ui.fragment.ChatListFragment;
 import tech.jiangtao.support.ui.linstener.ContactItemCallback;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
@@ -169,5 +171,16 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
   @Override protected void onDestroy() {
     super.onDestroy();
     PgyUpdateManager.unregister();
+  }
+
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    Log.d("MainActivity", "onActivityResult: ");
+    List<Fragment> fragments = getSupportFragmentManager().getFragments();
+    if (fragments != null) {
+      for (Fragment fragment : fragments) {
+        fragment.onActivityResult(requestCode, resultCode, data);
+      }
+    }
   }
 }

@@ -16,14 +16,14 @@ public class StringSplitUtil {
    * @param jidResource
    * @return
    */
-  public  static String splitDivider(String jidResource){
-    String jid;
-    if (jidResource!=null&&jidResource.contains("/")){
-      int index = jidResource.indexOf("/");
-      jid = jidResource.substring(0,index);
-    }else {
-      jid = jidResource;
-    }
-    return jid;
-  }
+  //public  static String splitDivider(String jidResource){
+  //  String jid;
+  //  if (jidResource!=null&&jidResource.contains("/")){
+  //    int index = jidResource.indexOf("/");
+  //    jid = jidResource.substring(0,index);
+  //  }else {
+  //    jid = jidResource;
+  //  }
+  //  return jid;
+  //}
 }

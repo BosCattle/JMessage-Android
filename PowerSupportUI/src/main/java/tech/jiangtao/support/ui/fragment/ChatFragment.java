@@ -165,7 +165,7 @@ public class ChatFragment extends BaseFragment
     mVCardRealm = getArguments().getParcelable("vCard");
     mRealm = Realm.getDefaultInstance();
     RealmResults<VCardRealm> realms = mRealm.where(VCardRealm.class)
-        .equalTo("jid", StringSplitUtil.splitDivider(SupportService.getmXMPPConnection().getUser()))
+        .equalTo("jid", SupportService.getmXMPPConnection().getUser())
         .findAll();
     if (realms.size() != 0) {
       mOwnVCardRealm = realms.first();
@@ -286,9 +286,9 @@ public class ChatFragment extends BaseFragment
     Message message1 = new Message();
     message1.paramContent = realm.getTextMessage();
     Log.d(TAG, "addMessageToAdapter: " + realm.getMainJID());
-    Log.d(TAG, "addMessageToAdapter-----: " + StringSplitUtil.splitDivider(mVCardRealm.getJid()));
-    if (StringSplitUtil.splitDivider(realm.getMainJID())
-        .equals(StringSplitUtil.splitDivider(mVCardRealm.getJid()))) {
+    Log.d(TAG, "addMessageToAdapter-----: " +mVCardRealm.getJid());
+    if (realm.getMainJID()
+        .equals(mVCardRealm.getJid())) {
       mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
           .avatar(mVCardRealm != null ? mVCardRealm.getAvatar() : null)
           .message(message1)
@@ -369,17 +369,18 @@ public class ChatFragment extends BaseFragment
   }
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    Log.d(TAG, "onActivityResult: 进入fragment的回调");
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == RESULT_OK) {
       if (requestCode == Constant.REQUEST_CODE_PICK_IMAGE) {
         ArrayList<ImageFile> list = data.getParcelableArrayListExtra(Constant.RESULT_PICK_IMAGE);
-        Intent intent = new Intent(getContext(), FileTransferService.class);
+        Intent intent = new Intent(getActivity(),FileTransferService.class);
         Bundle bundle = new Bundle();
-        bundle.putString(FileTransferService.FILE_TRANSFER_FILE_NAME, list.get(0).getName());
+        bundle.putString(FileTransferService.FILE_TRANSFER_FILE_NAME, list.get(0).getPath());
         bundle.putString(FileTransferService.FILE_TRANSFER_EXTRA_MESSAGE, "文件来啦!");
         bundle.putString(FileTransferService.FILE_TRANSFER_USER_JID, mVCardRealm.getJid());
         intent.putExtras(bundle);
-        getContext().startService(intent);
+        getActivity().startService(intent);
       } else if (requestCode == Constant.REQUEST_CODE_PICK_FILE) {
 
       } else if (requestCode == Constant.REQUEST_CODE_PICK_AUDIO) {

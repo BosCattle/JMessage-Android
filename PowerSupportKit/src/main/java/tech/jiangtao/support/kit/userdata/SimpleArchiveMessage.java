@@ -28,14 +28,14 @@ public class SimpleArchiveMessage {
   }
 
   public RealmResults<MessageRealm> loadArchiveMessage(String userJid) {
-    Log.d(TAG, "loadArchiveMessage: "+StringSplitUtil.splitDivider(SupportService.getmXMPPConnection().getUser()));
-    Log.d(TAG, "loadArchiveMessage: "+StringSplitUtil.splitDivider(userJid));
+    Log.d(TAG, "loadArchiveMessage: "+SupportService.getmXMPPConnection().getUser());
+    Log.d(TAG, "loadArchiveMessage: "+userJid);
     return mRealm.where(MessageRealm.class)
-        .equalTo("mainJID", StringSplitUtil.splitDivider(SupportService.getmXMPPConnection().getUser()))
-        .equalTo("withJID", StringSplitUtil.splitDivider(userJid))
+        .equalTo("mainJID", SupportService.getmXMPPConnection().getUser())
+        .equalTo("withJID", userJid)
         .or()
-        .equalTo("mainJID", StringSplitUtil.splitDivider(userJid))
-        .equalTo("withJID", StringSplitUtil.splitDivider(SupportService.getmXMPPConnection().getUser()))
+        .equalTo("mainJID", userJid)
+        .equalTo("withJID", SupportService.getmXMPPConnection().getUser())
         .findAll();
   }
 

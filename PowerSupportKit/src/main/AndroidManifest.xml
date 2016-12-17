@@ -13,7 +13,7 @@
     </service>
     <service
         android:name=".service.FileTransferService"
-        android:exported="false">
+        android:exported="true">
     </service>
   </application>
 
