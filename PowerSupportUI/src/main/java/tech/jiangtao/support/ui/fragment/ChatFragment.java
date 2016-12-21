@@ -50,6 +50,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import tech.jiangtao.support.kit.eventbus.BaseMessage;
+import tech.jiangtao.support.kit.eventbus.NormalFileMessage;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.realm.MessageRealm;
@@ -263,18 +265,31 @@ public class ChatFragment extends BaseFragment
 
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveMessage message) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(BaseMessage message) {
     Log.d("----------->", "onMessage: " + message);
     // 根据消息类型，作出调转服务
-    if (message.message != null && !String.valueOf(message.message).equals("")) {
-      Message message1 = new Message();
-      message1.paramContent = (String) message.message;
-      mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-          .avatar(mVCardRealm.getAvatar())
-          .message(message1)
-          .build());
-      mChatMessageAdapter.notifyDataSetChanged();
-    }
+      if (message instanceof RecieveMessage) {
+          if (message.message != null && !String.valueOf(message.message).equals("")) {
+              Message message1 = new Message();
+              message1.paramContent = (String) message.message;
+              mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
+                      .avatar(mVCardRealm.getAvatar())
+                      .message(message1)
+                      .build());
+              mChatMessageAdapter.notifyDataSetChanged();
+          }
+      }else if (message instanceof NormalFileMessage){
+          NormalFileMessage message2 = (NormalFileMessage) message;
+          Message message1 = new Message();
+          message1.fileName = message2.fileName;
+          message1.fimePath = message2.fileAddress;
+          message1.type = message2.mFileType;
+          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
+                  .avatar(mVCardRealm.getAvatar())
+                  .message(message1)
+                  .build());
+          mChatMessageAdapter.notifyDataSetChanged();
+      }
   }
 
   @Override public void onStop() {

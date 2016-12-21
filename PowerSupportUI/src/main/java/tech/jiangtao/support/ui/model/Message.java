@@ -2,6 +2,8 @@ package tech.jiangtao.support.ui.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import tech.jiangtao.support.kit.archive.type.FileType;
 import tech.jiangtao.support.ui.model.type.MessageFlag;
 
 /**
@@ -14,11 +16,9 @@ public class Message implements Parcelable {
     public MessageFlag flag;
     public String paramTitle;
     public String paramContent;
-    public String[] other;
-
-
-    public Message() {
-    }
+    public String fileName;
+    public FileType type;
+    public String fimePath;
 
     @Override
     public int describeContents() {
@@ -30,7 +30,12 @@ public class Message implements Parcelable {
         dest.writeInt(this.flag == null ? -1 : this.flag.ordinal());
         dest.writeString(this.paramTitle);
         dest.writeString(this.paramContent);
-        dest.writeStringArray(this.other);
+        dest.writeString(this.fileName);
+        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
+        dest.writeString(this.fimePath);
+    }
+
+    public Message() {
     }
 
     protected Message(Parcel in) {
@@ -38,7 +43,10 @@ public class Message implements Parcelable {
         this.flag = tmpFlag == -1 ? null : MessageFlag.values()[tmpFlag];
         this.paramTitle = in.readString();
         this.paramContent = in.readString();
-        this.other = in.createStringArray();
+        this.fileName = in.readString();
+        int tmpType = in.readInt();
+        this.type = tmpType == -1 ? null : FileType.values()[tmpType];
+        this.fimePath = in.readString();
     }
 
     public static final Creator<Message> CREATOR = new Creator<Message>() {

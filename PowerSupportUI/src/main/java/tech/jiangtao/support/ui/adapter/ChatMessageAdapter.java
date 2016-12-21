@@ -1,12 +1,15 @@
 package tech.jiangtao.support.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.BoolRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 import tech.jiangtao.support.ui.model.type.MessageType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
+import tech.jiangtao.support.ui.viewholder.ChatImageMineViewHolder;
+import tech.jiangtao.support.ui.viewholder.ChatImageOtherViewHolder;
 import tech.jiangtao.support.ui.viewholder.TextMessageMineViewHolder;
 import tech.jiangtao.support.ui.viewholder.TextMessageOtherViewHolder;
 
@@ -22,6 +25,8 @@ import tech.jiangtao.support.ui.viewholder.TextMessageOtherViewHolder;
 public class ChatMessageAdapter extends RecyclerView.Adapter<ChatBaseViewHolder> {
     private static final int TYPE_TEXT_MINE = 0x01;
     private static final int TYPE_TEXT_OTHER = 0x02;
+    private static final int TYPE_IMG_MINE = 0x03;
+    private static final int TYPE_IMG_OTHER = 0x04;
     private Context mContext;
     private List<ConstructMessage> mConstructMessage = new ArrayList<>();
 
@@ -39,6 +44,12 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatBaseViewHolder>
                 break;
             case TYPE_TEXT_OTHER:
                 viewHolder = new TextMessageOtherViewHolder(mContext,parent);
+                break;
+            case TYPE_IMG_MINE:
+                viewHolder = new ChatImageMineViewHolder(mContext,parent);
+                break;
+            case TYPE_IMG_OTHER:
+                viewHolder = new ChatImageOtherViewHolder(mContext,parent);
                 break;
         }
         return viewHolder;
@@ -60,6 +71,10 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatBaseViewHolder>
             return TYPE_TEXT_MINE;
         }else if(mConstructMessage.get(position).mMessageType== MessageType.TEXT_MESSAGE_OTHER){
             return TYPE_TEXT_OTHER;
+        }else if(mConstructMessage.get(position).mMessageType== MessageType.IMAGE_MESSAGE_MINE){
+            return TYPE_IMG_MINE;
+        }else if(mConstructMessage.get(position).mMessageType== MessageType.IMAGE_MESSAGE_OTHER){
+            return TYPE_IMG_OTHER;
         }
         return super.getItemViewType(position);
     }

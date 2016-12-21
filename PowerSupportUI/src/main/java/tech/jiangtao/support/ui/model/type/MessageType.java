@@ -7,7 +7,8 @@ package tech.jiangtao.support.ui.model.type;
 public enum  MessageType {
     TEXT_MESSAGE_MINE,
     TEXT_MESSAGE_OTHER,
-    IMAGE_MESSAGE,
+    IMAGE_MESSAGE_MINE,
+    IMAGE_MESSAGE_OTHER,
     EXPRESSION_MESSAGE,
     LOCATION_MESSAGE,
     VOICE_MESSAGE

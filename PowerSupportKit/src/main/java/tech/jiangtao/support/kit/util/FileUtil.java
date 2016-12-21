@@ -113,8 +113,7 @@ public class FileUtil {
    * 创建目录,获得路径
    */
   public static String create(){
-    File file = new File(Environment.getExternalStoragePublicDirectory(
-        Environment.DIRECTORY_PICTURES), DICTIONARY);
+    File file = new File(Environment.getExternalStorageDirectory(), DICTIONARY);
     if (!file.mkdirs()) {
       Log.e("log:", "Directory not created");
     }
@@ -127,8 +126,7 @@ public class FileUtil {
    */
   public static String createImageDic(){
     String name = create();
-    File file = new File(Environment.getExternalStoragePublicDirectory(
-        Environment.DIRECTORY_PICTURES), name+"/image");
+    File file = new File(new File(name), "/image");
     if (!file.mkdirs()) {
       Log.e("log:", "Directory not created");
     }
