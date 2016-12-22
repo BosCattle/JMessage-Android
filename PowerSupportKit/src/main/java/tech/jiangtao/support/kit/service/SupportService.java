@@ -1,5 +1,6 @@
 package tech.jiangtao.support.kit.service;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -34,8 +35,10 @@ import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+import org.jivesoftware.smackx.filetransfer.FileTransfer;
 import org.jivesoftware.smackx.filetransfer.FileTransferListener;
 import org.jivesoftware.smackx.filetransfer.FileTransferManager;
+import org.jivesoftware.smackx.filetransfer.FileTransferNegotiator;
 import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
 import org.jivesoftware.smackx.filetransfer.IncomingFileTransfer;
 import org.jivesoftware.smackx.filetransfer.OutgoingFileTransfer;
@@ -67,7 +70,6 @@ import tech.jiangtao.support.kit.userdata.SimpleArchiveMessage;
 import tech.jiangtao.support.kit.util.DateUtils;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.FileUtil;
-import tech.jiangtao.support.kit.util.StringSplitUtil;
 
 public class SupportService extends Service
         implements ChatManagerListener, ConnectionListener, FileTransferListener {
@@ -317,6 +319,7 @@ public class SupportService extends Service
 
     @Override
     public void connectionClosedOnError(Exception e) {
+        connect();
     }
 
     @Override
@@ -350,17 +353,26 @@ public class SupportService extends Service
     @Override
     public void fileTransferRequest(FileTransferRequest request) {
         // Accept it
-        Observable.create(new Observable.OnSubscribe<Object>() {
-            @Override
-            public void call(Subscriber<? super Object> subscriber) {
-                IncomingFileTransfer transfer = request.accept();
-                try {
-                    transfer.recieveFile(new File(FileUtil.createNormalFileDic() + "/" + request.getFileName()));
-                    subscriber.onCompleted();
-                } catch (SmackException | IOException e) {
-                    e.printStackTrace();
-                    subscriber.onError(e);
+        Observable.create(subscriber -> {
+            FileTransferNegotiator fileTransferNegotiator = FileTransferNegotiator.getInstanceFor(mXMPPConnection);
+            FileTransferNegotiator.IBB_ONLY = true;
+            IncomingFileTransfer transfer = request.accept();
+            try {
+                transfer.recieveFile(new File(FileUtil.createNormalFileDic() + "/" + request.getFileName()));
+                while(!transfer.isDone()) {
+                    if(transfer.getStatus().equals(FileTransfer.Status.error)) {
+                        System.out.println("ERROR!!! " + transfer.getError());
+                    } else {
+                        System.out.println(transfer.getStatus());
+                        System.out.println(transfer.getProgress());
+                    }
                 }
+                if (transfer.isDone()) {
+                    subscriber.onCompleted();
+                }
+            } catch (SmackException | IOException e) {
+                e.printStackTrace();
+                subscriber.onError(e);
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
 
@@ -373,59 +385,5 @@ public class SupportService extends Service
         }, () -> EventBus.getDefault().post(new NormalFileMessage
                 (FileType.TYPE_IMAGE, request.getFileName(),
                         FileUtil.createNormalFileDic() + "/" + request.getFileName(), request.getRequestor())));
-
-//        Observable.create(new Observable.OnSubscribe<InputStream>() {
-//            @Override
-//            public void call(Subscriber<? super InputStream> subscriber) {
-//                try {
-//                    subscriber.onNext(transfer.recieveFile());
-//                } catch (SmackException | XMPPException.XMPPErrorException e) {
-//                    e.printStackTrace();
-//                    subscriber.onError(e);
-//                }
-//            }
-//        }).subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
-//                .subscribe(in -> {
-//                    //保存流到本地文件
-//                    FileUtil.createNormalFileDic();
-//                    File file = new File(FileUtil.createNormalFileDic() + "/" + request.getFileName());
-//                    OutputStream bos = null;
-//                    if (file.mkdirs()) {
-//                        try {
-//                            bos = new FileOutputStream(file);
-//                            byte[] buffer = new byte[1024];
-//                            int bytesRead;
-//                            try {
-//                                while ((bytesRead = in.read(buffer)) != -1) {
-//                                    bos.write(buffer, 0, bytesRead);
-//                                }
-//                                //返回文件位置
-//                                EventBus.getDefault().post(new NormalFileMessage(FileType.TYPE_IMAGE, request.getFileName(), file.getAbsolutePath(), request.getRequestor()));
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
-//                        } catch (FileNotFoundException e) {
-//                            e.printStackTrace();
-//                        } finally {
-//                            try {
-//                                in.close();
-//                                if (bos != null) {
-//                                    bos.flush();
-//                                    bos.close();
-//                                }
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    }
-//                }, new ErrorAction() {
-//                    @Override
-//                    public void call(Throwable throwable) {
-//                        super.call(throwable);
-//                        Log.d(TAG, "发送文件发生错误"+throwable);
-//                    }
-//                }, () -> {
-//                    Log.d(TAG, "fileTransferRequest: 传输完成");
-//                });
     }
 }

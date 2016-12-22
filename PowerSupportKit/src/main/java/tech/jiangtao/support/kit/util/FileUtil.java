@@ -139,8 +139,7 @@ public class FileUtil {
    */
   public static String createAudioDic(){
     String name = create();
-    File file = new File(Environment.getExternalStoragePublicDirectory(
-        Environment.DIRECTORY_PICTURES), name+"/audio");
+    File file = new File(new File(name), "/audio");
     if (!file.mkdirs()) {
       Log.e("log:", "Directory not created");
     }
@@ -153,27 +152,10 @@ public class FileUtil {
    */
   public static String createNormalFileDic(){
     String name = create();
-    File file = new File(Environment.getExternalStoragePublicDirectory(
-        Environment.DIRECTORY_PICTURES), name+"/files");
+    File file = new File(new File(name), "/files");
     if (!file.mkdirs()) {
       Log.e("log:", "Directory not created");
     }
     return file.getAbsolutePath();
-  }
-
-
-  /**
-   * 获取app的私有目录
-   * @param context
-   * @param albumName
-   * @return
-   */
-  public static File getAlbumStorageDir(Context context, String albumName) {
-    File file = new File(context.getExternalFilesDir(
-        Environment.DIRECTORY_PICTURES), albumName);
-    if (!file.mkdirs()) {
-      Log.e("log:", "Directory not created");
-    }
-    return file;
   }
 }
