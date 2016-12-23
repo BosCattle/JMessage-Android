@@ -26,6 +26,7 @@
         android:paddingBottom="8dp"
         android:paddingLeft="@dimen/divider_normal_height"
         android:paddingRight="@dimen/divider_normal_height"
-        android:paddingTop="8dp" />
+        android:paddingTop="8dp"
+        android:layout_marginBottom="@dimen/divider_normal_height"/>
 
 </RelativeLayout>

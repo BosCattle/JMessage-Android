@@ -4,10 +4,22 @@
     android:id="@+id/activity_add_group"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.china.epower.chat.ui.activity.AddGroupActivity">
+
+    <include layout="@layout/include_header"
+        android:id="@+id/header"/>
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_below="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/group_add"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
 
 </RelativeLayout>
