@@ -56,8 +56,9 @@ public class FileTransferService extends IntentService{
     try {
       //The size in bytes of the file that will be transmitted.
       File file = new File(fileName);
+      Log.d(TAG, "onHandleIntent: "+file.getAbsolutePath());
       mOutgoingFileTransfer.sendFile(file,message);
-    } catch (SmackException e) {
+    } catch (SmackException |IllegalArgumentException e) {
       e.printStackTrace();
     }
   }

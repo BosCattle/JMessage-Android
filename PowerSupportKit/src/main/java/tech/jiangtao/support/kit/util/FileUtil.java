@@ -3,12 +3,14 @@ package tech.jiangtao.support.kit.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Class: FileUtil </br>
@@ -140,8 +142,10 @@ public class FileUtil {
   public static String createAudioDic(){
     String name = create();
     File file = new File(new File(name), "/audio");
-    if (!file.mkdirs()) {
-      Log.e("log:", "Directory not created");
+    if (!file.exists()) {
+      Log.e("log:", "creating Directory");
+      boolean dic = file.mkdirs();
+      Log.e("log:", "Directory create finish");
     }
     return file.getAbsolutePath();
   }
@@ -157,5 +161,14 @@ public class FileUtil {
       Log.e("log:", "Directory not created");
     }
     return file.getAbsolutePath();
+  }
+
+  public static String generatedAudioFile(){
+    File file = new File(createAudioDic(),generateFileName());
+    return file.getAbsolutePath();
+  }
+
+  public static String generateFileName(){
+    return UUID.randomUUID().toString()+".mp4";
   }
 }

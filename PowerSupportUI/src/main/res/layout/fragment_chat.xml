@@ -38,10 +38,10 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignParentLeft="true"
+          android:clickable="true"
           android:contentDescription=""
           android:padding="8dp"
           android:src="@mipmap/ic_chat_speak"
-          android:clickable="true"
           />
       <FrameLayout
           android:id="@+id/container_send"
@@ -55,9 +55,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:clickable="true"
             android:padding="8dp"
             android:src="@mipmap/ic_chat_add"
-            android:clickable="true"
             />
 
         <com.melink.bqmmsdk.widget.BQMMSendButton
@@ -84,33 +84,51 @@
           android:gravity="center"
           android:padding="10dp"
           />
-
-      <com.melink.bqmmsdk.widget.BQMMEditView
-          android:id="@+id/chat_input"
+      <FrameLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_centerVertical="true"
           android:layout_toLeftOf="@+id/add_smile"
           android:layout_toRightOf="@+id/chat_speak"
-          android:background="#f6f5f5"
-          android:inputType="textMultiLine"
-          android:paddingBottom="10dp"
-          android:paddingTop="10dp"
-          android:textSize="18sp"
-          />
+          android:layout_toStartOf="@+id/add_smile"
+          android:layout_toEndOf="@+id/chat_speak"
+          >
+        <tech.jiangtao.support.ui.view.AudioRecordButton
+            android:layout_marginTop="1dp"
+            android:visibility="gone"
+            android:text="@string/audio_record"
+            android:id="@+id/chat_audio_record"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/shape_audiobutton_selector"
+            />
+        <com.melink.bqmmsdk.widget.BQMMEditView
+            android:id="@+id/chat_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#f6f5f5"
+            android:inputType="textMultiLine"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:textSize="18sp"
+            />
+
+      </FrameLayout>
     </RelativeLayout>
     <com.melink.bqmmsdk.ui.keyboard.BQMMKeyboard
-        android:layout_below="@+id/chat_inline_container"
         android:id="@+id/chat_msg_input_box"
         android:layout_width="match_parent"
         android:layout_height="250dp"
+        android:layout_below="@+id/chat_inline_container"
         android:visibility="gone"
         />
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/chat_inline_container"
         android:id="@+id/chat_send_other"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/chat_inline_container"
         android:visibility="gone"
         />
   </RelativeLayout>

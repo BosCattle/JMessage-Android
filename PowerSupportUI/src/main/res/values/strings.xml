@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">PowerSupportUI</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="audio_record">按住 说话</string>
+    <string name="audio_recording">松开 结束</string>
+    <string name="audio_cancel">松开手指 取消发送</string>
+    <string name="dialog_up_cancel">手指上滑 取消发送</string>
+    <string name="dialog_dismiss_cancel">松开手指 取消发送</string>
+    <string name="dialog_too_short">录音时间过短</string>
 </resources>

@@ -10,6 +10,8 @@ import tech.jiangtao.support.ui.model.type.MessageType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
 import tech.jiangtao.support.ui.viewholder.ChatImageMineViewHolder;
 import tech.jiangtao.support.ui.viewholder.ChatImageOtherViewHolder;
+import tech.jiangtao.support.ui.viewholder.PlayerMineViewHolder;
+import tech.jiangtao.support.ui.viewholder.PlayerOtherViewHolder;
 import tech.jiangtao.support.ui.viewholder.TextMessageMineViewHolder;
 import tech.jiangtao.support.ui.viewholder.TextMessageOtherViewHolder;
 
@@ -27,6 +29,8 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatBaseViewHolder>
     private static final int TYPE_TEXT_OTHER = 0x02;
     private static final int TYPE_IMG_MINE = 0x03;
     private static final int TYPE_IMG_OTHER = 0x04;
+    private static final int TYPE_AUDIO_MINE = 0x05;
+    private static final int TYPE_AUDIO_OTHER = 0x06;
     private Context mContext;
     private List<ConstructMessage> mConstructMessage = new ArrayList<>();
 
@@ -50,6 +54,12 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatBaseViewHolder>
                 break;
             case TYPE_IMG_OTHER:
                 viewHolder = new ChatImageOtherViewHolder(mContext,parent);
+                break;
+            case TYPE_AUDIO_MINE:
+                viewHolder = new PlayerMineViewHolder(mContext,parent);
+                break;
+            case TYPE_AUDIO_OTHER:
+                viewHolder = new PlayerOtherViewHolder(mContext,parent);
                 break;
         }
         return viewHolder;
@@ -75,6 +85,10 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatBaseViewHolder>
             return TYPE_IMG_MINE;
         }else if(mConstructMessage.get(position).mMessageType== MessageType.IMAGE_MESSAGE_OTHER){
             return TYPE_IMG_OTHER;
+        }else if(mConstructMessage.get(position).mMessageType== MessageType.AUDIO_MESSAGE_MINE){
+            return TYPE_AUDIO_MINE;
+        }else if(mConstructMessage.get(position).mMessageType== MessageType.AUDIO_MESSAGE_OTHER){
+            return TYPE_AUDIO_OTHER;
         }
         return super.getItemViewType(position);
     }

@@ -50,6 +50,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import tech.jiangtao.support.kit.archive.type.FileType;
 import tech.jiangtao.support.kit.eventbus.BaseMessage;
 import tech.jiangtao.support.kit.eventbus.NormalFileMessage;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
@@ -70,6 +71,8 @@ import tech.jiangtao.support.ui.model.ChatExtraModel;
 import tech.jiangtao.support.ui.model.Message;
 import tech.jiangtao.support.ui.model.type.MessageType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
+import tech.jiangtao.support.ui.view.AudioRecordButton;
+import tech.jiangtao.support.ui.view.MediaManager;
 import tech.jiangtao.support.ui.viewholder.ExtraFuncViewHolder;
 
 import static android.app.Activity.RESULT_OK;
@@ -88,7 +91,7 @@ import static tech.jiangtao.support.kit.service.SupportService.requestAllMessage
  **/
 public class ChatFragment extends BaseFragment
     implements TextWatcher, View.OnClickListener, EasyViewHolder.OnItemClickListener,
-    View.OnLongClickListener {
+    View.OnLongClickListener, AudioRecordButton.onAudioFinishRecordListener {
 
   @BindView(R2.id.recycler) RecyclerView mRecycler;
   @BindView(R2.id.swift_refresh) SwipeRefreshLayout mSwiftRefresh;
@@ -102,6 +105,7 @@ public class ChatFragment extends BaseFragment
   @BindView(R2.id.chat_msg_input_box) BQMMKeyboard mChatMsgInputBox;
   @BindView(R2.id.chat_send_other) RecyclerView mChatSendOther;
   @BindView(R2.id.chat_bottom) RelativeLayout mChatBottom;
+  @BindView(R2.id.chat_audio_record) AudioRecordButton mAudioRecord;
   private ChatMessageAdapter mChatMessageAdapter;
   private List<ConstructMessage> mMessages;
   private VCardRealm mVCardRealm;
@@ -216,6 +220,7 @@ public class ChatFragment extends BaseFragment
     mChatAddOtherInformation.setOnClickListener(this);
     mChatSendMessage.setOnClickListener(this);
     mAddSmile.setOnClickListener(this);
+    mAudioRecord.setMonAudioFinishRecordListener(this);
   }
 
   public void setAdapter() {
@@ -268,28 +273,39 @@ public class ChatFragment extends BaseFragment
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(BaseMessage message) {
     Log.d("----------->", "onMessage: " + message);
     // 根据消息类型，作出调转服务
-      if (message instanceof RecieveMessage) {
-          if (message.message != null && !String.valueOf(message.message).equals("")) {
-              Message message1 = new Message();
-              message1.paramContent = (String) message.message;
-              mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-                      .avatar(mVCardRealm.getAvatar())
-                      .message(message1)
-                      .build());
-              mChatMessageAdapter.notifyDataSetChanged();
-          }
-      }else if (message instanceof NormalFileMessage){
-          NormalFileMessage message2 = (NormalFileMessage) message;
-          Message message1 = new Message();
-          message1.fileName = message2.fileName;
-          message1.fimePath = message2.fileAddress;
-          message1.type = message2.mFileType;
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
-                  .avatar(mVCardRealm.getAvatar())
-                  .message(message1)
-                  .build());
-          mChatMessageAdapter.notifyDataSetChanged();
+    if (message instanceof RecieveMessage) {
+      if (message.message != null && !String.valueOf(message.message).equals("")) {
+        Message message1 = new Message();
+        message1.paramContent = (String) message.message;
+        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
+            .avatar(mVCardRealm.getAvatar())
+            .message(message1)
+            .build());
+        mChatMessageAdapter.notifyDataSetChanged();
       }
+    } else if (message instanceof NormalFileMessage) {
+      NormalFileMessage message2 = (NormalFileMessage) message;
+      if (message2.mFileType == FileType.TYPE_IMAGE) {
+        Message message1 = new Message();
+        message1.fileName = message2.fileName;
+        message1.fimePath = message2.fileAddress;
+        message1.type = message2.mFileType;
+        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
+            .avatar(mVCardRealm.getAvatar())
+            .message(message1)
+            .build());
+      } else if (message2.mFileType == FileType.TYPE_AUDIO) {
+        Message message1 = new Message();
+        message1.fileName = message2.fileName;
+        message1.fimePath = message2.fileAddress;
+        message1.type = message2.mFileType;
+        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
+            .avatar(mVCardRealm.getAvatar())
+            .message(message1)
+            .build());
+      }
+      mChatMessageAdapter.notifyDataSetChanged();
+    }
   }
 
   @Override public void onStop() {
@@ -297,13 +313,13 @@ public class ChatFragment extends BaseFragment
     mRealm.close();
   }
 
+  // TODO: 24/12/2016 添加类型
   public void addMessageToAdapter(MessageRealm realm) {
     Message message1 = new Message();
     message1.paramContent = realm.getTextMessage();
     Log.d(TAG, "addMessageToAdapter: " + realm.getMainJID());
-    Log.d(TAG, "addMessageToAdapter-----: " +mVCardRealm.getJid());
-    if (realm.getMainJID()
-        .equals(mVCardRealm.getJid())) {
+    Log.d(TAG, "addMessageToAdapter-----: " + mVCardRealm.getJid());
+    if (realm.getMainJID().equals(mVCardRealm.getJid())) {
       mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
           .avatar(mVCardRealm != null ? mVCardRealm.getAvatar() : null)
           .message(message1)
@@ -334,8 +350,10 @@ public class ChatFragment extends BaseFragment
     return true;
   }
 
-  @OnClick({ R2.id.chat_add_other_information, R2.id.chat_send_message, R2.id.add_smile })
-  public void onClick(View v) {
+  @OnClick({
+      R2.id.chat_add_other_information, R2.id.chat_send_message, R2.id.add_smile,
+      R2.id.chat_audio_record, R2.id.chat_speak
+  }) public void onClick(View v) {
     int i = v.getId();
     if (i == R.id.chat_add_other_information) {
       Log.d(TAG, "onClick: 点击了加号");
@@ -351,6 +369,16 @@ public class ChatFragment extends BaseFragment
         hideKeyBoard();
       } else {
         showKeyBoard();
+      }
+    } else if (i == R.id.chat_audio_record) {
+
+    } else if (i == R.id.chat_speak) {
+      if (mAudioRecord.getVisibility() == View.VISIBLE) {
+        mChatInput.setVisibility(View.VISIBLE);
+        mAudioRecord.setVisibility(View.GONE);
+      } else {
+        mChatInput.setVisibility(View.GONE);
+        mAudioRecord.setVisibility(View.VISIBLE);
       }
     }
   }
@@ -389,13 +417,7 @@ public class ChatFragment extends BaseFragment
     if (resultCode == RESULT_OK) {
       if (requestCode == Constant.REQUEST_CODE_PICK_IMAGE) {
         ArrayList<ImageFile> list = data.getParcelableArrayListExtra(Constant.RESULT_PICK_IMAGE);
-        Intent intent = new Intent(getActivity(),FileTransferService.class);
-        Bundle bundle = new Bundle();
-        bundle.putString(FileTransferService.FILE_TRANSFER_FILE_NAME, list.get(0).getPath());
-        bundle.putString(FileTransferService.FILE_TRANSFER_EXTRA_MESSAGE, "文件来啦!");
-        bundle.putString(FileTransferService.FILE_TRANSFER_USER_JID, mVCardRealm.getJid());
-        intent.putExtras(bundle);
-        getActivity().startService(intent);
+        startServiceToUpload(list.get(0).getPath());
       } else if (requestCode == Constant.REQUEST_CODE_PICK_FILE) {
 
       } else if (requestCode == Constant.REQUEST_CODE_PICK_AUDIO) {
@@ -404,5 +426,29 @@ public class ChatFragment extends BaseFragment
 
       }
     }
+  }
+
+  public void startServiceToUpload(String filePath) {
+    Intent intent = new Intent(getActivity(), FileTransferService.class);
+    Bundle bundle = new Bundle();
+    bundle.putString(FileTransferService.FILE_TRANSFER_FILE_NAME, filePath);
+    bundle.putString(FileTransferService.FILE_TRANSFER_EXTRA_MESSAGE, "文件来啦!");
+    bundle.putString(FileTransferService.FILE_TRANSFER_USER_JID, mVCardRealm.getJid());
+    intent.putExtras(bundle);
+    getActivity().startService(intent);
+  }
+
+  @Override public void onFinishRecord(float seconds, String filePath) {
+    //构建本地发送消息，开启服务器发送消息到对方
+    startServiceToUpload(filePath);
+    Message message1 = new Message();
+    message1.fimePath = filePath;
+    message1.time = seconds;
+    message1.type = FileType.TYPE_AUDIO;
+    mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
+        .avatar(mVCardRealm.getAvatar())
+        .message(message1)
+        .build());
+    mChatMessageAdapter.notifyDataSetChanged();
   }
 }

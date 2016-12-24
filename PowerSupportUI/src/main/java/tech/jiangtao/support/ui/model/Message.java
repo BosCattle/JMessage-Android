@@ -19,23 +19,23 @@ public class Message implements Parcelable {
     public String fileName;
     public FileType type;
     public String fimePath;
+    public float time;
 
-    @Override
-    public int describeContents() {
+    public Message() {
+    }
+
+    @Override public int describeContents() {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    @Override public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.flag == null ? -1 : this.flag.ordinal());
         dest.writeString(this.paramTitle);
         dest.writeString(this.paramContent);
         dest.writeString(this.fileName);
         dest.writeInt(this.type == null ? -1 : this.type.ordinal());
         dest.writeString(this.fimePath);
-    }
-
-    public Message() {
+        dest.writeFloat(this.time);
     }
 
     protected Message(Parcel in) {
@@ -47,16 +47,15 @@ public class Message implements Parcelable {
         int tmpType = in.readInt();
         this.type = tmpType == -1 ? null : FileType.values()[tmpType];
         this.fimePath = in.readString();
+        this.time = in.readFloat();
     }
 
     public static final Creator<Message> CREATOR = new Creator<Message>() {
-        @Override
-        public Message createFromParcel(Parcel source) {
+        @Override public Message createFromParcel(Parcel source) {
             return new Message(source);
         }
 
-        @Override
-        public Message[] newArray(int size) {
+        @Override public Message[] newArray(int size) {
             return new Message[size];
         }
     };

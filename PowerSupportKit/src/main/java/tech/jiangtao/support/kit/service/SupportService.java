@@ -377,8 +377,16 @@ public class SupportService extends Service
                 super.call(throwable);
                 Log.d(TAG, "发送文件发生错误" + throwable);
             }
-        }, () -> EventBus.getDefault().post(new NormalFileMessage
-                (FileType.TYPE_IMAGE, request.getFileName(),
-                        FileUtil.createNormalFileDic() + "/" + request.getFileName(), request.getRequestor())));
+        }, () -> {
+            if (request.getFileName().endsWith("mp4")) {
+                EventBus.getDefault()
+                    .post(new NormalFileMessage(FileType.TYPE_AUDIO, request.getFileName(),
+                        FileUtil.createAudioDic() + "/" + request.getFileName(), request.getRequestor()));
+            }else {
+                EventBus.getDefault().post(new NormalFileMessage
+                    (FileType.TYPE_IMAGE, request.getFileName(),
+                        FileUtil.createNormalFileDic() + "/" + request.getFileName(), request.getRequestor()));
+            }
+        });
     }
 }
