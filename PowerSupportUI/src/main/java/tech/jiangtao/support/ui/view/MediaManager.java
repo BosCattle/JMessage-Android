@@ -1,9 +1,7 @@
 package tech.jiangtao.support.ui.view;
 
-import android.content.Context;
 import android.media.*;
 import android.media.AudioManager;
-import android.net.Uri;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
