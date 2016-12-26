@@ -13,6 +13,7 @@
   <uses-permission android:name="android.permission.RECORD_AUDIO"/> <!-- 允许程序录制音频 -->
   <uses-permission android:name="android.permission.READ_LOGS"/> <!-- 获取logcat日志 -->
   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
   <!--蒲公英-->
 
   <application

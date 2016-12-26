@@ -30,12 +30,7 @@ public class MediaManager {
     mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
     mMediaPlayer.setOnCompletionListener(onCompletionListener);
     try {
-      File file = new File(filePath);
-      if (!file.exists()) {
-        file.createNewFile();
-      }
-      FileInputStream is = new FileInputStream(file);
-      mMediaPlayer.setDataSource(is.getFD());
+      mMediaPlayer.setDataSource(filePath);
       mMediaPlayer.prepare();
       mMediaPlayer.setOnPreparedListener(mp -> mMediaPlayer.start());
     } catch (IOException e) {

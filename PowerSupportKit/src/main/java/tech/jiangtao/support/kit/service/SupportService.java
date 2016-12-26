@@ -228,8 +228,8 @@ public class SupportService extends Service
                 try {
                     subscriber.onNext(mXMPPConnection.connect());
                 } catch (SmackException | IOException | XMPPException e) {
-                    subscriber.onError(new Throwable(e.toString()));
                     e.printStackTrace();
+                    subscriber.onError(new Throwable(e.toString()));
                 }
             }
         })

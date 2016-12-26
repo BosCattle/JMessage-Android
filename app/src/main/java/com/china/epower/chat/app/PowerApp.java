@@ -7,6 +7,7 @@ import com.china.epower.chat.service.XmppService;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.squareup.leakcanary.LeakCanary;
+import java.util.UUID;
 import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.XMPPConnection;
 import tech.jiangtao.support.kit.init.SupportIM;
@@ -32,7 +33,7 @@ public class PowerApp extends Application {
     MultiDex.install(this);
     PgyCrashManager.register(this);
     SimpleHUD.backgroundHexColor="#FF4081";
-    SupportIM.initialize(this,"dc-a4b8eb92-xmpp.jiangtao.tech.","dc-a4b8eb92-xmpp.jiangtao.tech.","139.162.73.105",5222);
+    SupportIM.initialize(this,"dc-a4b8eb92-xmpp.jiangtao.tech.", UUID.randomUUID().toString(),"139.162.73.105",5222);
 //    SupportIM.initialize(this,"debian","","139.162.73.105",5222);
     SupportUI.initialize(this);
     startXMPPService();

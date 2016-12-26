@@ -319,7 +319,7 @@ public class ChatFragment extends BaseFragment
     message1.paramContent = realm.getTextMessage();
     Log.d(TAG, "addMessageToAdapter: " + realm.getMainJID());
     Log.d(TAG, "addMessageToAdapter-----: " + mVCardRealm.getJid());
-    if (realm.getMainJID().equals(mVCardRealm.getJid())) {
+    if (mVCardRealm!=null&&realm.getMainJID().equals(mVCardRealm.getJid())) {
       mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
           .avatar(mVCardRealm != null ? mVCardRealm.getAvatar() : null)
           .message(message1)
@@ -335,8 +335,9 @@ public class ChatFragment extends BaseFragment
 
   @Override public void onPause() {
     super.onPause();
-    SimpleArchiveMessage message = new SimpleArchiveMessage();
-    requestAllMessageArchive(message.getLastUpdateTime());
+    // TODO: 26/12/2016 暂时取消掉消息缓存 
+    //SimpleArchiveMessage message = new SimpleArchiveMessage();
+    //requestAllMessageArchive(message.getLastUpdateTime());
   }
 
   @Override public void onItemClick(int position, View view) {
@@ -440,15 +441,19 @@ public class ChatFragment extends BaseFragment
 
   @Override public void onFinishRecord(float seconds, String filePath) {
     //构建本地发送消息，开启服务器发送消息到对方
-    startServiceToUpload(filePath);
+    //startServiceToUpload(filePath);
     Message message1 = new Message();
     message1.fimePath = filePath;
     message1.time = seconds;
     message1.type = FileType.TYPE_AUDIO;
     mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
-        .avatar(mVCardRealm.getAvatar())
+        .avatar(mOwnVCardRealm!=null&&mOwnVCardRealm.getAvatar()!=null?mOwnVCardRealm.getAvatar():null)
         .message(message1)
         .build());
     mChatMessageAdapter.notifyDataSetChanged();
+  }
+
+  @Override public void onDestroy() {
+    super.onDestroy();
   }
 }

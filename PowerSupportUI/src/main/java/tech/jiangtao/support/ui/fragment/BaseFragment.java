@@ -15,6 +15,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
+import tech.jiangtao.support.ui.view.AudioManager;
+import tech.jiangtao.support.ui.view.MediaManager;
 
 /**
  * Class: BaseFragment </br>
@@ -50,6 +52,18 @@ public abstract class BaseFragment extends Fragment {
 
   @Override public void onDestroy() {
     super.onDestroy();
+    AudioManager.getInstance().release();
+    MediaManager.release();
+  }
+
+  @Override public void onResume() {
+    super.onResume();
+    MediaManager.resume();
+  }
+
+  @Override public void onPause() {
+    super.onPause();
+    MediaManager.pause();
   }
 
   public View getView(){
