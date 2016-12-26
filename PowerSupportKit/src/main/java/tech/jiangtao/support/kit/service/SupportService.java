@@ -353,12 +353,17 @@ public class SupportService extends Service
             FileTransferNegotiator.IBB_ONLY = true;
             IncomingFileTransfer transfer = request.accept();
             try {
-                transfer.recieveFile(new File(FileUtil.createNormalFileDic() + "/" + request.getFileName()));
+                if (transfer.getFileName().endsWith("mp4")){
+                    Log.d(TAG, "fileTransferRequest: mp4文件开始接受");
+                    transfer.recieveFile(new File(FileUtil.createAudioDic() + "/" + request.getFileName()));
+                }else {
+                    Log.d(TAG, "fileTransferRequest: jpg文件开始接受");
+                    transfer.recieveFile(new File(FileUtil.createImageDic() + "/" + request.getFileName()));
+                }
                 while(!transfer.isDone()) {
                     if(transfer.getStatus().equals(FileTransfer.Status.error)) {
                         System.out.println("ERROR!!! " + transfer.getError());
                     } else {
-                        System.out.println(transfer.getStatus());
                         System.out.println(transfer.getProgress());
                     }
                 }
@@ -385,7 +390,7 @@ public class SupportService extends Service
             }else {
                 EventBus.getDefault().post(new NormalFileMessage
                     (FileType.TYPE_IMAGE, request.getFileName(),
-                        FileUtil.createNormalFileDic() + "/" + request.getFileName(), request.getRequestor()));
+                        FileUtil.createImageDic() + "/" + request.getFileName(), request.getRequestor()));
             }
         });
     }

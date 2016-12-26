@@ -2,6 +2,7 @@ package tech.jiangtao.support.ui.view;
 
 import android.media.*;
 import android.media.AudioManager;
+import android.util.Log;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class MediaManager {
 
   public static void playSound(String filePath,
       MediaPlayer.OnCompletionListener onCompletionListener) {
+    Log.d("------", "playSound: "+filePath);
     if (mMediaPlayer == null) {
       mMediaPlayer = new MediaPlayer();
     } else {

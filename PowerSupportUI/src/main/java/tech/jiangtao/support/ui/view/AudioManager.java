@@ -47,7 +47,7 @@ public class AudioManager {
       mMediaRecorder = new MediaRecorder();
     }
     mCurrentFilePath = FileUtil.generatedAudioFile();
-    mMediaRecorder.setOutputFile(FileUtil.generatedAudioFile());
+    mMediaRecorder.setOutputFile(mCurrentFilePath);
     //设置音频源为麦克风
     mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
     //设置音频格式

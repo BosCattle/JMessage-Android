@@ -3,6 +3,7 @@ package tech.jiangtao.support.ui.fragment;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -419,6 +420,15 @@ public class ChatFragment extends BaseFragment
       if (requestCode == Constant.REQUEST_CODE_PICK_IMAGE) {
         ArrayList<ImageFile> list = data.getParcelableArrayListExtra(Constant.RESULT_PICK_IMAGE);
         startServiceToUpload(list.get(0).getPath());
+        // TODO: 26/12/2016  构建本地图片,正常情况应该是上传成功后再显示，这里只是做一个演示
+        Message message1 = new Message();
+        message1.fileName = list.get(0).getName();
+        message1.fimePath = list.get(0).getPath();
+        message1.type = FileType.TYPE_IMAGE;
+        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
+            .avatar(mOwnVCardRealm!= null&&mOwnVCardRealm.getAvatar()!=null?mOwnVCardRealm.getAvatar():null)
+            .message(message1)
+            .build());
       } else if (requestCode == Constant.REQUEST_CODE_PICK_FILE) {
 
       } else if (requestCode == Constant.REQUEST_CODE_PICK_AUDIO) {
@@ -441,7 +451,7 @@ public class ChatFragment extends BaseFragment
 
   @Override public void onFinishRecord(float seconds, String filePath) {
     //构建本地发送消息，开启服务器发送消息到对方
-    //startServiceToUpload(filePath);
+    startServiceToUpload(filePath);
     Message message1 = new Message();
     message1.fimePath = filePath;
     message1.time = seconds;

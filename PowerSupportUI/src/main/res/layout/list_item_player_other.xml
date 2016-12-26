@@ -16,7 +16,6 @@
 
   <FrameLayout
       android:background="@mipmap/ic_chat_message_other"
-      android:padding="@dimen/activity_horizontal_margin"
       android:id="@+id/view_player_container"
       android:layout_centerVertical="true"
       android:layout_toRightOf="@+id/item_chat_avatar"

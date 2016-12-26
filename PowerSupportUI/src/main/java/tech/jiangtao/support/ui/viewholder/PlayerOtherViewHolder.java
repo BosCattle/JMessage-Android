@@ -54,10 +54,9 @@ public class PlayerOtherViewHolder extends ChatBaseViewHolder {
       mViewPlayerStyle.setBackgroundResource(R.drawable.anim_player_animation);
       AnimationDrawable background = (AnimationDrawable) mViewPlayerStyle.getBackground();
       background.start();
-      MediaManager.playSound(constructMessage.mMessage.fimePath, new MediaPlayer.OnCompletionListener() {
-        @Override public void onCompletion(MediaPlayer mp) {
-          MediaManager.release();
-        }
+      MediaManager.playSound(constructMessage.mMessage.fimePath, mp -> {
+        MediaManager.release();
+        mViewPlayerStyle.setBackgroundResource(R.mipmap.ic_voice_right);
       });
     });
   }

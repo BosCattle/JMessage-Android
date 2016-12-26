@@ -24,6 +24,7 @@ import java.util.UUID;
 public class FileUtil {
 
   private static final String DICTIONARY = "/powerchat";
+  private static int i = 0;
 
   /**
    * 根据文件路径拿到二进制流

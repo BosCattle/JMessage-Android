@@ -25,14 +25,14 @@ public class DialogManager {
   private TextView mTextViewLabel;
   private Context mContext;
 
-  public DialogManager(Context context){
+  public DialogManager(Context context) {
     mContext = context;
   }
 
-  public void showRecordingDialog(){
+  public void showRecordingDialog() {
     mDialog = new Dialog(mContext, R.style.AppTheme_AudioDialog);
     LayoutInflater inflater = LayoutInflater.from(mContext);
-    View view = inflater.inflate(R.layout.dialog_audio_record,null);
+    View view = inflater.inflate(R.layout.dialog_audio_record, null);
     mDialog.setContentView(view);
     mImageRecord = (ImageView) view.findViewById(R.id.dialog_audio);
     mImageVoice = (ImageView) view.findViewById(R.id.dialog_audio_level);
@@ -40,8 +40,8 @@ public class DialogManager {
     mDialog.show();
   }
 
-  public void recording(){
-    if (mDialog!=null&&mDialog.isShowing()){
+  public void recording() {
+    if (mDialog != null && mDialog.isShowing()) {
       mImageRecord.setVisibility(View.VISIBLE);
       mImageVoice.setVisibility(View.VISIBLE);
       mTextViewLabel.setVisibility(View.VISIBLE);
@@ -50,8 +50,8 @@ public class DialogManager {
     }
   }
 
-  public void wantToCancel(){
-    if (mDialog!=null&&mDialog.isShowing()){
+  public void wantToCancel() {
+    if (mDialog != null && mDialog.isShowing()) {
       mImageRecord.setVisibility(View.VISIBLE);
       mImageVoice.setVisibility(View.GONE);
       mTextViewLabel.setVisibility(View.VISIBLE);
@@ -60,8 +60,8 @@ public class DialogManager {
     }
   }
 
-  public void tooShort(){
-    if (mDialog!=null&&mDialog.isShowing()){
+  public void tooShort() {
+    if (mDialog != null && mDialog.isShowing()) {
       mImageRecord.setVisibility(View.VISIBLE);
       mImageVoice.setVisibility(View.GONE);
       mTextViewLabel.setVisibility(View.VISIBLE);
@@ -70,19 +70,20 @@ public class DialogManager {
     }
   }
 
-  public void dismissDialog(){
-    if (mDialog!=null&&mDialog.isShowing()){
+  public void dismissDialog() {
+    if (mDialog != null && mDialog.isShowing()) {
       mDialog.dismiss();
       mDialog = null;
     }
   }
 
-  public void updateVoiceLevel(int level){
-    if (mDialog!=null&&mDialog.isShowing()){
+  public void updateVoiceLevel(int level) {
+    if (mDialog != null && mDialog.isShowing()) {
       mImageRecord.setVisibility(View.VISIBLE);
       mImageVoice.setVisibility(View.VISIBLE);
       mTextViewLabel.setVisibility(View.VISIBLE);
-      int resId = mContext.getResources().getIdentifier("ic_audio_v"+level,"mipmap",mContext.getPackageName());
+      int resId = mContext.getResources()
+          .getIdentifier("ic_audio_v" + level, "mipmap", mContext.getPackageName());
       mImageVoice.setImageResource(resId);
     }
   }

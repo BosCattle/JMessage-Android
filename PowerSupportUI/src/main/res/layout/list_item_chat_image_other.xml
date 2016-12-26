@@ -13,8 +13,9 @@
         tools:src="@mipmap/ic_chat_default" />
 
     <ImageView
+        android:maxWidth="150dp"
+        android:maxHeight="150dp"
         android:src="@mipmap/ic_mipmap_default_image"
-        android:scaleType="fitXY"
         android:layout_marginRight="100dp"
         android:id="@+id/item_chat_img"
         android:layout_width="wrap_content"
