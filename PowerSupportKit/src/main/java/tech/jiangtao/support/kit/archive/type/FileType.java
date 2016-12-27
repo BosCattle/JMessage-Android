@@ -6,5 +6,5 @@ package tech.jiangtao.support.kit.archive.type;
 
 public enum FileType {
 
-    TYPE_OFFICE,TYPE_IMAGE,TYPE_AUDIO
+    TYPE_OFFICE,TYPE_IMAGE,TYPE_AUDIO,TYPE_TEXT
 }
