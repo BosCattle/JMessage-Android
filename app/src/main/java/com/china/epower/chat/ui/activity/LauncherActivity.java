@@ -25,6 +25,11 @@ public class LauncherActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         //检查是否登录
         new Handler().postDelayed(() -> {
             Account account =
