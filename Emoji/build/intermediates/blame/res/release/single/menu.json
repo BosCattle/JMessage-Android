@@ -1,11 +1,23 @@
 [
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\release\\menu\\main.xml",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\menu\\main.xml"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\release\\menu\\main.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\menu\\main.xml"
     },
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\release\\menu\\main.xml",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\menu\\main.xml"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\release\\menu\\main.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\res\\menu\\main.xml"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\release\\menu\\main.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\menu\\main.xml"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/release/menu/main.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/menu/main.xml"
     },
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\release\\menu\\main.xml",
@@ -16,23 +28,11 @@
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\menu\\main.xml"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\release\\menu\\main.xml",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\menu\\main.xml"
-    },
-    {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\release\\menu\\main.xml",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\menu\\main.xml"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/release/menu/main.xml",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/menu/main.xml"
-    },
-    {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\release\\menu\\main.xml",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\menu\\main.xml"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\release\\menu\\main.xml",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\res\\menu\\main.xml"
     }
 ]

@@ -16,6 +16,7 @@ android {
 
         buildConfigField("String", "MM_AppId", "\"6e7ea2251ca5479d875916785c4418f1\"")
         buildConfigField("String", "MM_AppSecret", "\"026eb8a2cb7b4ab18135a6a0454fd698\"")
+        buildConfigField("String", "BASE_URL", "\"http://ci.jiangtao.tech/fileUpload/\"")
     }
     buildTypes {
         release {
@@ -50,4 +51,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-jackson:2.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.okio:okio:1.9.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
 }

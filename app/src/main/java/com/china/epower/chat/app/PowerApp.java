@@ -3,13 +3,10 @@ package com.china.epower.chat.app;
 import android.app.Application;
 import android.content.Intent;
 import android.support.multidex.MultiDex;
-import com.china.epower.chat.service.XmppService;
+import tech.jiangtao.support.ui.service.XMPPService;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.squareup.leakcanary.LeakCanary;
-import java.util.UUID;
-import org.jivesoftware.smack.AbstractXMPPConnection;
-import org.jivesoftware.smack.XMPPConnection;
 import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.ui.SupportUI;
 import work.wanghao.simplehud.SimpleHUD;
@@ -40,7 +37,7 @@ public class PowerApp extends Application {
   }
 
   private void startXMPPService() {
-    Intent intent = new Intent(this, XmppService.class);
+    Intent intent = new Intent(this, XMPPService.class);
     startService(intent);
   }
 }

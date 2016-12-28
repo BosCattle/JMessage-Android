@@ -21,6 +21,13 @@ public class TextMessage extends BaseMessage implements Parcelable {
   // 消息类型，包括图片，语音，文字等等。
   public FileType messageType;
 
+  public TextMessage(Message.Type type, String userJID, String message) {
+    super(message);
+    this.type = type;
+    this.userJID = userJID;
+    this.message = message;
+  }
+
   public TextMessage(Message.Type type, String userJID, String message ,FileType fileType) {
     super(message);
     this.type = type;

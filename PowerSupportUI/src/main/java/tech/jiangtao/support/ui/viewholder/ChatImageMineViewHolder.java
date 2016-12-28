@@ -46,7 +46,7 @@ public class ChatImageMineViewHolder extends ChatBaseViewHolder {
         .into(mItemChatAvatar);
 
     Glide.with(mContext)
-        .load((new File(constructMessage.mMessage.fimePath)))
+        .load(Uri.parse(constructMessage.mMessage.fimePath))
         .error(R.mipmap.ic_mipmap_default_image)
         .placeholder(R.mipmap.ic_mipmap_default_image)
         .into(mItemChatImage);

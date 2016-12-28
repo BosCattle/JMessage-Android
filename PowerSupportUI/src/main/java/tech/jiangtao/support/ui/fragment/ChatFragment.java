@@ -43,14 +43,20 @@ import com.vincent.filepicker.filter.entity.ImageFile;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.archive.type.FileType;
 import tech.jiangtao.support.kit.eventbus.BaseMessage;
 import tech.jiangtao.support.kit.eventbus.NormalFileMessage;
@@ -61,6 +67,7 @@ import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.service.FileTransferService;
 import tech.jiangtao.support.kit.service.SupportService;
 import tech.jiangtao.support.kit.userdata.SimpleArchiveMessage;
+import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
@@ -68,10 +75,13 @@ import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
 import tech.jiangtao.support.ui.adapter.BaseEasyViewHolderFactory;
 import tech.jiangtao.support.ui.adapter.ChatMessageAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
+import tech.jiangtao.support.ui.api.ApiService;
+import tech.jiangtao.support.ui.api.service.UpLoadServiceApi;
 import tech.jiangtao.support.ui.model.ChatExtraModel;
 import tech.jiangtao.support.ui.model.Message;
 import tech.jiangtao.support.ui.model.type.MessageType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
+import tech.jiangtao.support.ui.utils.CommonUtils;
 import tech.jiangtao.support.ui.view.AudioRecordButton;
 import tech.jiangtao.support.ui.view.MediaManager;
 import tech.jiangtao.support.ui.viewholder.ExtraFuncViewHolder;
@@ -113,6 +123,7 @@ public class ChatFragment extends BaseFragment
   private VCardRealm mOwnVCardRealm;
   private Realm mRealm;
   private BQMM mBQMM;
+  private UpLoadServiceApi mUpLoadServiceApi;
 
   public static ChatFragment newInstance() {
     return new ChatFragment();
@@ -184,6 +195,7 @@ public class ChatFragment extends BaseFragment
   }
 
   private void init() {
+    mUpLoadServiceApi = ApiService.getInstance().createApiService(UpLoadServiceApi.class);
     setUpBQMM();
     loadOwnRealm();
     setAdapter();
@@ -320,7 +332,7 @@ public class ChatFragment extends BaseFragment
     message1.paramContent = realm.getTextMessage();
     Log.d(TAG, "addMessageToAdapter: " + realm.getMainJID());
     Log.d(TAG, "addMessageToAdapter-----: " + mVCardRealm.getJid());
-    if (mVCardRealm!=null&&realm.getMainJID().equals(mVCardRealm.getJid())) {
+    if (mVCardRealm != null && realm.getMainJID().equals(mVCardRealm.getJid())) {
       mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
           .avatar(mVCardRealm != null ? mVCardRealm.getAvatar() : null)
           .message(message1)
@@ -419,16 +431,7 @@ public class ChatFragment extends BaseFragment
     if (resultCode == RESULT_OK) {
       if (requestCode == Constant.REQUEST_CODE_PICK_IMAGE) {
         ArrayList<ImageFile> list = data.getParcelableArrayListExtra(Constant.RESULT_PICK_IMAGE);
-        startServiceToUpload(list.get(0).getPath());
-        // TODO: 26/12/2016  构建本地图片,正常情况应该是上传成功后再显示，这里只是做一个演示
-        Message message1 = new Message();
-        message1.fileName = list.get(0).getName();
-        message1.fimePath = list.get(0).getPath();
-        message1.type = FileType.TYPE_IMAGE;
-        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
-            .avatar(mOwnVCardRealm!= null&&mOwnVCardRealm.getAvatar()!=null?mOwnVCardRealm.getAvatar():null)
-            .message(message1)
-            .build());
+        uploadFile(list.get(0).getPath(),"image");
       } else if (requestCode == Constant.REQUEST_CODE_PICK_FILE) {
 
       } else if (requestCode == Constant.REQUEST_CODE_PICK_AUDIO) {
@@ -457,7 +460,8 @@ public class ChatFragment extends BaseFragment
     message1.time = seconds;
     message1.type = FileType.TYPE_AUDIO;
     mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
-        .avatar(mOwnVCardRealm!=null&&mOwnVCardRealm.getAvatar()!=null?mOwnVCardRealm.getAvatar():null)
+        .avatar(mOwnVCardRealm != null && mOwnVCardRealm.getAvatar() != null
+            ? mOwnVCardRealm.getAvatar() : null)
         .message(message1)
         .build());
     mChatMessageAdapter.notifyDataSetChanged();
@@ -465,5 +469,37 @@ public class ChatFragment extends BaseFragment
 
   @Override public void onDestroy() {
     super.onDestroy();
+  }
+
+  public void uploadFile(String path, String type) {
+    // use the FileUtils to get the actual file by uri
+    File file = new File(path);
+
+    // create RequestBody instance from file
+    RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+    // MultipartBody.Part is used to send also the actual file name
+    MultipartBody.Part body =
+        MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+    RequestBody typeBody = RequestBody.create(MediaType.parse("multipart/form-data"),type);
+    mUpLoadServiceApi.upload(body,typeBody)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(filePath -> {
+          Log.d(TAG, "uploadFile: " + filePath);
+          //发送消息添加到本地，然后发送拓展消息到对方
+          Message message1 = new Message();
+          message1.fimePath = CommonUtils.getUrl("image",filePath.filePath);
+          message1.type = FileType.TYPE_IMAGE;
+          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
+              .avatar(mOwnVCardRealm != null && mOwnVCardRealm.getAvatar() != null
+                  ? mOwnVCardRealm.getAvatar() : null)
+              .message(message1)
+              .build());
+          mChatMessageAdapter.notifyDataSetChanged();
+        }, new ErrorAction() {
+          @Override public void call(Throwable throwable) {
+            super.call(throwable);
+          }
+        });
   }
 }

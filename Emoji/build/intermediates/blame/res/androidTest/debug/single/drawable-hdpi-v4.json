@@ -1,55 +1,47 @@
 [
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loading.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loading.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_setting2x.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_setting2x.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_back.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_back.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png"
     },
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_setting2x.png",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_setting2x.png"
     },
     {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png"
+    },
+    {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/bqmm_chatfrom_bg_normal.9.png",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/drawable-hdpi-v4/bqmm_chatfrom_bg_normal.9.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_setting2x.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_setting2x.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_setting2x.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_setting2x.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png"
     },
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/bqmm_back.png",
@@ -60,100 +52,120 @@
         "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/drawable-hdpi-v4/bqmm_chatto_bg_normal.9.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_setting2x.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_setting2x.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png"
     },
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_back.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_back.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_back.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_back.png"
     },
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loading.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loading.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png"
     },
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loading.png",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loading.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_back.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_back.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loading.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loading.png"
     },
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_back.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_back.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_back.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_back.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png"
     },
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_back.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_back.png"
-    },
-    {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/bqmm_setting2x.png",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/drawable-hdpi-v4/bqmm_setting2x.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png"
     },
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/bqmm_chatto_bg_focused.9.png",
@@ -164,271 +176,259 @@
         "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/drawable-hdpi-v4/bqmm_emoji_loadfail.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_back.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_back.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/bqmm_keyboard_store_bg.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/drawable-hdpi-v4/bqmm_keyboard_store_bg.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_back.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_back.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loading.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loading.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/ic_launcher.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/drawable-hdpi-v4/ic_launcher.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/bqmm_emoji_loading.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/drawable-hdpi-v4/bqmm_emoji_loading.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_setting2x.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_setting2x.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/bqmm_chatfrom_bg_focused.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/drawable-hdpi-v4/bqmm_chatfrom_bg_focused.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png"
-    },
-    {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_back.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_back.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_back.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_back.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loading.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loading.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/bqmm_emoji_delete_img.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/drawable-hdpi-v4/bqmm_emoji_delete_img.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/bqmm_emoji_eo_fail_default.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/drawable-hdpi-v4/bqmm_emoji_eo_fail_default.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png"
     },
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loading.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loading.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/bqmm_keyboard_store_bg.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/drawable-hdpi-v4/bqmm_keyboard_store_bg.png"
     },
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loading.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loading.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_setting2x.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_setting2x.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loading.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loading.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png"
-    },
-    {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png"
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png"
     },
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png"
     },
     {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loading.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loading.png"
+    },
+    {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_setting2x.png",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_setting2x.png"
     },
     {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/ic_launcher.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/drawable-hdpi-v4/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/bqmm_emoji_loading.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/drawable-hdpi-v4/bqmm_emoji_loading.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loading.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loading.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/bqmm_chatfrom_bg_focused.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/drawable-hdpi-v4/bqmm_chatfrom_bg_focused.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_setting2x.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_setting2x.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loading.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loading.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/bqmm_emoji_delete_img.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/drawable-hdpi-v4/bqmm_emoji_delete_img.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/bqmm_emoji_eo_fail_default.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/bundles/debug/res/drawable-hdpi-v4/bqmm_emoji_eo_fail_default.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loading.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loading.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_setting2x.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_setting2x.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_normal.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loading.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loading.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loading.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loading.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_keyboard_store_bg.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_eo_fail_default.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_back.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_back.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_normal.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatfrom_bg_focused.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_setting2x.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_setting2x.png"
+    },
+    {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_back.png",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_back.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_back.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_back.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_setting2x.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_setting2x.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_setting2x.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_setting2x.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_loadfail.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_emoji_delete_img.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_back.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_back.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_chatto_bg_focused.9.png"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\bqmm_setting2x.png",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bqmm_setting2x.png"
     }
 ]

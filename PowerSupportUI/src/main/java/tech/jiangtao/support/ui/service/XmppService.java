@@ -1,4 +1,4 @@
-package com.china.epower.chat.service;
+package tech.jiangtao.support.ui.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -11,9 +11,6 @@ import android.os.IBinder;
 
 import android.support.annotation.Nullable;
 import android.util.Log;
-import com.china.epower.chat.R;
-import com.china.epower.chat.ui.activity.ChatActivity;
-import com.china.epower.chat.ui.activity.MainActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -22,10 +19,12 @@ import tech.jiangtao.support.kit.callback.VCardCallback;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.userdata.SimpleVCard;
+import tech.jiangtao.support.ui.R;
+import tech.jiangtao.support.ui.fragment.ChatFragment;
 
-public class XmppService extends Service {
+public class XMPPService extends Service {
 
-  public static final String TAG = XmppService.class.getSimpleName();
+  public static final String TAG = XMPPService.class.getSimpleName();
 
   @Override public int onStartCommand(Intent intent, int flags, int startId) {
     showNotification("统一通信", "统一通信");
@@ -41,7 +40,7 @@ public class XmppService extends Service {
     SimpleVCard vCard = new SimpleVCard(event.userJid+"@"+ SupportIM.mResource);
     vCard.setmVCardCallback(new VCardCallback() {
       @Override public void recieveVCard(VCard vCard, String userJid) {
-        Intent intent = new Intent(XmppService.this, ChatActivity.class);
+        Intent intent = new Intent(XMPPService.this, ChatFragment.class);
         if (vCard!=null){
           if (vCard.getNickName()!=null){
             showOnesNotification(vCard.getNickName(), event.message.toString(), intent);
@@ -63,7 +62,7 @@ public class XmppService extends Service {
    */
   public void showNotification(String name, String info) {
     Notification.Builder builder = new Notification.Builder(this);
-    Intent intent = new Intent(this, MainActivity.class);
+    Intent intent = new Intent(this, ChatFragment.class);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
       builder.setContentIntent(
           PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT))
