@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import com.kevin.library.widget.CleanDialog;
 import com.kevin.library.widget.builder.IconFlag;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPConnection;
@@ -132,8 +133,16 @@ public class AddFriendFragment extends BaseFragment implements TextWatcher,EasyV
     Form anwserForm = null;
     try {
       if (connect.getServiceName()!=null) {
+        String searchString ="";
         Log.d("------>", "receiveData: "+connect.getServiceName());
-        Form form = manager.getSearchForm("search." + connect.getServiceName());
+        Collection<String> services = manager.getSearchServices(); //search is UserSearchManager
+        String[] nn = services.toArray(new String[services.size()]);
+        for (String aNn : nn) {
+          searchString += aNn;
+        }
+        Log.d("------>", "receiveData: "+searchString);
+//        Form form = manager.getSearchForm("search." + connect.getServiceName());
+        Form form = manager.getSearchForm(searchString);
         anwserForm = form.createAnswerForm();
         anwserForm.setAnswer("Username", true);
         Log.d("用户信息", "receiveData: "+text);

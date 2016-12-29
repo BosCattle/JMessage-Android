@@ -482,16 +482,6 @@ public class ChatFragment extends BaseFragment
         }
     }
 
-    public void startServiceToUpload(String filePath) {
-        Intent intent = new Intent(getActivity(), FileTransferService.class);
-        Bundle bundle = new Bundle();
-        bundle.putString(FileTransferService.FILE_TRANSFER_FILE_NAME, filePath);
-        bundle.putString(FileTransferService.FILE_TRANSFER_EXTRA_MESSAGE, "文件来啦!");
-        bundle.putString(FileTransferService.FILE_TRANSFER_USER_JID, mVCardRealm.getJid());
-        intent.putExtras(bundle);
-        getActivity().startService(intent);
-    }
-
     @Override
     public void onFinishRecord(float seconds, String filePath) {
         //构建本地发送消息，开启服务器发送消息到对方

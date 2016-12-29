@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.text.LoginFilter;
 import android.util.Log;
 
 import com.cocosw.favor.FavorAdapter;
@@ -16,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collection;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -24,15 +26,21 @@ import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.StanzaListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.chat.ChatManager;
 import org.jivesoftware.smack.chat.ChatManagerListener;
+import org.jivesoftware.smack.filter.StanzaFilter;
 import org.jivesoftware.smack.packet.DefaultExtensionElement;
 import org.jivesoftware.smack.packet.IQ;
 import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.packet.Stanza;
 import org.jivesoftware.smack.provider.ProviderManager;
+import org.jivesoftware.smack.roster.Roster;
+import org.jivesoftware.smack.roster.RosterListener;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.jivesoftware.smackx.filetransfer.FileTransfer;
@@ -70,7 +78,7 @@ import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.FileUtil;
 
 public class SupportService extends Service
-        implements ChatManagerListener, ConnectionListener {
+        implements ChatManagerListener, ConnectionListener,RosterListener {
 
     private static final String TAG = SupportService.class.getSimpleName();
     private static XMPPTCPConnection mXMPPConnection;
@@ -156,7 +164,7 @@ public class SupportService extends Service
             Log.d(TAG, "processMessage: " + chat1.getParticipant());
             Log.d(TAG, "chatCreated: " + message.toString());
             DefaultExtensionElement messageExtension = (DefaultExtensionElement) message.getExtension("message:extension");
-            if (messageExtension.getValue("type").equals(MessageExtensionType.TEXT.toString())) {
+            if (messageExtension.getValue("type")==null||messageExtension.getValue("type").equals(MessageExtensionType.TEXT.toString())) {
                 EventBus.getDefault()
                         .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(), MessageExtensionType.TEXT));
             }
@@ -360,10 +368,84 @@ public class SupportService extends Service
         ProviderManager.addIQProvider("chat", "urn:xmpp:archive", new MessageArchiveIQProvider());
         mXMPPConnection.addAsyncStanzaListener(new MessageArchiveStanzaListener(),
                 new MessageArchiveStanzaFilter());
+
         // TODO: 07/12/2016 读取数据库，得到最后的更新时间
         SimpleArchiveMessage message = new SimpleArchiveMessage();
         requestAllMessageArchive(message.getLastUpdateTime());
         ChatManager manager = ChatManager.getInstanceFor(mXMPPConnection);
         manager.addChatListener(this);
+        addFriend();
+    }
+
+    public void addFriend(){
+        Roster roster = Roster.getInstanceFor(mXMPPConnection);
+        roster.setSubscriptionMode(Roster.SubscriptionMode.manual);
+        roster.addRosterListener(this);
+        mXMPPConnection.addSyncStanzaListener(packet -> {
+            Presence presence = (Presence) packet;
+            if (presence.getType().equals(Presence.Type.subscribe)) {
+                // 收到好友请求,现在的代码是自动自动接受好友请求
+                Log.d(TAG, "addFriend: 接受到好友请求");
+                Presence newp = new Presence(Presence.Type.subscribed);
+                newp.setMode(Presence.Mode.available);
+                newp.setPriority(24);
+                newp.setTo(presence.getFrom());
+                mXMPPConnection.sendStanza(newp);
+                Presence subscription = new Presence(
+                        Presence.Type.subscribe);
+                subscription.setTo(presence.getFrom());
+                mXMPPConnection.sendStanza(subscription);
+
+            } else if (presence.getType().equals(
+                    Presence.Type.unsubscribe)) {
+                // 不同意添加好友
+                Log.d(TAG, "addFriend: 对方不同意好友请求");
+                Presence newp = new Presence(Presence.Type.unsubscribed);
+                newp.setMode(Presence.Mode.available);
+                newp.setPriority(24);
+                newp.setTo(presence.getFrom());
+                mXMPPConnection.sendStanza(newp);
+            }else if (presence.getType().equals(
+                    Presence.Type.subscribed)) {
+                Log.d(TAG, "addFriend: 对方同意添加好友。");
+                //发送广播传递response字符串
+                //对方同意添加好友";
+            }
+        }, stanza -> {
+            if (stanza instanceof Presence) {
+                Presence presence = (Presence) stanza;
+                if (presence.getType().equals(Presence.Type.subscribed)
+                        || presence.getType().equals(
+                        Presence.Type.subscribe)
+                        || presence.getType().equals(
+                        Presence.Type.unsubscribed)
+                        || presence.getType().equals(
+                        Presence.Type.unsubscribe)) {
+                    return true;
+                }
+            }
+            return false;
+        });
+    }
+
+    //
+    @Override
+    public void entriesAdded(Collection<String> addresses) {
+        Log.d(TAG, "entriesAdded: 好友添加成功");
+    }
+
+    @Override
+    public void entriesUpdated(Collection<String> addresses) {
+        Log.d(TAG, "entriesUpdated: 好友更新成功");
+    }
+
+    @Override
+    public void entriesDeleted(Collection<String> addresses) {
+        Log.d(TAG, "entriesDeleted: 好友删除成功");
+    }
+
+    @Override
+    public void presenceChanged(Presence presence) {
+        Log.d(TAG, "presenceChanged: 我也不知道这是干嘛的。");
     }
 }
