@@ -14,8 +14,8 @@ import tech.jiangtao.support.ui.BuildConfig;
  * Description: 服务器请求 </br>
  * Creator: kevin </br>
  * Email: jiangtao103cp@gmail.com </br>
- * Date: 28/12/2016 10:47 PM</br>
- * Update: 28/12/2016 10:47 PM </br>
+ * Date: 29/12/2016 9:50 AM</br>
+ * Update: 29/12/2016 9:50 AM </br>
  **/
 public class ApiService {
 
