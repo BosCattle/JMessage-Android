@@ -29,6 +29,7 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.chat.ChatManager;
 import org.jivesoftware.smack.chat.ChatManagerListener;
+import org.jivesoftware.smack.packet.DefaultExtensionElement;
 import org.jivesoftware.smack.packet.IQ;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.provider.ProviderManager;
@@ -40,6 +41,7 @@ import org.jivesoftware.smackx.filetransfer.FileTransferManager;
 import org.jivesoftware.smackx.filetransfer.FileTransferNegotiator;
 import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
 import org.jivesoftware.smackx.filetransfer.IncomingFileTransfer;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 import rx.Observable;
@@ -53,6 +55,7 @@ import tech.jiangtao.support.kit.archive.MessageArchiveStanzaListener;
 import tech.jiangtao.support.kit.archive.MessageBody;
 import tech.jiangtao.support.kit.archive.type.FileType;
 import tech.jiangtao.support.kit.archive.type.MessageBodyType;
+import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.callback.ConnectionCallback;
 import tech.jiangtao.support.kit.eventbus.MessageTest;
 import tech.jiangtao.support.kit.eventbus.NormalFileMessage;
@@ -67,12 +70,11 @@ import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.FileUtil;
 
 public class SupportService extends Service
-        implements ChatManagerListener, ConnectionListener, FileTransferListener {
+        implements ChatManagerListener, ConnectionListener {
 
     private static final String TAG = SupportService.class.getSimpleName();
     private static XMPPTCPConnection mXMPPConnection;
     public static boolean mNeedAutoLogin = true;
-    private static FileTransferManager mFileTransferManager;
     private Realm mRealm;
 
     @Override
@@ -152,8 +154,24 @@ public class SupportService extends Service
         chat.addMessageListener((chat1, message) -> {
             Log.d(TAG, "processMessage: " + message.getBody());
             Log.d(TAG, "processMessage: " + chat1.getParticipant());
-            EventBus.getDefault()
-                    .post(new RecieveMessage(message.getBody(), message.getType(), chat1.getParticipant()));
+            Log.d(TAG, "chatCreated: " + message.toString());
+            DefaultExtensionElement messageExtension = (DefaultExtensionElement) message.getExtension("message:extension");
+            if (messageExtension.getValue("type").equals(MessageExtensionType.TEXT.toString())) {
+                EventBus.getDefault()
+                        .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(), MessageExtensionType.TEXT));
+            }
+            if (messageExtension.getValue("type").equals(MessageExtensionType.IMAGE.toString())) {
+                EventBus.getDefault()
+                        .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(), MessageExtensionType.IMAGE));
+            }
+            if (messageExtension.getValue("type").equals(MessageExtensionType.AUDIO.toString())) {
+                EventBus.getDefault()
+                        .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(), MessageExtensionType.AUDIO));
+            }
+            if (messageExtension.getValue("type").equals(MessageExtensionType.VIDEO.toString())) {
+                EventBus.getDefault()
+                        .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(), MessageExtensionType.VIDEO));
+            }
             //缓存消息
 //      setMessageRealm(buildMessageBody(),null);
         });
@@ -174,7 +192,13 @@ public class SupportService extends Service
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 try {
-                    chat.sendMessage(message.message);
+                    Message message1 = new Message();
+                    message1.setBody(message.message);
+                    DefaultExtensionElement extensionElement = new
+                            DefaultExtensionElement("message_type", "message:extension");
+                    extensionElement.setValue("type", message.messageType.toString());
+                    message1.addExtension(extensionElement);
+                    chat.sendMessage(message1);
                     subscriber.onNext("");
                 } catch (SmackException.NotConnectedException e) {
                     subscriber.onError(e);
@@ -341,57 +365,5 @@ public class SupportService extends Service
         requestAllMessageArchive(message.getLastUpdateTime());
         ChatManager manager = ChatManager.getInstanceFor(mXMPPConnection);
         manager.addChatListener(this);
-        mFileTransferManager = FileTransferManager.getInstanceFor(mXMPPConnection);
-        mFileTransferManager.addFileTransferListener(this);
-    }
-
-    @Override
-    public void fileTransferRequest(FileTransferRequest request) {
-        // Accept it
-        Observable.create(subscriber -> {
-            FileTransferNegotiator fileTransferNegotiator = FileTransferNegotiator.getInstanceFor(mXMPPConnection);
-            FileTransferNegotiator.IBB_ONLY = true;
-            IncomingFileTransfer transfer = request.accept();
-            try {
-                if (transfer.getFileName().endsWith("mp4")){
-                    Log.d(TAG, "fileTransferRequest: mp4文件开始接受");
-                    transfer.recieveFile(new File(FileUtil.createAudioDic() + "/" + request.getFileName()));
-                }else {
-                    Log.d(TAG, "fileTransferRequest: jpg文件开始接受");
-                    transfer.recieveFile(new File(FileUtil.createImageDic() + "/" + request.getFileName()));
-                }
-                while(!transfer.isDone()) {
-                    if(transfer.getStatus().equals(FileTransfer.Status.error)) {
-                        System.out.println("ERROR!!! " + transfer.getError());
-                    } else {
-                        System.out.println(transfer.getProgress());
-                    }
-                }
-                if (transfer.isDone()) {
-                    subscriber.onCompleted();
-                }
-            } catch (SmackException | IOException e) {
-                e.printStackTrace();
-                subscriber.onError(e);
-            }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
-
-        }, new ErrorAction() {
-            @Override
-            public void call(Throwable throwable) {
-                super.call(throwable);
-                Log.d(TAG, "发送文件发生错误" + throwable);
-            }
-        }, () -> {
-            if (request.getFileName().endsWith("mp4")) {
-                EventBus.getDefault()
-                    .post(new NormalFileMessage(FileType.TYPE_AUDIO, request.getFileName(),
-                        FileUtil.createAudioDic() + "/" + request.getFileName(), request.getRequestor()));
-            }else {
-                EventBus.getDefault().post(new NormalFileMessage
-                    (FileType.TYPE_IMAGE, request.getFileName(),
-                        FileUtil.createImageDic() + "/" + request.getFileName(), request.getRequestor()));
-            }
-        });
     }
 }

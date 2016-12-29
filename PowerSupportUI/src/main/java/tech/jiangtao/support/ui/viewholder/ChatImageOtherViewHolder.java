@@ -15,6 +15,7 @@ import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ChatBaseViewHolder;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
+import tech.jiangtao.support.ui.view.ImageDialogManager;
 
 /**
  * Class: ChatImageOtherViewHolder </br>
@@ -46,9 +47,14 @@ public class ChatImageOtherViewHolder extends ChatBaseViewHolder {
         .into(mItemChatAvatar);
 
     Glide.with(mContext)
-        .load(new File(constructMessage.mMessage.fimePath))
+        .load(Uri.parse(constructMessage.mMessage.fimePath))
         .error(R.mipmap.ic_mipmap_default_image)
         .placeholder(R.mipmap.ic_mipmap_default_image)
         .into(mItemChatImg);
+
+    mItemChatImg.setOnClickListener(v -> {
+      ImageDialogManager manager = new ImageDialogManager(mContext,constructMessage.mMessage.fimePath);
+      manager.showDiaog();
+    });
   }
 }

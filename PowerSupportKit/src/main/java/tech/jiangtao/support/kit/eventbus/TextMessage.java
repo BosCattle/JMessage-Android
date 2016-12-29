@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import org.jivesoftware.smack.packet.Message;
 import tech.jiangtao.support.kit.archive.type.FileType;
+import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 
 /**
  * Class: TextMessage </br>
@@ -19,7 +20,7 @@ public class TextMessage extends BaseMessage implements Parcelable {
   public String userJID;
   public String message;
   // 消息类型，包括图片，语音，文字等等。
-  public FileType messageType;
+  public MessageExtensionType messageType;
 
   public TextMessage(Message.Type type, String userJID, String message) {
     super(message);
@@ -28,7 +29,7 @@ public class TextMessage extends BaseMessage implements Parcelable {
     this.message = message;
   }
 
-  public TextMessage(Message.Type type, String userJID, String message ,FileType fileType) {
+  public TextMessage(Message.Type type, String userJID, String message ,MessageExtensionType fileType) {
     super(message);
     this.type = type;
     this.userJID = userJID;
@@ -36,11 +37,14 @@ public class TextMessage extends BaseMessage implements Parcelable {
     this.messageType = fileType;
   }
 
-  @Override public int describeContents() {
+  @Override
+  public int describeContents() {
     return 0;
   }
 
-  @Override public void writeToParcel(Parcel dest, int flags) {
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    super.writeToParcel(dest, flags);
     dest.writeInt(this.type == null ? -1 : this.type.ordinal());
     dest.writeString(this.userJID);
     dest.writeString(this.message);
@@ -48,20 +52,23 @@ public class TextMessage extends BaseMessage implements Parcelable {
   }
 
   protected TextMessage(Parcel in) {
+    super(in);
     int tmpType = in.readInt();
     this.type = tmpType == -1 ? null : Message.Type.values()[tmpType];
     this.userJID = in.readString();
     this.message = in.readString();
     int tmpMessageType = in.readInt();
-    this.messageType = tmpMessageType == -1 ? null : FileType.values()[tmpMessageType];
+    this.messageType = tmpMessageType == -1 ? null : MessageExtensionType.values()[tmpMessageType];
   }
 
   public static final Creator<TextMessage> CREATOR = new Creator<TextMessage>() {
-    @Override public TextMessage createFromParcel(Parcel source) {
+    @Override
+    public TextMessage createFromParcel(Parcel source) {
       return new TextMessage(source);
     }
 
-    @Override public TextMessage[] newArray(int size) {
+    @Override
+    public TextMessage[] newArray(int size) {
       return new TextMessage[size];
     }
   };

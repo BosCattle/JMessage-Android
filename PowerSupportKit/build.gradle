@@ -43,4 +43,5 @@ dependencies {
   compile 'org.igniterealtime.smack:smack-android-extensions:4.1.9'
   compile 'org.igniterealtime.smack:smack-experimental:4.1.9'
   compile 'com.cocosw:favor:0.2.0@aar'
+  compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.0'
 }

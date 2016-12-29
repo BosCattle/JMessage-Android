@@ -2,6 +2,7 @@ package tech.jiangtao.support.ui.viewholder;
 
 import android.content.Context;
 import android.net.Uri;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -15,6 +16,7 @@ import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ChatBaseViewHolder;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
+import tech.jiangtao.support.ui.view.ImageDialogManager;
 
 /**
  * Class: ChatImageMineViewHolder </br>
@@ -50,5 +52,10 @@ public class ChatImageMineViewHolder extends ChatBaseViewHolder {
         .error(R.mipmap.ic_mipmap_default_image)
         .placeholder(R.mipmap.ic_mipmap_default_image)
         .into(mItemChatImage);
+
+    mItemChatImage.setOnClickListener(v -> {
+      ImageDialogManager manager = new ImageDialogManager(mContext,constructMessage.mMessage.fimePath);
+      manager.showDiaog();
+    });
   }
 }

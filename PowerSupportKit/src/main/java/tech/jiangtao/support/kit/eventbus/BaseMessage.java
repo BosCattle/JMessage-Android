@@ -35,13 +35,4 @@ public class BaseMessage  implements Parcelable{
     this.message = in.readParcelable(Object.class.getClassLoader());
   }
 
-  public static final Creator<BaseMessage> CREATOR = new Creator<BaseMessage>() {
-    @Override public BaseMessage createFromParcel(Parcel source) {
-      return new BaseMessage(source);
-    }
-
-    @Override public BaseMessage[] newArray(int size) {
-      return new BaseMessage[size];
-    }
-  };
 }
