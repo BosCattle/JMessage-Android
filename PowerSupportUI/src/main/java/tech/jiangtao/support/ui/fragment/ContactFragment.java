@@ -14,6 +14,7 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -77,11 +78,13 @@ public class ContactFragment extends BaseFragment
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     mContactList.setAdapter(mBaseEasyAdapter);
     HermesEventBus.getDefault().post(new ContactEvent());
+    getContact();
+    updateContactFromNotification();
   }
 
   @Override public void onResume() {
     super.onResume();
-    getContact();
+
   }
 
   private void getContact() {
@@ -96,15 +99,20 @@ public class ContactFragment extends BaseFragment
         Log.d(TAG, "onSuccess: 获取通讯录成功");
       }
       mBaseEasyAdapter.notifyDataSetChanged();
-      mVCardRealmRealmResults.addChangeListener(element -> {
-        while (element.iterator().hasNext()){
-          mConstrutContact.add(
-              new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL).vCardRealm(element.iterator().next()).build());
-          Log.d(TAG, "onSuccess: 监听成功");
-        }
-        Log.d(TAG, "onSuccess: 新增加好友");
-        mBaseEasyAdapter.notifyDataSetChanged();
-      });
+    });
+  }
+
+  public void  updateContactFromNotification(){
+    mVCardRealmRealmResults.addChangeListener(element -> {
+      Iterator iterator = element.iterator();
+      while (iterator.hasNext()){
+        mConstrutContact.add(
+            new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL).vCardRealm(
+                (VCardRealm) iterator.next()).build());
+        Log.d(TAG, "onSuccess: 监听成功");
+      }
+      Log.d(TAG, "onSuccess: 新增加好友");
+      mBaseEasyAdapter.notifyDataSetChanged();
     });
   }
 
@@ -136,10 +144,6 @@ public class ContactFragment extends BaseFragment
   @Override public void onAttach(Context context) {
     super.onAttach(context);
     mContactItemCallback = (ContactItemCallback) context;
-  }
-
-  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(MessageTest message) {
-    Log.d("----------->", "onMessage: " + message);
   }
 
   @Override public void onDestroy() {

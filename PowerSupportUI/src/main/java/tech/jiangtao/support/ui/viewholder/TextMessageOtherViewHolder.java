@@ -41,7 +41,7 @@ public class TextMessageOtherViewHolder extends ChatBaseViewHolder {
     @Override
     public void bindTo(int position, ConstructMessage constructMessage) {
         Glide.with(mContext)
-                .load(Uri.parse(constructMessage.mAvatar))
+                .load(Uri.parse(constructMessage.mAvatar!=null?constructMessage.mAvatar:""))
                 .centerCrop()
                 .error(R.mipmap.ic_chat_default)
                 .placeholder(R.mipmap.ic_chat_default)

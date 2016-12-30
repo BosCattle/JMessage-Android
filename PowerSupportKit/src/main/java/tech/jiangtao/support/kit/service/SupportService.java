@@ -191,31 +191,29 @@ public class SupportService extends Service
       DefaultExtensionElement messageExtension =
           (DefaultExtensionElement) message.getExtension("message:extension");
       if (message.getBody() != null) {
-        if (messageExtension.getValue("type") == null || messageExtension.getValue("type")
+        if (messageExtension==null||messageExtension.getValue("type") == null || messageExtension.getValue("type")
             .equals(MessageExtensionType.TEXT.toString())) {
-          EventBus.getDefault()
+          HermesEventBus.getDefault()
               .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(),
                   MessageExtensionType.TEXT));
         }
         if (messageExtension.getValue("type").equals(MessageExtensionType.IMAGE.toString())) {
-          EventBus.getDefault()
+          HermesEventBus.getDefault()
               .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(),
                   MessageExtensionType.IMAGE));
         }
         if (messageExtension.getValue("type").equals(MessageExtensionType.AUDIO.toString())) {
-          EventBus.getDefault()
+          HermesEventBus.getDefault()
               .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(),
                   MessageExtensionType.AUDIO));
         }
         if (messageExtension.getValue("type").equals(MessageExtensionType.VIDEO.toString())) {
-          EventBus.getDefault()
+          HermesEventBus.getDefault()
               .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(),
                   MessageExtensionType.VIDEO));
         }
-        showOnesNotification(chat1.getParticipant(), "消息来了", null);
       }
-      //缓存消息
-      //      setMessageRealm(buildMessageBody(),null);
+      //发送消息到守护服务，先保存会话到另外一个会话表，然后保存消息到历史消息表
     });
   }
 
@@ -367,7 +365,7 @@ public class SupportService extends Service
   }
 
   @Override public void connectionClosedOnError(Exception e) {
-    Log.d(TAG, "connectionClosedOnError: 连接因为错误被关闭"+e.getMessage());
+    Log.d(TAG, "connectionClosedOnError: 连接因为错误被关闭" + e.getMessage());
   }
 
   @Override public void reconnectionSuccessful() {
@@ -376,11 +374,11 @@ public class SupportService extends Service
   }
 
   @Override public void reconnectingIn(int seconds) {
-    Log.d(TAG, "reconnectingIn: 正在重连"+seconds);
+    Log.d(TAG, "reconnectingIn: 正在重连" + seconds);
   }
 
   @Override public void reconnectionFailed(Exception e) {
-    Log.d(TAG, "reconnectionFailed: 重连失败，失败原因"+e.getMessage());
+    Log.d(TAG, "reconnectionFailed: 重连失败，失败原因" + e.getMessage());
   }
 
   public void connectSuccessPerform() {
@@ -502,31 +500,22 @@ public class SupportService extends Service
       }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(vCard -> {
         //更新本地数据库
         Log.d(TAG, "getRoster: " + vCard.getFrom());
-        mRealm.executeTransactionAsync(realm -> {
-          RealmResults<VCardRealm> result =
-              realm.where(VCardRealm.class).equalTo("jid", vCard.getJabberId()).findAll();
-          VCardRealm vCardRealm = null;
-          if (result.size() == 0) {
-            vCardRealm = new VCardRealm();
-            vCardRealm.setJid(vCard.getFrom());
-          } else {
-            vCardRealm = result.first();
-          }
-          vCardRealm.setNickName(vCard.getNickName());
-          vCardRealm.setSex(vCard.getField("sex"));
-          vCardRealm.setSubject(vCard.getField("subject"));
-          vCardRealm.setOffice(vCard.getField("office"));
-          vCardRealm.setEmail(vCard.getEmailWork());
-          vCardRealm.setPhoneNumber(vCard.getPhoneWork("voice"));
-          vCardRealm.setSignature(vCard.getField("signature"));
-          vCardRealm.setAvatar(vCard.getField("avatar"));
-          if (vCard.getNickName() != null) {
-            vCardRealm.setAllPinYin(PinYinUtils.ccs2Pinyin(vCard.getNickName()));
-            vCardRealm.setFirstLetter(PinYinUtils.getPinyinFirstLetter(vCard.getNickName()));
-          }
-          vCardRealm.setFriend(true);
-        }, () -> Log.d(TAG, "onSuccess: 执行成功"),
-            error -> Log.d(TAG, "onError: 通讯录后台执行错误，错误信息"+error.getMessage()));
+        VCardRealm vCardRealm = new VCardRealm();
+        vCardRealm.setJid(vCard.getFrom());
+        vCardRealm.setNickName(vCard.getNickName());
+        vCardRealm.setSex(vCard.getField("sex"));
+        vCardRealm.setSubject(vCard.getField("subject"));
+        vCardRealm.setOffice(vCard.getField("office"));
+        vCardRealm.setEmail(vCard.getEmailWork());
+        vCardRealm.setPhoneNumber(vCard.getPhoneWork("voice"));
+        vCardRealm.setSignature(vCard.getField("signature"));
+        vCardRealm.setAvatar(vCard.getField("avatar"));
+        if (vCard.getNickName() != null) {
+          vCardRealm.setAllPinYin(PinYinUtils.ccs2Pinyin(vCard.getNickName()));
+          vCardRealm.setFirstLetter(PinYinUtils.getPinyinFirstLetter(vCard.getNickName()));
+        }
+        vCardRealm.setFriend(true);
+        HermesEventBus.getDefault().post(vCardRealm);
       }, new ErrorAction() {
         @Override public void call(Throwable throwable) {
           super.call(throwable);
@@ -537,8 +526,8 @@ public class SupportService extends Service
   }
 
   //添加或者更新vCard;
-  @Subscribe(threadMode = ThreadMode.BACKGROUND)
-  public void addOrUpdateVCard(VCardRealm vCardRealm) {
+  @Subscribe(threadMode = ThreadMode.BACKGROUND) public void addOrUpdateVCard(
+      VCardRealm vCardRealm) {
     Observable.create((Observable.OnSubscribe<VCard>) subscriber -> {
       try {
         subscriber.onNext(mVCardManager.loadVCard(vCardRealm.getJid()));
@@ -583,26 +572,5 @@ public class SupportService extends Service
         HermesEventBus.getDefault().post(new OwnVCardRealm(null, "更新失败"));
       }
     });
-  }
-
-  public void showOnesNotification(String name, String info, Intent intent) {
-    NotificationManager mNotificationManager =
-        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-    Notification.Builder builder = new Notification.Builder(this);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-      builder.setContentIntent(
-          PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT))
-          .setContentTitle(name)
-          .setContentText(info)
-          .setSmallIcon(R.mipmap.ic_launcher)
-          .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))
-          .setWhen(System.currentTimeMillis())
-          .setPriority(Notification.PRIORITY_HIGH)
-          .setDefaults(Notification.DEFAULT_VIBRATE);
-      Notification notification = builder.build();
-      notification.flags = Notification.FLAG_AUTO_CANCEL;
-      notification.defaults = Notification.DEFAULT_SOUND;
-      mNotificationManager.notify(0, notification);
-    }
   }
 }

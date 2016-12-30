@@ -50,7 +50,6 @@ import net.grandcentrix.tray.core.ItemNotFoundException;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import rx.android.schedulers.AndroidSchedulers;
@@ -79,6 +78,7 @@ import tech.jiangtao.support.ui.utils.CommonUtils;
 import tech.jiangtao.support.ui.view.AudioRecordButton;
 import tech.jiangtao.support.ui.viewholder.ExtraFuncViewHolder;
 import work.wanghao.simplehud.SimpleHUD;
+import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
@@ -182,9 +182,8 @@ public class ChatFragment extends BaseFragment
     } catch (ItemNotFoundException e) {
       e.printStackTrace();
     }
-    RealmResults<VCardRealm> realms = mRealm.where(VCardRealm.class)
-        .equalTo("jid", userJid)
-        .findAll();
+    RealmResults<VCardRealm> realms =
+        mRealm.where(VCardRealm.class).equalTo("jid", userJid).findAll();
     if (realms.size() != 0) {
       mOwnVCardRealm = realms.first();
     }
@@ -201,7 +200,7 @@ public class ChatFragment extends BaseFragment
     setAdapter();
     setExtraAdapter();
     setViewListener();
-    loadArchiveMessage();
+    //loadArchiveMessage();
   }
 
   private void setUpBQMM() {
@@ -387,11 +386,9 @@ public class ChatFragment extends BaseFragment
   }
 
   public void sendMyFriendMessage(String message, MessageExtensionType type) {
-    TextMessage message1 =
-        new TextMessage(org.jivesoftware.smack.packet.Message.Type.chat, mVCardRealm.getJid(),
-            message);
+    TextMessage message1 = new TextMessage(mVCardRealm.getJid(), message);
     message1.messageType = type;
-    EventBus.getDefault().post(message1);
+    HermesEventBus.getDefault().post(message1);
     //将消息更新到本地
     Message message2 = new Message();
     if (type == MessageExtensionType.TEXT) {

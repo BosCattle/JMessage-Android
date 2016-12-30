@@ -2,6 +2,7 @@ package tech.jiangtao.support.kit.eventbus;
 
 import android.os.Parcel;
 
+import android.os.Parcelable;
 import org.jivesoftware.smack.packet.Message;
 
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
@@ -15,7 +16,7 @@ import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
  * Update: 06/12/2016 8:30 PM </br>
  **/
 
-public class RecieveMessage extends BaseMessage {
+public class RecieveMessage implements Parcelable {
 
   public Message.Type type;
   public String userJID;
@@ -25,32 +26,27 @@ public class RecieveMessage extends BaseMessage {
 
 
   public RecieveMessage(Message.Type type, String userJID, String message ,MessageExtensionType fileType) {
-    super(message);
     this.type = type;
     this.userJID = userJID;
     this.message = message;
     this.messageType = fileType;
   }
 
-  @Override
-  public int describeContents() {
+  public RecieveMessage() {
+  }
+
+  @Override public int describeContents() {
     return 0;
   }
 
-  @Override
-  public void writeToParcel(Parcel dest, int flags) {
-    super.writeToParcel(dest, flags);
+  @Override public void writeToParcel(Parcel dest, int flags) {
     dest.writeInt(this.type == null ? -1 : this.type.ordinal());
     dest.writeString(this.userJID);
     dest.writeString(this.message);
     dest.writeInt(this.messageType == null ? -1 : this.messageType.ordinal());
   }
 
-  public RecieveMessage() {
-  }
-
   protected RecieveMessage(Parcel in) {
-    super(in);
     int tmpType = in.readInt();
     this.type = tmpType == -1 ? null : Message.Type.values()[tmpType];
     this.userJID = in.readString();
@@ -60,13 +56,11 @@ public class RecieveMessage extends BaseMessage {
   }
 
   public static final Creator<RecieveMessage> CREATOR = new Creator<RecieveMessage>() {
-    @Override
-    public RecieveMessage createFromParcel(Parcel source) {
+    @Override public RecieveMessage createFromParcel(Parcel source) {
       return new RecieveMessage(source);
     }
 
-    @Override
-    public RecieveMessage[] newArray(int size) {
+    @Override public RecieveMessage[] newArray(int size) {
       return new RecieveMessage[size];
     }
   };

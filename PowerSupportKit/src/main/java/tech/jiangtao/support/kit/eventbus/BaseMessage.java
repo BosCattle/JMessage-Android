@@ -34,5 +34,4 @@ public class BaseMessage  implements Parcelable{
   protected BaseMessage(Parcel in) {
     this.message = in.readParcelable(Object.class.getClassLoader());
   }
-
 }

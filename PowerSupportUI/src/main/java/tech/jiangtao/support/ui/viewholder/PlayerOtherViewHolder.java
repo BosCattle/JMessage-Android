@@ -33,40 +33,35 @@ import tech.jiangtao.support.ui.view.MediaManager;
 
 public class PlayerOtherViewHolder extends ChatBaseViewHolder {
 
-    @BindView(R2.id.item_chat_avatar)
-    ImageView mItemChatAvatar;
-    @BindView(R2.id.view_player_style)
-    View mViewPlayerStyle;
-    @BindView(R2.id.view_player_container)
-    FrameLayout mViewPlayerContainer;
-    @BindView(R2.id.item_chat_message)
-    TextView mItemChatMessage;
-    private Context mContext;
+  @BindView(R2.id.item_chat_avatar) ImageView mItemChatAvatar;
+  @BindView(R2.id.view_player_style) View mViewPlayerStyle;
+  @BindView(R2.id.view_player_container) FrameLayout mViewPlayerContainer;
+  @BindView(R2.id.item_chat_message) TextView mItemChatMessage;
+  private Context mContext;
 
-    public PlayerOtherViewHolder(Context context, ViewGroup parent) {
-        super(context, parent, R.layout.list_item_player_other);
-        ButterKnife.bind(this, itemView);
-        mContext = context;
-    }
+  public PlayerOtherViewHolder(Context context, ViewGroup parent) {
+    super(context, parent, R.layout.list_item_player_other);
+    ButterKnife.bind(this, itemView);
+    mContext = context;
+  }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void bindTo(int position, ConstructMessage constructMessage) {
-        Glide.with(mContext)
-                .load(Uri.parse(constructMessage.mAvatar))
-                .centerCrop()
-                .error(R.mipmap.ic_chat_default)
-                .placeholder(R.mipmap.ic_chat_default)
-                .into(mItemChatAvatar);
-        mItemChatMessage.setText("" + constructMessage.mMessage.time);
-        mViewPlayerStyle.setOnClickListener(v -> {
-            mViewPlayerStyle.setBackgroundResource(R.drawable.anim_player_animation);
-            AnimationDrawable background = (AnimationDrawable) mViewPlayerStyle.getBackground();
-            background.start();
-            MediaManager.playSound(constructMessage.mMessage.fimePath, mp -> {
-                MediaManager.release();
-                mViewPlayerStyle.setBackgroundResource(R.mipmap.ic_voice_right);
-            });
-        });
-    }
+  @SuppressLint("SetTextI18n") @Override
+  public void bindTo(int position, ConstructMessage constructMessage) {
+    Glide.with(mContext)
+        .load(Uri.parse(constructMessage.mAvatar!=null?constructMessage.mAvatar:""))
+        .centerCrop()
+        .error(R.mipmap.ic_chat_default)
+        .placeholder(R.mipmap.ic_chat_default)
+        .into(mItemChatAvatar);
+    mItemChatMessage.setText("" + constructMessage.mMessage.time);
+    mViewPlayerStyle.setOnClickListener(v -> {
+      mViewPlayerStyle.setBackgroundResource(R.drawable.anim_player_animation);
+      AnimationDrawable background = (AnimationDrawable) mViewPlayerStyle.getBackground();
+      background.start();
+      MediaManager.playSound(constructMessage.mMessage.fimePath, mp -> {
+        MediaManager.release();
+        mViewPlayerStyle.setBackgroundResource(R.mipmap.ic_voice_right);
+      });
+    });
+  }
 }
