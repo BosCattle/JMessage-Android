@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import butterknife.BindView;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ public class ContactFragment extends BaseFragment
   private ContactAdapter mBaseEasyAdapter;
   private ContactItemCallback mContactItemCallback;
   private List<ConstrutContact> mConstrutContact;
+  private Realm mRealm;
+  private RealmResults<VCardRealm> mVCardRealmRealmResults;
 
   public static ContactFragment newInstance() {
     return new ContactFragment();
@@ -82,17 +85,27 @@ public class ContactFragment extends BaseFragment
   }
 
   private void getContact() {
-    Realm realm = Realm.getDefaultInstance();
-    RealmQuery<VCardRealm> realmQuery = realm.where(VCardRealm.class);
-    RealmResults<VCardRealm> realmResult = realmQuery.equalTo("friend",true).findAll();
-    mBaseEasyAdapter.clear();
-    buildHeadView();
-    for (VCardRealm entry : realmResult) {
-      Log.d(TAG, "getContact:打印出本地数据库获取的通讯录的数量"+realmResult.size());
-      mConstrutContact.add(
-          new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL).vCardRealm(entry).build());
-    }
-    mBaseEasyAdapter.notifyDataSetChanged();
+    mRealm = Realm.getDefaultInstance();
+    mRealm.executeTransaction(realm -> {
+      RealmQuery<VCardRealm> realmQuery = realm.where(VCardRealm.class);
+      mVCardRealmRealmResults = realmQuery.findAll();
+      for (VCardRealm entry : mVCardRealmRealmResults) {
+        Log.d(TAG, "getContact:打印出本地数据库获取的通讯录的数量" + mVCardRealmRealmResults.size());
+        mConstrutContact.add(
+            new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL).vCardRealm(entry).build());
+        Log.d(TAG, "onSuccess: 获取通讯录成功");
+      }
+      mBaseEasyAdapter.notifyDataSetChanged();
+      mVCardRealmRealmResults.addChangeListener(element -> {
+        while (element.iterator().hasNext()){
+          mConstrutContact.add(
+              new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL).vCardRealm(element.iterator().next()).build());
+          Log.d(TAG, "onSuccess: 监听成功");
+        }
+        Log.d(TAG, "onSuccess: 新增加好友");
+        mBaseEasyAdapter.notifyDataSetChanged();
+      });
+    });
   }
 
   public void buildHeadView() {
@@ -108,7 +121,7 @@ public class ContactFragment extends BaseFragment
 
   @Override public void onItemClick(int position, View view) {
     Log.d(TAG, "onItemClick: ");
-    mContactItemCallback.onItemClick(position, view,mConstrutContact.get(position));
+    mContactItemCallback.onItemClick(position, view, mConstrutContact.get(position));
   }
 
   @Override public void onItemLeftClick(int position, View view) {
@@ -125,9 +138,12 @@ public class ContactFragment extends BaseFragment
     mContactItemCallback = (ContactItemCallback) context;
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onMessage(MessageTest message) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(MessageTest message) {
     Log.d("----------->", "onMessage: " + message);
+  }
 
+  @Override public void onDestroy() {
+    super.onDestroy();
+    mRealm.close();
   }
 }

@@ -3,6 +3,7 @@ package com.china.epower.chat.app;
 import android.app.Application;
 import android.content.Intent;
 import android.support.multidex.MultiDex;
+import java.util.UUID;
 import tech.jiangtao.support.ui.service.XMPPService;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.pgyersdk.crash.PgyCrashManager;
@@ -30,7 +31,7 @@ public class PowerApp extends Application {
     MultiDex.install(this);
     PgyCrashManager.register(this);
     SimpleHUD.backgroundHexColor="#FF4081";
-    SupportIM.initialize(this,"dc-a4b8eb92-xmpp.jiangtao.tech.", "jiangtao","139.162.73.105",5222);
+    SupportIM.initialize(this,"dc-a4b8eb92-xmpp.jiangtao.tech.", UUID.randomUUID().toString(),"139.162.73.105",5222);
 //    SupportIM.initialize(this,"debian","","139.162.73.105",5222);
     SupportUI.initialize(this);
     startXMPPService();

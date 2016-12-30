@@ -16,7 +16,7 @@ import tech.jiangtao.support.kit.service.SupportService;
 public class ServiceUtils {
 
   //判断服务是否在运行
-  public boolean isServiceRunning(Context context) {
+  public static boolean isServiceRunning(Context context) {
     ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
     for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(
         Integer.MAX_VALUE)) {

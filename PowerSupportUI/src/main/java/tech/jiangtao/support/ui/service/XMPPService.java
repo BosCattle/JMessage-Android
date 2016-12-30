@@ -1,31 +1,24 @@
 package tech.jiangtao.support.ui.service;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-import org.jivesoftware.smackx.vcardtemp.packet.VCard;
-
-import tech.jiangtao.support.kit.callback.VCardCallback;
-import tech.jiangtao.support.kit.eventbus.RecieveMessage;
-import tech.jiangtao.support.kit.init.SupportIM;
-import tech.jiangtao.support.kit.userdata.SimpleVCard;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.fragment.ChatFragment;
 
 /**
- * Created by jiang on 2016/12/29.
- */
+ * Class: XMPPService </br>
+ * Description: 进行数据库操作和通知的服务 </br>
+ * 简单的进行双进程守护
+ * Creator: kevin </br>
+ * Email: jiangtao103cp@gmail.com </br>
+ * Date: 31/12/2016 1:54 AM</br>
+ * Update: 31/12/2016 1:54 AM </br>
+ **/
 
 public class XMPPService  extends Service {
 

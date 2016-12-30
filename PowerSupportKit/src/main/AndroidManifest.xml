@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tech.jiangtao.support.kit">
 
+  <uses-permission android:name="android.permission.access_wifi_state"/>
+  <uses-permission android:name="android.permission.access_network_state"/>
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
   <application
       android:allowBackup="true"
       android:supportsRtl="true">
@@ -15,6 +19,32 @@
         android:name=".service.FileTransferService"
         android:exported="true">
     </service>
+
+    <!-- 网络变化广播 -->
+    <receiver
+        android:name=".reciever.NetworkConnectChangedReceiver"
+        android:enabled="true">
+      <intent-filter>
+        <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+        <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
+        <action android:name="android.net.wifi.STATE_CHANGE"/>
+      </intent-filter>
+    </receiver>
+    <!-- 开机启动广播 -->
+    <receiver
+        android:name=".reciever.BootBroadcastReceiver"
+        android:enabled="true">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED"/>
+
+        <category android:name="android.intent.category.HOME"/>
+      </intent-filter>
+    </receiver>
+    <receiver
+        android:name=".reciever.TickBroadcastReceiver"
+        android:enabled="true"
+        android:exported="false">
+    </receiver>
   </application>
 
 </manifest>

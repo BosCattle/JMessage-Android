@@ -52,118 +52,122 @@ import static xiaofei.library.hermes.Hermes.getContext;
  **/
 public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemClickListener {
 
-    public static final int TAG_HEAD = 200;
-    public static final int TAG_NOTIFICATION = 300;
-    public static final int TAG_CACHE = 400;
-    public static final int TAG_UPDATE_PASSWORD = 500;
-    public static final int TAG_UPDATE = 600;
-    public static final int TAG_ABOUT = 700;
+  public static final int TAG_HEAD = 200;
+  public static final int TAG_NOTIFICATION = 300;
+  public static final int TAG_CACHE = 400;
+  public static final int TAG_UPDATE_PASSWORD = 500;
+  public static final int TAG_UPDATE = 600;
+  public static final int TAG_ABOUT = 700;
 
-    @BindView(R.id.personal_list)
-    RecyclerView mPersonalList;
-    @BindView(R.id.login_button)
-    AppCompatButton mLoginButton;
-    private PersonalDataAdapter mDataAdapter;
-    private List<ConstructListData> mDatas;
-    private VCardRealm mVCardRealm;
+  @BindView(R.id.personal_list) RecyclerView mPersonalList;
+  @BindView(R.id.login_button) AppCompatButton mLoginButton;
+  private PersonalDataAdapter mDataAdapter;
+  private List<ConstructListData> mDatas;
+  private VCardRealm mVCardRealm;
+  private Realm mRealm;
 
-    public static PersonalFragment newInstance() {
-        return new PersonalFragment();
+  public static PersonalFragment newInstance() {
+    return new PersonalFragment();
+  }
+
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_personal, container, false);
+    ButterKnife.bind(this, view);
+    setAdapter();
+    return view;
+  }
+
+  private void setAdapter() {
+    mDatas = new ArrayList<>();
+    mDataAdapter = new PersonalDataAdapter(getContext(), buildData());
+    mDataAdapter.setOnClickListener(this);
+    mPersonalList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(getContext()));
+    mPersonalList.setLayoutManager(
+        new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+    mPersonalList.setAdapter(mDataAdapter);
+  }
+
+  @Override public void onResume() {
+    super.onResume();
+    recieveVCardRealm();
+  }
+
+  public List<ConstructListData> buildData() {
+    mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
+    mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_HEAD)
+        .tag(TAG_HEAD)
+        .image(
+            mVCardRealm != null && mVCardRealm.getAvatar() != null ? mVCardRealm.getAvatar() : null)
+        .username(
+            mVCardRealm != null && mVCardRealm.getNickName() != null ? mVCardRealm.getNickName()
+                : "用户名")
+        .nickname(mVCardRealm != null && mVCardRealm.getSubject() != null ? mVCardRealm.getSubject()
+            : "部门")
+        .arrowIcon(R.mipmap.ic_arrow)
+        .build());
+    mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
+    mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_NORMAL)
+        .tag(TAG_NOTIFICATION)
+        .title("通知")
+        .arrowIcon(R.mipmap.ic_arrow)
+        .build());
+    mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_NORMAL)
+        .tag(TAG_CACHE)
+        .title("清除缓存")
+        .arrowIcon(R.mipmap.ic_arrow)
+        .build());
+    mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_NORMAL)
+        .tag(TAG_UPDATE_PASSWORD)
+        .title("修改密码")
+        .arrowIcon(R.mipmap.ic_arrow)
+        .build());
+    mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
+        .tag(TAG_UPDATE)
+        .title("版本更新")
+        .subtitle("当前是最新版本")
+        .build());
+    mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_NORMAL)
+        .tag(TAG_ABOUT)
+        .title("关于我们")
+        .arrowIcon(R.mipmap.ic_arrow)
+        .build());
+    return mDatas;
+  }
+
+  @Override public void onItemClick(int position, View view) {
+    switch (mDatas.get(position).getmTag()) {
+      case TAG_HEAD:
+        PersonalDetailActivity.startPersonalDetail(getActivity());
+        break;
     }
+  }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_personal, container, false);
-        ButterKnife.bind(this, view);
-        setAdapter();
-        return view;
-    }
+  //点击发送回调退出
+  @OnClick(R.id.login_button) public void onClick(View v) {
+    LoginActivity.startLogin(getActivity());
+  }
 
-    private void setAdapter() {
-        mDatas = new ArrayList<>();
-        mDataAdapter = new PersonalDataAdapter(getContext(), buildData());
-        mDataAdapter.setOnClickListener(this);
-        mPersonalList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(getContext()));
-        mPersonalList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        mPersonalList.setAdapter(mDataAdapter);
-        recieveVCardRealm();
-    }
+  @Override public void onDestroy() {
+    super.onDestroy();
+  }
 
-    public List<ConstructListData> buildData() {
-        mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
-        mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_HEAD)
-                .tag(TAG_HEAD)
-                .image(mVCardRealm != null && mVCardRealm.getAvatar() != null ? mVCardRealm.getAvatar() : null)
-                .username(mVCardRealm != null && mVCardRealm.getNickName() != null ? mVCardRealm.getNickName() : "用户名")
-                .nickname(mVCardRealm != null && mVCardRealm.getSubject() != null ? mVCardRealm.getSubject() : "部门")
-                .arrowIcon(R.mipmap.ic_arrow)
-                .build());
-        mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
-        mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_NORMAL)
-                .tag(TAG_NOTIFICATION)
-                .title("通知")
-                .arrowIcon(R.mipmap.ic_arrow)
-                .build());
-        mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_NORMAL)
-                .tag(TAG_CACHE)
-                .title("清除缓存")
-                .arrowIcon(R.mipmap.ic_arrow)
-                .build());
-        mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_NORMAL)
-                .tag(TAG_UPDATE_PASSWORD)
-                .title("修改密码")
-                .arrowIcon(R.mipmap.ic_arrow)
-                .build());
-        mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
-                .tag(TAG_UPDATE)
-                .title("版本更新")
-                .subtitle("当前是最新版本")
-                .build());
-        mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_NORMAL)
-                .tag(TAG_ABOUT)
-                .title("关于我们")
-                .arrowIcon(R.mipmap.ic_arrow)
-                .build());
-        return mDatas;
+  public void recieveVCardRealm() {
+    mRealm = Realm.getDefaultInstance();
+    RealmQuery<VCardRealm> realmQuery = mRealm.where(VCardRealm.class);
+    String userJid = null;
+    final AppPreferences appPreferences = new AppPreferences(getContext());
+    try {
+      userJid = appPreferences.getString("userJid");
+    } catch (ItemNotFoundException e) {
+      e.printStackTrace();
     }
-
-    @Override
-    public void onItemClick(int position, View view) {
-        switch (mDatas.get(position).getmTag()) {
-            case TAG_HEAD:
-                PersonalDetailActivity.startPersonalDetail(getActivity());
-                break;
-        }
+    RealmResults<VCardRealm> realmResult = realmQuery.equalTo("jid", userJid).findAll();
+    if (realmResult.size() != 0) {
+      mVCardRealm = realmResult.first();
     }
-
-    //点击发送回调退出
-    @OnClick(R.id.login_button)
-    public void onClick(View v) {
-        LoginActivity.startLogin(getActivity());
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    public void recieveVCardRealm() {
-        Realm realm = Realm.getDefaultInstance();
-        RealmQuery<VCardRealm> realmQuery = realm.where(VCardRealm.class);
-        String userJid = null;
-        final AppPreferences appPreferences = new AppPreferences(getContext());
-        try {
-            userJid = appPreferences.getString("userJid");
-        } catch (ItemNotFoundException e) {
-            e.printStackTrace();
-        }
-        RealmResults<VCardRealm> realmResult = realmQuery.equalTo("jid", userJid).findAll();
-        if (realmResult.size() != 0) {
-            mVCardRealm = realmResult.first();
-        }
-        mDataAdapter.clear();
-        buildData();
-        mDataAdapter.notifyDataSetChanged();
-    }
+    mDataAdapter.clear();
+    buildData();
+    mDataAdapter.notifyDataSetChanged();
+  }
 }
