@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
+        "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
         "map": [
             {
                 "to": {
@@ -12,85 +12,7 @@
                     "endOffset": 187
                 },
                 "from": {
-                    "file": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\values-v11\\styles.xml",
-                    "position": {
-                        "startLine": 6,
-                        "startColumn": 4,
-                        "startOffset": 183,
-                        "endLine": 8,
-                        "endColumn": 12,
-                        "endOffset": 317
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endLine": 4,
-                    "endColumn": 12,
-                    "endOffset": 187
-                },
-                "from": {
-                    "file": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\values-v11\\styles.xml",
-                    "position": {
-                        "startLine": 6,
-                        "startColumn": 4,
-                        "startOffset": 183,
-                        "endLine": 8,
-                        "endColumn": 12,
-                        "endOffset": 317
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endLine": 4,
-                    "endColumn": 12,
-                    "endOffset": 187
-                },
-                "from": {
-                    "file": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\values-v11\\styles.xml",
-                    "position": {
-                        "startLine": 6,
-                        "startColumn": 4,
-                        "startOffset": 183,
-                        "endLine": 8,
-                        "endColumn": 12,
-                        "endOffset": 317
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endLine": 4,
-                    "endColumn": 12,
-                    "endOffset": 187
-                },
-                "from": {
-                    "file": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\values-v11\\styles.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\values-v11\\styles.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -104,7 +26,7 @@
         ]
     },
     {
-        "outputFile": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
+        "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
         "map": [
             {
                 "to": {
@@ -116,7 +38,7 @@
                     "endOffset": 187
                 },
                 "from": {
-                    "file": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\values-v11\\styles.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\values-v11\\styles.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -130,7 +52,7 @@
         ]
     },
     {
-        "outputFile": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
+        "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-v11/values-v11.xml",
         "map": [
             {
                 "to": {
@@ -142,7 +64,33 @@
                     "endOffset": 187
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values-v11\\styles.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values-v11/styles.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 177,
+                        "endLine": 8,
+                        "endColumn": 12,
+                        "endOffset": 309
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 4,
+                    "endColumn": 12,
+                    "endOffset": 187
+                },
+                "from": {
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\values-v11\\styles.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -156,7 +104,7 @@
         ]
     },
     {
-        "outputFile": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
+        "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
         "map": [
             {
                 "to": {
@@ -168,59 +116,7 @@
                     "endOffset": 187
                 },
                 "from": {
-                    "file": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\values-v11\\styles.xml",
-                    "position": {
-                        "startLine": 6,
-                        "startColumn": 4,
-                        "startOffset": 177,
-                        "endLine": 8,
-                        "endColumn": 12,
-                        "endOffset": 309
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endLine": 4,
-                    "endColumn": 12,
-                    "endOffset": 187
-                },
-                "from": {
-                    "file": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\values-v11\\styles.xml",
-                    "position": {
-                        "startLine": 6,
-                        "startColumn": 4,
-                        "startOffset": 177,
-                        "endLine": 8,
-                        "endColumn": 12,
-                        "endOffset": 309
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endLine": 4,
-                    "endColumn": 12,
-                    "endOffset": 187
-                },
-                "from": {
-                    "file": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\values-v11\\styles.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\values-v11\\styles.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -234,7 +130,7 @@
         ]
     },
     {
-        "outputFile": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
+        "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
         "map": [
             {
                 "to": {
@@ -246,7 +142,137 @@
                     "endOffset": 187
                 },
                 "from": {
-                    "file": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\values-v11\\styles.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\values-v11\\styles.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 183,
+                        "endLine": 8,
+                        "endColumn": 12,
+                        "endOffset": 317
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 4,
+                    "endColumn": 12,
+                    "endOffset": 187
+                },
+                "from": {
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\res\\values-v11\\styles.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 183,
+                        "endLine": 8,
+                        "endColumn": 12,
+                        "endOffset": 317
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 4,
+                    "endColumn": 12,
+                    "endOffset": 187
+                },
+                "from": {
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\values-v11\\styles.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 177,
+                        "endLine": 8,
+                        "endColumn": 12,
+                        "endOffset": 309
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 4,
+                    "endColumn": 12,
+                    "endOffset": 187
+                },
+                "from": {
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\values-v11\\styles.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 177,
+                        "endLine": 8,
+                        "endColumn": 12,
+                        "endOffset": 309
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 4,
+                    "endColumn": 12,
+                    "endOffset": 187
+                },
+                "from": {
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\values-v11\\styles.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 183,
+                        "endLine": 8,
+                        "endColumn": 12,
+                        "endOffset": 317
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v11\\values-v11.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 4,
+                    "endColumn": 12,
+                    "endOffset": 187
+                },
+                "from": {
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\values-v11\\styles.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
