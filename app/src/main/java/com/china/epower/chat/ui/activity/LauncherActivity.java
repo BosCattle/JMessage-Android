@@ -32,31 +32,20 @@ public class LauncherActivity extends AppCompatActivity {
         super.onResume();
         //检查是否登录
         new Handler().postDelayed(() -> {
-            Account account =
-                    new FavorAdapter.Builder(LauncherActivity.this).build().create(Account.class);
-            FirstEnter enter = new FavorAdapter.Builder(this).build().create(FirstEnter.class);
-            if (enter.getEntered())
-            {
-                if (account.getUserName() != null && SupportService.getmXMPPConnection() != null) {
-                    if (SupportService.getmXMPPConnection().getUser() != null && !SupportService.getmXMPPConnection().getUser().equals("")) {
-                        MainActivity.startMain(LauncherActivity.this);
+                    Account account =
+                            new FavorAdapter.Builder(LauncherActivity.this).build().create(Account.class);
+                    FirstEnter enter = new FavorAdapter.Builder(this).build().create(FirstEnter.class);
+                    if (enter.getEntered()) {
+                        if (account.getUserName() != null) {
+                            MainActivity.startMain(LauncherActivity.this);
+                        } else {
+                            LoginActivity.startLogin(LauncherActivity.this);
+                        }
                     } else {
-                        SupportService.login(account.getUserName(), account.getPassword(), new ConnectionCallback() {
-                            @Override public void connection(XMPPConnection connection) {
-                                MainActivity.startMain(LauncherActivity.this);
-                            }
-
-                            @Override public void connectionFailed(Exception e) {
-                                SimpleHUD.showErrorMessage(LauncherActivity.this, "登录失败" + e);
-                            }
-                        });
+                        IndexActivity.startIndex(this);
                     }
-                } else {
-                    LoginActivity.startLogin(LauncherActivity.this);
                 }
-            }else {
-                IndexActivity.startIndex(this);
-            }
-        }, SPLASH_DISPLAY_LENGTH);
+
+                , SPLASH_DISPLAY_LENGTH);
     }
 }

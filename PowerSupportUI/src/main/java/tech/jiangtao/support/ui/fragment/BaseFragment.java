@@ -17,6 +17,7 @@ import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
 import tech.jiangtao.support.ui.view.AudioManager;
 import tech.jiangtao.support.ui.view.MediaManager;
+import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
  * Class: BaseFragment </br>
@@ -33,7 +34,7 @@ public abstract class BaseFragment extends Fragment {
 
   @Override public void onStart() {
     super.onStart();
-    EventBus.getDefault().register(this);
+    HermesEventBus.getDefault().register(this);
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,13 +48,14 @@ public abstract class BaseFragment extends Fragment {
 
   @Override public void onStop() {
     super.onStop();
-    EventBus.getDefault().unregister(this);
+    HermesEventBus.getDefault().unregister(this);
   }
 
   @Override public void onDestroy() {
     super.onDestroy();
     AudioManager.getInstance().release();
     MediaManager.release();
+    HermesEventBus.getDefault().destroy();
   }
 
   @Override public void onResume() {
@@ -63,6 +65,7 @@ public abstract class BaseFragment extends Fragment {
 
   @Override public void onPause() {
     super.onPause();
+    AudioManager.getInstance().release();
     MediaManager.pause();
   }
 

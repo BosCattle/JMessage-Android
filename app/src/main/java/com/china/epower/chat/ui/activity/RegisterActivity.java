@@ -65,19 +65,19 @@ public class RegisterActivity extends BaseActivity {
       }
     }, new Action0() {
       @Override public void call() {
-        SupportService.login(username, password, new ConnectionCallback() {
-          @Override public void connection(XMPPConnection connection) {
-            SimpleHUD.dismiss();
-            SimpleHUD.showSuccessMessage(RegisterActivity.this,"注册成功");
-            saveSharePreference(username,password);
-            MainActivity.startMain(RegisterActivity.this);
-          }
-
-          @Override public void connectionFailed(Exception e) {
-            SimpleHUD.dismiss();
-            SimpleHUD.showErrorMessage(RegisterActivity.this,"登录失败");
-          }
-        });
+//        SupportService.login(username, password, new ConnectionCallback() {
+//          @Override public void connection(XMPPConnection connection) {
+//            SimpleHUD.dismiss();
+//            SimpleHUD.showSuccessMessage(RegisterActivity.this,"注册成功");
+//            saveSharePreference(username,password);
+//            MainActivity.startMain(RegisterActivity.this);
+//          }
+//
+//          @Override public void connectionFailed(Exception e) {
+//            SimpleHUD.dismiss();
+//            SimpleHUD.showErrorMessage(RegisterActivity.this,"登录失败");
+//          }
+//        });
       }
     });
   }

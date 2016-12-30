@@ -40,7 +40,7 @@ android {
     targetSdkVersion 24
     versionCode getVersionCode()
     versionName getVersionName()
-
+    resValue "string", "tray__authority", "${applicationId}.tray"
 //    buildConfigField("String", "PGYER_APPID", "\"ac73a19561068d65d804e9ca13fc99da\"")
     manifestPlaceholders = [PGYER_APPID: 'ac73a19561068d65d804e9ca13fc99da']
   }

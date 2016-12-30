@@ -32,34 +32,7 @@ public class XMPPService  extends Service {
     public static final String TAG = XMPPService.class.getSimpleName();
 
     @Override public int onStartCommand(Intent intent, int flags, int startId) {
-        showNotification("统一通信", "统一通信");
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
         return super.onStartCommand(intent, flags, startId);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveMessage event) {
-        // 根据消息类型，作出调转服务
-        //先写死
-        SimpleVCard vCard = new SimpleVCard(event.userJID+"@"+ SupportIM.mResource);
-        vCard.setmVCardCallback(new VCardCallback() {
-            @Override public void recieveVCard(VCard vCard, String userJid) {
-                Intent intent = new Intent(XMPPService.this, ChatFragment.class);
-                if (vCard!=null){
-                    if (vCard.getNickName()!=null){
-                        showOnesNotification(vCard.getNickName(), event.message.toString(), intent);
-                    }else {
-                        showOnesNotification(event.userJID, event.message.toString(), intent);
-                    }
-                }
-            }
-
-            @Override public void settingVCard(String message) {
-                Log.e(TAG, "settingVCard: " + message);
-            }
-        });
-        vCard.getVCard();
     }
 
     /**
@@ -84,30 +57,10 @@ public class XMPPService  extends Service {
         }
     }
 
-    public void showOnesNotification(String name, String info, Intent intent) {
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        Notification.Builder builder = new Notification.Builder(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            builder.setContentIntent(
-                    PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT))
-                    .setContentTitle(name)
-                    .setContentText(info)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))
-                    .setWhen(System.currentTimeMillis())
-                    .setPriority(Notification.PRIORITY_HIGH)
-                    .setDefaults(Notification.DEFAULT_VIBRATE);
-            Notification notification = builder.build();
-            notification.flags = Notification.FLAG_AUTO_CANCEL;
-            notification.defaults = Notification.DEFAULT_SOUND;
-            mNotificationManager.notify(0, notification);
-        }
-    }
+
 
     @Override public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     @Nullable

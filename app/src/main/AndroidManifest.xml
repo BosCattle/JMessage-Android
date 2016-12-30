@@ -29,6 +29,8 @@
         android:name="PGYER_APPID"
         android:value="${PGYER_APPID}">
     </meta-data>
+    <service
+        android:name="xiaofei.library.hermes.HermesService$HermesService0"/>
     <!-- 可选-->
     <activity android:name="com.pgyersdk.activity.FeedbackActivity"/>
     <activity

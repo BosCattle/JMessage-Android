@@ -1,6 +1,7 @@
 package com.china.epower.chat.ui.viewholder;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,8 +44,7 @@ public class PersonAvatarViewHolder extends PersonalBaseViewHolder{
   @Override public void bindTo(int position, ConstructListData listData) {
     if (listData.getmImage()!=null) {
       Glide.with(mContext)
-          .load(listData.getmImage())
-          .asBitmap()
+          .load(Uri.parse(listData.getmImage()))
           .centerCrop()
           .placeholder(R.mipmap.ic_launcher)
           .into(mItemPersonAvatar);

@@ -22,15 +22,25 @@ import com.china.epower.chat.ui.adapter.PersonalDataAdapter;
 import com.china.epower.chat.ui.pattern.ConstructListData;
 import com.china.epower.chat.utils.RecyclerViewUtils;
 
+import net.grandcentrix.tray.AppPreferences;
+import net.grandcentrix.tray.core.ItemNotFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 import tech.jiangtao.support.kit.callback.VCardCallback;
+import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.service.SupportService;
 import tech.jiangtao.support.kit.userdata.SimpleVCard;
 import work.wanghao.simplehud.SimpleHUD;
+
+import static xiaofei.library.hermes.Hermes.getContext;
 
 /**
  * Class: PersonalFragment </br>
@@ -40,7 +50,7 @@ import work.wanghao.simplehud.SimpleHUD;
  * Date: 10/11/2016 3:07 PM</br>
  * Update: 10/11/2016 3:07 PM </br>
  **/
-public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemClickListener, VCardCallback {
+public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemClickListener {
 
     public static final int TAG_HEAD = 200;
     public static final int TAG_NOTIFICATION = 300;
@@ -55,8 +65,7 @@ public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemC
     AppCompatButton mLoginButton;
     private PersonalDataAdapter mDataAdapter;
     private List<ConstructListData> mDatas;
-    private SimpleVCard mVCard;
-    private VCard mFactVCard;
+    private VCardRealm mVCardRealm;
 
     public static PersonalFragment newInstance() {
         return new PersonalFragment();
@@ -68,14 +77,7 @@ public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemC
         View view = inflater.inflate(R.layout.fragment_personal, container, false);
         ButterKnife.bind(this, view);
         setAdapter();
-        getVCard();
         return view;
-    }
-
-    private void getVCard() {
-        mVCard = new SimpleVCard(SupportService.getmXMPPConnection().getUser());
-        mVCard.setmVCardCallback(this);
-        mVCard.getVCard();
     }
 
     private void setAdapter() {
@@ -85,15 +87,16 @@ public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemC
         mPersonalList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(getContext()));
         mPersonalList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mPersonalList.setAdapter(mDataAdapter);
+        recieveVCardRealm();
     }
 
     public List<ConstructListData> buildData() {
         mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
         mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_HEAD)
                 .tag(TAG_HEAD)
-                .image(mFactVCard != null && mFactVCard.getAvatar() != null ? mFactVCard.getAvatar() : null)
-                .username(mFactVCard != null && mFactVCard.getNickName() != null ? mFactVCard.getNickName() : "用户名")
-                .nickname(mFactVCard != null && mFactVCard.getField("subject") != null ? mFactVCard.getField("subject") : "部门")
+                .image(mVCardRealm != null && mVCardRealm.getAvatar() != null ? mVCardRealm.getAvatar() : null)
+                .username(mVCardRealm != null && mVCardRealm.getNickName() != null ? mVCardRealm.getNickName() : "用户名")
+                .nickname(mVCardRealm != null && mVCardRealm.getSubject() != null ? mVCardRealm.getSubject() : "部门")
                 .arrowIcon(R.mipmap.ic_arrow)
                 .build());
         mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
@@ -134,11 +137,9 @@ public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemC
         }
     }
 
+    //点击发送回调退出
     @OnClick(R.id.login_button)
     public void onClick(View v) {
-        XMPPTCPConnection connection = (XMPPTCPConnection) SupportService.getmXMPPConnection();
-        connection.disconnect();
-        SupportService.mNeedAutoLogin = false;
         LoginActivity.startLogin(getActivity());
     }
 
@@ -147,20 +148,22 @@ public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemC
         super.onDestroy();
     }
 
-    @Override
-    public void recieveVCard(VCard vCard, String userJid) {
-        if (vCard != null) {
-            mFactVCard = vCard;
-            mDataAdapter.clear();
-            buildData();
-            mDataAdapter.notifyDataSetChanged();
-        } else {
-            SimpleHUD.showErrorMessage(getContext(), "获取VCard失败。");
+    public void recieveVCardRealm() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmQuery<VCardRealm> realmQuery = realm.where(VCardRealm.class);
+        String userJid = null;
+        final AppPreferences appPreferences = new AppPreferences(getContext());
+        try {
+            userJid = appPreferences.getString("userJid");
+        } catch (ItemNotFoundException e) {
+            e.printStackTrace();
         }
-    }
-
-    @Override
-    public void settingVCard(String message) {
-        SimpleHUD.showInfoMessage(getContext(), message);
+        RealmResults<VCardRealm> realmResult = realmQuery.equalTo("jid", userJid).findAll();
+        if (realmResult.size() != 0) {
+            mVCardRealm = realmResult.first();
+        }
+        mDataAdapter.clear();
+        buildData();
+        mDataAdapter.notifyDataSetChanged();
     }
 }

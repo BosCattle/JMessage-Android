@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import io.realm.Realm;
 import tech.jiangtao.support.kit.service.SupportService;
+import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
  * Class: SupportIM </br>
@@ -24,6 +25,7 @@ public class SupportIM {
   public static int mPort;
   private static void initialize(Context context){
     Realm.init(context);
+    HermesEventBus.getDefault().init(context);
     Intent intent = new Intent(context, SupportService.class);
     context.startService(intent);
   }

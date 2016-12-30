@@ -2,7 +2,6 @@ package tech.jiangtao.support.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,39 +9,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.jivesoftware.smack.roster.Roster;
-import org.jivesoftware.smack.roster.RosterEntry;
+
+import tech.jiangtao.support.kit.eventbus.ContactEvent;
 import tech.jiangtao.support.kit.eventbus.MessageTest;
 import tech.jiangtao.support.kit.realm.VCardRealm;
-import tech.jiangtao.support.kit.service.SupportService;
-import tech.jiangtao.support.kit.userdata.SimpleVCard;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
-import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
-import tech.jiangtao.support.ui.adapter.BaseEasyViewHolderFactory;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.linstener.ContactItemCallback;
-import tech.jiangtao.support.ui.model.Contacts;
-import tech.jiangtao.support.ui.model.Message;
-import tech.jiangtao.support.ui.model.User;
 import tech.jiangtao.support.ui.model.type.ContactType;
-import tech.jiangtao.support.ui.model.type.MessageType;
-import tech.jiangtao.support.ui.pattern.ConstructMessage;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
-import tech.jiangtao.support.ui.viewholder.ContactsViewHolder;
+import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
  * Class: ContactFragment </br>
@@ -86,7 +73,7 @@ public class ContactFragment extends BaseFragment
     mContactList.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     mContactList.setAdapter(mBaseEasyAdapter);
-    updateContact();
+    HermesEventBus.getDefault().post(new ContactEvent());
   }
 
   @Override public void onResume() {
@@ -104,7 +91,8 @@ public class ContactFragment extends BaseFragment
       Log.d(TAG, "getContact:打印出本地数据库获取的通讯录的数量"+realmResult.size());
       mConstrutContact.add(
           new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL).vCardRealm(entry).build());
-    } mBaseEasyAdapter.notifyDataSetChanged();
+    }
+    mBaseEasyAdapter.notifyDataSetChanged();
   }
 
   public void buildHeadView() {
@@ -130,19 +118,6 @@ public class ContactFragment extends BaseFragment
   @Override public boolean onItemLongClick(int position, View view) {
     Log.d(TAG, "onItemLongClick: ");
     return false;
-  }
-
-  public void updateContact() {
-    Roster roster = Roster.getInstanceFor(SupportService.getmXMPPConnection());
-    Collection<RosterEntry> entries = roster.getEntries();
-    Log.d(TAG, "getContact:获取到我的好友数量" + entries.size());
-    Set<RosterEntry> set = new HashSet<>();
-    set.addAll(entries);
-    for (RosterEntry en : set) {
-      Log.d(TAG, "updateContact: "+en.getUser());
-      SimpleVCard sVCard = new SimpleVCard(en.getUser(),true);
-      sVCard.getVCard();
-    }
   }
 
   @Override public void onAttach(Context context) {

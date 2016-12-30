@@ -16,7 +16,7 @@ import com.china.epower.chat.model.type.ListDataType;
 public class ConstructListData {
     private ListDataType mType;
     private int mTag;
-    private byte[] mImage;
+    private String mImage;
     private String mUsername;
     private String mNickname;
     private int mArrowIcon;
@@ -26,7 +26,7 @@ public class ConstructListData {
   public static class Builder{
     public ListDataType type;
     public int tag;
-    public byte[] image;
+    public String image;
     public String username;
     public String nickname;
     public int arrowIcon;
@@ -56,7 +56,7 @@ public class ConstructListData {
       return this;
     }
 
-    public Builder image(byte[] image1){
+    public Builder image(String image1){
       image = image1;
       return this;
     }
@@ -99,7 +99,7 @@ public class ConstructListData {
     return mTag;
   }
 
-  public byte[] getmImage() {
+  public String getmImage() {
     return mImage;
   }
 

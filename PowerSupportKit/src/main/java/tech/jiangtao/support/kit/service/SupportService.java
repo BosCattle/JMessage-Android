@@ -1,23 +1,25 @@
 package tech.jiangtao.support.kit.service;
 
-import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.IBinder;
-import android.text.LoginFilter;
 import android.util.Log;
 
 import com.cocosw.favor.FavorAdapter;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import net.grandcentrix.tray.AppPreferences;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -26,69 +28,79 @@ import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.StanzaListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.chat.ChatManager;
 import org.jivesoftware.smack.chat.ChatManagerListener;
-import org.jivesoftware.smack.filter.StanzaFilter;
 import org.jivesoftware.smack.packet.DefaultExtensionElement;
 import org.jivesoftware.smack.packet.IQ;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Presence;
-import org.jivesoftware.smack.packet.Stanza;
 import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smack.roster.Roster;
+import org.jivesoftware.smack.roster.RosterEntry;
 import org.jivesoftware.smack.roster.RosterListener;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
-import org.jivesoftware.smackx.filetransfer.FileTransfer;
-import org.jivesoftware.smackx.filetransfer.FileTransferListener;
-import org.jivesoftware.smackx.filetransfer.FileTransferManager;
-import org.jivesoftware.smackx.filetransfer.FileTransferNegotiator;
-import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
-import org.jivesoftware.smackx.filetransfer.IncomingFileTransfer;
+import org.jivesoftware.smackx.iqregister.AccountManager;
+import org.jivesoftware.smackx.vcardtemp.VCardManager;
+import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
+import tech.jiangtao.support.kit.R;
 import tech.jiangtao.support.kit.archive.MessageArchiveIQProvider;
 import tech.jiangtao.support.kit.archive.MessageArchiveRequestIQ;
 import tech.jiangtao.support.kit.archive.MessageArchiveStanzaFilter;
 import tech.jiangtao.support.kit.archive.MessageArchiveStanzaListener;
 import tech.jiangtao.support.kit.archive.MessageBody;
-import tech.jiangtao.support.kit.archive.type.FileType;
 import tech.jiangtao.support.kit.archive.type.MessageBodyType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
-import tech.jiangtao.support.kit.callback.ConnectionCallback;
+import tech.jiangtao.support.kit.eventbus.ContactEvent;
+import tech.jiangtao.support.kit.eventbus.LoginCallbackEvent;
+import tech.jiangtao.support.kit.eventbus.LoginParam;
 import tech.jiangtao.support.kit.eventbus.MessageTest;
-import tech.jiangtao.support.kit.eventbus.NormalFileMessage;
+import tech.jiangtao.support.kit.eventbus.OwnVCardRealm;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.realm.MessageRealm;
+import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.realm.sharepreference.Account;
 import tech.jiangtao.support.kit.userdata.SimpleArchiveMessage;
 import tech.jiangtao.support.kit.util.DateUtils;
 import tech.jiangtao.support.kit.util.ErrorAction;
-import tech.jiangtao.support.kit.util.FileUtil;
+import tech.jiangtao.support.kit.util.PinYinUtils;
+import xiaofei.library.hermeseventbus.HermesEventBus;
+
+import static xiaofei.library.hermes.Hermes.getContext;
 
 public class SupportService extends Service
-        implements ChatManagerListener, ConnectionListener,RosterListener {
+        implements ChatManagerListener, ConnectionListener, RosterListener {
 
     private static final String TAG = SupportService.class.getSimpleName();
     private static XMPPTCPConnection mXMPPConnection;
     public static boolean mNeedAutoLogin = true;
     private Realm mRealm;
+    private AccountManager mAccountManager;
+    private Roster mRoster;
+    private VCardManager mVCardManager;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
+        if (!HermesEventBus.getDefault().isRegistered(this)) {
+            HermesEventBus.getDefault().register(this);
         }
         if (mRealm == null) {
             mRealm = Realm.getDefaultInstance();
@@ -161,36 +173,32 @@ public class SupportService extends Service
     public void chatCreated(Chat chat, boolean createdLocally) {
         chat.addMessageListener((chat1, message) -> {
             Log.d(TAG, "processMessage: " + message.getBody());
+            // full jid
             Log.d(TAG, "processMessage: " + chat1.getParticipant());
             Log.d(TAG, "chatCreated: " + message.toString());
             DefaultExtensionElement messageExtension = (DefaultExtensionElement) message.getExtension("message:extension");
-            if (messageExtension.getValue("type")==null||messageExtension.getValue("type").equals(MessageExtensionType.TEXT.toString())) {
-                EventBus.getDefault()
-                        .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(), MessageExtensionType.TEXT));
-            }
-            if (messageExtension.getValue("type").equals(MessageExtensionType.IMAGE.toString())) {
-                EventBus.getDefault()
-                        .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(), MessageExtensionType.IMAGE));
-            }
-            if (messageExtension.getValue("type").equals(MessageExtensionType.AUDIO.toString())) {
-                EventBus.getDefault()
-                        .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(), MessageExtensionType.AUDIO));
-            }
-            if (messageExtension.getValue("type").equals(MessageExtensionType.VIDEO.toString())) {
-                EventBus.getDefault()
-                        .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(), MessageExtensionType.VIDEO));
+            if (message.getBody() != null) {
+                if (messageExtension.getValue("type") == null || messageExtension.getValue("type").equals(MessageExtensionType.TEXT.toString())) {
+                    EventBus.getDefault()
+                            .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(), MessageExtensionType.TEXT));
+                }
+                if (messageExtension.getValue("type").equals(MessageExtensionType.IMAGE.toString())) {
+                    EventBus.getDefault()
+                            .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(), MessageExtensionType.IMAGE));
+                }
+                if (messageExtension.getValue("type").equals(MessageExtensionType.AUDIO.toString())) {
+                    EventBus.getDefault()
+                            .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(), MessageExtensionType.AUDIO));
+                }
+                if (messageExtension.getValue("type").equals(MessageExtensionType.VIDEO.toString())) {
+                    EventBus.getDefault()
+                            .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(), MessageExtensionType.VIDEO));
+                }
+                showOnesNotification(chat1.getParticipant(),"消息来了",null);
             }
             //缓存消息
 //      setMessageRealm(buildMessageBody(),null);
         });
-    }
-
-    public MessageBody buildMessageBody(Message message) {
-//    MessageBody body = new MessageBody(MessageBodyType.TYPE_FROM);
-        if (message.getBody() != null && !message.getBody().equals("")) {
-
-        }
-        return null;
     }
 
     @Subscribe
@@ -221,6 +229,12 @@ public class SupportService extends Service
                 super.call(throwable);
             }
         });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void loginEvent(LoginParam param) {
+        Log.d(TAG, "loginEvent: 进入登录");
+        login(param.username, param.password);
     }
 
     public static void sendMessageArchive(String jid, String time) {
@@ -275,7 +289,7 @@ public class SupportService extends Service
                             && account.getUserName() != null
                             && account.getPassword() != null
                             && mNeedAutoLogin) {
-                        login(account.getUserName(), account.getPassword(), null);
+                        login(account.getUserName(), account.getPassword());
                     }
                 }, new ErrorAction() {
                     @Override
@@ -287,30 +301,32 @@ public class SupportService extends Service
                 });
     }
 
-    public static void login(String username, String password, ConnectionCallback callback) {
+    public void login(String username, String password) {
         Observable.create(subscriber2 -> {
             try {
                 mXMPPConnection.login(username, password);
-                subscriber2.onCompleted();
+                subscriber2.onNext(null);
             } catch (XMPPException | SmackException | IOException e) {
                 subscriber2.onError(e);
                 e.printStackTrace();
             }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
-
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+            Log.d(TAG, "login: 登录成功");
+            // 保存用户jid
+            final AppPreferences appPreferences = new AppPreferences(getContext()); // this Preference comes for free from the library
+            // save a key value pair
+            appPreferences.put("userJid", mXMPPConnection.getUser());
+            appPreferences.put("username", username);
+            appPreferences.put("password", password);
+            HermesEventBus.getDefault().postSticky(new LoginCallbackEvent("登录成功", null));
         }, new ErrorAction() {
             @Override
             public void call(Throwable throwable) {
                 super.call(throwable);
                 // TODO: 10/12/2016 登录失败
-                if (callback != null) {
-                    callback.connectionFailed(new Exception(throwable));
-                }
-            }
-        }, () -> {
-            // TODO: 10/12/2016 登录成功
-            if (callback != null) {
-                callback.connection(mXMPPConnection);
+                Log.d(TAG, "call: 登录失败");
+                HermesEventBus.getDefault().post(new LoginCallbackEvent(null, throwable.getMessage()));
             }
         });
     }
@@ -324,7 +340,7 @@ public class SupportService extends Service
         configBuilder.setHost(SupportIM.mHost);
         configBuilder.setPort(SupportIM.mPort);
         mXMPPConnection = new XMPPTCPConnection(configBuilder.build());
-        mXMPPConnection.setPacketReplyTimeout(20000);
+        mXMPPConnection.setPacketReplyTimeout(10000);
         mXMPPConnection.addConnectionListener(this);
     }
 
@@ -336,6 +352,7 @@ public class SupportService extends Service
     @Override
     public void authenticated(XMPPConnection connection, boolean resumed) {
         mXMPPConnection = (XMPPTCPConnection) connection;
+        HermesEventBus.getDefault().postSticky(new LoginCallbackEvent("登录成功", null));
         connectSuccessPerform();
     }
 
@@ -377,7 +394,7 @@ public class SupportService extends Service
         addFriend();
     }
 
-    public void addFriend(){
+    public void addFriend() {
         Roster roster = Roster.getInstanceFor(mXMPPConnection);
         roster.setSubscriptionMode(Roster.SubscriptionMode.manual);
         roster.addRosterListener(this);
@@ -405,7 +422,7 @@ public class SupportService extends Service
                 newp.setPriority(24);
                 newp.setTo(presence.getFrom());
                 mXMPPConnection.sendStanza(newp);
-            }else if (presence.getType().equals(
+            } else if (presence.getType().equals(
                     Presence.Type.subscribed)) {
                 Log.d(TAG, "addFriend: 对方同意添加好友。");
                 //发送广播传递response字符串
@@ -447,5 +464,184 @@ public class SupportService extends Service
     @Override
     public void presenceChanged(Presence presence) {
         Log.d(TAG, "presenceChanged: 我也不知道这是干嘛的。");
+    }
+
+    // 注册账户
+    public void createAccount(String username, String password) {
+        mAccountManager = AccountManager.getInstance(mXMPPConnection);
+        Observable.create(subscriber -> {
+            try {
+                mAccountManager.createAccount(username, password);
+                subscriber.onNext(null);
+            } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
+                subscriber.onError(e);
+                e.printStackTrace();
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(
+                AndroidSchedulers.mainThread()).subscribe(o -> {
+
+        }, new ErrorAction() {
+            @Override
+            public void call(Throwable throwable) {
+                super.call(throwable);
+
+            }
+        });
+    }
+
+    // 通讯录事件
+    @Subscribe
+    public void getContact(ContactEvent event) {
+        getRoster();
+    }
+
+    //获取网络通讯录,暂时没有保存到本地数据库
+    public void getRoster() {
+        mRoster = Roster.getInstanceFor(mXMPPConnection);
+        mVCardManager = VCardManager.getInstanceFor(mXMPPConnection);
+        Collection<RosterEntry> entries = mRoster.getEntries();
+        Log.d(TAG, "getContact:获取到我的好友数量" + entries.size());
+        Set<RosterEntry> set = new HashSet<>();
+        set.addAll(entries);
+        for (RosterEntry en : set) {
+            Log.d(TAG, "updateContact: " + en.getUser());
+            Observable.create((Observable.OnSubscribe<VCard>) subscriber -> {
+                try {
+                    subscriber.onNext(mVCardManager.loadVCard(en.getUser()));
+                } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                }
+            })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(vCard -> {
+                        //更新本地数据库
+                        Log.d(TAG, "getRoster: " + vCard.getFrom());
+                        RealmResults<VCardRealm> result =
+                                mRealm.where(VCardRealm.class).equalTo("jid", vCard.getJabberId()).findAll();
+                        if (result.size() == 0) {
+                            VCardRealm vCardRealm = new VCardRealm();
+                            vCardRealm.setJid(vCard.getFrom());
+                            vCardRealm.setNickName(vCard.getNickName());
+                            vCardRealm.setSex(vCard.getField("sex"));
+                            vCardRealm.setSubject(vCard.getField("subject"));
+                            vCardRealm.setOffice(vCard.getField("office"));
+                            vCardRealm.setEmail(vCard.getEmailWork());
+                            vCardRealm.setPhoneNumber(vCard.getPhoneWork("voice"));
+                            vCardRealm.setSignature(vCard.getField("signature"));
+                            vCardRealm.setAvatar(vCard.getField("avatar"));
+                            if (vCard.getNickName() != null) {
+                                vCardRealm.setAllPinYin(PinYinUtils.ccs2Pinyin(vCard.getNickName()));
+                                vCardRealm.setFirstLetter(PinYinUtils.getPinyinFirstLetter(vCard.getNickName()));
+                            }
+                            vCardRealm.setFriend(true);
+                            mRealm.beginTransaction();
+                            mRealm.copyToRealm(vCardRealm);
+                            mRealm.commitTransaction();
+                        } else {
+                            VCardRealm vCardRealm = result.first();
+                            mRealm.executeTransaction(realm1 -> {
+                                vCardRealm.setNickName(vCard.getNickName());
+                                vCardRealm.setSex(vCard.getField("sex"));
+                                vCardRealm.setSubject(vCard.getField("subject"));
+                                vCardRealm.setOffice(vCard.getField("office"));
+                                vCardRealm.setEmail(vCard.getEmailWork());
+                                vCardRealm.setPhoneNumber(vCard.getPhoneWork("voice"));
+                                vCardRealm.setSignature(vCard.getField("signature"));
+                                vCardRealm.setAvatar(vCard.getField("avatar"));
+                                if (vCard.getNickName() != null) {
+                                    vCardRealm.setAllPinYin(PinYinUtils.ccs2Pinyin(vCard.getNickName()));
+                                    vCardRealm.setFirstLetter(PinYinUtils.getPinyinFirstLetter(vCard.getNickName()));
+                                }
+                                vCardRealm.setFriend(true);
+                            });
+                        }
+                    }, new ErrorAction() {
+                        @Override
+                        public void call(Throwable throwable) {
+                            super.call(throwable);
+                            Log.d(TAG, "call: " + throwable.toString());
+                        }
+                    });
+        }
+    }
+
+    //添加或者更新vCard;
+    @Subscribe
+    public void addOrUpdateVCard(VCardRealm vCardRealm) {
+        Observable.create((Observable.OnSubscribe<VCard>) subscriber -> {
+            try {
+                subscriber.onNext(mVCardManager.loadVCard(vCardRealm.getJid()));
+            } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
+                e.printStackTrace();
+                subscriber.onError(e);
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(vCard -> {
+                    vCard.setField("sex", vCardRealm.getSex());
+                    vCard.setField("subject", vCardRealm.getSubject());
+                    vCard.setField("office", vCardRealm.getOffice());
+                    vCard.setField("voice", vCardRealm.getPhoneNumber());
+                    vCard.setField("signature", vCardRealm.getSignature());
+                    vCard.setField("avatar", vCardRealm.getAvatar());
+                    vCard.setEmailWork(vCardRealm.getEmail());
+                    vCard.setNickName(vCardRealm.getNickName());
+                    Observable.create((Observable.OnSubscribe<String>) subscriber -> {
+                        try {
+                            mVCardManager.saveVCard(vCard);
+                            subscriber.onNext(null);
+                        } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
+                            e.printStackTrace();
+                            subscriber.onError(e);
+                        }
+                    }).subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers
+                                    .mainThread()).subscribe(s -> {
+                        //保存VCard成功,发送给通知,保存到数据库
+                        HermesEventBus.getDefault().post(new OwnVCardRealm("更新成功",null));
+                        mRealm.beginTransaction();
+                        mRealm.copyToRealm(vCardRealm);
+                        mRealm.commitTransaction();
+                    }, new ErrorAction() {
+                        @Override
+                        public void call(Throwable throwable) {
+                            super.call(throwable);
+                            //保存VCard失败,发送给通知
+                            HermesEventBus.getDefault().post(new OwnVCardRealm(null,"更新失败"));
+                        }
+                    });
+                }, new ErrorAction() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        super.call(throwable);
+                        //获取VCard失败，发送给通知
+                        HermesEventBus.getDefault().post(new OwnVCardRealm(null,"更新失败"));
+                    }
+                });
+
+    }
+
+    public void showOnesNotification(String name, String info, Intent intent) {
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Notification.Builder builder = new Notification.Builder(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            builder.setContentIntent(
+                    PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT))
+                    .setContentTitle(name)
+                    .setContentText(info)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))
+                    .setWhen(System.currentTimeMillis())
+                    .setPriority(Notification.PRIORITY_HIGH)
+                    .setDefaults(Notification.DEFAULT_VIBRATE);
+            Notification notification = builder.build();
+            notification.flags = Notification.FLAG_AUTO_CANCEL;
+            notification.defaults = Notification.DEFAULT_SOUND;
+            mNotificationManager.notify(0, notification);
+        }
     }
 }

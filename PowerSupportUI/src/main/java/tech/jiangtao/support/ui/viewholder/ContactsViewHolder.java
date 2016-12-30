@@ -1,6 +1,7 @@
 package tech.jiangtao.support.ui.viewholder;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -34,8 +35,7 @@ public class ContactsViewHolder extends ContactViewHolder{
 
   @Override public void bindTo(int position, ConstrutContact l) {
     Glide.with(mContext)
-        .load(l.mVCardRealm.getAvatar())
-        .asBitmap()
+        .load(l.mVCardRealm.getAvatar()!=null?Uri.parse(l.mVCardRealm.getAvatar()):null)
         .centerCrop()
         .error(R.mipmap.ic_chat_default)
         .placeholder(R.mipmap.ic_chat_default)

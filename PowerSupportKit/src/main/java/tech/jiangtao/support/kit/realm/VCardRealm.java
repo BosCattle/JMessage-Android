@@ -26,33 +26,15 @@ public class VCardRealm extends RealmObject implements Parcelable {
     private String email;
     private String phoneNumber;
     private String signature;
-    private byte[] avatar;
+    private String avatar;
     private String firstLetter;
     private String allPinYin;
     private boolean friend;
 
-    public boolean isFriend() {
-        return friend;
-    }
-
-    public void setFriend(boolean friend) {
-        this.friend = friend;
-    }
-
-    public String getFirstLetter() {
-        return firstLetter;
-    }
-
-    public void setFirstLetter(String firstLetter) {
-        this.firstLetter = firstLetter;
-    }
-
-    public String getAllPinYin() {
-        return allPinYin;
-    }
-
-    public void setAllPinYin(String allPinYin) {
-        this.allPinYin = allPinYin;
+    public VCardRealm(String jid, String nickName, String avatar) {
+        this.jid = jid;
+        this.nickName = nickName;
+        this.avatar = avatar;
     }
 
     public String getJid() {
@@ -119,12 +101,36 @@ public class VCardRealm extends RealmObject implements Parcelable {
         this.signature = signature;
     }
 
-    public byte[] getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(byte[] avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getFirstLetter() {
+        return firstLetter;
+    }
+
+    public void setFirstLetter(String firstLetter) {
+        this.firstLetter = firstLetter;
+    }
+
+    public String getAllPinYin() {
+        return allPinYin;
+    }
+
+    public void setAllPinYin(String allPinYin) {
+        this.allPinYin = allPinYin;
+    }
+
+    public boolean isFriend() {
+        return friend;
+    }
+
+    public void setFriend(boolean friend) {
+        this.friend = friend;
     }
 
     @Override
@@ -142,7 +148,10 @@ public class VCardRealm extends RealmObject implements Parcelable {
         dest.writeString(this.email);
         dest.writeString(this.phoneNumber);
         dest.writeString(this.signature);
-        dest.writeByteArray(this.avatar);
+        dest.writeString(this.avatar);
+        dest.writeString(this.firstLetter);
+        dest.writeString(this.allPinYin);
+        dest.writeByte(this.friend ? (byte) 1 : (byte) 0);
     }
 
     public VCardRealm() {
@@ -157,7 +166,10 @@ public class VCardRealm extends RealmObject implements Parcelable {
         this.email = in.readString();
         this.phoneNumber = in.readString();
         this.signature = in.readString();
-        this.avatar = in.createByteArray();
+        this.avatar = in.readString();
+        this.firstLetter = in.readString();
+        this.allPinYin = in.readString();
+        this.friend = in.readByte() != 0;
     }
 
     public static final Creator<VCardRealm> CREATOR = new Creator<VCardRealm>() {
