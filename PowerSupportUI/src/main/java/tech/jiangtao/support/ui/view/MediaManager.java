@@ -33,7 +33,7 @@ public class MediaManager {
     mMediaPlayer.setOnCompletionListener(onCompletionListener);
     try {
       mMediaPlayer.setDataSource(filePath);
-      mMediaPlayer.prepare();
+      mMediaPlayer.prepareAsync();
       mMediaPlayer.setOnPreparedListener(mp -> mMediaPlayer.start());
     } catch (IOException e) {
       e.printStackTrace();

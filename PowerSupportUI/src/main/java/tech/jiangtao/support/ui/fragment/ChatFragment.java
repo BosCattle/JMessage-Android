@@ -1,5 +1,6 @@
 package tech.jiangtao.support.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -75,6 +77,7 @@ import tech.jiangtao.support.ui.model.Message;
 import tech.jiangtao.support.ui.model.type.MessageType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
 import tech.jiangtao.support.ui.utils.CommonUtils;
+import tech.jiangtao.support.ui.view.AudioManager;
 import tech.jiangtao.support.ui.view.AudioRecordButton;
 import tech.jiangtao.support.ui.viewholder.ExtraFuncViewHolder;
 import work.wanghao.simplehud.SimpleHUD;
@@ -125,6 +128,7 @@ public class ChatFragment extends BaseFragment
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     super.onCreateView(inflater, container, savedInstanceState);
+    mRealm = Realm.getDefaultInstance();
     init();
     ButterKnife.bind(this, getView());
     return getView();
@@ -174,7 +178,6 @@ public class ChatFragment extends BaseFragment
 
   public void loadOwnRealm() {
     mVCardRealm = getArguments().getParcelable("vCard");
-    mRealm = Realm.getDefaultInstance();
     String userJid = null;
     final AppPreferences appPreferences = new AppPreferences(getContext());
     try {
@@ -291,27 +294,25 @@ public class ChatFragment extends BaseFragment
           .avatar(mVCardRealm.getAvatar())
           .message(message1)
           .build());
+      Log.d(TAG, "onMessage: "+message1);
       mChatMessageAdapter.notifyDataSetChanged();
     }
     if (message.messageType == MessageExtensionType.IMAGE) {
-      message1.fimePath = message.message;
+      message1.fimePath = CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(),message.message);
       mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
           .avatar(mVCardRealm.getAvatar())
           .message(message1)
           .build());
+      Log.d(TAG, "onMessage: "+message1);
     } else if (message.messageType == MessageExtensionType.AUDIO) {
-      message1.fimePath = message.message;
+      message1.fimePath = CommonUtils.getUrl(MessageExtensionType.AUDIO.toString(),message.message);
       mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
           .avatar(mVCardRealm.getAvatar())
           .message(message1)
           .build());
+      Log.d(TAG, "onMessage: "+message1);
     }
     updateChatData();
-  }
-
-  @Override public void onStop() {
-    super.onStop();
-    mRealm.close();
   }
 
   // TODO: 24/12/2016 添加类型
@@ -359,6 +360,7 @@ public class ChatFragment extends BaseFragment
     int i = v.getId();
     if (i == R.id.chat_add_other_information) {
       Log.d(TAG, "onClick: 点击了加号");
+      hideKeyBoard();
       if (mChatSendOther.getVisibility() == View.VISIBLE) {
         mChatSendOther.setVisibility(View.GONE);
       } else {
@@ -460,9 +462,10 @@ public class ChatFragment extends BaseFragment
     }
   }
 
-  @Override public void onDestroy() {
-    super.onDestroy();
+  @Override public void onDestroyView() {
+    super.onDestroyView();
     mRealm.close();
+    AudioManager.getInstance().onDestroy();
   }
 
   public void uploadFile(String path, String type) {

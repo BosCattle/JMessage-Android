@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -14,6 +15,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.PinYinUtils;
@@ -41,9 +43,6 @@ public class XMPPService extends Service {
     if (!HermesEventBus.getDefault().isRegistered(this)) {
       HermesEventBus.getDefault().register(this);
     }
-    if (mRealm == null) {
-      mRealm = Realm.getDefaultInstance();
-    }
   }
 
   @Override public int onStartCommand(Intent intent, int flags, int startId) {
@@ -51,11 +50,25 @@ public class XMPPService extends Service {
   }
 
   @Subscribe public void onRecieveMessage(RecieveMessage message) {
-    showOnesNotification(message.userJID, message.message, null);
+    if (message.messageType== MessageExtensionType.TEXT) {
+      showOnesNotification(message.userJID, message.message, new Intent(this, ChatFragment.class));
+    }
+    if (message.messageType== MessageExtensionType.IMAGE) {
+      showOnesNotification(message.userJID, "图片", new Intent(this, ChatFragment.class));
+    }
+    if (message.messageType== MessageExtensionType.AUDIO) {
+      showOnesNotification(message.userJID, "音频", new Intent(this, ChatFragment.class));
+    }
+    if (message.messageType== MessageExtensionType.VIDEO) {
+      showOnesNotification(message.userJID, "视频", new Intent(this, ChatFragment.class));
+    }
     //先保存会话表，然后保存到消息记录表
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onVCardRealmMessage(VCardRealm realmObject) {
+    if (mRealm==null||mRealm.isClosed()){
+      mRealm = Realm.getDefaultInstance();
+    }
     mRealm.executeTransactionAsync(realm -> {
       RealmResults<VCardRealm> result =
           realm.where(VCardRealm.class).equalTo("jid", realmObject.getJid()).findAll();
@@ -107,6 +120,7 @@ public class XMPPService extends Service {
 
   @Override public void onDestroy() {
     super.onDestroy();
+    mRealm.close();
   }
 
   @Nullable @Override public IBinder onBind(Intent intent) {

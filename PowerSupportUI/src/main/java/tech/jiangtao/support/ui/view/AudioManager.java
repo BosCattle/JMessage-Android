@@ -78,6 +78,7 @@ public class AudioManager {
       mMediaRecorder.stop();
       mMediaRecorder.release();
       mMediaRecorder = null;
+      mAudioStateListener = null;
     }
   }
 
@@ -87,6 +88,10 @@ public class AudioManager {
       File file = new File(mCurrentFilePath);
       file.delete();
     }
+  }
+
+  public void onDestroy(){
+    mAudioStateListener = null;
   }
 
   public interface AudioStateListener{

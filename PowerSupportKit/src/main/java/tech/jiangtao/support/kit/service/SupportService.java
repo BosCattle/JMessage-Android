@@ -1,28 +1,16 @@
 package tech.jiangtao.support.kit.service;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
-
 import com.cocosw.favor.FavorAdapter;
-
 import net.grandcentrix.tray.AppPreferences;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.jivesoftware.smack.AbstractXMPPConnection;
@@ -48,14 +36,10 @@ import org.jivesoftware.smackx.iqregister.AccountManager;
 import org.jivesoftware.smackx.vcardtemp.VCardManager;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 
-import io.realm.Realm;
-import io.realm.RealmResults;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.schedulers.Schedulers;
-import tech.jiangtao.support.kit.R;
 import tech.jiangtao.support.kit.archive.MessageArchiveIQProvider;
 import tech.jiangtao.support.kit.archive.MessageArchiveRequestIQ;
 import tech.jiangtao.support.kit.archive.MessageArchiveStanzaFilter;
@@ -77,7 +61,7 @@ import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.realm.sharepreference.Account;
 import tech.jiangtao.support.kit.reciever.TickBroadcastReceiver;
 import tech.jiangtao.support.kit.userdata.SimpleArchiveMessage;
-import tech.jiangtao.support.kit.util.DateUtils;
+import tech.jiangtao.support.kit.util.CommonUtils;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.PinYinUtils;
 import xiaofei.library.hermeseventbus.HermesEventBus;
@@ -90,7 +74,6 @@ public class SupportService extends Service
   private static final String TAG = SupportService.class.getSimpleName();
   private static XMPPTCPConnection mXMPPConnection;
   public static boolean mNeedAutoLogin = true;
-  private Realm mRealm;
   private AccountManager mAccountManager;
   private Roster mRoster;
   private VCardManager mVCardManager;
@@ -106,30 +89,27 @@ public class SupportService extends Service
     if (!HermesEventBus.getDefault().isRegistered(this)) {
       HermesEventBus.getDefault().register(this);
     }
-    if (mRealm == null) {
-      mRealm = Realm.getDefaultInstance();
-    }
     connect();
     return START_STICKY;
   }
 
   private void setMessageRealm(MessageBody body, String time) {
     //首先，判断数据库中是否有改内容
-    MessageRealm messageRealm;
-    //date有问题,老子也是醉了
-    java.util.Date date =
-        DateUtils.getSumUTCTimeZone(DateUtils.UTCConvertToLong(time), Long.valueOf(body.getSecs()));
-    RealmResults<MessageRealm> realms =
-        mRealm.where(MessageRealm.class).equalTo("thread", body.getThread()).findAll();
-    if (realms.size() == 0) {
-      messageRealm = new MessageRealm();
-      createMessageRealm(messageRealm, body, date);
-      mRealm.beginTransaction();
-      mRealm.copyToRealm(messageRealm);
-      mRealm.commitTransaction();
-    } else {
-      Log.d(TAG, "setMessageRealm: 本地数据库已经有这条消息了。");
-    }
+    //MessageRealm messageRealm;
+    ////date有问题,老子也是醉了
+    //java.util.Date date =
+    //    DateUtils.getSumUTCTimeZone(DateUtils.UTCConvertToLong(time), Long.valueOf(body.getSecs()));
+    //RealmResults<MessageRealm> realms =
+    //    mRealm.where(MessageRealm.class).equalTo("thread", body.getThread()).findAll();
+    //if (realms.size() == 0) {
+    //  messageRealm = new MessageRealm();
+    //  createMessageRealm(messageRealm, body, date);
+    //  mRealm.beginTransaction();
+    //  mRealm.copyToRealm(messageRealm);
+    //  mRealm.commitTransaction();
+    //} else {
+    //  Log.d(TAG, "setMessageRealm: 本地数据库已经有这条消息了。");
+    //}
   }
 
   private void createMessageRealm(MessageRealm messageRealm, MessageBody body,
@@ -178,8 +158,7 @@ public class SupportService extends Service
 
   @Override public void onDestroy() {
     super.onDestroy();
-    EventBus.getDefault().unregister(this);
-    mRealm.close();
+    HermesEventBus.getDefault().unregister(this);
   }
 
   @Override public void chatCreated(Chat chat, boolean createdLocally) {
@@ -217,7 +196,7 @@ public class SupportService extends Service
     });
   }
 
-  @Subscribe public void sendMessage(TextMessage message) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void sendMessage(TextMessage message) {
     Chat chat = ChatManager.getInstanceFor(mXMPPConnection).createChat(message.userJID);
     Observable.create(new Observable.OnSubscribe<String>() {
       @Override public void call(Subscriber<? super String> subscriber) {
@@ -476,7 +455,7 @@ public class SupportService extends Service
   }
 
   // 通讯录事件
-  @Subscribe public void getContact(ContactEvent event) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void getContact(ContactEvent event) {
     getRoster();
   }
 
@@ -526,7 +505,7 @@ public class SupportService extends Service
   }
 
   //添加或者更新vCard;
-  @Subscribe(threadMode = ThreadMode.BACKGROUND) public void addOrUpdateVCard(
+  @Subscribe(threadMode = ThreadMode.MAIN) public void addOrUpdateVCard(
       VCardRealm vCardRealm) {
     Observable.create((Observable.OnSubscribe<VCard>) subscriber -> {
       try {
@@ -555,9 +534,6 @@ public class SupportService extends Service
       }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
         //保存VCard成功,发送给通知,保存到数据库
         HermesEventBus.getDefault().post(new OwnVCardRealm("更新成功", null));
-        mRealm.beginTransaction();
-        mRealm.copyToRealm(vCardRealm);
-        mRealm.commitTransaction();
       }, new ErrorAction() {
         @Override public void call(Throwable throwable) {
           super.call(throwable);
