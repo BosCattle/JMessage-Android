@@ -1,6 +1,5 @@
 package tech.jiangtao.support.ui.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -387,6 +385,11 @@ public class ChatFragment extends BaseFragment
     }
   }
 
+  /**
+   * 发送消息到对方，并且添加到本地
+   * @param message
+   * @param type
+   */
   public void sendMyFriendMessage(String message, MessageExtensionType type) {
     TextMessage message1 = new TextMessage(mVCardRealm.getJid(), message);
     message1.messageType = type;

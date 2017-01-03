@@ -13,14 +13,19 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import java.util.UUID;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import tech.jiangtao.support.kit.archive.MessageBody;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
+import tech.jiangtao.support.kit.realm.MessageRealm;
+import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.PinYinUtils;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.fragment.ChatFragment;
+import uk.co.senab.photoview.log.LoggerDefault;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -37,6 +42,7 @@ public class XMPPService extends Service {
 
   public static final String TAG = XMPPService.class.getSimpleName();
   private Realm mRealm;
+  private int i = 0;
 
   @Override public void onCreate() {
     super.onCreate();
@@ -46,29 +52,62 @@ public class XMPPService extends Service {
   }
 
   @Override public int onStartCommand(Intent intent, int flags, int startId) {
+    if (mRealm==null||mRealm.isClosed()){
+      mRealm = Realm.getDefaultInstance();
+    }
     return START_STICKY;
   }
 
-  @Subscribe public void onRecieveMessage(RecieveMessage message) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onRecieveMessage(RecieveMessage message) {
     if (message.messageType== MessageExtensionType.TEXT) {
       showOnesNotification(message.userJID, message.message, new Intent(this, ChatFragment.class));
+      //保存到本地数据库
+      mRealm.executeTransactionAsync(realm -> {
+        RealmResults<SessionRealm> result = realm.where(SessionRealm.class)
+            .equalTo("user_from", message.userJID)
+            .equalTo("user_to", message.userJID)
+            .findAll();
+        SessionRealm sessionRealm;
+        if (result.size() != 0) {
+          sessionRealm = result.first();
+          sessionRealm.setMessage_id(message.id);
+          sessionRealm.setUnReadCount(sessionRealm.getUnReadCount() + 1);
+        } else {
+          sessionRealm = new SessionRealm();
+          sessionRealm.setSession_id(UUID.randomUUID().toString());
+          sessionRealm.setUser_from(message.userJID);
+          sessionRealm.setUser_to(message.ownJid);
+          sessionRealm.setVcard_id(message.userJID);
+          sessionRealm.setMessage_id(message.id);
+          sessionRealm.setUnReadCount(1);
+        }
+        realm.copyToRealmOrUpdate(sessionRealm);
+      }, new Realm.Transaction.OnSuccess() {
+        @Override public void onSuccess() {
+          Log.d(TAG, "onSuccess: 保存消息成功");
+        }
+      }, new Realm.Transaction.OnError() {
+        @Override public void onError(Throwable error) {
+          Log.d(TAG, "onError: 保存消息失败");
+        }
+      });
     }
     if (message.messageType== MessageExtensionType.IMAGE) {
       showOnesNotification(message.userJID, "图片", new Intent(this, ChatFragment.class));
+      //保存到本地数据库
     }
     if (message.messageType== MessageExtensionType.AUDIO) {
       showOnesNotification(message.userJID, "音频", new Intent(this, ChatFragment.class));
+      //保存到本地数据库
     }
     if (message.messageType== MessageExtensionType.VIDEO) {
       showOnesNotification(message.userJID, "视频", new Intent(this, ChatFragment.class));
+      //保存到本地数据库
     }
     //先保存会话表，然后保存到消息记录表
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onVCardRealmMessage(VCardRealm realmObject) {
-    if (mRealm==null||mRealm.isClosed()){
-      mRealm = Realm.getDefaultInstance();
-    }
     mRealm.executeTransactionAsync(realm -> {
       RealmResults<VCardRealm> result =
           realm.where(VCardRealm.class).equalTo("jid", realmObject.getJid()).findAll();
@@ -147,5 +186,24 @@ public class XMPPService extends Service {
       notification.defaults = Notification.DEFAULT_SOUND;
       mNotificationManager.notify(0, notification);
     }
+  }
+
+  public void savaOfflineMessage(){
+    //MessageRealm messageRealm = new MessageRealm();
+    //messageRealm.setId(message.id);
+    //messageRealm.setMainJID(message.userJID);
+    //messageRealm.setWithJID(message.ownJid);
+    //messageRealm.setTextMessage(message.message);
+    //messageRealm.setThread(message.thread);
+    //messageRealm.setType(message.type.toString());
+    //messageRealm.setMessageType(message.messageType.toString());
+    //messageRealm.setMessageStatus(message.readStatus);
+    //realm.copyToRealm(messageRealm);
+  }
+
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void messageAchieve(MessageBody messagebody){
+    Log.d(TAG, "messageAchieve: "+messagebody.toString()+"总数为:"+i);
+    i++;
   }
 }

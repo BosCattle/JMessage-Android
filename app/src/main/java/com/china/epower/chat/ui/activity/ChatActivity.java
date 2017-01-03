@@ -22,7 +22,6 @@ public class ChatActivity extends BaseActivity {
   @BindView(R.id.tv_toolbar) TextView mTvToolbar;
   @BindView(R.id.toolbar) Toolbar mToolbar;
   private VCardRealm mVCardRealm;
-  private FragmentManager mFragmentManager;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -42,7 +41,7 @@ public class ChatActivity extends BaseActivity {
   }
 
   public void buildFragment() {
-    mFragmentManager = getSupportFragmentManager();
+    FragmentManager mFragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
     ChatFragment fragment = ChatFragment.newInstance();
     Bundle bundle = new Bundle();
@@ -61,9 +60,9 @@ public class ChatActivity extends BaseActivity {
         v -> ActivityCompat.finishAfterTransition(ChatActivity.this));
   }
 
-  public static void startChat(Activity activity, VCardRealm object) {
+  public static void startChat(Activity activity, VCardRealm jid) {
     Intent intent = new Intent(activity, ChatActivity.class);
-    intent.putExtra(VCARD, object);
+    intent.putExtra(VCARD, jid);
     activity.startActivity(intent);
   }
 }

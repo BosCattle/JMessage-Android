@@ -26,7 +26,7 @@ public class PowerApp extends Application {
   private static final String TAG = PowerApp.class.getSimpleName();
   @Override public void onCreate() {
     super.onCreate();
-    LeakCanary.install(this);
+    //LeakCanary.install(this);
     Fresco.initialize(this);
     MultiDex.install(this);
     PgyCrashManager.register(this);

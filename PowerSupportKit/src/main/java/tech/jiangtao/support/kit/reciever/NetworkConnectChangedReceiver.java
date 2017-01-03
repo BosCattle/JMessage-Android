@@ -14,8 +14,6 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 public class NetworkConnectChangedReceiver extends BroadcastReceiver {
 
   public NetworkConnectChangedReceiver(){
-    if (!HermesEventBus.getDefault().isRegistered(this))
-    HermesEventBus.getDefault().register(this);
   }
 
   private String getConnectionType(int type) {
@@ -70,11 +68,11 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
         if (NetworkInfo.State.CONNECTED == info.getState() && info.isAvailable()) {
           if (info.getType() == ConnectivityManager.TYPE_WIFI
               || info.getType() == ConnectivityManager.TYPE_MOBILE) {
-            Log.i("TAG", getConnectionType(info.getType()) + "连上");
+            Log.d("TAG", getConnectionType(info.getType()) + "连上");
           HermesEventBus.getDefault().post(new NotificationConnection(true));
           }
         } else {
-          Log.i("TAG", getConnectionType(info.getType()) + "断开");
+          Log.d("TAG", getConnectionType(info.getType()) + "断开");
           HermesEventBus.getDefault().post(new NotificationConnection(false));
         }
       }

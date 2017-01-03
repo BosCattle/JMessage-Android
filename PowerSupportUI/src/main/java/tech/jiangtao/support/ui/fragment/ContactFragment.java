@@ -86,17 +86,17 @@ public class ContactFragment extends BaseFragment
   }
 
   private void getContact() {
+    mConstrutContact.clear();
     if (mRealm==null||mRealm.isClosed()){
       mRealm = Realm.getDefaultInstance();
     }
+    buildHeadView();
     mRealm.executeTransaction(realm -> {
       RealmQuery<VCardRealm> realmQuery = realm.where(VCardRealm.class);
       mVCardRealmRealmResults = realmQuery.findAll();
       mVCardRealmRealmResults.addChangeListener(element -> {
         Iterator iterator = element.iterator();
         while (iterator.hasNext()){
-          mConstrutContact.clear();
-          buildHeadView();
           mConstrutContact.add(
               new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL).vCardRealm(
                   (VCardRealm) iterator.next()).build());

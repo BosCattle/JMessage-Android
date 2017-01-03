@@ -44,24 +44,20 @@ import tech.jiangtao.support.kit.archive.MessageArchiveIQProvider;
 import tech.jiangtao.support.kit.archive.MessageArchiveRequestIQ;
 import tech.jiangtao.support.kit.archive.MessageArchiveStanzaFilter;
 import tech.jiangtao.support.kit.archive.MessageArchiveStanzaListener;
-import tech.jiangtao.support.kit.archive.MessageBody;
-import tech.jiangtao.support.kit.archive.type.MessageBodyType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.ContactEvent;
 import tech.jiangtao.support.kit.eventbus.LoginCallbackEvent;
 import tech.jiangtao.support.kit.eventbus.LoginParam;
-import tech.jiangtao.support.kit.eventbus.MessageTest;
 import tech.jiangtao.support.kit.eventbus.NotificationConnection;
 import tech.jiangtao.support.kit.eventbus.OwnVCardRealm;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.init.SupportIM;
-import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.realm.sharepreference.Account;
 import tech.jiangtao.support.kit.reciever.TickBroadcastReceiver;
-import tech.jiangtao.support.kit.userdata.SimpleArchiveMessage;
 import tech.jiangtao.support.kit.util.CommonUtils;
+import tech.jiangtao.support.kit.util.DateUtils;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.PinYinUtils;
 import xiaofei.library.hermeseventbus.HermesEventBus;
@@ -72,11 +68,12 @@ public class SupportService extends Service
     implements ChatManagerListener, ConnectionListener, RosterListener {
 
   private static final String TAG = SupportService.class.getSimpleName();
-  private static XMPPTCPConnection mXMPPConnection;
+  private XMPPTCPConnection mXMPPConnection;
   public static boolean mNeedAutoLogin = true;
   private AccountManager mAccountManager;
   private Roster mRoster;
   private VCardManager mVCardManager;
+  private AppPreferences appPreferences = new AppPreferences(getContext());
 
   @Override public void onCreate() {
     super.onCreate();
@@ -91,46 +88,6 @@ public class SupportService extends Service
     }
     connect();
     return START_STICKY;
-  }
-
-  private void setMessageRealm(MessageBody body, String time) {
-    //首先，判断数据库中是否有改内容
-    //MessageRealm messageRealm;
-    ////date有问题,老子也是醉了
-    //java.util.Date date =
-    //    DateUtils.getSumUTCTimeZone(DateUtils.UTCConvertToLong(time), Long.valueOf(body.getSecs()));
-    //RealmResults<MessageRealm> realms =
-    //    mRealm.where(MessageRealm.class).equalTo("thread", body.getThread()).findAll();
-    //if (realms.size() == 0) {
-    //  messageRealm = new MessageRealm();
-    //  createMessageRealm(messageRealm, body, date);
-    //  mRealm.beginTransaction();
-    //  mRealm.copyToRealm(messageRealm);
-    //  mRealm.commitTransaction();
-    //} else {
-    //  Log.d(TAG, "setMessageRealm: 本地数据库已经有这条消息了。");
-    //}
-  }
-
-  private void createMessageRealm(MessageRealm messageRealm, MessageBody body,
-      java.util.Date time) {
-    messageRealm.setThread(body.getThread());
-    messageRealm.setTextMessage(body.getBody());
-    messageRealm.setTime(time);
-    String other = body.getWith();
-    String main = SupportService.getmXMPPConnection().getUser();
-    Log.d(TAG, "createMessageRealm: " + other + "       " + main);
-    if (body.getType() == MessageBodyType.TYPE_FROM) {
-      messageRealm.setMainJID(other);
-      messageRealm.setWithJID(main);
-    } else {
-      messageRealm.setMainJID(main);
-      messageRealm.setWithJID(other);
-    }
-  }
-
-  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(MessageTest connection) {
-    // 根据消息类型，作出调转服务，拿到了connection，对监听所有够功能。
   }
 
   @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -148,14 +105,6 @@ public class SupportService extends Service
     throw null;
   }
 
-  public static XMPPConnection getmXMPPConnection() {
-    if (mXMPPConnection != null) {
-      return mXMPPConnection;
-    } else {
-      throw new NullPointerException("连接不能为空...");
-    }
-  }
-
   @Override public void onDestroy() {
     super.onDestroy();
     HermesEventBus.getDefault().unregister(this);
@@ -163,33 +112,29 @@ public class SupportService extends Service
 
   @Override public void chatCreated(Chat chat, boolean createdLocally) {
     chat.addMessageListener((chat1, message) -> {
-      Log.d(TAG, "processMessage: " + message.getBody());
-      // full jid
-      Log.d(TAG, "processMessage: " + chat1.getParticipant());
-      Log.d(TAG, "chatCreated: " + message.toString());
       DefaultExtensionElement messageExtension =
           (DefaultExtensionElement) message.getExtension("message:extension");
       if (message.getBody() != null) {
         if (messageExtension==null||messageExtension.getValue("type") == null || messageExtension.getValue("type")
             .equals(MessageExtensionType.TEXT.toString())) {
           HermesEventBus.getDefault()
-              .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(),
-                  MessageExtensionType.TEXT));
+              .post(new RecieveMessage(message.getStanzaId(),message.getType(), message.getFrom(),chat1.getParticipant(),
+                  chat1.getThreadID(),message.getBody(),MessageExtensionType.TEXT,false));
         }
         if (messageExtension.getValue("type").equals(MessageExtensionType.IMAGE.toString())) {
           HermesEventBus.getDefault()
-              .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(),
-                  MessageExtensionType.IMAGE));
+              .post(new RecieveMessage(message.getStanzaId(),message.getType(), message.getFrom(),chat1.getParticipant(),
+                  chat1.getThreadID(),message.getBody(),MessageExtensionType.IMAGE,false));
         }
         if (messageExtension.getValue("type").equals(MessageExtensionType.AUDIO.toString())) {
           HermesEventBus.getDefault()
-              .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(),
-                  MessageExtensionType.AUDIO));
+              .post(new RecieveMessage(message.getStanzaId(),message.getType(), message.getFrom(),chat1.getParticipant(),
+                  chat1.getThreadID(),message.getBody(),MessageExtensionType.AUDIO,false));
         }
         if (messageExtension.getValue("type").equals(MessageExtensionType.VIDEO.toString())) {
           HermesEventBus.getDefault()
-              .post(new RecieveMessage(message.getType(), chat1.getParticipant(), message.getBody(),
-                  MessageExtensionType.VIDEO));
+              .post(new RecieveMessage(message.getStanzaId(),message.getType(), message.getFrom(),chat1.getParticipant(),
+                  chat1.getThreadID(),message.getBody(),MessageExtensionType.VIDEO,false));
         }
       }
       //发送消息到守护服务，先保存会话到另外一个会话表，然后保存消息到历史消息表
@@ -216,6 +161,7 @@ public class SupportService extends Service
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
       Log.d(TAG, "sendMessage: 发送成功");
+
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
         super.call(throwable);
@@ -228,7 +174,7 @@ public class SupportService extends Service
     login(param.username, param.password);
   }
 
-  public static void sendMessageArchive(String jid, String time) {
+  public void sendMessageArchive(String jid, String time) {
     MessageArchiveRequestIQ iq = new MessageArchiveRequestIQ(null);
     iq.setJid(jid);
     iq.setTime(time);
@@ -241,7 +187,7 @@ public class SupportService extends Service
     }
   }
 
-  public static void requestAllMessageArchive(String time) {
+  public void requestAllMessageArchive(String time) {
     MessageArchiveRequestIQ iq = new MessageArchiveRequestIQ(null);
     if (time == null || time.equals("")) {
       iq.setTime("1970-01-01T00:00:00Z");
@@ -300,9 +246,6 @@ public class SupportService extends Service
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
       Log.d(TAG, "login: 登录成功");
       // 保存用户jid
-      final AppPreferences appPreferences =
-          new AppPreferences(getContext()); // this Preference comes for free from the library
-      // save a key value pair
       appPreferences.put("userJid", mXMPPConnection.getUser());
       appPreferences.put("username", username);
       appPreferences.put("password", password);
@@ -364,10 +307,10 @@ public class SupportService extends Service
     ProviderManager.addIQProvider("chat", "urn:xmpp:archive", new MessageArchiveIQProvider());
     mXMPPConnection.addAsyncStanzaListener(new MessageArchiveStanzaListener(),
         new MessageArchiveStanzaFilter());
-
+    long time = appPreferences.getLong("last_modify",0);
+    //将time转化为字符串
+    requestAllMessageArchive(DateUtils.getDefaultUTCTimeZone(time));
     // TODO: 07/12/2016 读取数据库，得到最后的更新时间
-    SimpleArchiveMessage message = new SimpleArchiveMessage();
-    requestAllMessageArchive(message.getLastUpdateTime());
     ChatManager manager = ChatManager.getInstanceFor(mXMPPConnection);
     manager.addChatListener(this);
     addFriend();

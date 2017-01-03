@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+import java.util.Iterator;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -18,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
+import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
@@ -46,6 +50,8 @@ public class ChatListFragment extends BaseFragment implements EasyViewHolder.OnI
   @BindView(R2.id.chat_list) RecyclerView mChatList;
   private SessionAdapter mSessionAdapter;
   private List<SessionListMessage> mSessionMessage;
+  private Realm mRealm;
+  private RealmResults<SessionRealm> mSessionRealm;
 
   public static ChatListFragment newInstance() {
     return new ChatListFragment();
@@ -54,6 +60,7 @@ public class ChatListFragment extends BaseFragment implements EasyViewHolder.OnI
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     super.onCreateView(inflater, container, savedInstanceState);
+    mRealm = Realm.getDefaultInstance();
     setAdapter();
     return getView();
   }
@@ -70,14 +77,31 @@ public class ChatListFragment extends BaseFragment implements EasyViewHolder.OnI
     mChatList.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     mChatList.setAdapter(mSessionAdapter);
-    for (int i=0;i<10;i++) {
+    getChatList();
+    for (int i = 0; i < 10; i++) {
       mSessionMessage.add(new SessionListMessage.Builder().unReadMessageCount(3)
-          .unReadMessage("你好,"+"测试"+i)
+          .unReadMessage("你好," + "测试" + i)
           .avatar("")
-          .username("测试"+i)
+          .username("测试" + i)
           .build());
     }
     mSessionAdapter.notifyDataSetChanged();
+  }
+
+  private void getChatList() {
+    mRealm.executeTransaction(realm -> {
+      mSessionRealm = realm.where(SessionRealm.class).findAll();
+      mSessionRealm.addChangeListener(element -> {
+        Iterator<SessionRealm> it = element.iterator();
+        while (it.hasNext()) {
+          SessionRealm messageRealm = it.next();
+          //这儿需要查一下MessageRealm和VCardRealm;
+          //mSessionMessage.add(
+          //    new SessionListMessage.Builder().unReadMessageCount(messageRealm.unReadCount)
+          //        .username("哈哈哈").build());
+        }
+      });
+    });
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveMessage message) {
@@ -86,5 +110,10 @@ public class ChatListFragment extends BaseFragment implements EasyViewHolder.OnI
 
   @Override public void onItemClick(int position, View view) {
 
+  }
+
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    mRealm.close();
   }
 }

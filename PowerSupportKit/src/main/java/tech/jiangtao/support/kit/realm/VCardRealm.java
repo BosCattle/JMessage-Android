@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import java.io.Serializable;
 
 /**
  * Class: VCardRealm </br>
@@ -14,7 +15,7 @@ import io.realm.annotations.PrimaryKey;
  * Date: 01/12/2016 11:18 PM</br>
  * Update: 01/12/2016 11:18 PM </br>
  **/
-
+// TODO: 03/01/2017 这边暂时有问题
 public class VCardRealm extends RealmObject implements Parcelable {
 
   @PrimaryKey private String jid;
@@ -30,14 +31,20 @@ public class VCardRealm extends RealmObject implements Parcelable {
   private String allPinYin;
   private boolean friend;
 
-  public VCardRealm(String jid, String nickName, String avatar) {
-    this.jid = jid;
-    this.nickName = nickName;
-    this.avatar = avatar;
+  public VCardRealm() {
   }
 
   public VCardRealm(String jid) {
     this.jid = jid;
+  }
+
+  public VCardRealm(String nickName, String jid, boolean friend, String allPinYin,
+      String firstLetter) {
+    this.nickName = nickName;
+    this.jid = jid;
+    this.friend = friend;
+    this.allPinYin = allPinYin;
+    this.firstLetter = firstLetter;
   }
 
   public String getJid() {
@@ -153,9 +160,6 @@ public class VCardRealm extends RealmObject implements Parcelable {
     dest.writeString(this.firstLetter);
     dest.writeString(this.allPinYin);
     dest.writeByte(this.friend ? (byte) 1 : (byte) 0);
-  }
-
-  public VCardRealm() {
   }
 
   protected VCardRealm(Parcel in) {

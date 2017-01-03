@@ -43,7 +43,7 @@ public class RegisterActivity extends BaseActivity {
   }
 
   public void register(String username,String password){
-    AccountManager manager = AccountManager.getInstance(SupportService.getmXMPPConnection());
+    AccountManager manager = AccountManager.getInstance(null);
     Observable.create(new Observable.OnSubscribe<Object>() {
       @Override public void call(Subscriber<? super Object> subscriber) {
         try {

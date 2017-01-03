@@ -53,7 +53,7 @@ public class MessageArchiveRequestIQ extends IQ {
       xml.optAttribute("start", getTime());
     }
     xml.rightAngleBracket();
-    Log.e(TAG, "getIQChildElementBuilder: "+xml.toString());
+    Log.d(TAG, "getIQChildElementBuilder: "+xml.toString());
     return xml;
   }
 }

@@ -44,7 +44,7 @@ public class FileTransferService extends IntentService{
   }
 
   @Override protected void onHandleIntent(Intent intent) {
-    mFileTransferManager = FileTransferManager.getInstanceFor(SupportService.getmXMPPConnection());
+    mFileTransferManager = FileTransferManager.getInstanceFor(null);
     Log.d(TAG, "onHandleIntent: ");
     String fileName = intent.getStringExtra(FILE_TRANSFER_FILE_NAME);
     String userJID = intent.getStringExtra(FILE_TRANSFER_USER_JID);

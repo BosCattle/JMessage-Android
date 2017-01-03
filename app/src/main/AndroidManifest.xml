@@ -52,7 +52,6 @@
     <service
         android:name="tech.jiangtao.support.ui.service.XMPPService"
         android:enabled="true"
-        android:exported="true"
         />
 
     <activity
