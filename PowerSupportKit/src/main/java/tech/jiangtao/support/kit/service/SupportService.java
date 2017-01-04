@@ -160,7 +160,7 @@ public class SupportService extends Service
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
       Log.d(TAG, "sendMessage: 发送成功");
-
+      //缓存消息
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
         super.call(throwable);
