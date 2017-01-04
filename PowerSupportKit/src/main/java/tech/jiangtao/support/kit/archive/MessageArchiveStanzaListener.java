@@ -28,7 +28,6 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  * Date: 05/12/2016 11:49 PM</br>
  * Update: 05/12/2016 11:49 PM </br>
  **/
-// TODO: 03/01/2017 不能在这儿保存消息到本地数据库
 public class MessageArchiveStanzaListener implements StanzaListener {
 
 

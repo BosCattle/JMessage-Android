@@ -56,7 +56,6 @@ import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.realm.sharepreference.Account;
 import tech.jiangtao.support.kit.reciever.TickBroadcastReceiver;
-import tech.jiangtao.support.kit.util.CommonUtils;
 import tech.jiangtao.support.kit.util.DateUtils;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.PinYinUtils;
@@ -190,7 +189,7 @@ public class SupportService extends Service
   public void requestAllMessageArchive(String time) {
     MessageArchiveRequestIQ iq = new MessageArchiveRequestIQ(null);
     if (time == null || time.equals("")) {
-      iq.setTime("1970-01-01T00:00:00Z");
+      iq.setTime("2017-01-01T00:00:00Z");
     } else {
       iq.setTime(time);
     }

@@ -38,7 +38,8 @@ public class MessageArchiveIQProvider extends IQProvider<MessageArchiveAnswerIQ>
       if (eventType == XmlPullParser.START_TAG) {
         Log.e(TAG, "parse: 进入START_TAG");
         Log.e(TAG, "parse: " + parser.getName());
-        if (parser.getName().equals("from")) {
+        if (parser.getName().equals("from"))
+        {
           String messageFrom = "";
           String threadFrom = "";
           String with = parser.getAttributeValue(null,"with");
@@ -55,7 +56,8 @@ public class MessageArchiveIQProvider extends IQProvider<MessageArchiveAnswerIQ>
               new MessageBody(MessageBodyType.TYPE_FROM, secs,
                   with,messageFrom, threadFrom);
           mAAIQ.messageBody.add(body);
-        } else if (parser.getName().equals("to")) {
+        }
+        else if (parser.getName().equals("to")) {
           String message = "";
           String thread = "";
           String secs = parser.getAttributeValue(null, "secs");
@@ -70,12 +72,30 @@ public class MessageArchiveIQProvider extends IQProvider<MessageArchiveAnswerIQ>
           }
           MessageBody body = new MessageBody(MessageBodyType.TYPE_TO, secs,with, message, thread);
           mAAIQ.messageBody.add(body);
+        }else if (parser.getName().equals("set")){
+          parser.next();
+          if (parser.getName().equals("first")){
+            String first = parser.nextText();
+            mAAIQ.setFirst(Integer.parseInt(first));
+          }
+          parser.next();
+          if (parser.getName().equals("last")){
+            String last = parser.nextText();
+            mAAIQ.setLast(Integer.parseInt(last));
+          }
+          parser.next();
+          if (parser.getName().equals("count")){
+            String count = parser.nextText();
+            mAAIQ.setCount(Integer.parseInt(count));
+          }
         }
-      } else if (eventType == XmlPullParser.END_TAG) {
+      }
+      else if (eventType == XmlPullParser.END_TAG) {
         if (parser.getName().equals("chat")) {
           done = true;
         }
-      } else {
+      }
+      else {
         for (int i = 0; i < parser.getAttributeCount(); i++) {
           Log.e(TAG, "parse3: " + parser.getAttributeName(i));
         }

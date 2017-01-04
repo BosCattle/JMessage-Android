@@ -1,5 +1,6 @@
 package tech.jiangtao.support.kit.archive;
 
+import android.os.Parcelable;
 import java.util.Set;
 
 import org.jivesoftware.smack.packet.Element;
@@ -21,6 +22,9 @@ public class MessageArchiveAnswerIQ extends IQ {
     public String time;
     public String withJid;
     public Set<MessageBody> messageBody;
+    public int first;
+    public int last;
+    public int count;
 
     public String getWithJid() {
         return withJid;
@@ -53,6 +57,7 @@ public class MessageArchiveAnswerIQ extends IQ {
             }else if (messageBody.getType()==MessageBodyType.TYPE_TO){
                 xml.element(new MessageArchiveElements.FromElement("to", messageBody.getSecs(),
                         messageBody.getWith(),messageBody.getBody(), messageBody.getThread()));
+            }else {
             }
         }
         return xml;
@@ -68,6 +73,30 @@ public class MessageArchiveAnswerIQ extends IQ {
 
     public Set<MessageBody> getMessageBody() {
         return messageBody;
+    }
+
+    public int getFirst() {
+        return first;
+    }
+
+    public void setFirst(int first) {
+        this.first = first;
+    }
+
+    public int getLast() {
+        return last;
+    }
+
+    public void setLast(int last) {
+        this.last = last;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public void setMessageBody(Set<MessageBody> messageBody) {
