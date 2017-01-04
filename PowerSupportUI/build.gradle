@@ -3,8 +3,7 @@ apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'realm-android'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'android-apt'
-apply plugin: 'com.novoda.bintray-release'
-
+apply plugin: 'com.github.dcendents.android-maven'
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
@@ -59,11 +58,11 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'com.github.chrisbanes:PhotoView:1.3.1'
 }
-publish {
-    userOrg = 'kevinbas'      //bintray注册的用户名
-    groupId = 'tech.jiangtao.android'         //compile引用时的第1部分groupId
-    artifactId = 'JMessage'     //compile引用时的第2部分项目名
-    publishVersion = '0.0.1'    //compile引用时的第3部分版本号
-    desc = 'a XMPP support library'
-    website = 'https://gitlab.com/jiangTaoQuite/chatandroid'
-}
+//publish {
+//    userOrg = 'kevinbas'      //bintray注册的用户名
+//    groupId = 'tech.jiangtao.android'         //compile引用时的第1部分groupId
+//    artifactId = 'JMessage'     //compile引用时的第2部分项目名
+//    publishVersion = '0.0.1'    //compile引用时的第3部分版本号
+//    desc = 'a XMPP support library'
+//    website = 'https://gitlab.com/jiangTaoQuite/chatandroid'
+//}
