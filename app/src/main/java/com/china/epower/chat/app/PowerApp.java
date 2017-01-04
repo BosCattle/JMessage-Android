@@ -25,12 +25,8 @@ public class PowerApp extends Application {
   private static final String TAG = PowerApp.class.getSimpleName();
   @Override public void onCreate() {
     super.onCreate();
-<<<<<<< HEAD
     //LeakCanary.install(this);
-    Fresco.initialize(this);
-=======
     LeakCanary.install(this);
->>>>>>> d807390ff96d71ddbd2319018a10623f77b15de7
     MultiDex.install(this);
     PgyCrashManager.register(this);
     SimpleHUD.backgroundHexColor="#FF4081";

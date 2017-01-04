@@ -1,11 +1,11 @@
 [
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/debug/drawable/bqmm_bg_chat_time_tag.xml",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/drawable/bqmm_bg_chat_time_tag.xml"
-    },
-    {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/debug/drawable/bqmm_point_normal.xml",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/drawable/bqmm_point_normal.xml"
+    },
+    {
+        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/debug/drawable/bqmm_bg_chat_time_tag.xml",
+        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/drawable/bqmm_bg_chat_time_tag.xml"
     },
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/debug/drawable/bqmm_chatfrom_bg.xml",
