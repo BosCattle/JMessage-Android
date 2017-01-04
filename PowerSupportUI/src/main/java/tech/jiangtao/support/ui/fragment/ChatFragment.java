@@ -60,7 +60,6 @@ import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.VCardRealm;
-import tech.jiangtao.support.kit.userdata.SimpleArchiveMessage;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
@@ -257,24 +256,6 @@ public class ChatFragment extends BaseFragment
       mBQMM.startShortcutPopupWindowByoffset(s.toString(), mChatSendMessage, 0, 20);
       mChatAddOtherInformation.setVisibility(View.GONE);
       mChatSendMessage.setVisibility(View.VISIBLE);
-    }
-  }
-
-  public void loadArchiveMessage() {
-    if (mVCardRealm != null) {
-      SimpleArchiveMessage mSimpleArchiveMessage = new SimpleArchiveMessage();
-      MessageRealm messageRealm = null;
-      RealmResults<MessageRealm> messageDatas =
-          mSimpleArchiveMessage.loadArchiveMessage(mVCardRealm.getJid());
-      int size = messageDatas.size();
-      Log.d(TAG, "loadArchiveMessage: " + size);
-      if (size > 0) {
-        for (int i = 0; i < size; i++) {
-          //根据数据判断，然后加载
-          messageRealm = messageDatas.get(i);
-          addMessageToAdapter(messageRealm);
-        }
-      }
     }
   }
 

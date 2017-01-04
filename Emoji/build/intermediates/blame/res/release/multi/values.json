@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values\\values.xml",
+        "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/incremental/mergeReleaseResources/merged.dir/values/values.xml",
         "map": [
             {
                 "to": {
@@ -11,13 +11,13 @@
                     "endOffset": 114
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 1,
-                        "startOffset": 54,
+                        "startOffset": 52,
                         "endColumn": 60,
-                        "endOffset": 113
+                        "endOffset": 111
                     }
                 }
             },
@@ -30,13 +30,13 @@
                     "endOffset": 186
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 56,
                         "startColumn": 1,
-                        "startOffset": 2508,
+                        "startOffset": 2452,
                         "endColumn": 68,
-                        "endOffset": 2575
+                        "endOffset": 2519
                     }
                 }
             },
@@ -49,13 +49,13 @@
                     "endOffset": 254
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 54,
                         "startColumn": 1,
-                        "startOffset": 2420,
+                        "startOffset": 2366,
                         "endColumn": 64,
-                        "endOffset": 2483
+                        "endOffset": 2429
                     }
                 }
             },
@@ -68,13 +68,13 @@
                     "endOffset": 320
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 52,
                         "startColumn": 1,
-                        "startOffset": 2334,
+                        "startOffset": 2282,
                         "endColumn": 62,
-                        "endOffset": 2395
+                        "endOffset": 2343
                     }
                 }
             },
@@ -87,13 +87,13 @@
                     "endOffset": 403
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 28,
                         "startColumn": 1,
-                        "startOffset": 1204,
+                        "startOffset": 1176,
                         "endColumn": 79,
-                        "endOffset": 1282
+                        "endOffset": 1254
                     }
                 }
             },
@@ -106,13 +106,13 @@
                     "endOffset": 488
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 30,
                         "startColumn": 1,
-                        "startOffset": 1316,
+                        "startOffset": 1286,
                         "endColumn": 81,
-                        "endOffset": 1396
+                        "endOffset": 1366
                     }
                 }
             },
@@ -125,13 +125,13 @@
                     "endOffset": 567
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 24,
                         "startColumn": 1,
-                        "startOffset": 985,
+                        "startOffset": 961,
                         "endColumn": 75,
-                        "endOffset": 1059
+                        "endOffset": 1035
                     }
                 }
             },
@@ -144,13 +144,13 @@
                     "endOffset": 648
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 26,
                         "startColumn": 1,
-                        "startOffset": 1094,
+                        "startOffset": 1068,
                         "endColumn": 77,
-                        "endOffset": 1170
+                        "endOffset": 1144
                     }
                 }
             },
@@ -163,13 +163,13 @@
                     "endOffset": 731
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 34,
                         "startColumn": 1,
-                        "startOffset": 1517,
+                        "startOffset": 1483,
                         "endColumn": 79,
-                        "endOffset": 1595
+                        "endOffset": 1561
                     }
                 }
             },
@@ -182,13 +182,13 @@
                     "endOffset": 803
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 32,
                         "startColumn": 1,
-                        "startOffset": 1422,
+                        "startOffset": 1390,
                         "endColumn": 68,
-                        "endOffset": 1489
+                        "endOffset": 1457
                     }
                 }
             },
@@ -201,13 +201,13 @@
                     "endOffset": 880
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 1,
-                        "startOffset": 660,
+                        "startOffset": 642,
                         "endColumn": 73,
-                        "endOffset": 732
+                        "endOffset": 714
                     }
                 }
             },
@@ -220,13 +220,13 @@
                     "endOffset": 959
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 1,
-                        "startOffset": 766,
+                        "startOffset": 746,
                         "endColumn": 75,
-                        "endOffset": 840
+                        "endOffset": 820
                     }
                 }
             },
@@ -239,13 +239,13 @@
                     "endOffset": 1039
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 22,
                         "startColumn": 1,
-                        "startOffset": 875,
+                        "startOffset": 853,
                         "endColumn": 76,
-                        "endOffset": 950
+                        "endOffset": 928
                     }
                 }
             },
@@ -258,13 +258,13 @@
                     "endOffset": 1135
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 44,
                         "startColumn": 1,
-                        "startOffset": 1992,
+                        "startOffset": 1948,
                         "endColumn": 92,
-                        "endOffset": 2083
+                        "endOffset": 2039
                     }
                 }
             },
@@ -277,13 +277,13 @@
                     "endOffset": 1220
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 42,
                         "startColumn": 1,
-                        "startOffset": 1880,
+                        "startOffset": 1838,
                         "endColumn": 81,
-                        "endOffset": 1960
+                        "endOffset": 1918
                     }
                 }
             },
@@ -296,13 +296,13 @@
                     "endOffset": 1324
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 39,
                         "startColumn": 1,
-                        "startOffset": 1749,
+                        "startOffset": 1710,
                         "endColumn": 100,
-                        "endOffset": 1848
+                        "endOffset": 1809
                     }
                 }
             },
@@ -315,13 +315,13 @@
                     "endOffset": 1417
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 37,
                         "startColumn": 1,
-                        "startOffset": 1628,
+                        "startOffset": 1591,
                         "endColumn": 89,
-                        "endOffset": 1716
+                        "endOffset": 1679
                     }
                 }
             },
@@ -334,13 +334,13 @@
                     "endOffset": 1488
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 74,
                         "startColumn": 1,
-                        "startOffset": 3256,
+                        "startOffset": 3182,
                         "endColumn": 67,
-                        "endOffset": 3322
+                        "endOffset": 3248
                     }
                 }
             },
@@ -353,13 +353,13 @@
                     "endOffset": 1555
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 81,
                         "startColumn": 1,
-                        "startOffset": 3511,
+                        "startOffset": 3430,
                         "endColumn": 63,
-                        "endOffset": 3573
+                        "endOffset": 3492
                     }
                 }
             },
@@ -372,13 +372,13 @@
                     "endOffset": 1630
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 61,
                         "startColumn": 1,
-                        "startOffset": 2703,
+                        "startOffset": 2642,
                         "endColumn": 71,
-                        "endOffset": 2773
+                        "endOffset": 2712
                     }
                 }
             },
@@ -391,13 +391,13 @@
                     "endOffset": 1709
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 86,
                         "startColumn": 1,
-                        "startOffset": 3693,
+                        "startOffset": 3607,
                         "endColumn": 75,
-                        "endOffset": 3767
+                        "endOffset": 3681
                     }
                 }
             },
@@ -410,13 +410,13 @@
                     "endOffset": 1777
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 84,
                         "startColumn": 1,
-                        "startOffset": 3603,
+                        "startOffset": 3519,
                         "endColumn": 64,
-                        "endOffset": 3666
+                        "endOffset": 3582
                     }
                 }
             },
@@ -429,13 +429,13 @@
                     "endOffset": 1825
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 2,
-                        "startOffset": 117,
+                        "startOffset": 114,
                         "endColumn": 45,
-                        "endOffset": 160
+                        "endOffset": 157
                     }
                 }
             },
@@ -448,13 +448,13 @@
                     "endOffset": 1898
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 104,
                         "startColumn": 1,
-                        "startOffset": 4510,
+                        "startOffset": 4406,
                         "endColumn": 69,
-                        "endOffset": 4578
+                        "endOffset": 4474
                     }
                 }
             },
@@ -467,13 +467,13 @@
                     "endOffset": 1967
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 98,
                         "startColumn": 1,
-                        "startOffset": 4219,
+                        "startOffset": 4121,
                         "endColumn": 65,
-                        "endOffset": 4283
+                        "endOffset": 4185
                     }
                 }
             },
@@ -486,13 +486,13 @@
                     "endOffset": 2049
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 102,
                         "startColumn": 1,
-                        "startOffset": 4405,
+                        "startOffset": 4303,
                         "endColumn": 78,
-                        "endOffset": 4482
+                        "endOffset": 4380
                     }
                 }
             },
@@ -505,13 +505,13 @@
                     "endOffset": 2120
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 100,
                         "startColumn": 1,
-                        "startOffset": 4310,
+                        "startOffset": 4210,
                         "endColumn": 67,
-                        "endOffset": 4376
+                        "endOffset": 4276
                     }
                 }
             },
@@ -524,13 +524,13 @@
                     "endOffset": 2196
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 94,
                         "startColumn": 1,
-                        "startOffset": 4011,
+                        "startOffset": 3917,
                         "endColumn": 72,
-                        "endOffset": 4082
+                        "endOffset": 3988
                     }
                 }
             },
@@ -543,13 +543,13 @@
                     "endOffset": 2275
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 96,
                         "startColumn": 1,
-                        "startOffset": 4117,
+                        "startOffset": 4021,
                         "endColumn": 75,
-                        "endOffset": 4191
+                        "endOffset": 4095
                     }
                 }
             },
@@ -562,13 +562,13 @@
                     "endOffset": 2356
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 89,
                         "startColumn": 1,
-                        "startOffset": 3802,
+                        "startOffset": 3713,
                         "endColumn": 77,
-                        "endOffset": 3878
+                        "endOffset": 3789
                     }
                 }
             },
@@ -581,13 +581,13 @@
                     "endOffset": 2429
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 91,
                         "startColumn": 1,
-                        "startOffset": 3905,
+                        "startOffset": 3814,
                         "endColumn": 69,
-                        "endOffset": 3973
+                        "endOffset": 3882
                     }
                 }
             },
@@ -600,13 +600,13 @@
                     "endOffset": 2522
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 49,
                         "startColumn": 1,
-                        "startOffset": 2218,
+                        "startOffset": 2169,
                         "endColumn": 89,
-                        "endOffset": 2306
+                        "endOffset": 2257
                     }
                 }
             },
@@ -619,13 +619,13 @@
                     "endOffset": 2604
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 47,
                         "startColumn": 1,
-                        "startOffset": 2112,
+                        "startOffset": 2065,
                         "endColumn": 78,
-                        "endOffset": 2189
+                        "endOffset": 2142
                     }
                 }
             },
@@ -638,13 +638,13 @@
                     "endOffset": 2677
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 71,
                         "startColumn": 1,
-                        "startOffset": 3151,
+                        "startOffset": 3080,
                         "endColumn": 69,
-                        "endOffset": 3219
+                        "endOffset": 3148
                     }
                 }
             },
@@ -657,13 +657,13 @@
                     "endOffset": 2744
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 69,
                         "startColumn": 1,
-                        "startOffset": 3064,
+                        "startOffset": 2995,
                         "endColumn": 63,
-                        "endOffset": 3126
+                        "endOffset": 3057
                     }
                 }
             },
@@ -676,13 +676,13 @@
                     "endOffset": 2816
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 67,
                         "startColumn": 1,
-                        "startOffset": 2972,
+                        "startOffset": 2905,
                         "endColumn": 68,
-                        "endOffset": 3039
+                        "endOffset": 2972
                     }
                 }
             },
@@ -695,13 +695,13 @@
                     "endOffset": 2884
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 63,
                         "startColumn": 1,
-                        "startOffset": 2798,
+                        "startOffset": 2735,
                         "endColumn": 64,
-                        "endOffset": 2861
+                        "endOffset": 2798
                     }
                 }
             },
@@ -714,13 +714,13 @@
                     "endOffset": 2950
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 65,
                         "startColumn": 1,
-                        "startOffset": 2886,
+                        "startOffset": 2821,
                         "endColumn": 62,
-                        "endOffset": 2947
+                        "endOffset": 2882
                     }
                 }
             },
@@ -733,13 +733,13 @@
                     "endOffset": 3021
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 59,
                         "startColumn": 1,
-                        "startOffset": 2607,
+                        "startOffset": 2548,
                         "endColumn": 67,
-                        "endOffset": 2673
+                        "endOffset": 2614
                     }
                 }
             },
@@ -752,13 +752,13 @@
                     "endOffset": 3080
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 467,
+                        "startOffset": 454,
                         "endColumn": 58,
-                        "endOffset": 521
+                        "endOffset": 508
                     }
                 }
             },
@@ -771,13 +771,13 @@
                     "endOffset": 3146
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
-                        "startOffset": 556,
+                        "startOffset": 541,
                         "endColumn": 65,
-                        "endOffset": 617
+                        "endOffset": 602
                     }
                 }
             },
@@ -790,13 +790,13 @@
                     "endOffset": 3208
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 79,
                         "startColumn": 1,
-                        "startOffset": 3431,
+                        "startOffset": 3352,
                         "endColumn": 58,
-                        "endOffset": 3488
+                        "endOffset": 3409
                     }
                 }
             },
@@ -809,13 +809,13 @@
                     "endOffset": 3268
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 77,
                         "startColumn": 1,
-                        "startOffset": 3351,
+                        "startOffset": 3274,
                         "endColumn": 56,
-                        "endOffset": 3406
+                        "endOffset": 3329
                     }
                 }
             },
@@ -828,13 +828,13 @@
                     "endOffset": 3321
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
-                        "startOffset": 299,
+                        "startOffset": 291,
                         "endColumn": 52,
-                        "endOffset": 347
+                        "endOffset": 339
                     }
                 }
             },
@@ -847,13 +847,13 @@
                     "endOffset": 3375
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
-                        "startOffset": 377,
+                        "startOffset": 367,
                         "endColumn": 53,
-                        "endOffset": 426
+                        "endOffset": 416
                     }
                 }
             },
@@ -866,13 +866,13 @@
                     "endOffset": 3428
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 2,
-                        "startOffset": 164,
+                        "startOffset": 160,
                         "endColumn": 50,
-                        "endOffset": 212
+                        "endOffset": 208
                     }
                 }
             },
@@ -885,13 +885,13 @@
                     "endOffset": 3481
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\color.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/color.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 1,
-                        "startOffset": 215,
+                        "startOffset": 210,
                         "endColumn": 49,
-                        "endOffset": 263
+                        "endOffset": 258
                     }
                 }
             },
@@ -904,13 +904,13 @@
                     "endOffset": 4559
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\dimens.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/dimens.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 92,
+                        "startOffset": 89,
                         "endColumn": 57,
-                        "endOffset": 145
+                        "endOffset": 142
                     }
                 }
             },
@@ -923,13 +923,13 @@
                     "endOffset": 4615
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\dimens.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/dimens.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 151,
+                        "startOffset": 147,
                         "endColumn": 55,
-                        "endOffset": 202
+                        "endOffset": 198
                     }
                 }
             },
@@ -942,13 +942,13 @@
                     "endOffset": 4684
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\dimens.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/dimens.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
-                        "startOffset": 551,
+                        "startOffset": 537,
                         "endColumn": 68,
-                        "endOffset": 615
+                        "endOffset": 601
                     }
                 }
             },
@@ -961,13 +961,13 @@
                     "endOffset": 4751
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\dimens.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/dimens.xml",
                     "position": {
                         "startLine": 21,
                         "startColumn": 4,
-                        "startOffset": 829,
+                        "startOffset": 808,
                         "endColumn": 66,
-                        "endOffset": 891
+                        "endOffset": 870
                     }
                 }
             },
@@ -980,13 +980,13 @@
                     "endOffset": 4812
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\dimens.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/dimens.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
-                        "startOffset": 736,
+                        "startOffset": 718,
                         "endColumn": 60,
-                        "endOffset": 792
+                        "endOffset": 774
                     }
                 }
             },
@@ -999,13 +999,13 @@
                     "endOffset": 4872
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\dimens.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/dimens.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
-                        "startOffset": 648,
+                        "startOffset": 632,
                         "endColumn": 59,
-                        "endOffset": 703
+                        "endOffset": 687
                     }
                 }
             },
@@ -1018,13 +1018,13 @@
                     "endOffset": 4937
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\dimens.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/dimens.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
-                        "startOffset": 455,
+                        "startOffset": 443,
                         "endColumn": 64,
-                        "endOffset": 515
+                        "endOffset": 503
                     }
                 }
             },
@@ -1037,13 +1037,13 @@
                     "endOffset": 4995
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\dimens.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/dimens.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 1,
-                        "startOffset": 367,
+                        "startOffset": 357,
                         "endColumn": 54,
-                        "endOffset": 420
+                        "endOffset": 410
                     }
                 }
             },
@@ -1056,13 +1056,13 @@
                     "endOffset": 5047
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\dimens.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/dimens.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
-                        "startOffset": 285,
+                        "startOffset": 277,
                         "endColumn": 51,
-                        "endOffset": 332
+                        "endOffset": 324
                     }
                 }
             },
@@ -1075,13 +1075,13 @@
                     "endOffset": 5100
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\dimens.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/dimens.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
-                        "startOffset": 208,
+                        "startOffset": 203,
                         "endColumn": 52,
-                        "endOffset": 256
+                        "endOffset": 251
                     }
                 }
             },
@@ -1094,13 +1094,13 @@
                     "endOffset": 5153
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\strings.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/strings.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
-                        "startOffset": 160,
+                        "startOffset": 155,
                         "endColumn": 52,
-                        "endOffset": 208
+                        "endOffset": 203
                     }
                 }
             },
@@ -1113,13 +1113,13 @@
                     "endOffset": 5199
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\strings.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/strings.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 59,
+                        "startOffset": 56,
                         "endColumn": 45,
-                        "endOffset": 100
+                        "endOffset": 97
                     }
                 }
             },
@@ -1132,13 +1132,13 @@
                     "endOffset": 5259
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\strings.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/strings.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
-                        "startOffset": 771,
+                        "startOffset": 752,
                         "endColumn": 59,
-                        "endOffset": 826
+                        "endOffset": 807
                     }
                 }
             },
@@ -1151,13 +1151,13 @@
                     "endOffset": 5327
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\strings.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/strings.xml",
                     "position": {
                         "startLine": 34,
                         "startColumn": 4,
-                        "startOffset": 1463,
+                        "startOffset": 1429,
                         "endColumn": 67,
-                        "endOffset": 1526
+                        "endOffset": 1492
                     }
                 }
             },
@@ -1170,13 +1170,13 @@
                     "endOffset": 5378
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\strings.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/strings.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 214,
+                        "startOffset": 208,
                         "endColumn": 55,
-                        "endOffset": 265
+                        "endOffset": 259
                     }
                 }
             },
@@ -1189,13 +1189,13 @@
                     "endOffset": 5445
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\strings.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/strings.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
-                        "startOffset": 680,
+                        "startOffset": 663,
                         "endColumn": 66,
-                        "endOffset": 742
+                        "endOffset": 725
                     }
                 }
             },
@@ -1208,13 +1208,13 @@
                     "endOffset": 5532
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\strings.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/strings.xml",
                     "position": {
                         "startLine": 32,
                         "startColumn": 4,
-                        "startOffset": 1352,
+                        "startOffset": 1320,
                         "endColumn": 86,
-                        "endOffset": 1434
+                        "endOffset": 1402
                     }
                 }
             },
@@ -1227,13 +1227,13 @@
                     "endOffset": 5612
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\strings.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/strings.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
-                        "startOffset": 402,
+                        "startOffset": 391,
                         "endColumn": 79,
-                        "endOffset": 477
+                        "endOffset": 466
                     }
                 }
             },
@@ -1246,13 +1246,13 @@
                     "endOffset": 5739
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\strings.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/strings.xml",
                     "position": {
                         "startLine": 26,
                         "startColumn": 4,
-                        "startOffset": 1014,
+                        "startOffset": 988,
                         "endColumn": 126,
-                        "endOffset": 1136
+                        "endOffset": 1110
                     }
                 }
             },
@@ -1265,13 +1265,13 @@
                     "endOffset": 5797
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\strings.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/strings.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
-                        "startOffset": 589,
+                        "startOffset": 574,
                         "endColumn": 57,
-                        "endOffset": 642
+                        "endOffset": 627
                     }
                 }
             },
@@ -1284,13 +1284,13 @@
                     "endOffset": 5863
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\strings.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/strings.xml",
                     "position": {
                         "startLine": 30,
                         "startColumn": 4,
-                        "startOffset": 1253,
+                        "startOffset": 1223,
                         "endColumn": 65,
-                        "endOffset": 1314
+                        "endOffset": 1284
                     }
                 }
             },
@@ -1303,13 +1303,13 @@
                     "endOffset": 5920
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\strings.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/strings.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 507,
+                        "startOffset": 494,
                         "endColumn": 56,
-                        "endOffset": 559
+                        "endOffset": 546
                     }
                 }
             },
@@ -1322,13 +1322,13 @@
                     "endOffset": 5982
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\strings.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/strings.xml",
                     "position": {
                         "startLine": 28,
                         "startColumn": 4,
-                        "startOffset": 1166,
+                        "startOffset": 1138,
                         "endColumn": 61,
-                        "endOffset": 1223
+                        "endOffset": 1195
                     }
                 }
             },
@@ -1341,13 +1341,13 @@
                     "endOffset": 6055
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\strings.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/strings.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
-                        "startOffset": 300,
+                        "startOffset": 291,
                         "endColumn": 72,
-                        "endOffset": 368
+                        "endOffset": 359
                     }
                 }
             },
@@ -1360,13 +1360,13 @@
                     "endOffset": 6175
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\strings.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/strings.xml",
                     "position": {
                         "startLine": 24,
                         "startColumn": 4,
-                        "startOffset": 865,
+                        "startOffset": 841,
                         "endColumn": 119,
-                        "endOffset": 980
+                        "endOffset": 956
                     }
                 }
             },
@@ -1379,13 +1379,13 @@
                     "endOffset": 6228
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\strings.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/strings.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 106,
+                        "startOffset": 102,
                         "endColumn": 52,
-                        "endOffset": 154
+                        "endOffset": 150
                     }
                 }
             },
@@ -1399,14 +1399,14 @@
                     "endOffset": 6685
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\styles.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/styles.xml",
                     "position": {
                         "startLine": 25,
                         "startColumn": 5,
-                        "startOffset": 981,
+                        "startOffset": 956,
                         "endLine": 30,
                         "endColumn": 12,
-                        "endOffset": 1438
+                        "endOffset": 1408
                     }
                 }
             },
@@ -1420,14 +1420,14 @@
                     "endOffset": 6976
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\styles.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/styles.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 192,
+                        "startOffset": 186,
                         "endLine": 12,
                         "endColumn": 12,
-                        "endOffset": 484
+                        "endOffset": 472
                     }
                 }
             },
@@ -1441,14 +1441,14 @@
                     "endOffset": 7136
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\styles.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/styles.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
-                        "startOffset": 605,
+                        "startOffset": 589,
                         "endLine": 18,
                         "endColumn": 12,
-                        "endOffset": 762
+                        "endOffset": 744
                     }
                 }
             },
@@ -1461,13 +1461,13 @@
                     "endOffset": 7208
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\styles.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/styles.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 490,
+                        "startOffset": 477,
                         "endColumn": 78,
-                        "endOffset": 564
+                        "endOffset": 551
                     }
                 }
             },
@@ -1481,14 +1481,14 @@
                     "endOffset": 7370
                 },
                 "from": {
-                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values\\styles.xml",
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values/styles.xml",
                     "position": {
                         "startLine": 21,
                         "startColumn": 4,
-                        "startOffset": 809,
+                        "startOffset": 788,
                         "endLine": 23,
                         "endColumn": 12,
-                        "endOffset": 968
+                        "endOffset": 945
                     }
                 }
             }
