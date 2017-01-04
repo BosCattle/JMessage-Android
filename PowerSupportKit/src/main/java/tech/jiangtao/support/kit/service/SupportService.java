@@ -61,7 +61,6 @@ import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.realm.sharepreference.Account;
 import tech.jiangtao.support.kit.reciever.TickBroadcastReceiver;
 import tech.jiangtao.support.kit.userdata.SimpleArchiveMessage;
-import tech.jiangtao.support.kit.util.CommonUtils;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.PinYinUtils;
 import xiaofei.library.hermeseventbus.HermesEventBus;
@@ -216,6 +215,7 @@ public class SupportService extends Service
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
       Log.d(TAG, "sendMessage: 发送成功");
+      //缓存消息
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
         super.call(throwable);

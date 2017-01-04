@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.multidex.MultiDex;
 import java.util.UUID;
 import tech.jiangtao.support.ui.service.XMPPService;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.squareup.leakcanary.LeakCanary;
 import tech.jiangtao.support.kit.init.SupportIM;
@@ -27,7 +26,6 @@ public class PowerApp extends Application {
   @Override public void onCreate() {
     super.onCreate();
     LeakCanary.install(this);
-    Fresco.initialize(this);
     MultiDex.install(this);
     PgyCrashManager.register(this);
     SimpleHUD.backgroundHexColor="#FF4081";
