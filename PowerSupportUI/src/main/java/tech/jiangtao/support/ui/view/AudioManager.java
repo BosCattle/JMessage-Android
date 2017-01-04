@@ -78,7 +78,6 @@ public class AudioManager {
       mMediaRecorder.stop();
       mMediaRecorder.release();
       mMediaRecorder = null;
-      mAudioStateListener = null;
     }
   }
 

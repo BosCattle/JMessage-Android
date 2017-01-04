@@ -42,6 +42,7 @@ import io.realm.RealmResults;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,12 +56,14 @@ import org.greenrobot.eventbus.ThreadMode;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.archive.type.FileType;
+import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
-import tech.jiangtao.support.kit.eventbus.RecieveMessage;
+import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.ErrorAction;
+import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
@@ -174,6 +177,7 @@ public class ChatFragment extends BaseFragment
   }
 
   public void loadOwnRealm() {
+    mMessages = new ArrayList<>();
     mVCardRealm = getArguments().getParcelable("vCard");
     String userJid = null;
     final AppPreferences appPreferences = new AppPreferences(getContext());
@@ -186,6 +190,79 @@ public class ChatFragment extends BaseFragment
         mRealm.where(VCardRealm.class).equalTo("jid", userJid).findAll();
     if (realms.size() != 0) {
       mOwnVCardRealm = realms.first();
+    }
+    //jid中包含空和full jid,检查和进行处理
+    RealmResults<MessageRealm> messageRealmse = mRealm.where(MessageRealm.class)
+        .equalTo("mainJID", mVCardRealm.getJid())
+        .equalTo("withJID", mVCardRealm.getJid())
+        .findAll();
+    // TODO: 05/01/2017  获取最后20条,并且messageRealmse.get(i).getMainJID()解析反了
+    for (int i = 0; i < (messageRealmse.size() > 20 ? 20 : messageRealmse.size()); i++) {
+      if (StringSplitUtil.splitDivider(messageRealmse.get(i).getMainJID())
+          .equals(StringSplitUtil.splitDivider(userJid))) {
+        //自己的消息
+        Message message1 = new Message();
+        message1.paramContent = messageRealmse.get(i).getTextMessage();
+        if (messageRealmse.get(i).getMessageType().equals(MessageExtensionType.TEXT.toString())) {
+          message1.type = FileType.TYPE_TEXT;
+          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
+              .avatar(mOwnVCardRealm != null ? mOwnVCardRealm.getAvatar() : null)
+              .message(message1)
+              .build());
+        } else if (messageRealmse.get(i)
+            .getMessageType()
+            .equals(MessageExtensionType.IMAGE.toString())) {
+          message1.fimePath = CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(),
+              messageRealmse.get(i).getTextMessage());
+          message1.type = FileType.TYPE_IMAGE;
+          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
+              .avatar(mOwnVCardRealm != null && mOwnVCardRealm.getAvatar() != null
+                  ? mOwnVCardRealm.getAvatar() : null)
+              .message(message1)
+              .build());
+        } else if (messageRealmse.get(i)
+            .getMessageType()
+            .equals(MessageExtensionType.AUDIO.toString())) {
+          message1.fimePath = CommonUtils.getUrl(MessageExtensionType.AUDIO.toString(),
+              messageRealmse.get(i).getTextMessage());
+          message1.time = 10;
+          message1.type = FileType.TYPE_AUDIO;
+          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
+              .avatar(mOwnVCardRealm != null && mOwnVCardRealm.getAvatar() != null
+                  ? mOwnVCardRealm.getAvatar() : null)
+              .message(message1)
+              .build());
+        }
+      } else {
+        //别人发送的消息
+        Message message1 = new Message();
+        message1.paramContent = messageRealmse.get(i).getTextMessage();
+        if (messageRealmse.get(i).getMessageType().equals(MessageExtensionType.TEXT.toString())) {
+          message1.paramContent = messageRealmse.get(i).getTextMessage();
+          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
+              .avatar(mVCardRealm.getAvatar())
+              .message(message1)
+              .build());
+        } else if (messageRealmse.get(i)
+            .getMessageType()
+            .equals(MessageExtensionType.IMAGE.toString())) {
+          message1.fimePath = CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(),
+              messageRealmse.get(i).getTextMessage());
+          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
+              .avatar(mVCardRealm.getAvatar())
+              .message(message1)
+              .build());
+        } else if (messageRealmse.get(i)
+            .getMessageType()
+            .equals(MessageExtensionType.AUDIO.toString())) {
+          message1.fimePath = CommonUtils.getUrl(MessageExtensionType.AUDIO.toString(),
+              messageRealmse.get(i).getTextMessage());
+          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
+              .avatar(mVCardRealm.getAvatar())
+              .message(message1)
+              .build());
+        }
+      }
     }
   }
 
@@ -235,7 +312,6 @@ public class ChatFragment extends BaseFragment
   }
 
   public void setAdapter() {
-    mMessages = new ArrayList<>();
     mChatMessageAdapter = new ChatMessageAdapter(getContext(), mMessages);
     mRecycler.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -263,33 +339,64 @@ public class ChatFragment extends BaseFragment
 
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveMessage message) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveLastMessage message) {
     Log.d("----------->", "onMessage: " + message);
-    // 根据消息类型，作出调转服务
-    Message message1 = new Message();
-    if (message.messageType == MessageExtensionType.TEXT) {
+    // TODO: 04/01/2017  还需要添加一层判断，判断是否是当前用户的消息
+    if (message.messageAuthor == MessageAuthor.FRIEND) {
+      Message message1 = new Message();
       message1.paramContent = message.message;
-      mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-          .avatar(mVCardRealm.getAvatar())
-          .message(message1)
-          .build());
-      Log.d(TAG, "onMessage: "+message1);
-      mChatMessageAdapter.notifyDataSetChanged();
-    }
-    if (message.messageType == MessageExtensionType.IMAGE) {
-      message1.fimePath = CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(),message.message);
-      mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
-          .avatar(mVCardRealm.getAvatar())
-          .message(message1)
-          .build());
-      Log.d(TAG, "onMessage: "+message1);
-    } else if (message.messageType == MessageExtensionType.AUDIO) {
-      message1.fimePath = CommonUtils.getUrl(MessageExtensionType.AUDIO.toString(),message.message);
-      mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
-          .avatar(mVCardRealm.getAvatar())
-          .message(message1)
-          .build());
-      Log.d(TAG, "onMessage: "+message1);
+      if (message.messageType == MessageExtensionType.TEXT) {
+        message1.paramContent = message.message;
+        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
+            .avatar(mVCardRealm.getAvatar())
+            .message(message1)
+            .build());
+      } else if (message.messageType == MessageExtensionType.IMAGE) {
+        message1.fimePath =
+            CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(), message.message);
+        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
+            .avatar(mVCardRealm.getAvatar())
+            .message(message1)
+            .build());
+        Log.d(TAG, "onMessage: " + message1);
+      } else if (message.messageType == MessageExtensionType.AUDIO) {
+        message1.fimePath =
+            CommonUtils.getUrl(MessageExtensionType.AUDIO.toString(), message.message);
+        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
+            .avatar(mVCardRealm.getAvatar())
+            .message(message1)
+            .build());
+        Log.d(TAG, "onMessage: " + message1);
+      }
+    } else if (message.messageAuthor == MessageAuthor.OWN) {
+      Message message2 = new Message();
+      message2.paramContent = message.message;
+      if (message.messageType == MessageExtensionType.TEXT) {
+        message2.type = FileType.TYPE_TEXT;
+        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
+            .avatar(mOwnVCardRealm != null ? mOwnVCardRealm.getAvatar() : null)
+            .message(message2)
+            .build());
+      } else if (message.messageType == MessageExtensionType.IMAGE) {
+        message2.fimePath =
+            CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(), message.message);
+        message2.type = FileType.TYPE_IMAGE;
+        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
+            .avatar(mOwnVCardRealm != null && mOwnVCardRealm.getAvatar() != null
+                ? mOwnVCardRealm.getAvatar() : null)
+            .message(message2)
+            .build());
+      } else if (message.messageType == MessageExtensionType.AUDIO) {
+        message2.fimePath =
+            CommonUtils.getUrl(MessageExtensionType.AUDIO.toString(), message.message);
+        message2.time = 10;
+        message2.type = FileType.TYPE_AUDIO;
+        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
+            .avatar(mOwnVCardRealm != null && mOwnVCardRealm.getAvatar() != null
+                ? mOwnVCardRealm.getAvatar() : null)
+            .message(message2)
+            .build());
+      }
     }
     updateChatData();
   }
@@ -368,40 +475,12 @@ public class ChatFragment extends BaseFragment
 
   /**
    * 发送消息到对方，并且添加到本地
-   * @param message
-   * @param type
    */
   public void sendMyFriendMessage(String message, MessageExtensionType type) {
     TextMessage message1 = new TextMessage(mVCardRealm.getJid(), message);
     message1.messageType = type;
     HermesEventBus.getDefault().post(message1);
     //将消息更新到本地
-    Message message2 = new Message();
-    if (type == MessageExtensionType.TEXT) {
-      message2.paramContent = mChatInput.getText().toString();
-      mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
-          .avatar(mOwnVCardRealm != null ? mOwnVCardRealm.getAvatar() : null)
-          .message(message2)
-          .build());
-    } else if (type == MessageExtensionType.IMAGE) {
-      message2.fimePath = CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(), message);
-      message2.type = FileType.TYPE_IMAGE;
-      mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
-          .avatar(mOwnVCardRealm != null && mOwnVCardRealm.getAvatar() != null
-              ? mOwnVCardRealm.getAvatar() : null)
-          .message(message2)
-          .build());
-    } else if (type == MessageExtensionType.AUDIO) {
-      message2.fimePath = CommonUtils.getUrl(MessageExtensionType.AUDIO.toString(), message);
-      message2.time = 10;
-      message2.type = FileType.TYPE_AUDIO;
-      mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
-          .avatar(mOwnVCardRealm != null && mOwnVCardRealm.getAvatar() != null
-              ? mOwnVCardRealm.getAvatar() : null)
-          .message(message2)
-          .build());
-    }
-    updateChatData();
     mChatInput.setText("");
   }
 

@@ -44,6 +44,7 @@ import tech.jiangtao.support.kit.archive.MessageArchiveIQProvider;
 import tech.jiangtao.support.kit.archive.MessageArchiveRequestIQ;
 import tech.jiangtao.support.kit.archive.MessageArchiveStanzaFilter;
 import tech.jiangtao.support.kit.archive.MessageArchiveStanzaListener;
+import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.ContactEvent;
 import tech.jiangtao.support.kit.eventbus.LoginCallbackEvent;
@@ -117,23 +118,24 @@ public class SupportService extends Service
         if (messageExtension==null||messageExtension.getValue("type") == null || messageExtension.getValue("type")
             .equals(MessageExtensionType.TEXT.toString())) {
           HermesEventBus.getDefault()
-              .post(new RecieveMessage(message.getStanzaId(),message.getType(), message.getFrom(),chat1.getParticipant(),
-                  chat1.getThreadID(),message.getBody(),MessageExtensionType.TEXT,false));
+              .post(new RecieveMessage(message.getStanzaId(),message.getType(), message.getFrom(),message.getTo(),
+                  chat1.getThreadID(),message.getBody(),MessageExtensionType.TEXT,false,
+                  MessageAuthor.FRIEND));
         }
         if (messageExtension.getValue("type").equals(MessageExtensionType.IMAGE.toString())) {
           HermesEventBus.getDefault()
-              .post(new RecieveMessage(message.getStanzaId(),message.getType(), message.getFrom(),chat1.getParticipant(),
-                  chat1.getThreadID(),message.getBody(),MessageExtensionType.IMAGE,false));
+              .post(new RecieveMessage(message.getStanzaId(),message.getType(), message.getFrom(),message.getTo(),
+                  chat1.getThreadID(),message.getBody(),MessageExtensionType.IMAGE,false,MessageAuthor.FRIEND));
         }
         if (messageExtension.getValue("type").equals(MessageExtensionType.AUDIO.toString())) {
           HermesEventBus.getDefault()
-              .post(new RecieveMessage(message.getStanzaId(),message.getType(), message.getFrom(),chat1.getParticipant(),
-                  chat1.getThreadID(),message.getBody(),MessageExtensionType.AUDIO,false));
+              .post(new RecieveMessage(message.getStanzaId(),message.getType(), message.getFrom(),message.getTo(),
+                  chat1.getThreadID(),message.getBody(),MessageExtensionType.AUDIO,false,MessageAuthor.FRIEND));
         }
         if (messageExtension.getValue("type").equals(MessageExtensionType.VIDEO.toString())) {
           HermesEventBus.getDefault()
-              .post(new RecieveMessage(message.getStanzaId(),message.getType(), message.getFrom(),chat1.getParticipant(),
-                  chat1.getThreadID(),message.getBody(),MessageExtensionType.VIDEO,false));
+              .post(new RecieveMessage(message.getStanzaId(),message.getType(), message.getFrom(),message.getTo(),
+                  chat1.getThreadID(),message.getBody(),MessageExtensionType.VIDEO,false,MessageAuthor.FRIEND));
         }
       }
       //发送消息到守护服务，先保存会话到另外一个会话表，然后保存消息到历史消息表
@@ -142,8 +144,8 @@ public class SupportService extends Service
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void sendMessage(TextMessage message) {
     Chat chat = ChatManager.getInstanceFor(mXMPPConnection).createChat(message.userJID);
-    Observable.create(new Observable.OnSubscribe<String>() {
-      @Override public void call(Subscriber<? super String> subscriber) {
+    Observable.create(new Observable.OnSubscribe<Message>() {
+      @Override public void call(Subscriber<? super Message> subscriber) {
         try {
           Message message1 = new Message();
           message1.setBody(message.message);
@@ -152,7 +154,7 @@ public class SupportService extends Service
           extensionElement.setValue("type", message.messageType.toString());
           message1.addExtension(extensionElement);
           chat.sendMessage(message1);
-          subscriber.onNext("");
+          subscriber.onNext(message1);
         } catch (SmackException.NotConnectedException e) {
           subscriber.onError(e);
           e.printStackTrace();
@@ -161,6 +163,34 @@ public class SupportService extends Service
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
       Log.d(TAG, "sendMessage: 发送成功");
       //缓存消息
+      DefaultExtensionElement messageExtension =
+          (DefaultExtensionElement) s.getExtension("message:extension");
+      Log.d(TAG, "sendMessage: 打印出别人的jid为:"+s.getTo());
+      Log.d(TAG, "sendMessage: 打印出自己的jid为:"+chat.getParticipant());
+      if ( s.getBody()!= null) {
+        if (messageExtension==null||messageExtension.getValue("type") == null || messageExtension.getValue("type")
+            .equals(MessageExtensionType.TEXT.toString())) {
+          HermesEventBus.getDefault()
+              .post(new RecieveMessage(s.getStanzaId(),s.getType(), chat.getParticipant(),s.getTo(),
+                  chat.getThreadID(),s.getBody(),MessageExtensionType.TEXT,false,
+                  MessageAuthor.OWN));
+        }
+        if (messageExtension.getValue("type").equals(MessageExtensionType.IMAGE.toString())) {
+          HermesEventBus.getDefault()
+              .post(new RecieveMessage(s.getStanzaId(),s.getType(), chat.getParticipant(),s.getTo(),
+                  chat.getThreadID(),s.getBody(),MessageExtensionType.IMAGE,false,MessageAuthor.OWN));
+        }
+        if (messageExtension.getValue("type").equals(MessageExtensionType.AUDIO.toString())) {
+          HermesEventBus.getDefault()
+              .post(new RecieveMessage(s.getStanzaId(),s.getType(), chat.getParticipant(),s.getTo(),
+                  chat.getThreadID(),s.getBody(),MessageExtensionType.AUDIO,false,MessageAuthor.OWN));
+        }
+        if (messageExtension.getValue("type").equals(MessageExtensionType.VIDEO.toString())) {
+          HermesEventBus.getDefault()
+              .post(new RecieveMessage(s.getStanzaId(),s.getType(), chat.getParticipant(),s.getTo(),
+                  chat.getThreadID(),s.getBody(),MessageExtensionType.VIDEO,false,MessageAuthor.OWN));
+        }
+      }
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
         super.call(throwable);

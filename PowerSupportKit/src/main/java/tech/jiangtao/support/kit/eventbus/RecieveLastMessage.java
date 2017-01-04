@@ -1,11 +1,9 @@
 package tech.jiangtao.support.kit.eventbus;
 
 import android.os.Parcel;
-
 import android.os.Parcelable;
 import java.util.Date;
 import org.jivesoftware.smack.packet.Message;
-
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 
@@ -18,7 +16,7 @@ import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
  * Update: 06/12/2016 8:30 PM </br>
  **/
 
-public class RecieveMessage implements Parcelable {
+public class RecieveLastMessage  implements Parcelable {
   public String id;
   public Message.Type type;
   //user from
@@ -33,14 +31,14 @@ public class RecieveMessage implements Parcelable {
   public boolean readStatus;
   public MessageAuthor messageAuthor;
 
-  public RecieveMessage(Message.Type type, String userJID, String message ,MessageExtensionType fileType) {
+  public RecieveLastMessage(Message.Type type, String userJID, String message ,MessageExtensionType fileType) {
     this.type = type;
     this.userJID = userJID;
     this.message = message;
     this.messageType = fileType;
   }
 
-  public RecieveMessage(String id, Message.Type type, String userJID, String ownJid, String message,
+  public RecieveLastMessage(String id, Message.Type type, String userJID, String ownJid, String message,
       MessageExtensionType messageType, boolean readStatus) {
     this.id = id;
     this.type = type;
@@ -51,7 +49,7 @@ public class RecieveMessage implements Parcelable {
     this.readStatus = readStatus;
   }
 
-  public RecieveMessage(String id, Message.Type type, String userJID, String ownJid, String thread,
+  public RecieveLastMessage(String id, Message.Type type, String userJID, String ownJid, String thread,
       String message, MessageExtensionType messageType, boolean readStatus) {
     this.id = id;
     this.type = type;
@@ -63,7 +61,7 @@ public class RecieveMessage implements Parcelable {
     this.readStatus = readStatus;
   }
 
-  public RecieveMessage(String id, Message.Type type, String userJID, String ownJid, Date date,
+  public RecieveLastMessage(String id, Message.Type type, String userJID, String ownJid, Date date,
       String thread, String message, MessageExtensionType messageType, boolean readStatus) {
     this.id = id;
     this.type = type;
@@ -76,7 +74,7 @@ public class RecieveMessage implements Parcelable {
     this.readStatus = readStatus;
   }
 
-  public RecieveMessage(String id, Message.Type type, String userJID, String ownJid, String thread,
+  public RecieveLastMessage(String id, Message.Type type, String userJID, String ownJid, String thread,
       String message, MessageExtensionType messageType, boolean readStatus,
       MessageAuthor messageAuthor) {
     this.id = id;
@@ -90,7 +88,7 @@ public class RecieveMessage implements Parcelable {
     this.messageAuthor = messageAuthor;
   }
 
-  public RecieveMessage() {
+  public RecieveLastMessage() {
   }
 
   @Override public int describeContents() {
@@ -110,7 +108,7 @@ public class RecieveMessage implements Parcelable {
     dest.writeInt(this.messageAuthor == null ? -1 : this.messageAuthor.ordinal());
   }
 
-  protected RecieveMessage(Parcel in) {
+  protected RecieveLastMessage(Parcel in) {
     this.id = in.readString();
     int tmpType = in.readInt();
     this.type = tmpType == -1 ? null : Message.Type.values()[tmpType];
@@ -127,13 +125,13 @@ public class RecieveMessage implements Parcelable {
     this.messageAuthor = tmpMessageAuthor == -1 ? null : MessageAuthor.values()[tmpMessageAuthor];
   }
 
-  public static final Creator<RecieveMessage> CREATOR = new Creator<RecieveMessage>() {
-    @Override public RecieveMessage createFromParcel(Parcel source) {
-      return new RecieveMessage(source);
+  public static final Creator<RecieveLastMessage> CREATOR = new Creator<RecieveLastMessage>() {
+    @Override public RecieveLastMessage createFromParcel(Parcel source) {
+      return new RecieveLastMessage(source);
     }
 
-    @Override public RecieveMessage[] newArray(int size) {
-      return new RecieveMessage[size];
+    @Override public RecieveLastMessage[] newArray(int size) {
+      return new RecieveLastMessage[size];
     }
   };
 }

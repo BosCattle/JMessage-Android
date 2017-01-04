@@ -17,7 +17,9 @@ import java.util.UUID;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import tech.jiangtao.support.kit.archive.MessageBody;
+import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
+import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
@@ -59,52 +61,65 @@ public class XMPPService extends Service {
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onRecieveMessage(RecieveMessage message) {
-    if (message.messageType== MessageExtensionType.TEXT) {
-      showOnesNotification(message.userJID, message.message, new Intent(this, ChatFragment.class));
-      //保存到本地数据库
-      mRealm.executeTransactionAsync(realm -> {
-        RealmResults<SessionRealm> result = realm.where(SessionRealm.class)
-            .equalTo("user_from", message.userJID)
-            .equalTo("user_to", message.userJID)
-            .findAll();
-        SessionRealm sessionRealm;
-        if (result.size() != 0) {
-          sessionRealm = result.first();
-          sessionRealm.setMessage_id(message.id);
-          sessionRealm.setUnReadCount(sessionRealm.getUnReadCount() + 1);
-        } else {
-          sessionRealm = new SessionRealm();
-          sessionRealm.setSession_id(UUID.randomUUID().toString());
-          sessionRealm.setUser_from(message.userJID);
-          sessionRealm.setUser_to(message.ownJid);
-          sessionRealm.setVcard_id(message.userJID);
-          sessionRealm.setMessage_id(message.id);
-          sessionRealm.setUnReadCount(1);
-        }
-        realm.copyToRealmOrUpdate(sessionRealm);
-      }, new Realm.Transaction.OnSuccess() {
-        @Override public void onSuccess() {
-          Log.d(TAG, "onSuccess: 保存消息成功");
-        }
-      }, new Realm.Transaction.OnError() {
-        @Override public void onError(Throwable error) {
-          Log.d(TAG, "onError: 保存消息失败");
-        }
-      });
-    }
-    if (message.messageType== MessageExtensionType.IMAGE) {
-      showOnesNotification(message.userJID, "图片", new Intent(this, ChatFragment.class));
-      //保存到本地数据库
-    }
-    if (message.messageType== MessageExtensionType.AUDIO) {
-      showOnesNotification(message.userJID, "音频", new Intent(this, ChatFragment.class));
-      //保存到本地数据库
-    }
-    if (message.messageType== MessageExtensionType.VIDEO) {
-      showOnesNotification(message.userJID, "视频", new Intent(this, ChatFragment.class));
-      //保存到本地数据库
-    }
     //先保存会话表，然后保存到消息记录表
+    mRealm.executeTransactionAsync(realm -> {
+      RealmResults<SessionRealm> result = realm.where(SessionRealm.class)
+          .equalTo("user_from", message.userJID)
+          .equalTo("user_to", message.ownJid)
+          .findAll();
+      SessionRealm sessionRealm;
+      if (result.size() != 0) {
+        sessionRealm = result.first();
+        sessionRealm.setMessage_id(message.id);
+        sessionRealm.setUnReadCount(sessionRealm.getUnReadCount() + 1);
+      } else {
+        sessionRealm = new SessionRealm();
+        sessionRealm.setSession_id(UUID.randomUUID().toString());
+        sessionRealm.setUser_from(message.userJID);
+        sessionRealm.setUser_to(message.ownJid);
+        sessionRealm.setVcard_id(message.userJID);
+        sessionRealm.setMessage_id(message.id);
+        sessionRealm.setUnReadCount(1);
+      }
+      MessageRealm messageRealm = new MessageRealm();
+      messageRealm.setId(message.id);
+      messageRealm.setMainJID(message.userJID);
+      messageRealm.setWithJID(message.ownJid);
+      messageRealm.setTextMessage(message.message);
+      messageRealm.setTime(null);
+      messageRealm.setThread(message.thread);
+      messageRealm.setType(message.type.toString());
+      messageRealm.setMessageType(message.messageType.toString());
+      messageRealm.setMessageStatus(false);
+      realm.copyToRealmOrUpdate(sessionRealm);
+      realm.copyToRealm(messageRealm);
+    }, () -> {
+      Log.d(TAG, "onSuccess: 保存消息成功");
+      HermesEventBus.getDefault()
+          .post(new RecieveLastMessage(message.id,message.type,message.userJID,message.ownJid,
+              message.thread,message.message,message.messageType,false,
+              message.messageAuthor));
+      if (message.messageType== MessageExtensionType.TEXT) {
+        showOnesNotification(message.userJID, message.message, new Intent(XMPPService.this, ChatFragment.class));
+        //保存到本地数据库
+      }
+      if (message.messageType== MessageExtensionType.IMAGE) {
+        showOnesNotification(message.userJID, "图片", new Intent(XMPPService.this, ChatFragment.class));
+        //保存到本地数据库
+      }
+      if (message.messageType== MessageExtensionType.AUDIO) {
+        showOnesNotification(message.userJID, "音频", new Intent(XMPPService.this, ChatFragment.class));
+        //保存到本地数据库
+      }
+      if (message.messageType== MessageExtensionType.VIDEO) {
+        showOnesNotification(message.userJID, "视频", new Intent(XMPPService.this, ChatFragment.class));
+        //保存到本地数据库
+      }
+    }, new Realm.Transaction.OnError() {
+      @Override public void onError(Throwable error) {
+        Log.d(TAG, "onError: 保存消息失败"+error.getMessage());
+      }
+    });
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onVCardRealmMessage(VCardRealm realmObject) {
@@ -188,7 +203,7 @@ public class XMPPService extends Service {
     }
   }
 
-  public void savaOfflineMessage(){
+  public void saveOfflineMessage(){
     //MessageRealm messageRealm = new MessageRealm();
     //messageRealm.setId(message.id);
     //messageRealm.setMainJID(message.userJID);
