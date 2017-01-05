@@ -5,4 +5,5 @@
   <dimen name="divider">0.2dp</dimen>
   <dimen name="audio_button_redius">5dp</dimen>
   <dimen name="text_size_normal">16sp</dimen>
+  <dimen name="text_size_large">20sp</dimen>
 </resources>

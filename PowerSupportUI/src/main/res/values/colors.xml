@@ -6,4 +6,5 @@
   <color name="white">#FFFFFF</color>
   <color name="black">#000000</color>
   <color name="windowBackground">#FFFF00</color>
+  <color name="letter_cell">#FBFBFB</color>
 </resources>

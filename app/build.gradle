@@ -108,7 +108,7 @@ dependencies {
   compile 'io.reactivex:rxandroid:1.2.1'
   compile 'io.reactivex:rxjava:1.1.6'
   compile 'com.roughike:bottom-bar:2.0.2'
-  compile 'com.github.jiangTaoQuite:ViewCollection:0.0.2_alpha'
+  compile 'com.github.BosCattle:ViewCollection:0.0.2_alpha'
   compile 'com.pgyersdk:sdk:2.2'
   compile 'com.afollestad.material-dialogs:core:0.9.1.0'
   compile 'com.github.BosCattle:MultiType-FilePicker:1.0.1'

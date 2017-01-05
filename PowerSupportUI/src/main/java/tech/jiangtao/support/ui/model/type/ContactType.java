@@ -11,5 +11,5 @@ package tech.jiangtao.support.ui.model.type;
 
 public enum ContactType {
 
-  TYPE_NORMAL,TYPE_GROUP,TYPE_FRIENDS
+  TYPE_NORMAL,TYPE_GROUP,TYPE_FRIENDS,TYPE_LETTER
 }

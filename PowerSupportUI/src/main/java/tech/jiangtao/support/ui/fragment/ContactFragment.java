@@ -8,12 +8,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import butterknife.BindView;
+import com.kevin.library.widget.SideBar;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -46,6 +51,8 @@ public class ContactFragment extends BaseFragment
     EasyViewHolder.OnItemLeftScrollListener {
 
   @BindView(R2.id.contact_list) RecyclerView mContactList;
+  @BindView(R2.id.sidebar) SideBar mSideBar;
+  @BindView(R2.id.ui_view_bubble) TextView mUiViewBuddle;
   public static final String TAG = ContactFragment.class.getSimpleName();
   private ContactAdapter mBaseEasyAdapter;
   private ContactItemCallback mContactItemCallback;
@@ -112,6 +119,17 @@ public class ContactFragment extends BaseFragment
         }
         mBaseEasyAdapter.notifyDataSetChanged();
       });
+    });
+    buildSideBar();
+  }
+
+  public void  buildSideBar(){
+    mSideBar.setBubble(mUiViewBuddle);
+    List<String> list = Arrays.asList(SideBar.b);
+    mSideBar.setUpCharList(list);
+    mSideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
+      @Override public void onTouchingLetterChanged(String s) {
+      }
     });
   }
 

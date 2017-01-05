@@ -8,6 +8,7 @@ import java.util.List;
 import tech.jiangtao.support.ui.linstener.DebouncedOnClickListener;
 import tech.jiangtao.support.ui.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
+import tech.jiangtao.support.ui.viewholder.ContactCellViewHolder;
 import tech.jiangtao.support.ui.viewholder.ContactHeadViewHolder;
 import tech.jiangtao.support.ui.viewholder.ContactsViewHolder;
 
@@ -46,6 +47,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
       case 1:
         viewHolder = new ContactsViewHolder(mContext,parent);
         break;
+      case 2:
+        viewHolder = new ContactCellViewHolder(mContext,parent);
     }
     bindListener(viewHolder);
     return viewHolder;
@@ -60,11 +63,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
   }
 
   @Override public int getItemViewType(int position) {
-    int type;
+    int type = 0;
     if (mDatas.get(position).mType== ContactType.TYPE_GROUP){
       type = 0;
-    }else {
+    }else if (mDatas.get(position).mType== ContactType.TYPE_NORMAL){
       type = 1;
+    }else if (mDatas.get(position).mType== ContactType.TYPE_LETTER){
+      type = 2;
     }
     return type;
   }
