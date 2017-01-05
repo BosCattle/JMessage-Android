@@ -28,9 +28,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import java.util.List;
+import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.ui.fragment.ChatListFragment;
 import tech.jiangtao.support.ui.linstener.ContactItemCallback;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
+import tech.jiangtao.support.ui.pattern.SessionListMessage;
 
 /**
  * Class: MainActivity </br>
@@ -138,14 +140,13 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
 
   @Override public void onItemClick(int position, View view, Object object) {
     if (object instanceof ConstrutContact) {
-      if (position == 0) {
-
-      } else if (position == 1) {
-
-      } else {
-        ConstrutContact data = (ConstrutContact) object;
+      ConstrutContact data = (ConstrutContact) object;
+      if (data.mVCardRealm != null) {
         ChatActivity.startChat(this, data.mVCardRealm);
       }
+    }else if(object instanceof VCardRealm){
+      VCardRealm data = (VCardRealm) object;
+      ChatActivity.startChat(this, data);
     }
   }
 
@@ -157,7 +158,7 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
         // 将新版本信息封装到AppBean中
         final AppBean appBean = getAppBeanFromString(result);
         new AlertDialog.Builder(MainActivity.this).setTitle("更新")
-            .setMessage("统一通信有更新啦。版本号"+appBean.getReleaseNote()+appBean.getVersionCode())
+            .setMessage("统一通信有更新啦。版本号" + appBean.getReleaseNote() + appBean.getVersionCode())
             .setNegativeButton("确定",
                 (dialog, which) -> startDownloadTask(MainActivity.this, appBean.getDownloadURL()))
             .show();

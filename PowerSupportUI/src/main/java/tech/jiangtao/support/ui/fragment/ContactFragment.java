@@ -71,7 +71,6 @@ public class ContactFragment extends BaseFragment
 
   public void setAdapter() {
     mConstrutContact = new ArrayList<>();
-    buildHeadView();
     mBaseEasyAdapter = new ContactAdapter(getContext(), mConstrutContact);
     mBaseEasyAdapter.setOnClickListener(this);
     mContactList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(getContext()));
@@ -86,21 +85,30 @@ public class ContactFragment extends BaseFragment
   }
 
   private void getContact() {
-    if (mRealm==null||mRealm.isClosed()){
+    if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
     mRealm.executeTransaction(realm -> {
       RealmQuery<VCardRealm> realmQuery = realm.where(VCardRealm.class);
       mVCardRealmRealmResults = realmQuery.findAll();
+      buildHeadView();
+      Iterator it = mVCardRealmRealmResults.iterator();
+      Log.d(TAG, "getContact: 打印出好友的数量:" + mVCardRealmRealmResults.size());
+      while (it.hasNext()) {
+        mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL)
+            .vCardRealm((VCardRealm) it.next())
+            .build());
+      }
+      mBaseEasyAdapter.notifyDataSetChanged();
       mVCardRealmRealmResults.addChangeListener(element -> {
         mConstrutContact.clear();
         buildHeadView();
         Iterator iterator = element.iterator();
-        Log.d(TAG, "getContact: 打印出好友的数量:"+element.size());
-        while (iterator.hasNext()){
-          mConstrutContact.add(
-              new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL).vCardRealm(
-                  (VCardRealm) iterator.next()).build());
+        Log.d(TAG, "getContact: 打印出好友的数量:" + element.size());
+        while (iterator.hasNext()) {
+          mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL)
+              .vCardRealm((VCardRealm) iterator.next())
+              .build());
         }
         mBaseEasyAdapter.notifyDataSetChanged();
       });

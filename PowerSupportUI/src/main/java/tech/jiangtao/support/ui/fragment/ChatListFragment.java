@@ -1,6 +1,8 @@
 package tech.jiangtao.support.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +25,7 @@ import butterknife.ButterKnife;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
@@ -34,6 +37,7 @@ import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
 import tech.jiangtao.support.ui.adapter.BaseEasyViewHolderFactory;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.adapter.SessionAdapter;
+import tech.jiangtao.support.ui.linstener.ContactItemCallback;
 import tech.jiangtao.support.ui.model.ChatItems;
 import tech.jiangtao.support.ui.model.Message;
 import tech.jiangtao.support.ui.model.type.MessageType;
@@ -53,88 +57,194 @@ import xiaofei.library.hermes.annotation.ClassId;
  **/
 public class ChatListFragment extends BaseFragment implements EasyViewHolder.OnItemClickListener {
 
-    public static final String TAG = Fragment.class.getSimpleName();
-    @BindView(R2.id.chat_list)
-    RecyclerView mChatList;
-    private SessionAdapter mSessionAdapter;
-    private List<SessionListMessage> mSessionMessage;
-    private Realm mRealm;
-    private RealmResults<SessionRealm> mSessionRealm;
+  public static final String TAG = Fragment.class.getSimpleName();
+  @BindView(R2.id.chat_list) RecyclerView mChatList;
+  private SessionAdapter mSessionAdapter;
+  private List<SessionListMessage> mSessionMessage;
+  private Realm mRealm;
+  private RealmResults<SessionRealm> mSessionRealm;
+  private ContactItemCallback mContactItemCallback;
 
-    public static ChatListFragment newInstance() {
-        return new ChatListFragment();
+  public static ChatListFragment newInstance() {
+    return new ChatListFragment();
+  }
+
+  @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+  }
+
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    super.onCreateView(inflater, container, savedInstanceState);
+    Log.d(TAG, "onCreateView: 创建view");
+    if (mRealm==null||mRealm.isClosed()){
+      mRealm = Realm.getDefaultInstance();
     }
+    setAdapter();
+    return getView();
+  }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        mRealm = Realm.getDefaultInstance();
-        setAdapter();
-        return getView();
+
+  @Override public int layout() {
+    return R.layout.fragment_single_chat;
+  }
+
+  public void setAdapter() {
+    mSessionMessage = new ArrayList<>();
+    mSessionAdapter = new SessionAdapter(getContext(), mSessionMessage);
+    mSessionAdapter.setOnClickListener(this);
+    mChatList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(getContext()));
+    mChatList.setLayoutManager(
+        new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+    mChatList.setAdapter(mSessionAdapter);
+    getChatList();
+  }
+
+  @Override public void onResume() {
+    super.onResume();
+  }
+
+  private void getChatList() {
+    mRealm.executeTransaction(realm -> {
+      mSessionRealm = realm.where(SessionRealm.class).findAll();
+      Iterator<SessionRealm> it = mSessionRealm.iterator();
+      Log.d(TAG, "getChatList: 数量为"+mSessionRealm.size());
+      while (it.hasNext())
+      {
+        SessionRealm messageRealm = it.next();
+        //这儿需要查一下MessageRealm和VCardRealm;
+        RealmResults<VCardRealm> vCardRealms = realm.where(VCardRealm.class)
+            .equalTo("jid", StringSplitUtil.splitDivider(messageRealm.getVcard_id()))
+            .findAll();
+        VCardRealm vCardRealm = new VCardRealm();
+        if (vCardRealms.size() != 0) {
+          vCardRealm = vCardRealms.first();
+        }
+        RealmResults<MessageRealm> message =
+            realm.where(MessageRealm.class).equalTo("id", messageRealm.getMessage_id()).findAll();
+        if (message.first().getMessageType().equals(MessageExtensionType.TEXT.toString())){
+          mSessionMessage.add(
+              new SessionListMessage.Builder().unReadMessageCount(messageRealm.unReadCount)
+                  .userJid(messageRealm.getVcard_id())
+                  .username(vCardRealm.getNickName())
+                  .unReadMessage(message.first().textMessage)
+                  .avatar(vCardRealm.getAvatar())
+                  .build());
+        }
+        if (message.first().getMessageType().equals(MessageExtensionType.IMAGE.toString())){
+          mSessionMessage.add(
+              new SessionListMessage.Builder().unReadMessageCount(messageRealm.unReadCount)
+                  .userJid(messageRealm.getVcard_id())
+                  .username(vCardRealm.getNickName())
+                  .unReadMessage("图片")
+                  .avatar(vCardRealm.getAvatar())
+                  .build());
+        }
+        if (message.first().getMessageType().equals(MessageExtensionType.AUDIO.toString())){
+          mSessionMessage.add(
+              new SessionListMessage.Builder().unReadMessageCount(messageRealm.unReadCount)
+                  .userJid(messageRealm.getVcard_id())
+                  .username(vCardRealm.getNickName())
+                  .unReadMessage("语音")
+                  .avatar(vCardRealm.getAvatar())
+                  .build());
+        }
+        if (message.first().getMessageType().equals(MessageExtensionType.VIDEO.toString())){
+          mSessionMessage.add(
+              new SessionListMessage.Builder().unReadMessageCount(messageRealm.unReadCount)
+                  .userJid(messageRealm.getVcard_id())
+                  .username(vCardRealm.getNickName())
+                  .unReadMessage("视频")
+                  .avatar(vCardRealm.getAvatar())
+                  .build());
+        }
+        mSessionAdapter.notifyDataSetChanged();
+      }
+      mSessionRealm.addChangeListener(element -> {
+        Iterator<SessionRealm> iterator = element.iterator();
+        Log.d(TAG, "getChatList: 会话数量"+element.size());
+        mSessionMessage.clear();
+        while (iterator.hasNext())
+        {
+          SessionRealm messageRealm = iterator.next();
+          //这儿需要查一下MessageRealm和VCardRealm;
+          RealmResults<VCardRealm> vCardRealms = realm.where(VCardRealm.class)
+              .equalTo("jid", StringSplitUtil.splitDivider(messageRealm.getVcard_id()))
+              .findAll();
+          VCardRealm vCardRealm = new VCardRealm();
+          if (vCardRealms.size() != 0) {
+            vCardRealm = vCardRealms.first();
+          }
+          RealmResults<MessageRealm> message =
+              realm.where(MessageRealm.class).equalTo("id", messageRealm.getMessage_id()).findAll();
+          if (message.first().getMessageType().equals(MessageExtensionType.TEXT.toString())){
+            mSessionMessage.add(
+                new SessionListMessage.Builder().unReadMessageCount(messageRealm.unReadCount)
+                    .userJid(messageRealm.getVcard_id())
+                    .username(vCardRealm.getNickName())
+                    .unReadMessage(message.first().textMessage)
+                    .avatar(vCardRealm.getAvatar())
+                    .build());
+          }
+          if (message.first().getMessageType().equals(MessageExtensionType.IMAGE.toString())){
+            mSessionMessage.add(
+                new SessionListMessage.Builder().unReadMessageCount(messageRealm.unReadCount)
+                    .userJid(messageRealm.getVcard_id())
+                    .username(vCardRealm.getNickName())
+                    .unReadMessage("图片")
+                    .avatar(vCardRealm.getAvatar())
+                    .build());
+          }
+          if (message.first().getMessageType().equals(MessageExtensionType.AUDIO.toString())){
+            mSessionMessage.add(
+                new SessionListMessage.Builder().unReadMessageCount(messageRealm.unReadCount)
+                    .userJid(messageRealm.getVcard_id())
+                    .username(vCardRealm.getNickName())
+                    .unReadMessage("语音")
+                    .avatar(vCardRealm.getAvatar())
+                    .build());
+          }
+          if (message.first().getMessageType().equals(MessageExtensionType.VIDEO.toString())){
+            mSessionMessage.add(
+                new SessionListMessage.Builder().unReadMessageCount(messageRealm.unReadCount)
+                    .userJid(messageRealm.getVcard_id())
+                    .username(vCardRealm.getNickName())
+                    .unReadMessage("视频")
+                    .avatar(vCardRealm.getAvatar())
+                    .build());
+          }
+          mSessionAdapter.notifyDataSetChanged();
+        }
+      });
+    });
+  }
+
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveMessage message) {
+
+  }
+
+  @Override public void onItemClick(int position, View view) {
+    //获得每一项的用户信息,
+    Log.d(TAG, "onItemClick: 点击了第"+position+"项");
+    SessionListMessage messageRealm = mSessionMessage.get(position);
+    RealmResults<VCardRealm> vCardRealms = mRealm.where(VCardRealm.class)
+        .equalTo("jid", StringSplitUtil.splitDivider(messageRealm.userJid))
+        .findAll();
+    VCardRealm vCardRealm = new VCardRealm();
+    if (vCardRealms.size() != 0) {
+      vCardRealm = vCardRealms.first();
     }
+    mContactItemCallback.onItemClick(position, view, vCardRealm);
+  }
 
-    @Override
-    public int layout() {
-        return R.layout.fragment_single_chat;
-    }
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    Log.d(TAG, "onDestroyView: 销毁view");
+    mRealm.close();
+  }
 
-    public void setAdapter() {
-        mSessionMessage = new ArrayList<>();
-        mSessionAdapter = new SessionAdapter(getContext(), mSessionMessage);
-        mSessionAdapter.setOnClickListener(this);
-        mChatList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(getContext()));
-        mChatList.setLayoutManager(
-                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        mChatList.setAdapter(mSessionAdapter);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getChatList();
-    }
-
-    private void getChatList() {
-        mRealm.executeTransaction(realm -> {
-            mSessionRealm = realm.where(SessionRealm.class).findAll();
-            mSessionRealm.addChangeListener(element -> {
-                mSessionMessage.clear();
-                Iterator<SessionRealm> it = element.iterator();
-                while (it.hasNext()) {
-                    SessionRealm messageRealm = it.next();
-                    //这儿需要查一下MessageRealm和VCardRealm;
-                    RealmResults<VCardRealm> vCardRealms = realm.where(VCardRealm.class).equalTo("jid", StringSplitUtil.splitDivider(messageRealm.getVcard_id())).findAll();
-                    VCardRealm vCardRealm = new VCardRealm();
-                    if (vCardRealms.size() != 0) {
-                        vCardRealm = vCardRealms
-                                .first();
-                    }
-                    RealmResults<MessageRealm> message = realm.where(MessageRealm.class).equalTo("id", messageRealm.getMessage_id()).findAll();
-                    mSessionMessage.add(
-                            new SessionListMessage.Builder().unReadMessageCount(messageRealm.unReadCount)
-                                    .username(vCardRealm.getNickName()).unReadMessage(message.first().textMessage)
-                                    .avatar(vCardRealm.getAvatar()).build());
-
-                }
-                mSessionAdapter.notifyDataSetChanged();
-            });
-        });
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessage(RecieveMessage message) {
-
-    }
-
-    @Override
-    public void onItemClick(int position, View view) {
-
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mRealm.close();
-    }
+  @Override public void onAttach(Context context) {
+    super.onAttach(context);
+    mContactItemCallback = (ContactItemCallback) context;
+  }
 }

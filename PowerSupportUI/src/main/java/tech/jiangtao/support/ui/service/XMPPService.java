@@ -55,7 +55,7 @@ public class XMPPService extends Service {
   }
 
   @Override public int onStartCommand(Intent intent, int flags, int startId) {
-    if (mRealm==null||mRealm.isClosed()){
+    if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
     return START_STICKY;
@@ -64,21 +64,21 @@ public class XMPPService extends Service {
   @Subscribe(threadMode = ThreadMode.MAIN) public void onRecieveMessage(RecieveMessage message) {
     //先保存会话表，然后保存到消息记录表
     // TODO: 2017/1/5 此处已经把我绕晕了,保存数据库有问题
-    if (mRealm==null||mRealm.isClosed()){
+    if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
     mRealm.executeTransactionAsync(realm -> {
       RealmResults<SessionRealm> result = null;
-      if (message.messageAuthor==MessageAuthor.FRIEND){
+      if (message.messageAuthor == MessageAuthor.FRIEND) {
         result = realm.where(SessionRealm.class)
-                .equalTo("user_from", message.userJID)
-                .equalTo("user_to", message.ownJid)
-                .findAll();
-      }else {
+            .equalTo("user_from", StringSplitUtil.splitDivider(message.userJID))
+            .equalTo("user_to", StringSplitUtil.splitDivider(message.ownJid))
+            .findAll();
+      } else {
         result = realm.where(SessionRealm.class)
-                .equalTo("user_from", message.ownJid)
-                .equalTo("user_to",message.userJID )
-                .findAll();
+            .equalTo("user_from", StringSplitUtil.splitDivider(message.ownJid))
+            .equalTo("user_to", StringSplitUtil.splitDivider(message.userJID))
+            .findAll();
       }
       SessionRealm sessionRealm;
       if (result.size() != 0) {
@@ -88,11 +88,11 @@ public class XMPPService extends Service {
       } else {
         sessionRealm = new SessionRealm();
         sessionRealm.setSession_id(UUID.randomUUID().toString());
-        if (message.messageAuthor==MessageAuthor.FRIEND){
+        if (message.messageAuthor == MessageAuthor.FRIEND) {
           sessionRealm.setUser_from(StringSplitUtil.splitDivider(message.userJID));
           sessionRealm.setUser_to(StringSplitUtil.splitDivider(message.ownJid));
           sessionRealm.setVcard_id(message.userJID);
-        }else {
+        } else {
           sessionRealm.setUser_from(StringSplitUtil.splitDivider(message.ownJid));
           sessionRealm.setUser_to(StringSplitUtil.splitDivider(message.userJID));
           sessionRealm.setVcard_id(message.ownJid);
@@ -115,39 +115,43 @@ public class XMPPService extends Service {
     }, () -> {
       Log.d(TAG, "onSuccess: 保存消息成功");
       HermesEventBus.getDefault()
-          .post(new RecieveLastMessage(message.id,message.type,message.userJID,message.ownJid,
-              message.thread,message.message,message.messageType,false,
-              message.messageAuthor));
-      if (message.messageType== MessageExtensionType.TEXT) {
-        showOnesNotification(message.userJID, message.message, new Intent(XMPPService.this, ChatFragment.class));
+          .post(new RecieveLastMessage(message.id, message.type, message.userJID, message.ownJid,
+              message.thread, message.message, message.messageType, false, message.messageAuthor));
+      if (message.messageType == MessageExtensionType.TEXT) {
+        showOnesNotification(message.userJID, message.message,
+            new Intent(XMPPService.this, ChatFragment.class));
         //保存到本地数据库
       }
-      if (message.messageType== MessageExtensionType.IMAGE) {
-        showOnesNotification(message.userJID, "图片", new Intent(XMPPService.this, ChatFragment.class));
+      if (message.messageType == MessageExtensionType.IMAGE) {
+        showOnesNotification(message.userJID, "图片",
+            new Intent(XMPPService.this, ChatFragment.class));
         //保存到本地数据库
       }
-      if (message.messageType== MessageExtensionType.AUDIO) {
-        showOnesNotification(message.userJID, "音频", new Intent(XMPPService.this, ChatFragment.class));
+      if (message.messageType == MessageExtensionType.AUDIO) {
+        showOnesNotification(message.userJID, "音频",
+            new Intent(XMPPService.this, ChatFragment.class));
         //保存到本地数据库
       }
-      if (message.messageType== MessageExtensionType.VIDEO) {
-        showOnesNotification(message.userJID, "视频", new Intent(XMPPService.this, ChatFragment.class));
+      if (message.messageType == MessageExtensionType.VIDEO) {
+        showOnesNotification(message.userJID, "视频",
+            new Intent(XMPPService.this, ChatFragment.class));
         //保存到本地数据库
       }
     }, new Realm.Transaction.OnError() {
       @Override public void onError(Throwable error) {
-        Log.d(TAG, "onError: 保存消息失败"+error.getMessage());
+        Log.d(TAG, "onError: 保存消息失败" + error.getMessage());
       }
     });
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onVCardRealmMessage(VCardRealm realmObject) {
-    if (mRealm==null||mRealm.isClosed()){
+    if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
     mRealm.executeTransactionAsync(realm -> {
-      RealmResults<VCardRealm> result =
-          realm.where(VCardRealm.class).equalTo("jid", StringSplitUtil.splitDivider(realmObject.getJid())).findAll();
+      RealmResults<VCardRealm> result = realm.where(VCardRealm.class)
+          .equalTo("jid", StringSplitUtil.splitDivider(realmObject.getJid()))
+          .findAll();
       if (result.size() != 0) {
         VCardRealm realmUpdate = result.first();
         realmUpdate.setNickName(realmObject.getNickName());
@@ -163,9 +167,9 @@ public class XMPPService extends Service {
           realmUpdate.setFirstLetter(realmObject.getFirstLetter());
         }
         realmUpdate.setFriend(true);
-        Log.d(TAG, "onVCardRealmMessage:更新数据 "+realmUpdate.toString());
+        Log.d(TAG, "onVCardRealmMessage:更新数据 " + realmUpdate.toString());
       } else {
-        Log.d(TAG, "onVCardRealmMessage: "+realmObject.toString());
+        Log.d(TAG, "onVCardRealmMessage: " + realmObject.toString());
         realm.copyToRealm(realmObject);
       }
     }, () -> {
@@ -227,9 +231,8 @@ public class XMPPService extends Service {
     }
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void messageAchieve(MessageBody messagebody){
-    Log.d(TAG, "messageAchieve: "+messagebody.toString()+"总数为:"+i);
+  @Subscribe(threadMode = ThreadMode.MAIN) public void messageAchieve(MessageBody messagebody) {
+    Log.d(TAG, "messageAchieve: " + messagebody.toString() + "总数为:" + i);
     i++;
   }
 }
