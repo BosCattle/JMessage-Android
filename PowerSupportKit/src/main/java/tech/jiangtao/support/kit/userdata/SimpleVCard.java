@@ -4,6 +4,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import tech.jiangtao.support.kit.callback.VCardCallback;
+import tech.jiangtao.support.kit.eventbus.LocalVCardEvent;
 import tech.jiangtao.support.kit.eventbus.OwnVCardRealm;
 import tech.jiangtao.support.kit.realm.VCardRealm;
 import xiaofei.library.hermeseventbus.HermesEventBus;
@@ -27,7 +28,8 @@ public class SimpleVCard {
             HermesEventBus.getDefault().register(this);
     }
 
-    public void startUpdate(VCardRealm realm, VCardCallback callBack){
+    // TODO: 2017/1/5 vcardRealm更改
+    public void startUpdate(LocalVCardEvent realm, VCardCallback callBack){
         vCardCallback = callBack;
         HermesEventBus.getDefault().post(realm);
     }

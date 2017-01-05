@@ -47,6 +47,15 @@ public class VCardRealm extends RealmObject implements Parcelable {
     this.firstLetter = firstLetter;
   }
 
+  public VCardRealm(String jid, String nickName, String avatar, String firstLetter, String allPinYin, boolean friend) {
+    this.jid = jid;
+    this.nickName = nickName;
+    this.avatar = avatar;
+    this.firstLetter = firstLetter;
+    this.allPinYin = allPinYin;
+    this.friend = friend;
+  }
+
   public String getJid() {
     return jid;
   }
@@ -186,4 +195,22 @@ public class VCardRealm extends RealmObject implements Parcelable {
       return new VCardRealm[size];
     }
   };
+
+  @Override
+  public String toString() {
+    return "VCardRealm{" +
+            "jid='" + jid + '\'' +
+            ", nickName='" + nickName + '\'' +
+            ", sex='" + sex + '\'' +
+            ", subject='" + subject + '\'' +
+            ", office='" + office + '\'' +
+            ", email='" + email + '\'' +
+            ", phoneNumber='" + phoneNumber + '\'' +
+            ", signature='" + signature + '\'' +
+            ", avatar='" + avatar + '\'' +
+            ", firstLetter='" + firstLetter + '\'' +
+            ", allPinYin='" + allPinYin + '\'' +
+            ", friend=" + friend +
+            '}';
+  }
 }

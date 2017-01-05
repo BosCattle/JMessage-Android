@@ -25,6 +25,7 @@ import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.PinYinUtils;
+import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.fragment.ChatFragment;
 import uk.co.senab.photoview.log.LoggerDefault;
@@ -62,11 +63,23 @@ public class XMPPService extends Service {
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onRecieveMessage(RecieveMessage message) {
     //先保存会话表，然后保存到消息记录表
+    // TODO: 2017/1/5 此处已经把我绕晕了,保存数据库有问题
+    if (mRealm==null||mRealm.isClosed()){
+      mRealm = Realm.getDefaultInstance();
+    }
     mRealm.executeTransactionAsync(realm -> {
-      RealmResults<SessionRealm> result = realm.where(SessionRealm.class)
-          .equalTo("user_from", message.userJID)
-          .equalTo("user_to", message.ownJid)
-          .findAll();
+      RealmResults<SessionRealm> result = null;
+      if (message.messageAuthor==MessageAuthor.FRIEND){
+        result = realm.where(SessionRealm.class)
+                .equalTo("user_from", message.userJID)
+                .equalTo("user_to", message.ownJid)
+                .findAll();
+      }else {
+        result = realm.where(SessionRealm.class)
+                .equalTo("user_from", message.ownJid)
+                .equalTo("user_to",message.userJID )
+                .findAll();
+      }
       SessionRealm sessionRealm;
       if (result.size() != 0) {
         sessionRealm = result.first();
@@ -75,16 +88,22 @@ public class XMPPService extends Service {
       } else {
         sessionRealm = new SessionRealm();
         sessionRealm.setSession_id(UUID.randomUUID().toString());
-        sessionRealm.setUser_from(message.userJID);
-        sessionRealm.setUser_to(message.ownJid);
-        sessionRealm.setVcard_id(message.userJID);
+        if (message.messageAuthor==MessageAuthor.FRIEND){
+          sessionRealm.setUser_from(StringSplitUtil.splitDivider(message.userJID));
+          sessionRealm.setUser_to(StringSplitUtil.splitDivider(message.ownJid));
+          sessionRealm.setVcard_id(message.userJID);
+        }else {
+          sessionRealm.setUser_from(StringSplitUtil.splitDivider(message.ownJid));
+          sessionRealm.setUser_to(StringSplitUtil.splitDivider(message.userJID));
+          sessionRealm.setVcard_id(message.ownJid);
+        }
         sessionRealm.setMessage_id(message.id);
         sessionRealm.setUnReadCount(1);
       }
       MessageRealm messageRealm = new MessageRealm();
       messageRealm.setId(message.id);
-      messageRealm.setMainJID(message.userJID);
-      messageRealm.setWithJID(message.ownJid);
+      messageRealm.setMainJID(StringSplitUtil.splitDivider(message.userJID));
+      messageRealm.setWithJID(StringSplitUtil.splitDivider(message.ownJid));
       messageRealm.setTextMessage(message.message);
       messageRealm.setTime(null);
       messageRealm.setThread(message.thread);
@@ -123,9 +142,12 @@ public class XMPPService extends Service {
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onVCardRealmMessage(VCardRealm realmObject) {
+    if (mRealm==null||mRealm.isClosed()){
+      mRealm = Realm.getDefaultInstance();
+    }
     mRealm.executeTransactionAsync(realm -> {
       RealmResults<VCardRealm> result =
-          realm.where(VCardRealm.class).equalTo("jid", realmObject.getJid()).findAll();
+          realm.where(VCardRealm.class).equalTo("jid", StringSplitUtil.splitDivider(realmObject.getJid())).findAll();
       if (result.size() != 0) {
         VCardRealm realmUpdate = result.first();
         realmUpdate.setNickName(realmObject.getNickName());
@@ -137,11 +159,13 @@ public class XMPPService extends Service {
         realmUpdate.setSignature(realmObject.getSignature());
         realmUpdate.setAvatar(realmObject.getAvatar());
         if (realmUpdate.getNickName() != null) {
-          realmUpdate.setAllPinYin(PinYinUtils.ccs2Pinyin(realmObject.getNickName()));
-          realmUpdate.setFirstLetter(PinYinUtils.getPinyinFirstLetter(realmObject.getNickName()));
+          realmUpdate.setAllPinYin(realmObject.getAllPinYin());
+          realmUpdate.setFirstLetter(realmObject.getFirstLetter());
         }
         realmUpdate.setFriend(true);
+        Log.d(TAG, "onVCardRealmMessage:更新数据 "+realmUpdate.toString());
       } else {
+        Log.d(TAG, "onVCardRealmMessage: "+realmObject.toString());
         realm.copyToRealm(realmObject);
       }
     }, () -> {
@@ -201,19 +225,6 @@ public class XMPPService extends Service {
       notification.defaults = Notification.DEFAULT_SOUND;
       mNotificationManager.notify(0, notification);
     }
-  }
-
-  public void saveOfflineMessage(){
-    //MessageRealm messageRealm = new MessageRealm();
-    //messageRealm.setId(message.id);
-    //messageRealm.setMainJID(message.userJID);
-    //messageRealm.setWithJID(message.ownJid);
-    //messageRealm.setTextMessage(message.message);
-    //messageRealm.setThread(message.thread);
-    //messageRealm.setType(message.type.toString());
-    //messageRealm.setMessageType(message.messageType.toString());
-    //messageRealm.setMessageStatus(message.readStatus);
-    //realm.copyToRealm(messageRealm);
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN)

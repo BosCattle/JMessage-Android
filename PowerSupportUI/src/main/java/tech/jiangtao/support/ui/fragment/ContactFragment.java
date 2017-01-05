@@ -86,23 +86,22 @@ public class ContactFragment extends BaseFragment
   }
 
   private void getContact() {
-    mConstrutContact.clear();
     if (mRealm==null||mRealm.isClosed()){
       mRealm = Realm.getDefaultInstance();
     }
-    buildHeadView();
     mRealm.executeTransaction(realm -> {
       RealmQuery<VCardRealm> realmQuery = realm.where(VCardRealm.class);
       mVCardRealmRealmResults = realmQuery.findAll();
       mVCardRealmRealmResults.addChangeListener(element -> {
+        mConstrutContact.clear();
+        buildHeadView();
         Iterator iterator = element.iterator();
+        Log.d(TAG, "getContact: 打印出好友的数量:"+element.size());
         while (iterator.hasNext()){
           mConstrutContact.add(
               new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL).vCardRealm(
                   (VCardRealm) iterator.next()).build());
-          Log.d(TAG, "onSuccess: 监听成功");
         }
-        Log.d(TAG, "onSuccess: 新增加好友");
         mBaseEasyAdapter.notifyDataSetChanged();
       });
     });

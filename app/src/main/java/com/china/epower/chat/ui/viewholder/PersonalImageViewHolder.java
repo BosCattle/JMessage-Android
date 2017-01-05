@@ -2,6 +2,7 @@ package com.china.epower.chat.ui.viewholder;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -38,7 +39,7 @@ public class PersonalImageViewHolder extends PersonalBaseViewHolder {
   @Override public void bindTo(int position, ConstructListData l) {
     if (l.getmImage()!=null) {
       Glide.with(mContext)
-          .load(l.getmImage())
+          .load(Uri.parse(l.getmImage()))
           .asBitmap()
           .centerCrop()
           .placeholder(R.mipmap.ic_launcher)
