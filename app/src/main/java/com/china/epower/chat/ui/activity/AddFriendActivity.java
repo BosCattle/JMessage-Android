@@ -10,6 +10,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.china.epower.chat.R;
+import tech.jiangtao.support.ui.fragment.AddFriendFragment;
 
 /**
  * Class: AddFriendActivity </br>
@@ -31,7 +32,7 @@ public class AddFriendActivity extends BaseActivity {
     setContentView(R.layout.activity_add_friend);
     getTitleTextView().setText("添加好友");
     FragmentTransaction mTransaction = getSupportFragmentManager().beginTransaction();
-    //mTransaction.replace(R.id.add_friend, AddFriendFragment.newInstance());
+    mTransaction.replace(R.id.add_friend, AddFriendFragment.newInstance());
     mTransaction.commit();
   }
 

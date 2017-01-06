@@ -1,6 +1,9 @@
 package tech.jiangtao.support.ui.fragment;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.BindView;
+import com.kevin.library.widget.CleanDialog;
 import com.kevin.library.widget.SideBar;
+import com.kevin.library.widget.builder.IconFlag;
+import com.kevin.library.widget.builder.NegativeClickListener;
+import com.kevin.library.widget.builder.PositiveClickListener;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
@@ -27,6 +34,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import tech.jiangtao.support.kit.eventbus.ContactEvent;
 import tech.jiangtao.support.kit.eventbus.MessageTest;
+import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
@@ -80,6 +88,7 @@ public class ContactFragment extends BaseFragment
     mConstrutContact = new ArrayList<>();
     mBaseEasyAdapter = new ContactAdapter(getContext(), mConstrutContact);
     mBaseEasyAdapter.setOnClickListener(this);
+    mBaseEasyAdapter.setOnLongClickListener(this);
     mContactList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(getContext()));
     mContactList.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -97,7 +106,7 @@ public class ContactFragment extends BaseFragment
     }
     mRealm.executeTransaction(realm -> {
       RealmQuery<VCardRealm> realmQuery = realm.where(VCardRealm.class);
-      mVCardRealmRealmResults = realmQuery.findAll();
+      mVCardRealmRealmResults = realmQuery.equalTo("friend",true).findAll();
       buildHeadView();
       Iterator it = mVCardRealmRealmResults.iterator();
       Log.d(TAG, "getContact: 打印出好友的数量:" + mVCardRealmRealmResults.size());
@@ -160,7 +169,29 @@ public class ContactFragment extends BaseFragment
 
   @Override public boolean onItemLongClick(int position, View view) {
     Log.d(TAG, "onItemLongClick: ");
+    ConstrutContact construtContact = mConstrutContact.get(position);
+    if (position>=2){
+      deleteFriends(construtContact.mVCardRealm.getJid(),construtContact.mVCardRealm.getNickName());
+    }
     return false;
+  }
+
+  public void deleteFriends(String userjid,String username){
+    final CleanDialog dialog =
+        new CleanDialog.Builder(getContext()).iconFlag(IconFlag.WARN)
+            .negativeButton("取消", Dialog::dismiss)
+            .positiveButton("删除", new PositiveClickListener() {
+              @Override public void onPositiveClickListener(CleanDialog dialog1) {
+                //删除用户,远程删除用户，成功后，从会话中列表中，删除用户
+                HermesEventBus.getDefault().post(new RosterEntryBus(userjid));
+                dialog1.dismiss();
+              }
+            })
+            .title("确认删除好友"+username+"吗?")
+            .negativeTextColor(Color.WHITE)
+            .positiveTextColor(Color.WHITE)
+            .builder();
+    dialog.showDialog();
   }
 
   @Override public void onAttach(Context context) {

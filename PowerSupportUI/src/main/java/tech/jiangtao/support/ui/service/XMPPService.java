@@ -19,6 +19,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import tech.jiangtao.support.kit.archive.MessageBody;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
+import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
 import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.realm.MessageRealm;
@@ -231,8 +232,23 @@ public class XMPPService extends Service {
     }
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN) public void messageAchieve(MessageBody messagebody) {
-    Log.d(TAG, "messageAchieve: " + messagebody.toString() + "总数为:" + i);
-    i++;
+  /**
+   * 删除用户，并且删除该用户的聊天用户
+   * @param deleteVCardRealm
+   */
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void messageAchieve(DeleteVCardRealm deleteVCardRealm) {
+    mRealm.executeTransactionAsync(realm -> {
+      RealmResults<VCardRealm> results = realm.where(VCardRealm.class).equalTo("jid",deleteVCardRealm.jid).findAll();
+      if (results.size()!=0){
+        results.deleteAllFromRealm();
+      }
+      RealmResults<SessionRealm> messageResult = realm.where(SessionRealm.class).equalTo("vcard_id",deleteVCardRealm.jid).findAll();
+      if (messageResult.size()!=0){
+        messageResult.deleteAllFromRealm();
+      }
+    });
   }
+
+
 }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import java.util.List;
 import tech.jiangtao.support.ui.linstener.DebouncedOnClickListener;
+import tech.jiangtao.support.ui.linstener.DebouncedOnLongClickListener;
 import tech.jiangtao.support.ui.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.viewholder.ContactCellViewHolder;
@@ -26,6 +27,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
   private Context mContext;
   private List<ConstrutContact> mDatas;
   private EasyViewHolder.OnItemClickListener mOnItemClickListener;
+  private EasyViewHolder.OnItemLongClickListener mOnItemLongClickListener;
 
   public ContactAdapter(Context context,List<ConstrutContact> datas){
     mContext = context;
@@ -35,6 +37,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
   private void bindListener(ContactViewHolder viewholder) {
     if (viewholder!=null){
       viewholder.setOnItemClickListener(mOnItemClickListener);
+      viewholder.setOnItemLongClickListener(mOnItemLongClickListener);
     }
   }
 
@@ -79,6 +82,17 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
       @Override public boolean onDebouncedClick(View v, int position) {
         if (listener!=null){
           listener.onItemClick(position,v);
+        }
+        return true;
+      }
+    };
+  }
+
+  public void setOnLongClickListener(final EasyViewHolder.OnItemLongClickListener listener) {
+    this.mOnItemLongClickListener = new DebouncedOnLongClickListener() {
+      @Override public boolean onDebouncedClick(View v, int position) {
+        if (listener!=null){
+          listener.onItemLongClick(position,v);
         }
         return true;
       }

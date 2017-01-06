@@ -3,6 +3,7 @@ package tech.jiangtao.support.kit.service;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.icu.text.Normalizer;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -51,13 +52,18 @@ import tech.jiangtao.support.kit.archive.MessageArchiveStanzaFilter;
 import tech.jiangtao.support.kit.archive.MessageArchiveStanzaListener;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
+import tech.jiangtao.support.kit.eventbus.AddRosterEvent;
 import tech.jiangtao.support.kit.eventbus.ContactEvent;
+import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
 import tech.jiangtao.support.kit.eventbus.LocalVCardEvent;
 import tech.jiangtao.support.kit.eventbus.LoginCallbackEvent;
 import tech.jiangtao.support.kit.eventbus.LoginParam;
 import tech.jiangtao.support.kit.eventbus.NotificationConnection;
 import tech.jiangtao.support.kit.eventbus.OwnVCardRealm;
+import tech.jiangtao.support.kit.eventbus.QueryUser;
+import tech.jiangtao.support.kit.eventbus.QueryUserResult;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
+import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.realm.VCardRealm;
@@ -364,10 +370,13 @@ public class SupportService extends Service
     // TODO: 07/12/2016 读取数据库，得到最后的更新时间
     ChatManager manager = ChatManager.getInstanceFor(mXMPPConnection);
     manager.addChatListener(this);
-    addFriend();
+    rosterPresence();
   }
 
-  public void addFriend() {
+  /**
+   * 添加好友
+   */
+  public void rosterPresence() {
     Roster roster = Roster.getInstanceFor(mXMPPConnection);
     roster.setSubscriptionMode(Roster.SubscriptionMode.manual);
     roster.addRosterListener(this);
@@ -428,7 +437,11 @@ public class SupportService extends Service
     Log.d(TAG, "presenceChanged: 我也不知道这是干嘛的。");
   }
 
-  // 注册账户
+  /**
+   * 注册账户
+   * @param username
+   * @param password
+   */
   public void createAccount(String username, String password) {
     mAccountManager = AccountManager.getInstance(mXMPPConnection);
     Observable.create(subscriber -> {
@@ -440,21 +453,26 @@ public class SupportService extends Service
         e.printStackTrace();
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
-
+      //注册成功后，更新用户名的VCard;
+      LocalVCardEvent event = new LocalVCardEvent();
+      event.setJid(username+"@"+SupportIM.mDomain);
+      event.setNickName(username);
+      event.setAllPinYin(PinYinUtils.ccs2Pinyin(username));
+      event.setFirstLetter(PinYinUtils.getPinyinFirstLetter(username));
+      event.setFriend(true);
+      addOrUpdateVCard(event);
+      login(username,password);
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
         super.call(throwable);
+        Log.d(TAG, "call: 创建账户失败");
       }
     });
   }
 
-  // 通讯录事件
-  @Subscribe(threadMode = ThreadMode.MAIN) public void getContact(ContactEvent event) {
-    getRoster();
-  }
-
-  //获取网络通讯录,暂时没有保存到本地数据库
-  public void getRoster() {
+  //获取网络通讯录
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void getRoster(ContactEvent event) {
     mRoster = Roster.getInstanceFor(mXMPPConnection);
     mVCardManager = VCardManager.getInstanceFor(mXMPPConnection);
     Collection<RosterEntry> entries = mRoster.getEntries();
@@ -486,6 +504,85 @@ public class SupportService extends Service
         }
       });
     }
+  }
+
+  @Subscribe(threadMode = ThreadMode.MAIN) public void queryUser(QueryUser user) {
+    mVCardManager = VCardManager.getInstanceFor(mXMPPConnection);
+    Observable.create(new Observable.OnSubscribe<VCard>() {
+      @Override public void call(Subscriber<? super VCard> subscriber) {
+        try {
+          subscriber.onNext(mVCardManager.loadVCard(user.username + "@" + SupportIM.mDomain));
+        } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
+          e.printStackTrace();
+          subscriber.onError(e);
+        }
+      }
+    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(vCard -> {
+      Log.d(TAG, "queryUser: " + vCard.toXML());
+      Log.d(TAG, "queryUser: " + vCard.toString());
+      // 需要使用回调
+      HermesEventBus.getDefault()
+          .post(new QueryUserResult(StringSplitUtil.splitDivider(vCard.getFrom()),
+              vCard.getNickName(), vCard.getField("avatar"), true));
+    }, new ErrorAction() {
+      @Override public void call(Throwable throwable) {
+        super.call(throwable);
+        Log.d(TAG, "call: 搜索用户的vcard失败    " + throwable.getMessage());
+      }
+    });
+  }
+
+  /**
+   * 删除好友
+   * @param user {@link RosterEntryBus}
+   */
+  @Subscribe(threadMode = ThreadMode.MAIN) public void deleteFriends(RosterEntryBus user) {
+    mRoster = Roster.getInstanceFor(mXMPPConnection);
+    RosterEntry entry = mRoster.getEntry(user.jid);
+    Observable.create(new Observable.OnSubscribe<RosterEntry>() {
+      @Override public void call(Subscriber<? super RosterEntry> subscriber) {
+        try {
+          mRoster.removeEntry(entry);
+          subscriber.onNext(entry);
+        } catch (SmackException.NotLoggedInException | SmackException.NoResponseException | SmackException.NotConnectedException | XMPPException.XMPPErrorException e) {
+          e.printStackTrace();
+          subscriber.onError(e);
+        }
+      }
+    })
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(rosterEntry -> {
+          //删除成功
+          HermesEventBus.getDefault().post(new DeleteVCardRealm(user.jid));
+        });
+  }
+
+  /**
+   * 发送添加好友请求
+   * @param user {@link AddRosterEvent}
+   */
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void addFirend(AddRosterEvent user) {
+    mRoster = Roster.getInstanceFor(mXMPPConnection);
+    Observable.create(subscriber -> {
+      try {
+        mRoster.createEntry(user.jid, user.nickname, null);
+        subscriber.onNext(user);
+      } catch (SmackException.NotLoggedInException | SmackException.NoResponseException | SmackException.NotConnectedException | XMPPException.XMPPErrorException e) {
+        e.printStackTrace();
+        subscriber.onError(e);
+      }
+    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+        //发送添加好友成功
+      Log.d(TAG, "addFirend: 添加好友请求成功");
+    }, new ErrorAction() {
+      @Override public void call(Throwable throwable) {
+        super.call(throwable);
+        //发送添加好友请求失败
+        Log.d(TAG, "call: 添加好友请求失败");
+      }
+    });
   }
 
   //添加或者更新vCard;

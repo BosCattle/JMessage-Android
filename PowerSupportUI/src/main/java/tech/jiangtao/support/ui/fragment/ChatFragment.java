@@ -440,7 +440,9 @@ public class ChatFragment extends BaseFragment
         SessionRealm sessionRealm = mRealm.where(SessionRealm.class)
             .equalTo("vcard_id", StringSplitUtil.splitDivider(mVCardRealm.getJid()))
             .findFirst();
-        sessionRealm.setUnReadCount(0);
+        if (sessionRealm!=null) {
+          sessionRealm.setUnReadCount(0);
+        }
       });
     }
   }

@@ -1,7 +1,6 @@
 package tech.jiangtao.support.ui.pattern;
 
 import tech.jiangtao.support.ui.model.Message;
-import tech.jiangtao.support.ui.model.User;
 import tech.jiangtao.support.ui.model.type.MessageType;
 
 /**
