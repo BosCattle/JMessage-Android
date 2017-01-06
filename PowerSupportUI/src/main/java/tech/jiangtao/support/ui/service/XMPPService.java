@@ -12,6 +12,7 @@ import android.content.ServiceConnection;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import io.realm.Realm;
@@ -19,7 +20,6 @@ import io.realm.RealmResults;
 import java.util.UUID;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import tech.jiangtao.support.kit.archive.MessageBody;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.callback.DisconnectCallBack;
@@ -30,12 +30,10 @@ import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.kit.realm.VCardRealm;
-import tech.jiangtao.support.kit.service.SupportService;
-import tech.jiangtao.support.kit.util.PinYinUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
+import tech.jiangtao.support.ui.SupportAIDLConnection;
 import tech.jiangtao.support.ui.fragment.ChatFragment;
-import uk.co.senab.photoview.log.LoggerDefault;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -53,10 +51,16 @@ public class XMPPService extends Service {
 
   public static final String TAG = XMPPService.class.getSimpleName();
   @SuppressLint("StaticFieldLeak") private static Realm mRealm;
+  private XMPPServiceConnection mXMPPServiceConnection;
+  private XMPPBinder mXMPPBinder;
 
 
   @Override public void onCreate() {
     super.onCreate();
+    if (mXMPPBinder==null){
+      mXMPPBinder = new XMPPBinder();
+    }
+    mXMPPServiceConnection = new XMPPServiceConnection();
     if (!HermesEventBus.getDefault().isRegistered(this)) {
       HermesEventBus.getDefault().register(this);
     }
@@ -66,9 +70,8 @@ public class XMPPService extends Service {
     if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
-    //建立两个连接关联
     Intent intent1 = new Intent(this, SupportService.class);
-    startService(intent1);
+    this.bindService(intent1,mXMPPServiceConnection,Context.BIND_IMPORTANT);
     return START_STICKY;
   }
 
@@ -217,7 +220,7 @@ public class XMPPService extends Service {
   }
 
   @Nullable @Override public IBinder onBind(Intent intent) {
-    return null;
+    return mXMPPBinder;
   }
 
   public void showOnesNotification(String name, String info, Intent intent) {
@@ -272,4 +275,25 @@ public class XMPPService extends Service {
     });
   }
 
+
+  class XMPPServiceConnection implements ServiceConnection{
+
+    @Override public void onServiceConnected(ComponentName name, IBinder service) {
+      Log.d(TAG, "onServiceConnected: 建立连接");
+    }
+
+    @Override public void onServiceDisconnected(ComponentName name) {
+      Log.d(TAG, "onServiceDisconnected: 服务被杀");
+      XMPPService.this.startService(new Intent(XMPPService.this,SupportService.class));
+      Intent intent = new Intent(XMPPService.this,SupportService.class);
+      XMPPService.this.bindService(intent,mXMPPServiceConnection, Context.BIND_IMPORTANT);
+    }
+  }
+
+  class XMPPBinder extends SupportAIDLConnection.Stub {
+
+    @Override public String getServiceName() throws RemoteException {
+      return "XMPPService的服务";
+    }
+  }
 }

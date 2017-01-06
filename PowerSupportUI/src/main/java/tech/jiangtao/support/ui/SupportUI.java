@@ -3,9 +3,8 @@ package tech.jiangtao.support.ui;
 import android.content.Context;
 import android.content.Intent;
 import com.melink.bqmmsdk.sdk.BQMM;
-import java.util.UUID;
 import tech.jiangtao.support.kit.init.SupportIM;
-import tech.jiangtao.support.kit.service.SupportService;
+import tech.jiangtao.support.ui.service.SupportService;
 import tech.jiangtao.support.ui.service.XMPPService;
 
 public class SupportUI {
@@ -15,5 +14,7 @@ public class SupportUI {
     SupportIM.initialize(context,serviceName, resource,host,port);
     Intent intent = new Intent(context, XMPPService.class);
     context.startService(intent);
+    Intent intent1 = new Intent(context, SupportService.class);
+    context.startService(intent1);
   }
 }

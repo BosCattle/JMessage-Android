@@ -1,23 +1,9 @@
 package tech.jiangtao.support.kit.archive;
 
-import android.util.Log;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
-
-import java.sql.Date;
-
-import java.util.Arrays;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.StanzaListener;
 import org.jivesoftware.smack.packet.Stanza;
 
-import tech.jiangtao.support.kit.archive.type.MessageBodyType;
-import tech.jiangtao.support.kit.realm.MessageRealm;
-import tech.jiangtao.support.kit.realm.VCardRealm;
-import tech.jiangtao.support.kit.service.SupportService;
-import tech.jiangtao.support.kit.util.DateUtils;
-import tech.jiangtao.support.kit.util.StringSplitUtil;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**

@@ -1,13 +1,14 @@
-package tech.jiangtao.support.kit.service;
+package tech.jiangtao.support.ui.service;
 
 import android.app.Service;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.icu.text.Normalizer;
+import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.util.Log;
-
-import com.cocosw.favor.FavorAdapter;
 
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
@@ -70,8 +71,8 @@ import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.realm.VCardRealm;
-import tech.jiangtao.support.kit.realm.sharepreference.Account;
-import tech.jiangtao.support.kit.reciever.TickBroadcastReceiver;
+import tech.jiangtao.support.ui.SupportAIDLConnection;
+import tech.jiangtao.support.ui.reciever.TickBroadcastReceiver;
 import tech.jiangtao.support.kit.util.DateUtils;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.PinYinUtils;
@@ -90,18 +91,26 @@ public class SupportService extends Service
   private Roster mRoster;
   private VCardManager mVCardManager;
   private AppPreferences appPreferences = new AppPreferences(getContext());
+  private SupportServiceConnection mSupportServiceConnection;
+  private SupportBinder mSupportBinder;
 
   @Override public void onCreate() {
     super.onCreate();
     IntentFilter filter = new IntentFilter(Intent.ACTION_TIME_TICK);
     TickBroadcastReceiver receiver = new TickBroadcastReceiver();
     registerReceiver(receiver, filter);
+    if (mSupportBinder == null) {
+      mSupportBinder = new SupportBinder();
+    }
+    mSupportServiceConnection = new SupportServiceConnection();
   }
 
   @Override public int onStartCommand(Intent intent, int flags, int startId) {
     if (!HermesEventBus.getDefault().isRegistered(this)) {
       HermesEventBus.getDefault().register(this);
     }
+    this.bindService(new Intent(this, XMPPService.class), mSupportServiceConnection,
+        Context.BIND_IMPORTANT);
     connect();
     return START_STICKY;
   }
@@ -118,7 +127,7 @@ public class SupportService extends Service
   }
 
   @Override public IBinder onBind(Intent intent) {
-    throw null;
+    return mSupportBinder;
   }
 
   @Override public void onDestroy() {
@@ -266,7 +275,7 @@ public class SupportService extends Service
   }
 
   public void connect() {
-    if (mXMPPConnection==null||!mXMPPConnection.isConnected()) {
+    if (mXMPPConnection == null || !mXMPPConnection.isConnected()) {
       init();
       Observable.create(new Observable.OnSubscribe<AbstractXMPPConnection>() {
         @Override public void call(Subscriber<? super AbstractXMPPConnection> subscriber) {
@@ -277,13 +286,16 @@ public class SupportService extends Service
             subscriber.onError(new Throwable(e.toString()));
           }
         }
-      }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(abstractXMPPConnection -> {
-        mXMPPConnection = (XMPPTCPConnection) abstractXMPPConnection;
-      }, new ErrorAction() {
-        @Override public void call(Throwable throwable) {
-          super.call(throwable);
-        }
-      });
+      })
+          .subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(abstractXMPPConnection -> {
+            mXMPPConnection = (XMPPTCPConnection) abstractXMPPConnection;
+          }, new ErrorAction() {
+            @Override public void call(Throwable throwable) {
+              super.call(throwable);
+            }
+          });
     }
   }
 
@@ -292,7 +304,7 @@ public class SupportService extends Service
       try {
         if (mXMPPConnection.isConnected()) {
           mXMPPConnection.login(username, password);
-        }else {
+        } else {
           connect();
           mXMPPConnection.login(username, password);
         }
@@ -657,8 +669,28 @@ public class SupportService extends Service
     });
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void disconnect(UnRegisterEvent event) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void disconnect(UnRegisterEvent event) {
     mXMPPConnection.disconnect();
+  }
+
+  class SupportServiceConnection implements ServiceConnection {
+
+    @Override public void onServiceConnected(ComponentName name, IBinder service) {
+      Log.d(TAG, "onServiceConnected: supportService连接成功");
+    }
+
+    @Override public void onServiceDisconnected(ComponentName name) {
+      Log.d(TAG, "onServiceDisconnected: SupportService连接被关闭");
+      Intent intent = new Intent(SupportService.this, XMPPService.class);
+      SupportService.this.startService(intent);
+      SupportService.this.bindService(intent, mSupportServiceConnection, Context.BIND_IMPORTANT);
+    }
+  }
+
+  class SupportBinder extends SupportAIDLConnection.Stub {
+
+    @Override public String getServiceName() throws RemoteException {
+      return "SupportService连接";
+    }
   }
 }

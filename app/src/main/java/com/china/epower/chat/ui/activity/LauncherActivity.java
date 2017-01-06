@@ -5,16 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import com.china.epower.chat.R;
 import com.cocosw.favor.FavorAdapter;
 
-import org.jivesoftware.smack.XMPPConnection;
-
-import tech.jiangtao.support.kit.callback.ConnectionCallback;
 import tech.jiangtao.support.kit.realm.sharepreference.Account;
 import tech.jiangtao.support.kit.realm.sharepreference.FirstEnter;
-import tech.jiangtao.support.kit.service.SupportService;
-import work.wanghao.simplehud.SimpleHUD;
 
 public class LauncherActivity extends AppCompatActivity {
 

@@ -1,12 +1,11 @@
-package tech.jiangtao.support.kit.reciever;
+package tech.jiangtao.support.ui.reciever;
 
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import tech.jiangtao.support.kit.service.SupportService;
-import tech.jiangtao.support.kit.util.ServiceUtils;
+import tech.jiangtao.support.ui.service.SupportService;
 
 public class TickBroadcastReceiver extends BroadcastReceiver {
 

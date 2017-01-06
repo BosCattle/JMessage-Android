@@ -1,8 +1,8 @@
-package tech.jiangtao.support.kit.util;
+package tech.jiangtao.support.ui.utils;
 
 import android.app.ActivityManager;
 import android.content.Context;
-import tech.jiangtao.support.kit.service.SupportService;
+import tech.jiangtao.support.ui.service.SupportService;
 
 /**
  * Class: ServiceUtils </br>

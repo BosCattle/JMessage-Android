@@ -29,25 +29,14 @@ import net.grandcentrix.tray.core.ItemNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jivesoftware.smack.tcp.XMPPTCPConnection;
-import org.jivesoftware.smackx.vcardtemp.packet.VCard;
-
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
-import tech.jiangtao.support.kit.callback.DisconnectCallBack;
-import tech.jiangtao.support.kit.callback.VCardCallback;
 import tech.jiangtao.support.kit.eventbus.LocalVCardEvent;
-import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.realm.VCardRealm;
-import tech.jiangtao.support.kit.service.SupportService;
 import tech.jiangtao.support.kit.userdata.SimpleVCard;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.service.XMPPService;
-import work.wanghao.simplehud.SimpleHUD;
-import xiaofei.library.hermeseventbus.HermesEventBus;
-
-import static xiaofei.library.hermes.Hermes.getContext;
 
 /**
  * Class: PersonalFragment </br>

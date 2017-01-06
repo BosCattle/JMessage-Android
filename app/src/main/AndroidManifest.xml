@@ -49,11 +49,6 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar"/>
 
-    <service
-        android:name="tech.jiangtao.support.ui.service.XMPPService"
-        android:enabled="true"
-        />
-
     <activity
         android:name=".ui.activity.AddFriendActivity"
         android:screenOrientation="portrait"

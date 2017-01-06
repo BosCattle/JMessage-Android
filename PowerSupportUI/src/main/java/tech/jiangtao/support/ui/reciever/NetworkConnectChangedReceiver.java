@@ -1,4 +1,4 @@
-package tech.jiangtao.support.kit.reciever;
+package tech.jiangtao.support.ui.reciever;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

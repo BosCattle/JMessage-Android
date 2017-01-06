@@ -434,13 +434,17 @@ public class ChatFragment extends BaseFragment
   @Override public void onPause() {
     super.onPause();
     //将会话的为未读数目设置为0
-    if (mOwnVCardRealm.getJid()!=null&&mVCardRealm.getJid()!=null&&StringSplitUtil.splitDivider(mVCardRealm.getJid()) != StringSplitUtil.splitDivider(
+    if (mOwnVCardRealm != null
+        && mVCardRealm != null
+        && mOwnVCardRealm.getJid() != null
+        && mVCardRealm.getJid() != null
+        && StringSplitUtil.splitDivider(mVCardRealm.getJid()) != StringSplitUtil.splitDivider(
         mOwnVCardRealm.getJid())) {
       mRealm.executeTransaction(realm -> {
         SessionRealm sessionRealm = mRealm.where(SessionRealm.class)
             .equalTo("vcard_id", StringSplitUtil.splitDivider(mVCardRealm.getJid()))
             .findFirst();
-        if (sessionRealm!=null) {
+        if (sessionRealm != null) {
           sessionRealm.setUnReadCount(0);
         }
       });

@@ -10,22 +10,10 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import com.china.epower.chat.R;
 import com.cocosw.favor.FavorAdapter;
-import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smackx.iqregister.AccountManager;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.schedulers.Schedulers;
-import tech.jiangtao.support.kit.callback.ConnectionCallback;
 import tech.jiangtao.support.kit.callback.RegisterCallBack;
 import tech.jiangtao.support.kit.eventbus.RegisterAccount;
 import tech.jiangtao.support.kit.realm.sharepreference.Account;
-import tech.jiangtao.support.kit.service.SupportService;
 import tech.jiangtao.support.kit.userdata.SimpleRegister;
-import tech.jiangtao.support.kit.util.ErrorAction;
 import work.wanghao.simplehud.SimpleHUD;
 
 public class RegisterActivity extends BaseActivity {
