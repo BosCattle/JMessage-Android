@@ -40,4 +40,8 @@ public class SimpleLogin {
             mLoginCallBack.connectionFailed(event.error);
         }
     }
+
+    public void destory(){
+        HermesEventBus.getDefault().unregister(this);
+    }
 }

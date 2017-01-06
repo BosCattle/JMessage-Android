@@ -63,8 +63,11 @@ import tech.jiangtao.support.kit.eventbus.OwnVCardRealm;
 import tech.jiangtao.support.kit.eventbus.QueryUser;
 import tech.jiangtao.support.kit.eventbus.QueryUserResult;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
+import tech.jiangtao.support.kit.eventbus.RegisterAccount;
+import tech.jiangtao.support.kit.eventbus.RegisterResult;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
+import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.realm.sharepreference.Account;
@@ -276,13 +279,6 @@ public class SupportService extends Service
         .subscribe(abstractXMPPConnection -> {
           // TODO: 10/12/2016  读取本地数据库，判断有无账户，有，则登录，无---
           mXMPPConnection = (XMPPTCPConnection) abstractXMPPConnection;
-          Account account = new FavorAdapter.Builder(this).build().create(Account.class);
-          if (account != null
-              && account.getUserName() != null
-              && account.getPassword() != null
-              && mNeedAutoLogin) {
-            login(account.getUserName(), account.getPassword());
-          }
         }, new ErrorAction() {
           @Override public void call(Throwable throwable) {
             super.call(throwable);
@@ -293,7 +289,12 @@ public class SupportService extends Service
   public void login(String username, String password) {
     Observable.create(subscriber2 -> {
       try {
-        mXMPPConnection.login(username, password);
+        if (mXMPPConnection.isConnected()) {
+          mXMPPConnection.login(username, password);
+        }else {
+          connect();
+          mXMPPConnection.login(username, password);
+        }
         subscriber2.onNext(null);
       } catch (XMPPException | SmackException | IOException e) {
         subscriber2.onError(e);
@@ -340,7 +341,6 @@ public class SupportService extends Service
 
   @Override public void connectionClosed() {
     Log.d(TAG, "connectionClosed: 连接被关闭");
-    connect();
   }
 
   @Override public void connectionClosedOnError(Exception e) {
@@ -439,14 +439,13 @@ public class SupportService extends Service
 
   /**
    * 注册账户
-   * @param username
-   * @param password
+   * account {@link RegisterAccount}
    */
-  public void createAccount(String username, String password) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void createAccount(RegisterAccount account) {
     mAccountManager = AccountManager.getInstance(mXMPPConnection);
     Observable.create(subscriber -> {
       try {
-        mAccountManager.createAccount(username, password);
+        mAccountManager.createAccount(account.username, account.password);
         subscriber.onNext(null);
       } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
         subscriber.onError(e);
@@ -455,24 +454,25 @@ public class SupportService extends Service
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
       //注册成功后，更新用户名的VCard;
       LocalVCardEvent event = new LocalVCardEvent();
-      event.setJid(username+"@"+SupportIM.mDomain);
-      event.setNickName(username);
-      event.setAllPinYin(PinYinUtils.ccs2Pinyin(username));
-      event.setFirstLetter(PinYinUtils.getPinyinFirstLetter(username));
+      event.setJid(account.username + "@" + SupportIM.mDomain);
+      event.setNickName(account.username);
+      event.setAllPinYin(PinYinUtils.ccs2Pinyin(account.username));
+      event.setFirstLetter(PinYinUtils.getPinyinFirstLetter(account.username));
       event.setFriend(true);
       addOrUpdateVCard(event);
-      login(username,password);
+      login(account.username, account.password);
+      HermesEventBus.getDefault().post(new RegisterResult(account, null));
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
         super.call(throwable);
         Log.d(TAG, "call: 创建账户失败");
+        HermesEventBus.getDefault().post(new RegisterResult(null, throwable.getMessage()));
       }
     });
   }
 
   //获取网络通讯录
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void getRoster(ContactEvent event) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void getRoster(ContactEvent event) {
     mRoster = Roster.getInstanceFor(mXMPPConnection);
     mVCardManager = VCardManager.getInstanceFor(mXMPPConnection);
     Collection<RosterEntry> entries = mRoster.getEntries();
@@ -534,6 +534,7 @@ public class SupportService extends Service
 
   /**
    * 删除好友
+   *
    * @param user {@link RosterEntryBus}
    */
   @Subscribe(threadMode = ThreadMode.MAIN) public void deleteFriends(RosterEntryBus user) {
@@ -560,10 +561,10 @@ public class SupportService extends Service
 
   /**
    * 发送添加好友请求
+   *
    * @param user {@link AddRosterEvent}
    */
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void addFirend(AddRosterEvent user) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void addFirend(AddRosterEvent user) {
     mRoster = Roster.getInstanceFor(mXMPPConnection);
     Observable.create(subscriber -> {
       try {
@@ -574,7 +575,7 @@ public class SupportService extends Service
         subscriber.onError(e);
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
-        //发送添加好友成功
+      //发送添加好友成功
       Log.d(TAG, "addFirend: 添加好友请求成功");
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
@@ -646,5 +647,10 @@ public class SupportService extends Service
         HermesEventBus.getDefault().post(new OwnVCardRealm(null, "更新失败2" + throwable));
       }
     });
+  }
+
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void disconnect(UnRegisterEvent event) {
+    mXMPPConnection.disconnect();
   }
 }
