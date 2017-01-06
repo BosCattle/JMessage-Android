@@ -176,6 +176,7 @@ public class SupportService extends Service
           chat.sendMessage(message1);
           subscriber.onNext(message1);
         } catch (SmackException.NotConnectedException e) {
+          connect();
           subscriber.onError(e);
           e.printStackTrace();
         }
@@ -243,6 +244,7 @@ public class SupportService extends Service
       mXMPPConnection.sendStanza(iq);
     } catch (SmackException.NotConnectedException e) {
       e.printStackTrace();
+      connect();
     }
   }
 
@@ -259,6 +261,7 @@ public class SupportService extends Service
       mXMPPConnection.sendStanza(iq);
     } catch (SmackException.NotConnectedException e) {
       e.printStackTrace();
+      connect();
     }
   }
 
@@ -448,6 +451,7 @@ public class SupportService extends Service
       } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
         subscriber.onError(e);
         e.printStackTrace();
+        connect();
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
       //注册成功后，更新用户名的VCard;
@@ -485,6 +489,7 @@ public class SupportService extends Service
         } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
           e.printStackTrace();
           subscriber.onError(e);
+          connect();
         }
       }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(vCard -> {
         //更新本地数据库
@@ -513,6 +518,7 @@ public class SupportService extends Service
         } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
           e.printStackTrace();
           subscriber.onError(e);
+          connect();
         }
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(vCard -> {
@@ -546,6 +552,7 @@ public class SupportService extends Service
         } catch (SmackException.NotLoggedInException | SmackException.NoResponseException | SmackException.NotConnectedException | XMPPException.XMPPErrorException e) {
           e.printStackTrace();
           subscriber.onError(e);
+          connect();
         }
       }
     })
@@ -571,6 +578,7 @@ public class SupportService extends Service
       } catch (SmackException.NotLoggedInException | SmackException.NoResponseException | SmackException.NotConnectedException | XMPPException.XMPPErrorException e) {
         e.printStackTrace();
         subscriber.onError(e);
+        connect();
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
       //发送添加好友成功
@@ -593,6 +601,7 @@ public class SupportService extends Service
       } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
         e.printStackTrace();
         subscriber.onError(e);
+        connect();
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(vCard -> {
       Log.d(TAG, "addOrUpdateVCard: 打印出VCard为" + vCard.toXML());
@@ -616,6 +625,7 @@ public class SupportService extends Service
         } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
           e.printStackTrace();
           subscriber.onError(e);
+          connect();
         }
       }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
         //保存VCard成功,发送给通知,保存到数据库
