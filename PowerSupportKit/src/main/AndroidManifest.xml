@@ -40,6 +40,7 @@
         <category android:name="android.intent.category.HOME"/>
       </intent-filter>
     </receiver>
+    <!--秒级检测-->
     <receiver
         android:name=".reciever.TickBroadcastReceiver"
         android:enabled="true"

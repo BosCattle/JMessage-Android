@@ -5,8 +5,10 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.IBinder;
@@ -28,6 +30,7 @@ import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.kit.realm.VCardRealm;
+import tech.jiangtao.support.kit.service.SupportService;
 import tech.jiangtao.support.kit.util.PinYinUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
@@ -50,7 +53,7 @@ public class XMPPService extends Service {
 
   public static final String TAG = XMPPService.class.getSimpleName();
   @SuppressLint("StaticFieldLeak") private static Realm mRealm;
-  private int i = 0;
+
 
   @Override public void onCreate() {
     super.onCreate();
@@ -63,6 +66,9 @@ public class XMPPService extends Service {
     if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
+    //建立两个连接关联
+    Intent intent1 = new Intent(this, SupportService.class);
+    startService(intent1);
     return START_STICKY;
   }
 

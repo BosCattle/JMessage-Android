@@ -263,27 +263,25 @@ public class SupportService extends Service
   }
 
   public void connect() {
-    init();
-    Observable.create(new Observable.OnSubscribe<AbstractXMPPConnection>() {
-      @Override public void call(Subscriber<? super AbstractXMPPConnection> subscriber) {
-        try {
-          subscriber.onNext(mXMPPConnection.connect());
-        } catch (SmackException | IOException | XMPPException e) {
-          e.printStackTrace();
-          subscriber.onError(new Throwable(e.toString()));
-        }
-      }
-    })
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(abstractXMPPConnection -> {
-          // TODO: 10/12/2016  读取本地数据库，判断有无账户，有，则登录，无---
-          mXMPPConnection = (XMPPTCPConnection) abstractXMPPConnection;
-        }, new ErrorAction() {
-          @Override public void call(Throwable throwable) {
-            super.call(throwable);
+    if (mXMPPConnection==null||!mXMPPConnection.isConnected()) {
+      init();
+      Observable.create(new Observable.OnSubscribe<AbstractXMPPConnection>() {
+        @Override public void call(Subscriber<? super AbstractXMPPConnection> subscriber) {
+          try {
+            subscriber.onNext(mXMPPConnection.connect());
+          } catch (SmackException | IOException | XMPPException e) {
+            e.printStackTrace();
+            subscriber.onError(new Throwable(e.toString()));
           }
-        });
+        }
+      }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(abstractXMPPConnection -> {
+        mXMPPConnection = (XMPPTCPConnection) abstractXMPPConnection;
+      }, new ErrorAction() {
+        @Override public void call(Throwable throwable) {
+          super.call(throwable);
+        }
+      });
+    }
   }
 
   public void login(String username, String password) {

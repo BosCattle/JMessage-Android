@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.melink.bqmmsdk.sdk.BQMM;
 import java.util.UUID;
 import tech.jiangtao.support.kit.init.SupportIM;
+import tech.jiangtao.support.kit.service.SupportService;
 import tech.jiangtao.support.ui.service.XMPPService;
 
 public class SupportUI {

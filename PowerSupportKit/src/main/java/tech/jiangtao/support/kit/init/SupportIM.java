@@ -1,9 +1,7 @@
 package tech.jiangtao.support.kit.init;
 
 import android.content.Context;
-import android.content.Intent;
 import io.realm.Realm;
-import tech.jiangtao.support.kit.service.SupportService;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -18,7 +16,6 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class SupportIM {
 
-  private Context mContext;
   public static String mDomain;
   public static String mResource;
   public static String mHost;
@@ -26,8 +23,6 @@ public class SupportIM {
   private static void initialize(Context context){
     Realm.init(context);
     HermesEventBus.getDefault().init(context);
-    Intent intent = new Intent(context, SupportService.class);
-    context.startService(intent);
   }
 
   private static void initialize(Context context, String serviceName){
