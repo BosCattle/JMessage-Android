@@ -96,9 +96,6 @@ public class SupportService extends Service
 
   @Override public void onCreate() {
     super.onCreate();
-    IntentFilter filter = new IntentFilter(Intent.ACTION_TIME_TICK);
-    TickBroadcastReceiver receiver = new TickBroadcastReceiver();
-    registerReceiver(receiver, filter);
     if (mSupportBinder == null) {
       mSupportBinder = new SupportBinder();
     }
@@ -109,6 +106,9 @@ public class SupportService extends Service
     if (!HermesEventBus.getDefault().isRegistered(this)) {
       HermesEventBus.getDefault().register(this);
     }
+    IntentFilter filter = new IntentFilter(Intent.ACTION_TIME_TICK);
+    TickBroadcastReceiver receiver = new TickBroadcastReceiver();
+    registerReceiver(receiver, filter);
     this.bindService(new Intent(this, XMPPService.class), mSupportServiceConnection,
         Context.BIND_IMPORTANT);
     connect();
@@ -121,8 +121,6 @@ public class SupportService extends Service
       //收到广播，开始连接
       Log.d(TAG, "onMessage: 开始连接");
       connect();
-    } else {
-      mXMPPConnection.disconnect();
     }
   }
 
@@ -132,6 +130,7 @@ public class SupportService extends Service
 
   @Override public void onDestroy() {
     super.onDestroy();
+    Log.d(TAG, "onDestroy: 检测到SupportService被销毁");
     HermesEventBus.getDefault().unregister(this);
   }
 
@@ -290,7 +289,17 @@ public class SupportService extends Service
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe(abstractXMPPConnection -> {
+            Log.d(TAG, "connect: 连接成功");
             mXMPPConnection = (XMPPTCPConnection) abstractXMPPConnection;
+            try {
+              String username = appPreferences.getString("username");
+              String password = appPreferences.getString("password");
+              if (username!=null&&password!=null) {
+                login(username, password);
+              }
+            } catch (ItemNotFoundException e) {
+              e.printStackTrace();
+            }
           }, new ErrorAction() {
             @Override public void call(Throwable throwable) {
               super.call(throwable);

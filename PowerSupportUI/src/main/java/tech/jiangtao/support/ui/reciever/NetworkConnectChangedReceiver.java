@@ -9,6 +9,8 @@ import android.net.wifi.WifiManager;
 import android.os.Parcelable;
 import android.util.Log;
 import tech.jiangtao.support.kit.eventbus.NotificationConnection;
+import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
+import tech.jiangtao.support.ui.service.SupportService;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class NetworkConnectChangedReceiver extends BroadcastReceiver {
@@ -52,9 +54,9 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
         boolean isConnected = state == NetworkInfo.State.CONNECTED;
         Log.e("TAG", "isConnected:" + isConnected);
         if (isConnected) {
-
+          HermesEventBus.getDefault().post(new NotificationConnection(true));
         } else {
-
+          HermesEventBus.getDefault().post(new UnRegisterEvent());
         }
       }
     }
@@ -68,12 +70,12 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
         if (NetworkInfo.State.CONNECTED == info.getState() && info.isAvailable()) {
           if (info.getType() == ConnectivityManager.TYPE_WIFI
               || info.getType() == ConnectivityManager.TYPE_MOBILE) {
-            Log.d("TAG", getConnectionType(info.getType()) + "连上");
+            Log.d("TAG", getConnectionType(info.getType()) + "网络连上");
           HermesEventBus.getDefault().post(new NotificationConnection(true));
           }
         } else {
-          Log.d("TAG", getConnectionType(info.getType()) + "断开");
-          HermesEventBus.getDefault().post(new NotificationConnection(false));
+          Log.d("TAG", getConnectionType(info.getType()) + "网络断开");
+          HermesEventBus.getDefault().post(new UnRegisterEvent());
         }
       }
     }

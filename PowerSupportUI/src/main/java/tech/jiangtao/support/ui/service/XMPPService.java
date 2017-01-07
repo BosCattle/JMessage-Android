@@ -1,6 +1,7 @@
 package tech.jiangtao.support.ui.service;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,6 +9,7 @@ import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -33,7 +35,11 @@ import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.SupportAIDLConnection;
+import tech.jiangtao.support.ui.activity.ChatActivity;
 import tech.jiangtao.support.ui.fragment.ChatFragment;
+import tech.jiangtao.support.ui.fragment.ChatListFragment;
+import tech.jiangtao.support.ui.reciever.TickBroadcastReceiver;
+import tech.jiangtao.support.ui.utils.ServiceUtils;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -54,10 +60,9 @@ public class XMPPService extends Service {
   private XMPPServiceConnection mXMPPServiceConnection;
   private XMPPBinder mXMPPBinder;
 
-
   @Override public void onCreate() {
     super.onCreate();
-    if (mXMPPBinder==null){
+    if (mXMPPBinder == null) {
       mXMPPBinder = new XMPPBinder();
     }
     mXMPPServiceConnection = new XMPPServiceConnection();
@@ -70,8 +75,11 @@ public class XMPPService extends Service {
     if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
+    IntentFilter filter = new IntentFilter(Intent.ACTION_TIME_TICK);
+    TickBroadcastReceiver receiver = new TickBroadcastReceiver();
+    registerReceiver(receiver, filter);
     Intent intent1 = new Intent(this, SupportService.class);
-    this.bindService(intent1,mXMPPServiceConnection,Context.BIND_IMPORTANT);
+    this.bindService(intent1, mXMPPServiceConnection, Context.BIND_IMPORTANT);
     return START_STICKY;
   }
 
@@ -131,22 +139,33 @@ public class XMPPService extends Service {
       HermesEventBus.getDefault()
           .post(new RecieveLastMessage(message.id, message.type, message.userJID, message.ownJid,
               message.thread, message.message, message.messageType, false, message.messageAuthor));
-      if (message.messageAuthor==MessageAuthor.FRIEND) {
+      //查询VCard
+      Intent intent = null;
+      RealmResults<VCardRealm> results = mRealm.where(VCardRealm.class)
+          .equalTo("jid", StringSplitUtil.splitDivider(message.userJID))
+          .findAll();
+      if (results.size() != 0) {
+        intent = new Intent(XMPPService.this, ChatActivity.class);
+        intent.putExtra(ChatActivity.VCARD, results.first());
+      }
+      if (message.messageAuthor == MessageAuthor.FRIEND
+          && intent != null
+          && ServiceUtils.isApplicationBroughtToBackground(this.getApplicationContext())) {
         if (message.messageType == MessageExtensionType.TEXT) {
           showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), message.message,
-              new Intent(XMPPService.this, ChatFragment.class));
+              intent);
           //保存到本地数据库
         }
         if (message.messageType == MessageExtensionType.IMAGE) {
-          showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[图片]", new Intent(XMPPService.this, ChatFragment.class));
+          showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[图片]", intent);
           //保存到本地数据库
         }
         if (message.messageType == MessageExtensionType.AUDIO) {
-          showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[音频]", new Intent(XMPPService.this, ChatFragment.class));
+          showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[音频]", intent);
           //保存到本地数据库
         }
         if (message.messageType == MessageExtensionType.VIDEO) {
-          showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[视频]", new Intent(XMPPService.this, ChatFragment.class));
+          showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[视频]", intent);
           //保存到本地数据库
         }
       }
@@ -246,26 +265,27 @@ public class XMPPService extends Service {
 
   /**
    * 删除用户，并且删除该用户的聊天用户
-   * @param deleteVCardRealm
    */
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void messageAchieve(DeleteVCardRealm deleteVCardRealm) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void messageAchieve(
+      DeleteVCardRealm deleteVCardRealm) {
     mRealm.executeTransactionAsync(realm -> {
-      RealmResults<VCardRealm> results = realm.where(VCardRealm.class).equalTo("jid",deleteVCardRealm.jid).findAll();
-      if (results.size()!=0){
+      RealmResults<VCardRealm> results =
+          realm.where(VCardRealm.class).equalTo("jid", deleteVCardRealm.jid).findAll();
+      if (results.size() != 0) {
         results.deleteAllFromRealm();
       }
-      RealmResults<SessionRealm> messageResult = realm.where(SessionRealm.class).equalTo("vcard_id",deleteVCardRealm.jid).findAll();
-      if (messageResult.size()!=0){
+      RealmResults<SessionRealm> messageResult =
+          realm.where(SessionRealm.class).equalTo("vcard_id", deleteVCardRealm.jid).findAll();
+      if (messageResult.size() != 0) {
         messageResult.deleteAllFromRealm();
       }
     });
   }
 
-  public static void disConnect(DisconnectCallBack callBack){
+  public static void disConnect(DisconnectCallBack callBack) {
     HermesEventBus.getDefault().post(new UnRegisterEvent());
     //删除数据库
-    if (mRealm==null||mRealm.isClosed()){
+    if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
     mRealm.executeTransactionAsync(realm -> {
@@ -274,8 +294,10 @@ public class XMPPService extends Service {
     });
   }
 
-
-  class XMPPServiceConnection implements ServiceConnection{
+  /**
+   * 保证连接的代码
+   */
+  class XMPPServiceConnection implements ServiceConnection {
 
     @Override public void onServiceConnected(ComponentName name, IBinder service) {
       Log.d(TAG, "onServiceConnected: 建立连接");
@@ -283,9 +305,9 @@ public class XMPPService extends Service {
 
     @Override public void onServiceDisconnected(ComponentName name) {
       Log.d(TAG, "onServiceDisconnected: 服务被杀");
-      XMPPService.this.startService(new Intent(XMPPService.this,SupportService.class));
-      Intent intent = new Intent(XMPPService.this,SupportService.class);
-      XMPPService.this.bindService(intent,mXMPPServiceConnection, Context.BIND_IMPORTANT);
+      XMPPService.this.startService(new Intent(XMPPService.this, SupportService.class));
+      Intent intent = new Intent(XMPPService.this, SupportService.class);
+      XMPPService.this.bindService(intent, mXMPPServiceConnection, Context.BIND_IMPORTANT);
     }
   }
 

@@ -1,13 +1,16 @@
 package tech.jiangtao.support.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -102,7 +105,8 @@ import static com.vincent.filepicker.activity.VideoPickActivity.IS_NEED_CAMERA;
  **/
 public class ChatFragment extends BaseFragment
     implements TextWatcher, View.OnClickListener, EasyViewHolder.OnItemClickListener,
-    View.OnLongClickListener, AudioRecordButton.onAudioFinishRecordListener {
+    View.OnLongClickListener, AudioRecordButton.onAudioFinishRecordListener,
+    SwipeRefreshLayout.OnRefreshListener {
 
   @BindView(R2.id.recycler) RecyclerView mRecycler;
   @BindView(R2.id.swift_refresh) SwipeRefreshLayout mSwiftRefresh;
@@ -124,6 +128,12 @@ public class ChatFragment extends BaseFragment
   private Realm mRealm;
   private BQMM mBQMM;
   private UpLoadServiceApi mUpLoadServiceApi;
+  private boolean mIsRefresh;
+  private int mLastVisibleItem;
+  private LinearLayoutManager mLinearLayoutManager;
+  private String mUserJid;
+  private int mPage = 1;
+  private RealmResults<MessageRealm> mMessageRealm;
 
   public static ChatFragment newInstance() {
     return new ChatFragment();
@@ -183,28 +193,38 @@ public class ChatFragment extends BaseFragment
   public void loadOwnRealm() {
     mMessages = new ArrayList<>();
     mVCardRealm = getArguments().getParcelable("vCard");
-    String userJid = null;
     final AppPreferences appPreferences = new AppPreferences(getContext());
     try {
-      userJid = appPreferences.getString("userJid");
+      mUserJid = appPreferences.getString("userJid");
     } catch (ItemNotFoundException e) {
       e.printStackTrace();
     }
     RealmResults<VCardRealm> realms = mRealm.where(VCardRealm.class)
-        .equalTo("jid", StringSplitUtil.splitDivider(userJid))
+        .equalTo("jid", StringSplitUtil.splitDivider(mUserJid))
         .findAll();
     if (realms.size() != 0) {
       mOwnVCardRealm = realms.first();
     }
     //jid中包含空和full jid,检查和进行处理
-    RealmResults<MessageRealm> messageRealmse = mRealm.where(MessageRealm.class)
+    mMessageRealm = mRealm.where(MessageRealm.class)
         .equalTo("mainJID", mVCardRealm.getJid())
         .or()
         .equalTo("withJID", mVCardRealm.getJid())
         .findAll();
     // TODO: 05/01/2017  获取最后20条,并且messageRealmse.get(i).getMainJID()解析反了
-    for (int i = (messageRealmse.size() > 20 ? messageRealmse.size() - 20 : 0);
-        i < messageRealmse.size(); i++) {
+    updateItems(mMessageRealm, mUserJid, mPage);
+  }
+
+  /**
+   * 根据条件更新
+   */
+  public void updateItems(RealmResults<MessageRealm> messageRealmse, String userJid, int page) {
+    mMessages.clear();
+    Log.d(TAG, "updateItems: 获取到消息的大小为:" + messageRealmse.size());
+    for (int i = (messageRealmse.size()-(20*page) > 20 ? messageRealmse.size() - (20 * page) : 0);
+        i < (messageRealmse.size()-(20*(page-1)));i++){
+      Log.d(TAG, "updateItems: 打印出当前的i值:" + i);
+      Log.d(TAG, "updateItems: 打印出当前的page值:" + page);
       if (StringSplitUtil.splitDivider(messageRealmse.get(i).getMainJID())
           .equals(StringSplitUtil.splitDivider(userJid))) {
         //自己的消息
@@ -271,6 +291,9 @@ public class ChatFragment extends BaseFragment
         }
       }
     }
+    //将数据更新到上一个20
+    mRecycler.scrollToPosition(19);
+    mSwiftRefresh.setRefreshing(false);
   }
 
   @Override public int layout() {
@@ -279,11 +302,44 @@ public class ChatFragment extends BaseFragment
 
   private void init() {
     mUpLoadServiceApi = ApiService.getInstance().createApiService(UpLoadServiceApi.class);
+    setUpRefreshing();
     setUpBQMM();
     loadOwnRealm();
     setAdapter();
     setExtraAdapter();
     setViewListener();
+  }
+
+  private void setUpRefreshing() {
+    mSwiftRefresh.setColorSchemeResources(android.R.color.holo_blue_bright,
+        android.R.color.holo_green_light, android.R.color.holo_orange_light,
+        android.R.color.holo_red_light);
+    mSwiftRefresh.setDistanceToTriggerSync(300);
+    mSwiftRefresh.setProgressBackgroundColorSchemeColor(Color.WHITE);
+    mSwiftRefresh.setSize(SwipeRefreshLayout.LARGE);
+    mSwiftRefresh.setOnRefreshListener(this);
+    mRecycler.addOnScrollListener(new OnScrollListener() {
+      @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        super.onScrollStateChanged(recyclerView, newState);
+        if (newState == RecyclerView.SCROLL_STATE_IDLE
+            && mLastVisibleItem + 1 == mChatMessageAdapter.getItemCount()) {
+          //已经跳到最后一项
+          if (mPage > 1) {
+            mPage -= 1;
+            new Handler().postDelayed(new Runnable() {
+              @Override public void run() {
+                updateItems(mMessageRealm, mUserJid, mPage);
+              }
+            }, 2000);
+          }
+        }
+      }
+
+      @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        super.onScrolled(recyclerView, dx, dy);
+        mLastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
+      }
+    });
   }
 
   private void setUpBQMM() {
@@ -319,8 +375,9 @@ public class ChatFragment extends BaseFragment
 
   public void setAdapter() {
     mChatMessageAdapter = new ChatMessageAdapter(getContext(), mMessages);
-    mRecycler.setLayoutManager(
-        new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+    mLinearLayoutManager =
+        new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+    mRecycler.setLayoutManager(mLinearLayoutManager);
     mRecycler.setAdapter(mChatMessageAdapter);
     updateChatData();
   }
@@ -348,7 +405,6 @@ public class ChatFragment extends BaseFragment
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveLastMessage message) {
     Log.d("----------->", "onMessage: " + message);
-    // TODO: 04/01/2017  还需要添加一层判断，判断是否是当前用户的消息
     if (StringSplitUtil.splitDivider(message.userJID).equals(mVCardRealm.getJid())
         || StringSplitUtil.splitDivider(message.ownJid).equals(mVCardRealm.getJid())) {
       if (message.messageAuthor == MessageAuthor.FRIEND) {
@@ -581,5 +637,11 @@ public class ChatFragment extends BaseFragment
             SimpleHUD.showErrorMessage(getContext(), "上传失败" + throwable.toString());
           }
         });
+  }
+
+  @Override public void onRefresh() {
+    mPage += 1;
+    Log.d(TAG, "onRefresh: 打印出当前的mPage" + mPage);
+    updateItems(mMessageRealm, mUserJid, mPage);
   }
 }

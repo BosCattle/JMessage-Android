@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import tech.jiangtao.support.ui.service.SupportService;
+import tech.jiangtao.support.ui.service.XMPPService;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class BootBroadcastReceiver extends BroadcastReceiver {
@@ -13,9 +14,6 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
   private static final String ACTION_BOOT = "android.intent.action.BOOT_COMPLETED";
 
   public BootBroadcastReceiver(){
-    if (!HermesEventBus.getDefault().isRegistered(this)){
-      HermesEventBus.getDefault().register(this);
-    }
   }
 
   @Override
@@ -25,7 +23,9 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
     if (intent.getAction().equals(ACTION_BOOT)) {
       Log.i(TAG, "BootBroadcastReceiver onReceive(), Do thing!");
       Intent intent1 = new Intent(context, SupportService.class);
-      context.startService(intent);
+      context.startService(intent1);
+      Intent intent2 = new Intent(context, XMPPService.class);
+      context.startService(intent2);
     }
   }
 }

@@ -2,7 +2,6 @@ package com.china.epower.chat.ui.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,10 +28,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import java.util.List;
 import tech.jiangtao.support.kit.realm.VCardRealm;
+import tech.jiangtao.support.ui.activity.ChatActivity;
 import tech.jiangtao.support.ui.fragment.ChatListFragment;
 import tech.jiangtao.support.ui.linstener.ContactItemCallback;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
-import tech.jiangtao.support.ui.pattern.SessionListMessage;
 
 /**
  * Class: MainActivity </br>

@@ -15,7 +15,6 @@ import java.io.Serializable;
  * Date: 01/12/2016 11:18 PM</br>
  * Update: 01/12/2016 11:18 PM </br>
  **/
-// TODO: 03/01/2017 这边暂时有问题
 public class VCardRealm extends RealmObject implements Parcelable {
 
   @PrimaryKey private String jid;
