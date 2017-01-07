@@ -467,12 +467,15 @@ public class SupportService extends Service
     mAccountManager = AccountManager.getInstance(mXMPPConnection);
     Observable.create(subscriber -> {
       try {
-        mAccountManager.createAccount(account.username, account.password);
+        Log.d(TAG, "createAccount: "+account.username+"        "+account.password);
+        if (mAccountManager.supportsAccountCreation()) {
+          mAccountManager.createAccount(account.username, account.password);
+        }
         subscriber.onNext(null);
       } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
-        subscriber.onError(e);
         e.printStackTrace();
         connect();
+        subscriber.onError(e);
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
       //注册成功后，更新用户名的VCard;

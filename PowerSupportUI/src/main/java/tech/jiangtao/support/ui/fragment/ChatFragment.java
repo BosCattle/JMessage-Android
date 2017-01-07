@@ -496,8 +496,9 @@ public class ChatFragment extends BaseFragment
         && mVCardRealm.getJid() != null
         && StringSplitUtil.splitDivider(mVCardRealm.getJid()) != StringSplitUtil.splitDivider(
         mOwnVCardRealm.getJid())) {
-      mRealm.executeTransaction(realm -> {
-        SessionRealm sessionRealm = mRealm.where(SessionRealm.class)
+      mRealm.executeTransactionAsync(realm -> {
+        Log.d(TAG, "onPause: 执行到.....");
+        SessionRealm sessionRealm = realm.where(SessionRealm.class)
             .equalTo("vcard_id", StringSplitUtil.splitDivider(mVCardRealm.getJid()))
             .findFirst();
         if (sessionRealm != null) {

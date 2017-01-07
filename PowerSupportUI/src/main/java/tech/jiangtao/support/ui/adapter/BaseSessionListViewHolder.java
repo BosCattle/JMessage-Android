@@ -17,13 +17,15 @@ import tech.jiangtao.support.ui.pattern.SessionListMessage;
  **/
 
 public abstract class BaseSessionListViewHolder extends RecyclerView.ViewHolder implements
-    View.OnClickListener{
+    View.OnClickListener,View.OnLongClickListener{
 
   private EasyViewHolder.OnItemClickListener mItemClickListener;
+  private EasyViewHolder.OnItemLongClickListener mItemLongClickListener;
 
   public BaseSessionListViewHolder(Context context, ViewGroup parent,int layoutId) {
     super(LayoutInflater.from(context).inflate(layoutId,parent,false));
     itemView.setOnClickListener(this);
+    itemView.setOnLongClickListener(this);
   }
 
   public abstract void bindTo(int position,SessionListMessage session);
@@ -37,5 +39,13 @@ public abstract class BaseSessionListViewHolder extends RecyclerView.ViewHolder 
 
   public void setOnItemClickListener(EasyViewHolder.OnItemClickListener onItemClickListener){
     mItemClickListener = onItemClickListener;
+  }
+  public void setOnItemLongClickListener(EasyViewHolder.OnItemLongClickListener onItemLongClickListener){
+    mItemLongClickListener = onItemLongClickListener;
+  }
+
+  @Override public boolean onLongClick(View v) {
+    return mItemLongClickListener != null && mItemLongClickListener.onItemLongClick(
+        getAdapterPosition(), v);
   }
 }

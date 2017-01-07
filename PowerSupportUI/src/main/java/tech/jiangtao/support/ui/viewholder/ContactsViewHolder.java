@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import de.hdodenhof.circleimageview.CircleImageView;
 import java.util.Objects;
+import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ContactViewHolder;
@@ -47,6 +48,6 @@ public class ContactsViewHolder extends ContactViewHolder {
         .into(mItemChat);
     mItemChatUsername.setText(
         l.mVCardRealm.getNickName() == null || Objects.equals(l.mVCardRealm.getNickName(), "")
-            ? l.mVCardRealm.getJid() : l.mVCardRealm.getNickName());
+            ? StringSplitUtil.splitPrefix(l.mVCardRealm.getJid()) : l.mVCardRealm.getNickName());
   }
 }

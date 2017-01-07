@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import java.util.List;
 import tech.jiangtao.support.ui.linstener.DebouncedOnClickListener;
+import tech.jiangtao.support.ui.linstener.DebouncedOnLongClickListener;
 import tech.jiangtao.support.ui.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.pattern.SessionListMessage;
@@ -27,6 +28,7 @@ public class SessionAdapter extends RecyclerView.Adapter<BaseSessionListViewHold
   private Context mContext;
   private List<SessionListMessage> mDatas;
   private EasyViewHolder.OnItemClickListener mOnItemClickListener;
+  private EasyViewHolder.OnItemLongClickListener mOnItemLongClickListener;
 
   public SessionAdapter(Context context,List<SessionListMessage> datas){
     mContext = context;
@@ -36,6 +38,7 @@ public class SessionAdapter extends RecyclerView.Adapter<BaseSessionListViewHold
   private void bindListener(BaseSessionListViewHolder viewholder) {
     if (viewholder!=null){
       viewholder.setOnItemClickListener(mOnItemClickListener);
+      viewholder.setOnItemLongClickListener(mOnItemLongClickListener);
     }
   }
 
@@ -73,6 +76,17 @@ public class SessionAdapter extends RecyclerView.Adapter<BaseSessionListViewHold
       @Override public boolean onDebouncedClick(View v, int position) {
         if (listener!=null){
           listener.onItemClick(position,v);
+        }
+        return true;
+      }
+    };
+  }
+
+  public void setOnLongClickListener(final EasyViewHolder.OnItemLongClickListener listener) {
+    this.mOnItemLongClickListener = new DebouncedOnLongClickListener() {
+      @Override public boolean onDebouncedClick(View v, int position) {
+        if (listener!=null){
+          listener.onItemLongClick(position,v);
         }
         return true;
       }

@@ -26,8 +26,8 @@ public class VCardRealm extends RealmObject implements Parcelable {
   private String phoneNumber;
   private String signature;
   private String avatar;
-  private String firstLetter;
-  private String allPinYin;
+  private String firstLetter = "";
+  private String allPinYin = "";
   private boolean friend;
 
   public VCardRealm() {

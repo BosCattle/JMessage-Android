@@ -3,8 +3,13 @@ package tech.jiangtao.support.ui.utils;
 import tech.jiangtao.support.ui.BuildConfig;
 
 /**
- * Created by kevin on 29/12/2016.
- */
+ * Class: CommonUtils </br>
+ * Description: 配置资源链接 </br>
+ * Creator: kevin </br>
+ * Email: jiangtao103cp@gmail.com </br>
+ * Date: 07/01/2017 8:18 PM</br>
+ * Update: 07/01/2017 8:18 PM </br>
+ **/
 
 public class CommonUtils {
 

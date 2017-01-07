@@ -62,8 +62,6 @@ public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemC
   private List<ConstructListData> mDatas;
   private VCardRealm mVCardRealm;
   private Realm mRealm;
-  private SimpleVCard mSimpleVCard;
-  private LocalVCardEvent mLocalVCardEvent;
 
   public static PersonalFragment newInstance() {
     return new PersonalFragment();
@@ -74,12 +72,13 @@ public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemC
     View view = inflater.inflate(R.layout.fragment_personal, container, false);
     ButterKnife.bind(this, view);
     setAdapter();
+    recieveVCardRealm();
     return view;
   }
 
   private void setAdapter() {
     mDatas = new ArrayList<>();
-    mDataAdapter = new PersonalDataAdapter(getContext(), buildData());
+    mDataAdapter = new PersonalDataAdapter(getContext(),mDatas);
     mDataAdapter.setOnClickListener(this);
     mPersonalList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(getContext()));
     mPersonalList.setLayoutManager(
@@ -90,7 +89,6 @@ public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemC
 
   @Override public void onResume() {
     super.onResume();
-    recieveVCardRealm();
   }
 
   public List<ConstructListData> buildData() {
@@ -153,40 +151,29 @@ public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemC
   }
 
   public void recieveVCardRealm() {
-    mRealm = Realm.getDefaultInstance();
-    mSimpleVCard = new SimpleVCard();
-    mLocalVCardEvent = new LocalVCardEvent();
-    RealmQuery<VCardRealm> realmQuery = mRealm.where(VCardRealm.class);
-    String userJid = null;
-    final AppPreferences appPreferences = new AppPreferences(getContext());
-    try {
-      userJid = appPreferences.getString("userJid");
-    } catch (ItemNotFoundException e) {
-      e.printStackTrace();
+    if (mRealm==null||mRealm.isClosed()){
+      mRealm = Realm.getDefaultInstance();
     }
-    RealmResults<VCardRealm> realmResult = realmQuery.equalTo("jid", userJid).findAll();
-    if (realmResult.size() != 0) {
-      mVCardRealm = realmResult.first();
-    }else {
+    mRealm.executeTransaction(realm -> {
+      String userJid = null;
+      final AppPreferences appPreferences = new AppPreferences(getContext());
       try {
-        //测试1@dc-a4b8eb92-xmpp.jiangtao.tech./jiangtao,获取和更新VcARD
-        mLocalVCardEvent.setJid(StringSplitUtil.splitDivider(appPreferences.getString("userJid")));
-        Log.d(TAG, "getLocalVCardRealm: " + appPreferences.getString("userJid"));
-        RealmResults<VCardRealm> realmResult1 =
-            realmQuery.equalTo("jid", StringSplitUtil.splitDivider(appPreferences.getString("userJid"))).findAll();
-        if (realmResult1.size() != 0) {
-          mVCardRealm = realmResult1.first();
-          mLocalVCardEvent.setNickName(mVCardRealm.getNickName());
-          mLocalVCardEvent.setAvatar(mVCardRealm.getAvatar());
-        } else {
-          mSimpleVCard.startUpdate(mLocalVCardEvent, null);
-        }
+        userJid = StringSplitUtil.splitDivider(appPreferences.getString("userJid"));
       } catch (ItemNotFoundException e) {
         e.printStackTrace();
       }
-    }
-    mDataAdapter.clear();
-    buildData();
+      RealmResults<VCardRealm> realmQuery = realm.where(VCardRealm.class).equalTo("jid",userJid).findAll();
+      if (realmQuery.size()!=0){
+        mVCardRealm = realmQuery.first();
+        mDataAdapter.clear();
+        mDatas.clear();
+        buildData();
+      }
+    });
     mDataAdapter.notifyDataSetChanged();
+  }
+
+  @Override public void onDestroyView() {
+    super.onDestroyView();
   }
 }

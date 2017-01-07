@@ -36,6 +36,7 @@ import tech.jiangtao.support.kit.eventbus.ContactEvent;
 import tech.jiangtao.support.kit.eventbus.MessageTest;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.realm.VCardRealm;
+import tech.jiangtao.support.kit.util.PinYinUtils;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
@@ -106,24 +107,57 @@ public class ContactFragment extends BaseFragment
     }
     mRealm.executeTransaction(realm -> {
       RealmQuery<VCardRealm> realmQuery = realm.where(VCardRealm.class);
-      mVCardRealmRealmResults = realmQuery.equalTo("friend",true).findAll();
+      mVCardRealmRealmResults = realmQuery.equalTo("friend", true).findAllSorted("firstLetter");
       buildHeadView();
-      Iterator it = mVCardRealmRealmResults.iterator();
       Log.d(TAG, "getContact: 打印出好友的数量:" + mVCardRealmRealmResults.size());
-      while (it.hasNext()) {
+      for (int i = 0; i < mVCardRealmRealmResults.size(); i++) {
+        if (mVCardRealmRealmResults != null
+            && mVCardRealmRealmResults.get(i) != null
+            && mVCardRealmRealmResults.get(i).getFirstLetter() != null) {
+          if (i == 0) {
+            mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
+                .title(mVCardRealmRealmResults.get(i).getFirstLetter())
+                .build());
+          }
+          if (i > 0) {
+            if (mVCardRealmRealmResults.get(i - 1).getFirstLetter() != null
+                && !(mVCardRealmRealmResults.get(i - 1)
+                .getFirstLetter()
+                .equals(mVCardRealmRealmResults.get(i).getFirstLetter()))) {
+              mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
+                  .title(mVCardRealmRealmResults.get(i).getFirstLetter())
+                  .build());
+            }
+          }
+        }
         mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL)
-            .vCardRealm((VCardRealm) it.next())
+            .vCardRealm(mVCardRealmRealmResults.get(i))
             .build());
       }
       mBaseEasyAdapter.notifyDataSetChanged();
       mVCardRealmRealmResults.addChangeListener(element -> {
         mConstrutContact.clear();
         buildHeadView();
-        Iterator iterator = element.iterator();
-        Log.d(TAG, "getContact: 打印出好友的数量:" + element.size());
-        while (iterator.hasNext()) {
+        for (int i = 0; i < mVCardRealmRealmResults.size(); i++) {
+          if (mVCardRealmRealmResults.get(i).getFirstLetter() != null) {
+            if (i == 0) {
+              mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
+                  .title(mVCardRealmRealmResults.get(i).getFirstLetter())
+                  .build());
+            }
+            if (i > 0) {
+              if (mVCardRealmRealmResults.get(i - 1).getFirstLetter() != null
+                  &&!mVCardRealmRealmResults.get(i - 1)
+                  .getFirstLetter()
+                  .equals(mVCardRealmRealmResults.get(i).getFirstLetter())) {
+                mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
+                    .title(mVCardRealmRealmResults.get(i).getFirstLetter())
+                    .build());
+              }
+            }
+          }
           mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL)
-              .vCardRealm((VCardRealm) iterator.next())
+              .vCardRealm(mVCardRealmRealmResults.get(i))
               .build());
         }
         mBaseEasyAdapter.notifyDataSetChanged();
@@ -132,12 +166,17 @@ public class ContactFragment extends BaseFragment
     buildSideBar();
   }
 
-  public void  buildSideBar(){
+  public void buildSideBar() {
     mSideBar.setBubble(mUiViewBuddle);
     List<String> list = Arrays.asList(SideBar.b);
     mSideBar.setUpCharList(list);
-    mSideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
-      @Override public void onTouchingLetterChanged(String s) {
+    mSideBar.setOnTouchingLetterChangedListener(s -> {
+      for (int i = 0; i < mConstrutContact.size(); i++) {
+        if (mConstrutContact.get(i).mTitle != null) {
+          if (s.equals(mConstrutContact.get(i).mTitle)) {
+            mContactList.scrollToPosition(i + 2);
+          }
+        }
       }
     });
   }
@@ -170,27 +209,27 @@ public class ContactFragment extends BaseFragment
   @Override public boolean onItemLongClick(int position, View view) {
     Log.d(TAG, "onItemLongClick: ");
     ConstrutContact construtContact = mConstrutContact.get(position);
-    if (position>=2){
-      deleteFriends(construtContact.mVCardRealm.getJid(),construtContact.mVCardRealm.getNickName());
+    if (position >= 2) {
+      deleteFriends(construtContact.mVCardRealm.getJid(),
+          construtContact.mVCardRealm.getNickName());
     }
     return false;
   }
 
-  public void deleteFriends(String userjid,String username){
-    final CleanDialog dialog =
-        new CleanDialog.Builder(getContext()).iconFlag(IconFlag.WARN)
-            .negativeButton("取消", Dialog::dismiss)
-            .positiveButton("删除", new PositiveClickListener() {
-              @Override public void onPositiveClickListener(CleanDialog dialog1) {
-                //删除用户,远程删除用户，成功后，从会话中列表中，删除用户
-                HermesEventBus.getDefault().post(new RosterEntryBus(userjid));
-                dialog1.dismiss();
-              }
-            })
-            .title("确认删除好友"+username+"吗?")
-            .negativeTextColor(Color.WHITE)
-            .positiveTextColor(Color.WHITE)
-            .builder();
+  public void deleteFriends(String userjid, String username) {
+    final CleanDialog dialog = new CleanDialog.Builder(getContext()).iconFlag(IconFlag.WARN)
+        .negativeButton("取消", Dialog::dismiss)
+        .positiveButton("删除", new PositiveClickListener() {
+          @Override public void onPositiveClickListener(CleanDialog dialog1) {
+            //删除用户,远程删除用户，成功后，从会话中列表中，删除用户
+            HermesEventBus.getDefault().post(new RosterEntryBus(userjid));
+            dialog1.dismiss();
+          }
+        })
+        .title("确认删除好友" + username + "吗?")
+        .negativeTextColor(Color.WHITE)
+        .positiveTextColor(Color.WHITE)
+        .builder();
     dialog.showDialog();
   }
 

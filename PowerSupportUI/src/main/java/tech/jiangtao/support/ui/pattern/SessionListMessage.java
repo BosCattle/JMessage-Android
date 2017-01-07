@@ -5,6 +5,7 @@ import org.jivesoftware.smack.packet.Message;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 
 public class SessionListMessage {
+  public String sessionId;
   public String userJid;
   public String username;
   public String avatar;
@@ -15,6 +16,7 @@ public class SessionListMessage {
   public MessageExtensionType messageType;
 
   public static class Builder{
+    public String sessionId;
     public String userJid;
     public String username;
     public String avatar;
@@ -26,6 +28,7 @@ public class SessionListMessage {
 
     public SessionListMessage build(){
       SessionListMessage message = new SessionListMessage();
+      message.sessionId = sessionId;
       message.userJid = userJid;
       message.username = username;
       message.avatar = avatar;
@@ -74,6 +77,11 @@ public class SessionListMessage {
 
     public Builder messageType(MessageExtensionType messageType){
       this.messageType = messageType;
+      return this;
+    }
+
+    public Builder sessionId(String sessionId){
+      this.sessionId = sessionId;
       return this;
     }
   }
