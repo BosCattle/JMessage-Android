@@ -26,4 +26,15 @@ public class StringSplitUtil {
     }
     return jid;
   }
+
+  public static String splitPrefix(String jidResource){
+    String jid;
+    if (jidResource!=null&&jidResource.contains("@")){
+      int index = jidResource.indexOf("@");
+      jid = jidResource.substring(0,index);
+    }else {
+      throw new NullPointerException("jid不能为空");
+    }
+    return jid;
+  }
 }

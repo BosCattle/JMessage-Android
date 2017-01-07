@@ -131,25 +131,24 @@ public class XMPPService extends Service {
       HermesEventBus.getDefault()
           .post(new RecieveLastMessage(message.id, message.type, message.userJID, message.ownJid,
               message.thread, message.message, message.messageType, false, message.messageAuthor));
-      if (message.messageType == MessageExtensionType.TEXT) {
-        showOnesNotification(message.userJID, message.message,
-            new Intent(XMPPService.this, ChatFragment.class));
-        //保存到本地数据库
-      }
-      if (message.messageType == MessageExtensionType.IMAGE) {
-        showOnesNotification(message.userJID, "图片",
-            new Intent(XMPPService.this, ChatFragment.class));
-        //保存到本地数据库
-      }
-      if (message.messageType == MessageExtensionType.AUDIO) {
-        showOnesNotification(message.userJID, "音频",
-            new Intent(XMPPService.this, ChatFragment.class));
-        //保存到本地数据库
-      }
-      if (message.messageType == MessageExtensionType.VIDEO) {
-        showOnesNotification(message.userJID, "视频",
-            new Intent(XMPPService.this, ChatFragment.class));
-        //保存到本地数据库
+      if (message.messageAuthor==MessageAuthor.FRIEND) {
+        if (message.messageType == MessageExtensionType.TEXT) {
+          showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), message.message,
+              new Intent(XMPPService.this, ChatFragment.class));
+          //保存到本地数据库
+        }
+        if (message.messageType == MessageExtensionType.IMAGE) {
+          showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[图片]", new Intent(XMPPService.this, ChatFragment.class));
+          //保存到本地数据库
+        }
+        if (message.messageType == MessageExtensionType.AUDIO) {
+          showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[音频]", new Intent(XMPPService.this, ChatFragment.class));
+          //保存到本地数据库
+        }
+        if (message.messageType == MessageExtensionType.VIDEO) {
+          showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[视频]", new Intent(XMPPService.this, ChatFragment.class));
+          //保存到本地数据库
+        }
       }
     }, new Realm.Transaction.OnError() {
       @Override public void onError(Throwable error) {

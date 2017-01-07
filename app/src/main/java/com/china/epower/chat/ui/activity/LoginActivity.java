@@ -16,10 +16,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.china.epower.chat.R;
-import com.cocosw.favor.FavorAdapter;
 import tech.jiangtao.support.kit.callback.LoginCallBack;
 import tech.jiangtao.support.kit.eventbus.LoginParam;
-import tech.jiangtao.support.kit.realm.sharepreference.Account;
 import tech.jiangtao.support.kit.userdata.SimpleLogin;
 import work.wanghao.simplehud.SimpleHUD;
 
@@ -92,16 +90,9 @@ public class LoginActivity extends BaseActivity implements LoginCallBack {
     }
   }
 
-  public void saveSharePreference(String name, String passwd) {
-    Account account = new FavorAdapter.Builder(this).build().create(Account.class);
-    account.setPassword(passwd);
-    account.setUserName(name);
-  }
-
   @Override
   public void connectSuccess() {
     SimpleHUD.dismiss();
-    saveSharePreference(mLoginUsername.getText().toString(), mLoginPassword.getText().toString());
     SimpleHUD.showSuccessMessage(this, (String) getText(R.string.connect_success), () -> {
       MainActivity.startMain(LoginActivity.this);
     });

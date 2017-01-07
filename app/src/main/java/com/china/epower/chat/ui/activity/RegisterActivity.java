@@ -9,10 +9,8 @@ import android.view.View;
 import butterknife.BindView;
 import butterknife.OnClick;
 import com.china.epower.chat.R;
-import com.cocosw.favor.FavorAdapter;
 import tech.jiangtao.support.kit.callback.RegisterCallBack;
 import tech.jiangtao.support.kit.eventbus.RegisterAccount;
-import tech.jiangtao.support.kit.realm.sharepreference.Account;
 import tech.jiangtao.support.kit.userdata.SimpleRegister;
 import work.wanghao.simplehud.SimpleHUD;
 
@@ -80,11 +78,5 @@ public class RegisterActivity extends BaseActivity {
 
   public static void startRegister(Activity activity) {
     activity.startActivity(new Intent(activity, RegisterActivity.class));
-  }
-
-  public void saveSharePreference(String name, String passwd) {
-    Account account = new FavorAdapter.Builder(this).build().create(Account.class);
-    account.setPassword(passwd);
-    account.setUserName(name);
   }
 }
