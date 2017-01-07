@@ -113,11 +113,11 @@ public class XMPPService extends Service {
         if (message.messageAuthor == MessageAuthor.FRIEND) {
           sessionRealm.setUser_from(StringSplitUtil.splitDivider(message.userJID));
           sessionRealm.setUser_to(StringSplitUtil.splitDivider(message.ownJid));
-          sessionRealm.setVcard_id(message.userJID);
+          sessionRealm.setVcard_id(StringSplitUtil.splitDivider(message.userJID));
         } else {
           sessionRealm.setUser_from(StringSplitUtil.splitDivider(message.ownJid));
           sessionRealm.setUser_to(StringSplitUtil.splitDivider(message.userJID));
-          sessionRealm.setVcard_id(message.ownJid);
+          sessionRealm.setVcard_id(StringSplitUtil.splitDivider(message.ownJid));
         }
         sessionRealm.setMessage_id(message.id);
         sessionRealm.setUnReadCount(1);

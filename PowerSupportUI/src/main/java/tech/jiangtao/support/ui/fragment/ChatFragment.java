@@ -502,6 +502,7 @@ public class ChatFragment extends BaseFragment
             .equalTo("vcard_id", StringSplitUtil.splitDivider(mVCardRealm.getJid()))
             .findFirst();
         if (sessionRealm != null) {
+          Log.d(TAG, "onPause: 执行到.....对象不为空");
           sessionRealm.setUnReadCount(0);
         }
       });

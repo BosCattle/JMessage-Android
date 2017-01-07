@@ -329,6 +329,9 @@ public class SupportService extends Service
       appPreferences.put("username", username);
       appPreferences.put("password", password);
       HermesEventBus.getDefault().postSticky(new LoginCallbackEvent("登录成功", null));
+      LocalVCardEvent event = new LocalVCardEvent();
+      event.setJid(mXMPPConnection.getUser());
+      addOrUpdateVCard(event);
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
         super.call(throwable);
@@ -388,7 +391,7 @@ public class SupportService extends Service
         new MessageArchiveStanzaFilter());
     long time = appPreferences.getLong("last_modify", 0);
     //将time转化为字符串
-    requestAllMessageArchive(DateUtils.getDefaultUTCTimeZone(time));
+    //requestAllMessageArchive(DateUtils.getDefaultUTCTimeZone(time));
     // TODO: 07/12/2016 读取数据库，得到最后的更新时间
     ChatManager manager = ChatManager.getInstanceFor(mXMPPConnection);
     manager.addChatListener(this);

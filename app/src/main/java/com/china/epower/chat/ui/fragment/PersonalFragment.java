@@ -1,6 +1,7 @@
 package com.china.epower.chat.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -67,23 +68,28 @@ public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemC
     return new PersonalFragment();
   }
 
+  @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+  }
+
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_personal, container, false);
     ButterKnife.bind(this, view);
     setAdapter();
-    recieveVCardRealm();
     return view;
   }
 
   private void setAdapter() {
     mDatas = new ArrayList<>();
+    buildData();
     mDataAdapter = new PersonalDataAdapter(getContext(),mDatas);
     mDataAdapter.setOnClickListener(this);
     mPersonalList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(getContext()));
     mPersonalList.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     mPersonalList.setAdapter(mDataAdapter);
+    recieveVCardRealm();
   }
 
 
@@ -162,18 +168,18 @@ public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemC
       } catch (ItemNotFoundException e) {
         e.printStackTrace();
       }
-      RealmResults<VCardRealm> realmQuery = realm.where(VCardRealm.class).equalTo("jid",userJid).findAll();
-      if (realmQuery.size()!=0){
+      RealmResults<VCardRealm> realmQuery = realm.where(VCardRealm.class).equalTo("jid", userJid).findAll();
+      if (realmQuery.size() != 0) {
         mVCardRealm = realmQuery.first();
-        mDataAdapter.clear();
-        mDatas.clear();
-        buildData();
       }
     });
+    mDatas.clear();
+    buildData();
     mDataAdapter.notifyDataSetChanged();
   }
 
   @Override public void onDestroyView() {
     super.onDestroyView();
+    mRealm.close();
   }
 }
