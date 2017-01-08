@@ -48,6 +48,7 @@ public class NewFriendViewHolder extends EasyViewHolder<FriendRequest> {
     mNewFriendAgree.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         HermesEventBus.getDefault().post(new RecieveFriend(true));
+        mNewFriendAgree.setText("成功");
       }
     });
   }

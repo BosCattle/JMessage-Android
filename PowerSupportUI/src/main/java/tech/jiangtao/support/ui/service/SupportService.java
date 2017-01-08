@@ -334,8 +334,9 @@ public class SupportService extends Service
       appPreferences.put("password", password);
       HermesEventBus.getDefault().postSticky(new LoginCallbackEvent("登录成功", null));
       LocalVCardEvent event = new LocalVCardEvent();
-      event.setJid(mXMPPConnection.getUser());
+      event.setJid(StringSplitUtil.splitDivider(mXMPPConnection.getUser()));
       addOrUpdateVCard(event);
+      getRoster(new ContactEvent());
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
         super.call(throwable);
@@ -508,13 +509,13 @@ public class SupportService extends Service
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
       //注册成功后，更新用户名的VCard;
-      LocalVCardEvent event = new LocalVCardEvent();
-      event.setJid(account.username + "@" + SupportIM.mDomain);
-      event.setNickName(account.username);
-      event.setAllPinYin(PinYinUtils.ccs2Pinyin(account.username));
-      event.setFirstLetter(PinYinUtils.getPinyinFirstLetter(account.username));
-      event.setFriend(true);
-      addOrUpdateVCard(event);
+      //LocalVCardEvent event = new LocalVCardEvent();
+      //event.setJid(account.username + "@" + SupportIM.mDomain);
+      //event.setNickName(account.username);
+      //event.setAllPinYin(PinYinUtils.ccs2Pinyin(account.username));
+      //event.setFirstLetter(PinYinUtils.getPinyinFirstLetter(account.username));
+      //event.setFriend(true);
+      //addOrUpdateVCard(event);
       login(account.username, account.password);
       HermesEventBus.getDefault().post(new RegisterResult(account, null));
     }, new ErrorAction() {
@@ -651,6 +652,7 @@ public class SupportService extends Service
   //添加或者更新vCard;
   @Subscribe(threadMode = ThreadMode.MAIN) public void addOrUpdateVCard(
       LocalVCardEvent vCardRealm) {
+    mVCardManager = VCardManager.getInstanceFor(mXMPPConnection);
     Observable.create((Observable.OnSubscribe<VCard>) subscriber -> {
       try {
         subscriber.onNext(mVCardManager.loadVCard(vCardRealm.getJid()));
@@ -673,6 +675,8 @@ public class SupportService extends Service
       vCard.setEmailWork(vCardRealm.getEmail());
       if (vCardRealm.getNickName() != null && vCardRealm.getNickName() != "") {
         vCard.setNickName(vCardRealm.getNickName());
+      }else {
+        vCard.setNickName(StringSplitUtil.splitPrefix(vCardRealm.getJid()));
       }
       Observable.create((Observable.OnSubscribe<String>) subscriber -> {
         try {

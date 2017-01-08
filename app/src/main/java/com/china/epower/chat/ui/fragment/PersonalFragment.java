@@ -2,17 +2,13 @@ package com.china.epower.chat.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import com.china.epower.chat.R;
@@ -31,12 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmQuery;
 import io.realm.RealmResults;
-import tech.jiangtao.support.kit.eventbus.LocalVCardEvent;
 import tech.jiangtao.support.kit.realm.VCardRealm;
-import tech.jiangtao.support.kit.userdata.SimpleVCard;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
+import tech.jiangtao.support.ui.fragment.BaseFragment;
 import tech.jiangtao.support.ui.service.XMPPService;
 
 /**
@@ -47,7 +41,7 @@ import tech.jiangtao.support.ui.service.XMPPService;
  * Date: 10/11/2016 3:07 PM</br>
  * Update: 10/11/2016 3:07 PM </br>
  **/
-public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemClickListener {
+public class PersonalFragment extends BaseFragment implements EasyViewHolder.OnItemClickListener {
 
   public static final int TAG_HEAD = 200;
   public static final int TAG_NOTIFICATION = 300;
@@ -60,9 +54,8 @@ public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemC
   @BindView(R.id.personal_list) RecyclerView mPersonalList;
   @BindView(R.id.login_button) AppCompatButton mLoginButton;
   private PersonalDataAdapter mDataAdapter;
-  private List<ConstructListData> mDatas;
-  private VCardRealm mVCardRealm;
   private Realm mRealm;
+  private List mDatas = new ArrayList();
 
   public static PersonalFragment newInstance() {
     return new PersonalFragment();
@@ -74,30 +67,31 @@ public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemC
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_personal, container, false);
-    ButterKnife.bind(this, view);
+    super.onCreateView(inflater, container, savedInstanceState);
     setAdapter();
-    return view;
+    recieveVCardRealm();
+    return getView();
+  }
+
+  @Override public int layout() {
+    return R.layout.fragment_personal;
   }
 
   private void setAdapter() {
-    mDatas = new ArrayList<>();
-    buildData();
-    mDataAdapter = new PersonalDataAdapter(getContext(),mDatas);
+    mDataAdapter = new PersonalDataAdapter(getContext(), buildData(null));
     mDataAdapter.setOnClickListener(this);
     mPersonalList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(getContext()));
     mPersonalList.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     mPersonalList.setAdapter(mDataAdapter);
-    recieveVCardRealm();
   }
-
 
   @Override public void onResume() {
     super.onResume();
   }
 
-  public List<ConstructListData> buildData() {
+  public List<ConstructListData> buildData( VCardRealm mVCardRealm) {
+    mDatas.clear();
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_HEAD)
         .tag(TAG_HEAD)
@@ -140,7 +134,7 @@ public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemC
   }
 
   @Override public void onItemClick(int position, View view) {
-    switch (mDatas.get(position).getmTag()) {
+    switch (((ConstructListData) mDatas.get(position)).getmTag()) {
       case TAG_HEAD:
         PersonalDetailActivity.startPersonalDetail(getActivity());
         break;
@@ -152,34 +146,35 @@ public class PersonalFragment extends Fragment implements EasyViewHolder.OnItemC
     XMPPService.disConnect(() -> LoginActivity.startLogin(getActivity()));
   }
 
-  @Override public void onDestroy() {
-    super.onDestroy();
-  }
-
   public void recieveVCardRealm() {
-    if (mRealm==null||mRealm.isClosed()){
+    if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
-    mRealm.executeTransaction(realm -> {
-      String userJid = null;
-      final AppPreferences appPreferences = new AppPreferences(getContext());
-      try {
-        userJid = StringSplitUtil.splitDivider(appPreferences.getString("userJid"));
-      } catch (ItemNotFoundException e) {
-        e.printStackTrace();
-      }
-      RealmResults<VCardRealm> realmQuery = realm.where(VCardRealm.class).equalTo("jid", userJid).findAll();
-      if (realmQuery.size() != 0) {
-        mVCardRealm = realmQuery.first();
-      }
-    });
-    mDatas.clear();
-    buildData();
-    mDataAdapter.notifyDataSetChanged();
+    String userJid = null;
+    final AppPreferences appPreferences = new AppPreferences(getContext());
+    try {
+      userJid = StringSplitUtil.splitDivider(appPreferences.getString("userJid"));
+      String finalUserJid = userJid;
+      mRealm.executeTransaction(realm -> {
+        RealmResults<VCardRealm> realmQuery =
+            realm.where(VCardRealm.class).equalTo("jid", finalUserJid).findAll();
+        VCardRealm mVCardRealm= null;
+        if (realmQuery.size() != 0) {
+          mVCardRealm = realmQuery.first();
+        }
+        if (mVCardRealm != null && mVCardRealm.isValid()) {
+          mDataAdapter.clear();
+          buildData(mVCardRealm);
+          mDataAdapter.notifyDataSetChanged();
+        }
+      });
+    } catch (ItemNotFoundException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override public void onDestroyView() {
-    super.onDestroyView();
     mRealm.close();
+    super.onDestroyView();
   }
 }

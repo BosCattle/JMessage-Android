@@ -40,7 +40,6 @@ public class PersonalImageViewHolder extends PersonalBaseViewHolder {
     if (l.getmImage()!=null) {
       Glide.with(mContext)
           .load(Uri.parse(l.getmImage()))
-          .asBitmap()
           .centerCrop()
           .placeholder(R.mipmap.ic_launcher)
           .into(mItemImage);
