@@ -181,11 +181,11 @@ public class ChatFragment extends BaseFragment
     ArrayList<ChatExtraModel> mChatExtraItems = new ArrayList<>();
     mChatSendOther.setAdapter(mBaseEasyAdapter);
     mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_photo, "图片"));
-    mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_location, "位置"));
-    mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_call, "打电话"));
-    mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_call, "视频"));
-    mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_call, "文档"));
-    mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_call, "语音"));
+    //mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_location, "位置"));
+    //mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_call, "打电话"));
+    //mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_call, "视频"));
+    //mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_call, "文档"));
+    //mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_call, "语音"));
     mBaseEasyAdapter.addAll(mChatExtraItems);
     mBaseEasyAdapter.notifyDataSetChanged();
   }
