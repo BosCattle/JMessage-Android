@@ -1,5 +1,6 @@
 package tech.jiangtao.support.ui.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -39,6 +40,9 @@ import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.PinYinUtils;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
+import tech.jiangtao.support.ui.activity.ChatActivity;
+import tech.jiangtao.support.ui.activity.GroupListActivity;
+import tech.jiangtao.support.ui.activity.NewFriendActivity;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.linstener.ContactItemCallback;
@@ -199,7 +203,14 @@ public class ContactFragment extends BaseFragment
 
   @Override public void onItemClick(int position, View view) {
     Log.d(TAG, "onItemClick: ");
-    mContactItemCallback.onItemClick(position, view, mConstrutContact.get(position));
+    if (position==0){
+      GroupListActivity.startGroupList(getContext());
+    }else if (position==1){
+      NewFriendActivity.startNewFriend(getContext());
+    }
+    else {
+      ChatActivity.startChat((Activity) getContext(),mConstrutContact.get(position).mVCardRealm);
+    }
   }
 
   @Override public void onItemLeftClick(int position, View view) {

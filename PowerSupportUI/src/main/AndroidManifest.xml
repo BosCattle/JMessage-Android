@@ -1,7 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="tech.jiangtao.support.ui">
-  <!--表情云-->
+
+  <!-- 表情云 -->
   <!-- 读写权限 -->
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
@@ -13,24 +15,24 @@
   <uses-permission android:name="android.permission.access_network_state"/>
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
   <uses-permission android:name="android.permission.GET_TASKS"/>
-  <!--表情云-->
+
+  <!-- 表情云 -->
   <application
       android:allowBackup="true"
       android:supportsRtl="true">
     <service
-        android:name="tech.jiangtao.support.ui.service.SupportService"
-        android:enabled="true"
-        android:process=":remote"
-        android:priority="1000">
-    </service>
-    <service
-        android:name="tech.jiangtao.support.ui.service.XMPPService"
+        android:name=".service.SupportService"
         android:enabled="true"
         android:priority="1000"
-        />
+        android:process=":remote">
+    </service>
+    <service
+        android:name=".service.XMPPService"
+        android:enabled="true"
+        android:priority="1000"/>
     <!-- 网络变化广播 -->
     <receiver
-        android:name="tech.jiangtao.support.ui.reciever.NetworkConnectChangedReceiver"
+        android:name=".reciever.NetworkConnectChangedReceiver"
         android:enabled="true">
       <intent-filter>
         <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
@@ -40,24 +42,23 @@
     </receiver>
     <!-- 开机启动广播 -->
     <receiver
-        android:name="tech.jiangtao.support.ui.reciever.BootBroadcastReceiver"
+        android:name=".reciever.BootBroadcastReceiver"
         android:enabled="true">
       <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED"/>
         <category android:name="android.intent.category.HOME"/>
       </intent-filter>
     </receiver>
-    <!--秒级检测-->
+    <!-- 秒级检测 -->
     <receiver
-        android:name="tech.jiangtao.support.ui.reciever.TickBroadcastReceiver"
+        android:name=".reciever.TickBroadcastReceiver"
         android:enabled="true"
         android:exported="false">
     </receiver>
 
     <activity
         android:name="com.melink.bqmmsdk.ui.store.EmojiPackageList"
-        android:screenOrientation="portrait"
-        >
+        android:screenOrientation="portrait">
     </activity>
     <activity
         android:name="com.melink.bqmmsdk.ui.store.EmojiDetail"
@@ -78,6 +79,12 @@
     <activity
         android:name="com.melink.bqmmsdk.ui.store.ServiceDeclaration"
         android:screenOrientation="portrait">
+    </activity>
+    <activity android:name=".activity.NewFriendActivity"
+        android:theme="@style/AppTheme.NoActionBar">
+    </activity>
+    <activity android:name=".activity.GroupListActivity"
+        android:theme="@style/AppTheme.NoActionBar">
     </activity>
   </application>
 

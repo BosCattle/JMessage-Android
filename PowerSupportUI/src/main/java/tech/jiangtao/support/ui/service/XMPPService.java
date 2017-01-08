@@ -12,13 +12,19 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
+import android.widget.RemoteViews;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.UUID;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -26,6 +32,7 @@ import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.callback.DisconnectCallBack;
 import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
+import tech.jiangtao.support.kit.eventbus.FriendRequest;
 import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
@@ -36,8 +43,8 @@ import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.SupportAIDLConnection;
 import tech.jiangtao.support.ui.activity.ChatActivity;
+import tech.jiangtao.support.ui.activity.NewFriendActivity;
 import tech.jiangtao.support.ui.fragment.ChatFragment;
-import tech.jiangtao.support.ui.fragment.ChatListFragment;
 import tech.jiangtao.support.ui.reciever.TickBroadcastReceiver;
 import tech.jiangtao.support.ui.utils.ServiceUtils;
 import xiaofei.library.hermeseventbus.HermesEventBus;
@@ -174,6 +181,34 @@ public class XMPPService extends Service {
         Log.d(TAG, "onError: 保存消息失败" + error.getMessage());
       }
     });
+  }
+
+  /**
+   * 添加好友通知
+   */
+  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN) @Subscribe(threadMode = ThreadMode.MAIN)
+  public void addFriendsNotification(FriendRequest request){
+    Intent i = new Intent(this, NewFriendActivity.class);
+    i.putExtra(NewFriendActivity.NEW_FLAG,request);
+    NotificationManager mNotificationManager =
+        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+    Notification.Builder builder = new Notification.Builder(this);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+      builder.setContentIntent(
+          PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_CANCEL_CURRENT))
+          .setContentTitle(request.username)
+          .setContentText(getResources().getString(R.string.friends_request))
+          .setSmallIcon(tech.jiangtao.support.kit.R.mipmap.ic_launcher)
+          .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
+              tech.jiangtao.support.kit.R.mipmap.ic_launcher))
+          .setWhen(System.currentTimeMillis())
+          .setPriority(Notification.PRIORITY_HIGH)
+          .setDefaults(Notification.DEFAULT_VIBRATE);
+      Notification notification = builder.build();
+      notification.flags = Notification.FLAG_AUTO_CANCEL;
+      notification.defaults = Notification.DEFAULT_SOUND;
+      mNotificationManager.notify(0x12, notification);
+    }
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onVCardRealmMessage(VCardRealm realmObject) {

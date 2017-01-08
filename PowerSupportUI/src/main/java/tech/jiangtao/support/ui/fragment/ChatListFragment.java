@@ -1,5 +1,6 @@
 package tech.jiangtao.support.ui.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -38,6 +39,7 @@ import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
+import tech.jiangtao.support.ui.activity.ChatActivity;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.adapter.SessionAdapter;
 import tech.jiangtao.support.ui.linstener.ContactItemCallback;
@@ -238,7 +240,7 @@ public class ChatListFragment extends BaseFragment
     if (vCardRealms.size() != 0) {
       vCardRealm = vCardRealms.first();
     }
-    mContactItemCallback.onItemClick(position, view, vCardRealm);
+    ChatActivity.startChat((Activity) getContext(),vCardRealm);
   }
 
   @Override public void onDestroyView() {

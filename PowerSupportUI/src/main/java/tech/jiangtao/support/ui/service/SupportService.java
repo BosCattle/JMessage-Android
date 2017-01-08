@@ -56,6 +56,7 @@ import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.AddRosterEvent;
 import tech.jiangtao.support.kit.eventbus.ContactEvent;
 import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
+import tech.jiangtao.support.kit.eventbus.FriendRequest;
 import tech.jiangtao.support.kit.eventbus.LocalVCardEvent;
 import tech.jiangtao.support.kit.eventbus.LoginCallbackEvent;
 import tech.jiangtao.support.kit.eventbus.LoginParam;
@@ -63,6 +64,7 @@ import tech.jiangtao.support.kit.eventbus.NotificationConnection;
 import tech.jiangtao.support.kit.eventbus.OwnVCardRealm;
 import tech.jiangtao.support.kit.eventbus.QueryUser;
 import tech.jiangtao.support.kit.eventbus.QueryUserResult;
+import tech.jiangtao.support.kit.eventbus.RecieveFriend;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.eventbus.RegisterAccount;
 import tech.jiangtao.support.kit.eventbus.RegisterResult;
@@ -79,6 +81,7 @@ import tech.jiangtao.support.kit.util.PinYinUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
+import static org.jivesoftware.smackx.pubsub.AccessModel.presence;
 import static xiaofei.library.hermes.Hermes.getContext;
 
 public class SupportService extends Service
@@ -92,6 +95,7 @@ public class SupportService extends Service
   private AppPreferences appPreferences = new AppPreferences(getContext());
   private SupportServiceConnection mSupportServiceConnection;
   private SupportBinder mSupportBinder;
+  private Presence mFriendsPresence;
 
   @Override public void onCreate() {
     super.onCreate();
@@ -406,27 +410,22 @@ public class SupportService extends Service
     roster.setSubscriptionMode(Roster.SubscriptionMode.manual);
     roster.addRosterListener(this);
     mXMPPConnection.addSyncStanzaListener(packet -> {
-      Presence presence = (Presence) packet;
-      if (presence.getType().equals(Presence.Type.subscribe)) {
+      mFriendsPresence = (Presence) packet;
+      String from = mFriendsPresence.getFrom();//发送方
+      String to = mFriendsPresence.getTo();//接收方
+      if (mFriendsPresence.getType().equals(Presence.Type.subscribe)) {
         // 收到好友请求,现在的代码是自动自动接受好友请求
         Log.d(TAG, "addFriend: 接受到好友请求");
-        Presence newp = new Presence(Presence.Type.subscribed);
-        newp.setMode(Presence.Mode.available);
-        newp.setPriority(24);
-        newp.setTo(presence.getFrom());
-        mXMPPConnection.sendStanza(newp);
-        Presence subscription = new Presence(Presence.Type.subscribe);
-        subscription.setTo(presence.getFrom());
-        mXMPPConnection.sendStanza(subscription);
-      } else if (presence.getType().equals(Presence.Type.unsubscribe)) {
+        HermesEventBus.getDefault().post(new FriendRequest(mFriendsPresence.getFrom(),StringSplitUtil.splitPrefix(mFriendsPresence.getFrom()),""));
+      } else if (mFriendsPresence.getType().equals(Presence.Type.unsubscribe)) {
         // 不同意添加好友
         Log.d(TAG, "addFriend: 对方不同意好友请求");
         Presence newp = new Presence(Presence.Type.unsubscribed);
         newp.setMode(Presence.Mode.available);
         newp.setPriority(24);
-        newp.setTo(presence.getFrom());
+        newp.setTo(mFriendsPresence.getFrom());
         mXMPPConnection.sendStanza(newp);
-      } else if (presence.getType().equals(Presence.Type.subscribed)) {
+      } else if (mFriendsPresence.getType().equals(Presence.Type.subscribed)) {
         Log.d(TAG, "addFriend: 对方同意添加好友。");
         //发送广播传递response字符串
         //对方同意添加好友";
@@ -443,6 +442,33 @@ public class SupportService extends Service
       }
       return false;
     });
+  }
+
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void onRecieveFriendRequest(RecieveFriend request){
+    if (request.agreeFriends){
+      // 这部分代码是同意添加好友请求
+      Presence newp = new Presence(Presence.Type.subscribed);
+      newp.setMode(Presence.Mode.available);
+      newp.setPriority(24);
+      newp.setTo(mFriendsPresence.getFrom());
+      try {
+        mXMPPConnection.sendStanza(newp);
+        Presence subscription = new Presence(Presence.Type.subscribe);
+        subscription.setTo(mFriendsPresence.getFrom());
+        mXMPPConnection.sendStanza(subscription);
+      } catch (SmackException.NotConnectedException e) {
+        e.printStackTrace();
+      }
+    }else {
+      Presence presenceRes = new Presence(Presence.Type.unsubscribe);
+      presenceRes.setTo(mFriendsPresence.getFrom());
+      try {
+        mXMPPConnection.sendStanza(presenceRes);
+      } catch (SmackException.NotConnectedException e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   //

@@ -138,15 +138,6 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
   }
 
   @Override public void onItemClick(int position, View view, Object object) {
-    if (object instanceof ConstrutContact) {
-      ConstrutContact data = (ConstrutContact) object;
-      if (data.mVCardRealm != null) {
-        ChatActivity.startChat(this, data.mVCardRealm);
-      }
-    }else if(object instanceof VCardRealm){
-      VCardRealm data = (VCardRealm) object;
-      ChatActivity.startChat(this, data);
-    }
   }
 
   public void updateCheck() {
