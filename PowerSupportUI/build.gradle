@@ -14,9 +14,6 @@ android {
         versionCode 1
         versionName "1.0"
         resValue "string", "tray__authority", "${applicationId}.tray"
-        buildConfigField("String", "MM_AppId", "\"6e7ea2251ca5479d875916785c4418f1\"")
-        buildConfigField("String", "MM_AppSecret", "\"026eb8a2cb7b4ab18135a6a0454fd698\"")
-        buildConfigField("String", "BASE_URL", "\"http://ci.jiangtao.tech/fileUpload/\"")
     }
     buildTypes {
         release {
@@ -58,11 +55,3 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'com.github.chrisbanes:PhotoView:1.3.1'
 }
-//publish {
-//    userOrg = 'kevinbas'      //bintray注册的用户名
-//    groupId = 'tech.jiangtao.android'         //compile引用时的第1部分groupId
-//    artifactId = 'JMessage'     //compile引用时的第2部分项目名
-//    publishVersion = '0.0.1'    //compile引用时的第3部分版本号
-//    desc = 'a XMPP support library'
-//    website = 'https://gitlab.com/jiangTaoQuite/chatandroid'
-//}

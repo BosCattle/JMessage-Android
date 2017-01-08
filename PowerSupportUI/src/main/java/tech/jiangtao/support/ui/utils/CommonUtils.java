@@ -1,6 +1,6 @@
 package tech.jiangtao.support.ui.utils;
 
-import tech.jiangtao.support.ui.BuildConfig;
+import tech.jiangtao.support.ui.SupportUI;
 
 /**
  * Class: CommonUtils </br>
@@ -14,6 +14,6 @@ import tech.jiangtao.support.ui.BuildConfig;
 public class CommonUtils {
 
   public static String getUrl(String type,String name){
-    return BuildConfig.BASE_URL+type+"/"+name;
+    return SupportUI.BASE_URL+type+"/"+name;
   }
 }

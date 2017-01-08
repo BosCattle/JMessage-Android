@@ -86,7 +86,6 @@ public class SupportService extends Service
 
   private static final String TAG = SupportService.class.getSimpleName();
   private XMPPTCPConnection mXMPPConnection;
-  public boolean mNeedAutoLogin = true;
   private AccountManager mAccountManager;
   private Roster mRoster;
   private VCardManager mVCardManager;
@@ -111,7 +110,7 @@ public class SupportService extends Service
     registerReceiver(receiver, filter);
     this.bindService(new Intent(this, XMPPService.class), mSupportServiceConnection,
         Context.BIND_IMPORTANT);
-    connect();
+    connect(true);
     return START_STICKY;
   }
 
@@ -120,7 +119,7 @@ public class SupportService extends Service
     if (connection.connectChoice && !mXMPPConnection.isConnected()) {
       //收到广播，开始连接
       Log.d(TAG, "onMessage: 开始连接");
-      connect();
+      connect(true);
     }
   }
 
@@ -184,7 +183,7 @@ public class SupportService extends Service
           chat.sendMessage(message1);
           subscriber.onNext(message1);
         } catch (SmackException.NotConnectedException e) {
-          connect();
+          connect(true);
           subscriber.onError(e);
           e.printStackTrace();
         }
@@ -252,7 +251,7 @@ public class SupportService extends Service
       mXMPPConnection.sendStanza(iq);
     } catch (SmackException.NotConnectedException e) {
       e.printStackTrace();
-      connect();
+      connect(true);
     }
   }
 
@@ -269,11 +268,11 @@ public class SupportService extends Service
       mXMPPConnection.sendStanza(iq);
     } catch (SmackException.NotConnectedException e) {
       e.printStackTrace();
-      connect();
+      connect(true);
     }
   }
 
-  public void connect() {
+  public void connect(boolean needAutoLogin) {
     if (mXMPPConnection == null || !mXMPPConnection.isConnected()) {
       init();
       Observable.create(new Observable.OnSubscribe<AbstractXMPPConnection>() {
@@ -294,7 +293,7 @@ public class SupportService extends Service
             try {
               String username = appPreferences.getString("username");
               String password = appPreferences.getString("password");
-              if (username!=null&&password!=null) {
+              if (username!=null&&password!=null&&needAutoLogin) {
                 login(username, password);
               }
             } catch (ItemNotFoundException e) {
@@ -303,6 +302,7 @@ public class SupportService extends Service
           }, new ErrorAction() {
             @Override public void call(Throwable throwable) {
               super.call(throwable);
+              Log.d(TAG, "call: 连接失败");
             }
           });
     }
@@ -314,7 +314,7 @@ public class SupportService extends Service
         if (mXMPPConnection.isConnected()) {
           mXMPPConnection.login(username, password);
         } else {
-          connect();
+          connect(true);
           mXMPPConnection.login(username, password);
         }
         subscriber2.onNext(null);
@@ -477,7 +477,7 @@ public class SupportService extends Service
         subscriber.onNext(null);
       } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
         e.printStackTrace();
-        connect();
+        connect(false);
         subscriber.onError(e);
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
@@ -516,7 +516,8 @@ public class SupportService extends Service
         } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
           e.printStackTrace();
           subscriber.onError(e);
-          connect();
+          if (e instanceof SmackException.NotConnectedException)
+          connect(true);
         }
       }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(vCard -> {
         //更新本地数据库
@@ -545,7 +546,7 @@ public class SupportService extends Service
         } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
           e.printStackTrace();
           subscriber.onError(e);
-          connect();
+          connect(true);
         }
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(vCard -> {
@@ -579,7 +580,7 @@ public class SupportService extends Service
         } catch (SmackException.NotLoggedInException | SmackException.NoResponseException | SmackException.NotConnectedException | XMPPException.XMPPErrorException e) {
           e.printStackTrace();
           subscriber.onError(e);
-          connect();
+          connect(true);
         }
       }
     })
@@ -605,7 +606,9 @@ public class SupportService extends Service
       } catch (SmackException.NotLoggedInException | SmackException.NoResponseException | SmackException.NotConnectedException | XMPPException.XMPPErrorException e) {
         e.printStackTrace();
         subscriber.onError(e);
-        connect();
+        if (e instanceof SmackException.NotConnectedException) {
+          connect(true);
+        }
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
       //发送添加好友成功
@@ -628,7 +631,7 @@ public class SupportService extends Service
       } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
         e.printStackTrace();
         subscriber.onError(e);
-        connect();
+        connect(true);
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(vCard -> {
       Log.d(TAG, "addOrUpdateVCard: 打印出VCard为" + vCard.toXML());
@@ -652,7 +655,8 @@ public class SupportService extends Service
         } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
           e.printStackTrace();
           subscriber.onError(e);
-          connect();
+          if (e instanceof SmackException.NotConnectedException)
+          connect(true);
         }
       }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
         //保存VCard成功,发送给通知,保存到数据库
@@ -686,6 +690,7 @@ public class SupportService extends Service
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void disconnect(UnRegisterEvent event) {
     mXMPPConnection.disconnect();
+    connect(false);
   }
 
   class SupportServiceConnection implements ServiceConnection {

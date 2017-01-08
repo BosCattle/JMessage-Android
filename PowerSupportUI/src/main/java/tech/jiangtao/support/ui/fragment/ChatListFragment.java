@@ -25,7 +25,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,20 +38,11 @@ import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
-import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
-import tech.jiangtao.support.ui.adapter.BaseEasyViewHolderFactory;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.adapter.SessionAdapter;
 import tech.jiangtao.support.ui.linstener.ContactItemCallback;
-import tech.jiangtao.support.ui.model.ChatItems;
-import tech.jiangtao.support.ui.model.Message;
-import tech.jiangtao.support.ui.model.type.MessageType;
-import tech.jiangtao.support.ui.pattern.ConstructMessage;
 import tech.jiangtao.support.ui.pattern.SessionListMessage;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
-import tech.jiangtao.support.ui.viewholder.ContactViewHolder;
-import xiaofei.library.hermes.annotation.ClassId;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
  * Class: ChatListFragment </br>

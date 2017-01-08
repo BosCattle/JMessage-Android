@@ -382,6 +382,10 @@ public class PersonalDetailActivity extends BaseActivity
         SimpleHUD.showErrorMessage(this, message);
     }
 
+  /**
+   * @param path 文件路径
+   * @param type 文件类型,必须为avatar
+   */
     public void uploadFile(String path, String type) {
         if (mUpLoadServiceApi == null) {
             mUpLoadServiceApi = ApiService.getInstance().createApiService(UpLoadServiceApi.class);
