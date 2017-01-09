@@ -18,13 +18,8 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.NotificationCompat;
-import android.util.Log;
-import android.widget.RemoteViews;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.UUID;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -39,6 +34,7 @@ import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.kit.realm.VCardRealm;
+import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.SupportAIDLConnection;
@@ -142,7 +138,7 @@ public class XMPPService extends Service {
       realm.copyToRealmOrUpdate(sessionRealm);
       realm.copyToRealm(messageRealm);
     }, () -> {
-      Log.d(TAG, "onSuccess: 保存消息成功");
+      LogUtils.d(TAG, "onSuccess: 保存消息成功");
       HermesEventBus.getDefault()
           .post(new RecieveLastMessage(message.id, message.type, message.userJID, message.ownJid,
               message.thread, message.message, message.messageType, false, message.messageAuthor));
@@ -178,7 +174,7 @@ public class XMPPService extends Service {
       }
     }, new Realm.Transaction.OnError() {
       @Override public void onError(Throwable error) {
-        Log.d(TAG, "onError: 保存消息失败" + error.getMessage());
+        LogUtils.d(TAG, "onError: 保存消息失败" + error.getMessage());
       }
     });
   }
@@ -234,15 +230,15 @@ public class XMPPService extends Service {
           realmUpdate.setFirstLetter(realmObject.getFirstLetter());
         }
         realmUpdate.setFriend(true);
-        Log.d(TAG, "onVCardRealmMessage:更新数据 " + realmUpdate.toString());
+        LogUtils.d(TAG, "onVCardRealmMessage:更新数据 " + realmUpdate.toString());
       } else {
-        Log.d(TAG, "onVCardRealmMessage: " + realmObject.toString());
+        LogUtils.d(TAG, "onVCardRealmMessage: " + realmObject.toString());
         realm.copyToRealm(realmObject);
       }
     }, () -> {
-      Log.d(TAG, "onSuccess: 执行成功");
+      LogUtils.d(TAG, "onSuccess: 执行成功");
       //发送消息更新，应该也可以不用发送消息
-    }, error -> Log.d(TAG, "onError: 通讯录后台执行错误，错误信息" + error.getMessage()));
+    }, error -> LogUtils.d(TAG, "onError: 通讯录后台执行错误，错误信息" + error.getMessage()));
   }
 
   /**
@@ -335,11 +331,11 @@ public class XMPPService extends Service {
   class XMPPServiceConnection implements ServiceConnection {
 
     @Override public void onServiceConnected(ComponentName name, IBinder service) {
-      Log.d(TAG, "onServiceConnected: 建立连接");
+      LogUtils.d(TAG, "onServiceConnected: 建立连接");
     }
 
     @Override public void onServiceDisconnected(ComponentName name) {
-      Log.d(TAG, "onServiceDisconnected: 服务被杀");
+      LogUtils.d(TAG, "onServiceDisconnected: 服务被杀");
       XMPPService.this.startService(new Intent(XMPPService.this, SupportService.class));
       Intent intent = new Intent(XMPPService.this, SupportService.class);
       XMPPService.this.bindService(intent, mXMPPServiceConnection, Context.BIND_IMPORTANT);

@@ -37,6 +37,7 @@ import tech.jiangtao.support.kit.eventbus.ContactEvent;
 import tech.jiangtao.support.kit.eventbus.MessageTest;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.realm.VCardRealm;
+import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.PinYinUtils;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
@@ -113,7 +114,7 @@ public class ContactFragment extends BaseFragment
       RealmQuery<VCardRealm> realmQuery = realm.where(VCardRealm.class);
       mVCardRealmRealmResults = realmQuery.equalTo("friend", true).findAllSorted("firstLetter");
       buildHeadView();
-      Log.d(TAG, "getContact: 打印出好友的数量:" + mVCardRealmRealmResults.size());
+      LogUtils.d(TAG, "getContact: 打印出好友的数量:" + mVCardRealmRealmResults.size());
       for (int i = 0; i < mVCardRealmRealmResults.size(); i++) {
         if (mVCardRealmRealmResults != null
             && mVCardRealmRealmResults.get(i) != null
@@ -202,7 +203,7 @@ public class ContactFragment extends BaseFragment
   }
 
   @Override public void onItemClick(int position, View view) {
-    Log.d(TAG, "onItemClick: ");
+    LogUtils.d(TAG, "onItemClick: ");
     if (position==0){
       GroupListActivity.startGroupList(getContext());
     }else if (position==1){
@@ -214,11 +215,11 @@ public class ContactFragment extends BaseFragment
   }
 
   @Override public void onItemLeftClick(int position, View view) {
-    Log.d(TAG, "onItemLeftClick: ");
+    LogUtils.d(TAG, "onItemLeftClick: ");
   }
 
   @Override public boolean onItemLongClick(int position, View view) {
-    Log.d(TAG, "onItemLongClick: ");
+    LogUtils.d(TAG, "onItemLongClick: ");
     ConstrutContact construtContact = mConstrutContact.get(position);
     if (position >= 2) {
       deleteFriends(construtContact.mVCardRealm.getJid(),

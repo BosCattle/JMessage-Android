@@ -1,7 +1,6 @@
 package tech.jiangtao.support.ui.fragment;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,14 +8,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.kevin.library.widget.CleanDialog;
 import com.kevin.library.widget.builder.IconFlag;
+import com.kevin.library.widget.builder.NegativeClickListener;
 import com.kevin.library.widget.builder.PositiveClickListener;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -32,10 +32,10 @@ import java.util.List;
 
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
-import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.kit.realm.VCardRealm;
+import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
@@ -76,7 +76,7 @@ public class ChatListFragment extends BaseFragment
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     super.onCreateView(inflater, container, savedInstanceState);
-    Log.d(TAG, "onCreateView: 创建view");
+    LogUtils.d(TAG, "onCreateView: 创建view");
     if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
@@ -108,7 +108,7 @@ public class ChatListFragment extends BaseFragment
     mRealm.executeTransaction(realm -> {
       mSessionRealm = realm.where(SessionRealm.class).findAll();
       Iterator<SessionRealm> it = mSessionRealm.iterator();
-      Log.d(TAG, "getChatList: 数量为" + mSessionRealm.size());
+      LogUtils.d(TAG, "getChatList: 数量为" + mSessionRealm.size());
       while (it.hasNext()) {
         SessionRealm messageRealm = it.next();
         //这儿需要查一下MessageRealm和VCardRealm;
@@ -165,7 +165,7 @@ public class ChatListFragment extends BaseFragment
       }
       mSessionRealm.addChangeListener(element -> {
         Iterator<SessionRealm> iterator = element.iterator();
-        Log.d(TAG, "getChatList: 会话数量" + element.size());
+        LogUtils.d(TAG, "getChatList: 会话数量" + element.size());
         mSessionMessage.clear();
         while (iterator.hasNext()) {
           SessionRealm messageRealm = iterator.next();
@@ -231,7 +231,7 @@ public class ChatListFragment extends BaseFragment
 
   @Override public void onItemClick(int position, View view) {
     //获得每一项的用户信息,
-    Log.d(TAG, "onItemClick: 点击了第" + position + "项");
+    LogUtils.d(TAG, "onItemClick: 点击了第" + position + "项");
     SessionListMessage messageRealm = mSessionMessage.get(position);
     RealmResults<VCardRealm> vCardRealms = mRealm.where(VCardRealm.class)
         .equalTo("jid", StringSplitUtil.splitDivider(messageRealm.userJid))
@@ -245,7 +245,7 @@ public class ChatListFragment extends BaseFragment
 
   @Override public void onDestroyView() {
     super.onDestroyView();
-    Log.d(TAG, "onDestroyView: 销毁view");
+    LogUtils.d(TAG, "onDestroyView: 销毁view");
     mRealm.close();
   }
 
@@ -256,20 +256,18 @@ public class ChatListFragment extends BaseFragment
 
   @Override public boolean onItemLongClick(int position, View view) {
     final CleanDialog dialog = new CleanDialog.Builder(getContext()).iconFlag(IconFlag.WARN)
-        .negativeButton("取消", Dialog::dismiss)
-        .positiveButton("删除", new PositiveClickListener() {
-          @Override public void onPositiveClickListener(CleanDialog dialog1) {
-            //删除会话
-            mRealm.executeTransactionAsync(realm -> {
-              SessionListMessage message = mSessionMessage.get(position);
-              RealmResults<SessionRealm> sessionRealms =
-                  realm.where(SessionRealm.class).equalTo("session_id", message.sessionId).findAll();
-              if (sessionRealms.size() != 0) {
-                sessionRealms.deleteFirstFromRealm();
-              }
-            });
-            dialog1.dismiss();
-          }
+        .negativeButton("取消", cleanDialog -> cleanDialog.dismiss())
+        .positiveButton("删除", dialog1 -> {
+          //删除会话
+          mRealm.executeTransactionAsync(realm -> {
+            SessionListMessage message = mSessionMessage.get(position);
+            RealmResults<SessionRealm> sessionRealms =
+                realm.where(SessionRealm.class).equalTo("session_id", message.sessionId).findAll();
+            if (sessionRealms.size() != 0) {
+              sessionRealms.deleteFirstFromRealm();
+            }
+          });
+          dialog1.dismiss();
         })
         .title("确认删除当前消息吗?")
         .negativeTextColor(Color.WHITE)

@@ -10,6 +10,7 @@ import android.os.Parcelable;
 import android.util.Log;
 import tech.jiangtao.support.kit.eventbus.NotificationConnection;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
+import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.ui.service.SupportService;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
@@ -33,7 +34,7 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
     if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
       // 监听wifi的打开与关闭，与wifi的连接无关
       int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, 0);
-      Log.e("TAG", "wifiState:" + wifiState);
+      LogUtils.e("TAG", "wifiState:" + wifiState);
       switch (wifiState) {
         case WifiManager.WIFI_STATE_DISABLED:
           break;
@@ -52,11 +53,11 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
         NetworkInfo.State state = networkInfo.getState();
         //判断网络是否已经连接
         boolean isConnected = state == NetworkInfo.State.CONNECTED;
-        Log.e("TAG", "isConnected:" + isConnected);
+        LogUtils.e("TAG", "isConnected:" + isConnected);
         if (isConnected) {
           HermesEventBus.getDefault().post(new NotificationConnection(true));
         } else {
-          HermesEventBus.getDefault().post(new UnRegisterEvent());
+
         }
       }
     }
@@ -70,11 +71,11 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
         if (NetworkInfo.State.CONNECTED == info.getState() && info.isAvailable()) {
           if (info.getType() == ConnectivityManager.TYPE_WIFI
               || info.getType() == ConnectivityManager.TYPE_MOBILE) {
-            Log.d("TAG", getConnectionType(info.getType()) + "网络连上");
+            LogUtils.d("TAG", getConnectionType(info.getType()) + "网络连上");
           HermesEventBus.getDefault().post(new NotificationConnection(true));
           }
         } else {
-          Log.d("TAG", getConnectionType(info.getType()) + "网络断开");
+          LogUtils.d("TAG", getConnectionType(info.getType()) + "网络断开");
           HermesEventBus.getDefault().post(new UnRegisterEvent());
         }
       }

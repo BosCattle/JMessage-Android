@@ -12,6 +12,8 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import de.hdodenhof.circleimageview.CircleImageView;
 import java.util.Objects;
+
+import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
@@ -39,7 +41,7 @@ public class ContactsViewHolder extends ContactViewHolder {
   }
 
   @RequiresApi(api = Build.VERSION_CODES.KITKAT) @Override public void bindTo(int position, ConstrutContact l) {
-    Log.d("---ContactsViewHolder:", (l.mVCardRealm!=null&&l.mVCardRealm.getAvatar()!=null)?l.mVCardRealm.getAvatar():"null");
+    LogUtils.d("---ContactsViewHolder:", (l.mVCardRealm!=null&&l.mVCardRealm.getAvatar()!=null)?l.mVCardRealm.getAvatar():"null");
     Glide.with(mContext)
         .load(l.mVCardRealm.getAvatar() != null ? Uri.parse(l.mVCardRealm.getAvatar()) : null)
         .centerCrop()

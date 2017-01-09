@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import tech.jiangtao.support.kit.util.LogUtils;
+
 /**
  * Class: MediaManager </br>
  * Description: 语音播放功能 </br>
@@ -23,7 +25,7 @@ public class MediaManager {
 
   public static void playSound(String filePath,
       MediaPlayer.OnCompletionListener onCompletionListener) {
-    Log.d("------", "playSound: "+filePath);
+    LogUtils.d("------", "playSound: "+filePath);
     if (mMediaPlayer == null) {
       mMediaPlayer = new MediaPlayer();
     } else {

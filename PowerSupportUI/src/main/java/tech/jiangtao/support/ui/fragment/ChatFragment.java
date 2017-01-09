@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +69,7 @@ import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.ErrorAction;
+import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
@@ -220,11 +220,11 @@ public class ChatFragment extends BaseFragment
    */
   public void updateItems(RealmResults<MessageRealm> messageRealmse, String userJid, int page) {
     mMessages.clear();
-    Log.d(TAG, "updateItems: 获取到消息的大小为:" + messageRealmse.size());
+    LogUtils.d(TAG, "updateItems: 获取到消息的大小为:" + messageRealmse.size());
     for (int i = (messageRealmse.size()-(20*page) > 20 ? messageRealmse.size() - (20 * page) : 0);
         i < (messageRealmse.size()-(20*(page-1)));i++){
-      Log.d(TAG, "updateItems: 打印出当前的i值:" + i);
-      Log.d(TAG, "updateItems: 打印出当前的page值:" + page);
+      LogUtils.d(TAG, "updateItems: 打印出当前的i值:" + i);
+      LogUtils.d(TAG, "updateItems: 打印出当前的page值:" + page);
       if (StringSplitUtil.splitDivider(messageRealmse.get(i).getMainJID())
           .equals(StringSplitUtil.splitDivider(userJid))) {
         //自己的消息
@@ -389,7 +389,7 @@ public class ChatFragment extends BaseFragment
   @RequiresApi(api = Build.VERSION_CODES.KITKAT) @Override
   public void onTextChanged(CharSequence s, int start, int before, int count) {
     if (s == null || Objects.equals(s.toString(), "")) {
-      Log.e(TAG, "onTextChanged: ");
+      LogUtils.e(TAG, "onTextChanged: ");
       mChatSendMessage.setVisibility(View.GONE);
       mChatAddOtherInformation.setVisibility(View.VISIBLE);
     } else {
@@ -404,7 +404,7 @@ public class ChatFragment extends BaseFragment
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveLastMessage message) {
-    Log.d("----------->", "onMessage: " + message);
+    LogUtils.d("----------->", "onMessage: " + message);
     if (StringSplitUtil.splitDivider(message.userJID).equals(mVCardRealm.getJid())
         || StringSplitUtil.splitDivider(message.ownJid).equals(mVCardRealm.getJid())) {
       if (message.messageAuthor == MessageAuthor.FRIEND) {
@@ -423,7 +423,7 @@ public class ChatFragment extends BaseFragment
               .avatar(mVCardRealm.getAvatar())
               .message(message1)
               .build());
-          Log.d(TAG, "onMessage: " + message1);
+          LogUtils.d(TAG, "onMessage: " + message1);
         } else if (message.messageType == MessageExtensionType.AUDIO) {
           message1.fimePath =
               CommonUtils.getUrl(MessageExtensionType.AUDIO.toString(), message.message);
@@ -431,7 +431,7 @@ public class ChatFragment extends BaseFragment
               .avatar(mVCardRealm.getAvatar())
               .message(message1)
               .build());
-          Log.d(TAG, "onMessage: " + message1);
+          LogUtils.d(TAG, "onMessage: " + message1);
         }
       } else if (message.messageAuthor == MessageAuthor.OWN) {
         Message message2 = new Message();
@@ -471,8 +471,8 @@ public class ChatFragment extends BaseFragment
   public void addMessageToAdapter(MessageRealm realm) {
     Message message1 = new Message();
     message1.paramContent = realm.getTextMessage();
-    Log.d(TAG, "addMessageToAdapter: " + realm.getMainJID());
-    Log.d(TAG, "addMessageToAdapter-----: " + mVCardRealm.getJid());
+    LogUtils.d(TAG, "addMessageToAdapter: " + realm.getMainJID());
+    LogUtils.d(TAG, "addMessageToAdapter-----: " + mVCardRealm.getJid());
     if (mVCardRealm != null && realm.getMainJID().equals(mVCardRealm.getJid())) {
       mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
           .avatar(mVCardRealm != null ? mVCardRealm.getAvatar() : null)
@@ -497,12 +497,12 @@ public class ChatFragment extends BaseFragment
         && StringSplitUtil.splitDivider(mVCardRealm.getJid()) != StringSplitUtil.splitDivider(
         mOwnVCardRealm.getJid())) {
       mRealm.executeTransactionAsync(realm -> {
-        Log.d(TAG, "onPause: 执行到.....");
+        LogUtils.d(TAG, "onPause: 执行到.....");
         SessionRealm sessionRealm = realm.where(SessionRealm.class)
             .equalTo("vcard_id", StringSplitUtil.splitDivider(mVCardRealm.getJid()))
             .findFirst();
         if (sessionRealm != null) {
-          Log.d(TAG, "onPause: 执行到.....对象不为空");
+          LogUtils.d(TAG, "onPause: 执行到.....对象不为空");
           sessionRealm.setUnReadCount(0);
         }
       });
@@ -526,7 +526,7 @@ public class ChatFragment extends BaseFragment
   }) public void onClick(View v) {
     int i = v.getId();
     if (i == R.id.chat_add_other_information) {
-      Log.d(TAG, "onClick: 点击了加号");
+      LogUtils.d(TAG, "onClick: 点击了加号");
       hideKeyBoard();
       if (mChatSendOther.getVisibility() == View.VISIBLE) {
         mChatSendOther.setVisibility(View.GONE);
@@ -578,7 +578,7 @@ public class ChatFragment extends BaseFragment
   }
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    Log.d(TAG, "onActivityResult: 进入fragment的回调");
+    LogUtils.d(TAG, "onActivityResult: 进入fragment的回调");
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == RESULT_OK) {
       if (requestCode == Constant.REQUEST_CODE_PICK_IMAGE) {
@@ -625,7 +625,7 @@ public class ChatFragment extends BaseFragment
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(filePath -> {
-          Log.d(TAG, "uploadFile: " + filePath);
+          LogUtils.d(TAG, "uploadFile: " + filePath);
           //发送消息添加到本地，然后发送拓展消息到对方
           if (type.equals(MessageExtensionType.IMAGE.toString())) {
             sendMyFriendMessage(filePath.filePath, MessageExtensionType.IMAGE);
@@ -643,7 +643,7 @@ public class ChatFragment extends BaseFragment
 
   @Override public void onRefresh() {
     mPage += 1;
-    Log.d(TAG, "onRefresh: 打印出当前的mPage" + mPage);
+    LogUtils.d(TAG, "onRefresh: 打印出当前的mPage" + mPage);
     updateItems(mMessageRealm, mUserJid, mPage);
   }
 }
