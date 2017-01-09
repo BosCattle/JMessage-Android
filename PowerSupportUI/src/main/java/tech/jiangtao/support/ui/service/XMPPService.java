@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -62,12 +63,17 @@ public class XMPPService extends Service {
   @SuppressLint("StaticFieldLeak") private static Realm mRealm;
   private XMPPServiceConnection mXMPPServiceConnection;
   private XMPPBinder mXMPPBinder;
+  private PowerManager.WakeLock mWakelock;
+  private PowerManager mPowerManager;
 
   @Override public void onCreate() {
     super.onCreate();
     if (mXMPPBinder == null) {
       mXMPPBinder = new XMPPBinder();
     }
+    mPowerManager = (PowerManager)getSystemService(POWER_SERVICE);
+    mWakelock = mPowerManager.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP|
+            PowerManager.SCREEN_DIM_WAKE_LOCK,"target");
     mXMPPServiceConnection = new XMPPServiceConnection();
     if (!HermesEventBus.getDefault().isRegistered(this)) {
       HermesEventBus.getDefault().register(this);
@@ -151,12 +157,14 @@ public class XMPPService extends Service {
         intent = new Intent(XMPPService.this, ChatActivity.class);
         intent.putExtra(ChatActivity.VCARD, results.first());
       }
+        LogUtils.d(TAG,"当前应用是否处于前台"+ServiceUtils.isApplicationBroughtToBackground(this.getApplicationContext())+"");
       if (message.messageAuthor == MessageAuthor.FRIEND
           && intent != null
           && ServiceUtils.isApplicationBroughtToBackground(this.getApplicationContext())) {
         if (message.messageType == MessageExtensionType.TEXT) {
           showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), message.message,
               intent);
+            LogUtils.d(TAG,"显示通知");
           //保存到本地数据库
         }
         if (message.messageType == MessageExtensionType.IMAGE) {
@@ -184,6 +192,9 @@ public class XMPPService extends Service {
    */
   @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN) @Subscribe(threadMode = ThreadMode.MAIN)
   public void addFriendsNotification(FriendRequest request){
+    if (!mPowerManager.isScreenOn()){
+      mWakelock.acquire();
+    }
     Intent i = new Intent(this, NewFriendActivity.class);
     i.putExtra(NewFriendActivity.NEW_FLAG,request);
     NotificationManager mNotificationManager =
@@ -204,7 +215,9 @@ public class XMPPService extends Service {
       notification.flags = Notification.FLAG_AUTO_CANCEL;
       notification.defaults = Notification.DEFAULT_SOUND;
       mNotificationManager.notify(0x12, notification);
+      mWakelock.acquire();
     }
+
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onVCardRealmMessage(VCardRealm realmObject) {
@@ -273,6 +286,9 @@ public class XMPPService extends Service {
   }
 
   public void showOnesNotification(String name, String info, Intent intent) {
+    if (!mPowerManager.isScreenOn()){
+      mWakelock.acquire();
+    }
     NotificationManager mNotificationManager =
         (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     Notification.Builder builder = new Notification.Builder(this);
@@ -291,6 +307,7 @@ public class XMPPService extends Service {
       notification.flags = Notification.FLAG_AUTO_CANCEL;
       notification.defaults = Notification.DEFAULT_SOUND;
       mNotificationManager.notify(0, notification);
+      mWakelock.acquire();
     }
   }
 

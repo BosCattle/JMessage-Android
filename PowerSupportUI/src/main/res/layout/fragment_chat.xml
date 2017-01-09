@@ -1,136 +1,131 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
-  <android.support.v4.widget.SwipeRefreshLayout
-      android:id="@+id/swift_refresh"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_above="@+id/chat_bottom"
-      >
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-
-  </android.support.v4.widget.SwipeRefreshLayout>
-
-  <RelativeLayout
-      android:id="@+id/chat_bottom"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-      >
-
-    <RelativeLayout
-        android:id="@+id/chat_inline_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_send_message"
-        >
-
-      <ImageView
-          android:id="@+id/chat_speak"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_alignParentLeft="true"
-          android:clickable="true"
-          android:contentDescription=""
-          android:padding="8dp"
-          android:src="@mipmap/ic_chat_speak"
-          />
-      <FrameLayout
-          android:id="@+id/container_send"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_alignParentRight="true"
-          >
-
-        <ImageView
-            android:id="@+id/chat_add_other_information"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:clickable="true"
-            android:padding="8dp"
-            android:src="@mipmap/ic_chat_add"
-            />
-
-        <com.melink.bqmmsdk.widget.BQMMSendButton
-            android:id="@+id/chat_send_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@drawable/shape_sendbutton_bg_selector"
-            android:text="发送"
-            android:textColor="#ffffffff"
-            android:textSize="16sp"
-            android:visibility="gone"
-            />
-      </FrameLayout>
-
-      <CheckBox
-          android:id="@+id/add_smile"
-          android:layout_width="40dp"
-          android:layout_height="40dp"
-          android:layout_centerVertical="true"
-          android:layout_toLeftOf="@+id/container_send"
-          android:background="@drawable/ui_selector_chat_face"
-          android:button="@null"
-          android:gravity="center"
-          android:padding="10dp"
-          />
-      <FrameLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_centerVertical="true"
-          android:layout_toLeftOf="@+id/add_smile"
-          android:layout_toRightOf="@+id/chat_speak"
-          android:layout_toStartOf="@+id/add_smile"
-          android:layout_toEndOf="@+id/chat_speak"
-          >
-        <tech.jiangtao.support.ui.view.AudioRecordButton
-            android:layout_marginTop="1dp"
-            android:visibility="gone"
-            android:text="@string/audio_record"
-            android:id="@+id/chat_audio_record"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:background="@drawable/shape_audiobutton_selector"
-            />
-        <com.melink.bqmmsdk.widget.BQMMEditView
-            android:id="@+id/chat_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="#f6f5f5"
-            android:inputType="textMultiLine"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:textSize="18sp"
-            />
+            android:layout_height="match_parent">
 
-      </FrameLayout>
-    </RelativeLayout>
-    <com.melink.bqmmsdk.ui.keyboard.BQMMKeyboard
-        android:id="@+id/chat_msg_input_box"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_below="@+id/chat_inline_container"
-        android:visibility="gone"
-        />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/chat_send_other"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/chat_inline_container"
-        android:visibility="gone"
-        />
-  </RelativeLayout>
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swift_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/chat_bottom">
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+            <RelativeLayout
+                android:id="@+id/chat_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
+
+                <RelativeLayout
+                    android:id="@+id/chat_inline_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_send_message">
+
+                    <ImageView
+                        android:id="@+id/chat_speak"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:clickable="true"
+                        android:contentDescription=""
+                        android:padding="8dp"
+                        android:src="@mipmap/ic_chat_speak" />
+
+                    <FrameLayout
+                        android:id="@+id/container_send"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true">
+
+                        <ImageView
+                            android:id="@+id/chat_add_other_information"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:clickable="true"
+                            android:padding="8dp"
+                            android:src="@mipmap/ic_chat_add" />
+
+                        <com.melink.bqmmsdk.widget.BQMMSendButton
+                            android:id="@+id/chat_send_message"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:background="@drawable/shape_sendbutton_bg_selector"
+                            android:text="发送"
+                            android:textColor="#ffffffff"
+                            android:textSize="16sp"
+                            android:visibility="gone" />
+                    </FrameLayout>
+
+                    <CheckBox
+                        android:id="@+id/add_smile"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/container_send"
+                        android:background="@drawable/ui_selector_chat_face"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="10dp" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/chat_speak"
+                        android:layout_toLeftOf="@+id/add_smile"
+                        android:layout_toRightOf="@+id/chat_speak"
+                        android:layout_toStartOf="@+id/add_smile">
+
+                        <tech.jiangtao.support.ui.view.AudioRecordButton
+                            android:id="@+id/chat_audio_record"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="1dp"
+                            android:layout_marginTop="1dp"
+                            android:background="@drawable/shape_audiobutton_selector"
+                            android:text="@string/audio_record"
+                            android:visibility="gone" />
+
+                        <com.melink.bqmmsdk.widget.BQMMEditView
+                            android:id="@+id/chat_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="#f6f5f5"
+                            android:inputType="textMultiLine"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp"
+                            android:textSize="18sp" />
+
+                    </FrameLayout>
+                </RelativeLayout>
+
+                <com.melink.bqmmsdk.ui.keyboard.BQMMKeyboard
+                    android:id="@+id/chat_msg_input_box"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_below="@+id/chat_inline_container"
+                    android:visibility="gone" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/chat_send_other"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/chat_inline_container"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </RelativeLayout>
 </RelativeLayout>

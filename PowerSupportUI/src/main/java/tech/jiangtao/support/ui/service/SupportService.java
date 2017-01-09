@@ -78,13 +78,10 @@ import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.ui.SupportAIDLConnection;
 import tech.jiangtao.support.ui.reciever.TickBroadcastReceiver;
-import tech.jiangtao.support.kit.util.DateUtils;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.PinYinUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import xiaofei.library.hermeseventbus.HermesEventBus;
-
-import static org.jivesoftware.smackx.pubsub.AccessModel.presence;
 import static xiaofei.library.hermes.Hermes.getContext;
 
 public class SupportService extends Service
@@ -95,7 +92,7 @@ public class SupportService extends Service
     private AccountManager mAccountManager;
     private Roster mRoster;
     private VCardManager mVCardManager;
-    private AppPreferences appPreferences = new AppPreferences(getContext());
+    private AppPreferences appPreferences;
     private SupportServiceConnection mSupportServiceConnection;
     private SupportBinder mSupportBinder;
     private Presence mFriendsPresence;
@@ -103,6 +100,7 @@ public class SupportService extends Service
     @Override
     public void onCreate() {
         super.onCreate();
+        appPreferences = new AppPreferences(this);
         if (mSupportBinder == null) {
             mSupportBinder = new SupportBinder();
         }

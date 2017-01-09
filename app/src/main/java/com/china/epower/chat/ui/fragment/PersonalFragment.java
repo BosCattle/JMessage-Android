@@ -28,6 +28,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import tech.jiangtao.support.kit.callback.DisconnectCallBack;
 import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.fragment.BaseFragment;
@@ -144,6 +145,12 @@ public class PersonalFragment extends BaseFragment implements EasyViewHolder.OnI
   //点击发送回调退出
   @OnClick(R.id.login_button) public void onClick(View v) {
     XMPPService.disConnect(() -> LoginActivity.startLogin(getActivity()));
+    XMPPService.disConnect(new DisconnectCallBack() {
+      @Override
+      public void disconnectFinish() {
+
+      }
+    });
   }
 
   public void recieveVCardRealm() {

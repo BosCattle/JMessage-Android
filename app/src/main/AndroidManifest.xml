@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.china.epower.chat">
+    package="com.china.epower.chat"
+    android:versionName="1.1"
+    android:versionCode="1">
 
   <uses-sdk tools:overrideLibrary="work.wanghao.simplehud,com.kevin.library"/>
-  <!-- 蒲公英-->
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> <!-- 获取网络状态 -->
   <uses-permission android:name="android.permission.INTERNET"/> <!-- 网络通信-->
   <uses-permission android:name="android.permission.READ_PHONE_STATE"/>  <!-- 获取设备信息 -->
@@ -14,7 +15,10 @@
   <uses-permission android:name="android.permission.READ_LOGS"/> <!-- 获取logcat日志 -->
   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-  <!--蒲公英-->
+  <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+  <uses-permission android:name="android.permission.GET_TASKS"/>
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
 
   <application
       android:name=".app.PowerApp"
