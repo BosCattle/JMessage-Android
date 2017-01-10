@@ -17,7 +17,6 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
 
 import io.realm.Realm;
@@ -386,7 +385,8 @@ public class XMPPService extends Service {
 
     private static Notification fadeNotification(Context context) {
         Notification notification = new Notification();
-        notification.icon =R.drawable.abc_ab_share_pack_mtrl_alpha;
+        // 随便给一个icon，反正不会显示，只是假装自己是合法的Notification而已
+        notification.icon = R.drawable.abc_ab_share_pack_mtrl_alpha;
         notification.priority  = Notification.PRIORITY_MIN;
         notification.contentView = new RemoteViews(context.getPackageName(), R.layout.notification_view);
         return notification;
@@ -394,9 +394,12 @@ public class XMPPService extends Service {
 
     private void startForegroundCompat() {
         if (Build.VERSION.SDK_INT < 18) {
-            // api 18（4.3）以下，随便玩
+            // api 18（4.3）
             startForeground(NOTIFICATION_ID, new Notification());
         } else {
+
+            // api 18的时候，google管严了
+            // 先把自己做成一个前台服务，提供合法的参数
             startService(new Intent(this, InnerService.class));
             startForeground(NOTIFICATION_ID, fadeNotification(this));
         }

@@ -1,6 +1,10 @@
 [
     {
+<<<<<<< HEAD
         "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+=======
+        "outputFile": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+>>>>>>> 8c17db94b33569e88bc463e0572c018942582f97
         "map": [
             {
                 "to": {
@@ -11,20 +15,28 @@
                     "endOffset": 108
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\values-w820dp\\dimens.xml",
+=======
+                    "file": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\values-w820dp\\dimens.xml",
+>>>>>>> 8c17db94b33569e88bc463e0572c018942582f97
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
-                        "startOffset": 312,
+                        "startOffset": 305,
                         "endColumn": 57,
-                        "endOffset": 365
+                        "endOffset": 358
                     }
                 }
             }
         ]
     },
     {
+<<<<<<< HEAD
         "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+=======
+        "outputFile": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+>>>>>>> 8c17db94b33569e88bc463e0572c018942582f97
         "map": [
             {
                 "to": {
@@ -35,7 +47,11 @@
                     "endOffset": 108
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\values-w820dp\\dimens.xml",
+=======
+                    "file": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\values-w820dp\\dimens.xml",
+>>>>>>> 8c17db94b33569e88bc463e0572c018942582f97
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
@@ -48,7 +64,11 @@
         ]
     },
     {
+<<<<<<< HEAD
         "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+=======
+        "outputFile": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+>>>>>>> 8c17db94b33569e88bc463e0572c018942582f97
         "map": [
             {
                 "to": {
@@ -59,31 +79,11 @@
                     "endOffset": 108
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\values-w820dp\\dimens.xml",
-                    "position": {
-                        "startLine": 7,
-                        "startColumn": 4,
-                        "startOffset": 305,
-                        "endColumn": 57,
-                        "endOffset": 358
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 57,
-                    "endOffset": 108
-                },
-                "from": {
-                    "file": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\res\\values-w820dp\\dimens.xml",
+=======
+                    "file": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\values-w820dp\\dimens.xml",
+>>>>>>> 8c17db94b33569e88bc463e0572c018942582f97
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
@@ -96,7 +96,11 @@
         ]
     },
     {
-        "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w820dp-v13/values-w820dp-v13.xml",
+<<<<<<< HEAD
+        "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+=======
+        "outputFile": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+>>>>>>> 8c17db94b33569e88bc463e0572c018942582f97
         "map": [
             {
                 "to": {
@@ -107,13 +111,65 @@
                     "endOffset": 108
                 },
                 "from": {
-                    "file": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/values-w820dp/dimens.xml",
+<<<<<<< HEAD
+                    "file": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\res\\values-w820dp\\dimens.xml",
+=======
+                    "file": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\values-w820dp\\dimens.xml",
+>>>>>>> 8c17db94b33569e88bc463e0572c018942582f97
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 312,
+                        "endColumn": 57,
+                        "endOffset": 365
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 57,
+                    "endOffset": 108
+                },
+                "from": {
+                    "file": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
                         "startOffset": 305,
                         "endColumn": 57,
                         "endOffset": 358
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 57,
+                    "endOffset": 108
+                },
+                "from": {
+                    "file": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 312,
+                        "endColumn": 57,
+                        "endOffset": 365
                     }
                 }
             }

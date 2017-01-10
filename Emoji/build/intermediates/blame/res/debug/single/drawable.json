@@ -1,13 +1,19 @@
 [
     {
+<<<<<<< HEAD
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/debug/drawable/bqmm_chatfrom_bg.xml",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/drawable/bqmm_chatfrom_bg.xml"
+=======
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_chatfrom_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_chatfrom_bg.xml"
+>>>>>>> 8c17db94b33569e88bc463e0572c018942582f97
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/debug/drawable/bqmm_point_normal.xml",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/drawable/bqmm_point_normal.xml"
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_bg_chat_time_tag.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_bg_chat_time_tag.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/debug/drawable/bqmm_bg_chat_time_tag.xml",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/drawable/bqmm_bg_chat_time_tag.xml"
     },
@@ -26,12 +32,37 @@
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_bg_chat_time_tag.xml",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_bg_chat_time_tag.xml"
+=======
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_point_normal.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_point_normal.xml"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_shortcut_emoji_bg.xml",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_shortcut_emoji_bg.xml"
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_selector_tab_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_selector_tab_bg.xml"
     },
     {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_bg_chat_time_tag.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_bg_chat_time_tag.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_shortcut_emoji_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_shortcut_emoji_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_pic_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_pic_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_point_normal.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_point_normal.xml"
+>>>>>>> 8c17db94b33569e88bc463e0572c018942582f97
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_point_selected.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_point_selected.xml"
+    },
+    {
+<<<<<<< HEAD
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_chatto_bg.xml",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_chatto_bg.xml"
     },
@@ -94,20 +125,90 @@
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_point_normal.xml",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_point_normal.xml"
+=======
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_chatto_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_chatto_bg.xml"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_point_selected.xml",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_point_selected.xml"
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_point_normal.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_point_normal.xml"
     },
     {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_pic_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_pic_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_point_selected.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_point_selected.xml"
+    },
+    {
+        "merged": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_chatto_bg.xml",
+        "source": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_chatto_bg.xml"
+    },
+    {
+        "merged": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_selector_tab_bg.xml",
+        "source": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_selector_tab_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_selector_tab_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_selector_tab_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_selector_tab_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_selector_tab_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_selector_tab_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_selector_tab_bg.xml"
+    },
+    {
+        "merged": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_point_selected.xml",
+        "source": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_point_selected.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_shortcut_emoji_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_shortcut_emoji_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_bg_chat_time_tag.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_bg_chat_time_tag.xml"
+    },
+    {
+        "merged": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_pic_bg.xml",
+        "source": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_pic_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_chatto_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_chatto_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_chatfrom_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_chatfrom_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_point_normal.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_point_normal.xml"
+>>>>>>> 8c17db94b33569e88bc463e0572c018942582f97
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_point_selected.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_point_selected.xml"
+    },
+    {
+<<<<<<< HEAD
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_point_selected.xml",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_point_selected.xml"
+=======
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_shortcut_emoji_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_shortcut_emoji_bg.xml"
+>>>>>>> 8c17db94b33569e88bc463e0572c018942582f97
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_pic_bg.xml",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_pic_bg.xml"
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_chatto_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_chatto_bg.xml"
     },
     {
+<<<<<<< HEAD
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_chatfrom_bg.xml",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_chatfrom_bg.xml"
     },
@@ -138,16 +239,45 @@
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_selector_tab_bg.xml",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_selector_tab_bg.xml"
+=======
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_selector_tab_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_selector_tab_bg.xml"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_pic_bg.xml",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_pic_bg.xml"
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_shortcut_emoji_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_shortcut_emoji_bg.xml"
     },
     {
-        "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/debug/drawable/bqmm_chatto_bg.xml",
-        "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/drawable/bqmm_chatto_bg.xml"
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_chatto_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_chatto_bg.xml"
     },
     {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_pic_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_pic_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_pic_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_pic_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_bg_chat_time_tag.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_bg_chat_time_tag.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_chatfrom_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_chatfrom_bg.xml"
+>>>>>>> 8c17db94b33569e88bc463e0572c018942582f97
+    },
+    {
+        "merged": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_shortcut_emoji_bg.xml",
+        "source": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_shortcut_emoji_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_bg_chat_time_tag.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_bg_chat_time_tag.xml"
+    },
+    {
+<<<<<<< HEAD
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/build/intermediates/res/merged/debug/drawable/bqmm_shortcut_emoji_bg.xml",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/Emoji/res/drawable/bqmm_shortcut_emoji_bg.xml"
     },
@@ -158,5 +288,49 @@
     {
         "merged": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_point_normal.xml",
         "source": "/Users/kevin/Project/Android/Company/PowerChat/G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_point_normal.xml"
+=======
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_chatfrom_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_chatfrom_bg.xml"
+    },
+    {
+        "merged": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_chatfrom_bg.xml",
+        "source": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_chatfrom_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_chatfrom_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_chatfrom_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_point_selected.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_point_selected.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_pic_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\Emoji\\res\\drawable\\bqmm_pic_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_point_normal.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_point_normal.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_point_selected.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_point_selected.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_shortcut_emoji_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_shortcut_emoji_bg.xml"
+    },
+    {
+        "merged": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_chatto_bg.xml",
+        "source": "G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Users\\kevin\\Project\\Android\\Company\\PowerChat\\G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_chatto_bg.xml"
+    },
+    {
+        "merged": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_bg_chat_time_tag.xml",
+        "source": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_bg_chat_time_tag.xml"
+    },
+    {
+        "merged": "G:\\Android\\Company\\chatandroid\\Emoji\\build\\intermediates\\res\\merged\\debug\\drawable\\bqmm_point_normal.xml",
+        "source": "G:\\Android\\Company\\chatandroid\\Emoji\\res\\drawable\\bqmm_point_normal.xml"
+>>>>>>> 8c17db94b33569e88bc463e0572c018942582f97
     }
 ]
