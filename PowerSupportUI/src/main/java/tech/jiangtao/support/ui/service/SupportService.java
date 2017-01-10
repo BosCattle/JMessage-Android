@@ -510,7 +510,23 @@ public class SupportService extends Service
   }
 
   @Override public void presenceChanged(Presence presence) {
-    LogUtils.d(TAG, "presenceChanged: 我也不知道这是干嘛的。");
+    if (presence.getType().equals(Presence.Type.available)) {
+      LogUtils.d(TAG, "在线");
+    } else if (presence.getType().equals(Presence.Type.unavailable)) {
+      LogUtils.d(TAG, "离线");
+    } else if (presence.getType().equals(Presence.Type.subscribe)) {
+      LogUtils.d(TAG, "请求订阅");
+    } else if (presence.getType().equals(Presence.Type.subscribed)) {
+      LogUtils.d(TAG, "订阅成功");
+    } else if (presence.getType().equals(Presence.Type.unsubscribe)) {
+      LogUtils.d(TAG, "请求取消订阅");
+    } else if (presence.getType().equals(Presence.Type.unsubscribed)) {
+      LogUtils.d(TAG, "取消订阅成功");
+    } else if (presence.getType().equals(Presence.Type.error)) {
+      LogUtils.d(TAG, "发生错误");
+    } else if (presence.getType().equals(Presence.Type.probe)) {
+      LogUtils.d(TAG, "未知状态");
+    }
   }
 
   /**
@@ -532,14 +548,6 @@ public class SupportService extends Service
         subscriber.onError(e);
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
-      //注册成功后，更新用户名的VCard;
-      //LocalVCardEvent event = new LocalVCardEvent();
-      //event.setJid(account.username + "@" + SupportIM.mDomain);
-      //event.setNickName(account.username);
-      //event.setAllPinYin(PinYinUtils.ccs2Pinyin(account.username));
-      //event.setFirstLetter(PinYinUtils.getPinyinFirstLetter(account.username));
-      //event.setFriend(true);
-      //addOrUpdateVCard(event);
       login(account.username, account.password);
       HermesEventBus.getDefault().post(new RegisterResult(account, null));
     }, new ErrorAction() {
@@ -850,8 +858,6 @@ public class SupportService extends Service
     //发出的邀请被拒绝
 
   }
-
-
 
   class SupportServiceConnection implements ServiceConnection {
 
