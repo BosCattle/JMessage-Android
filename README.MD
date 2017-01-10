@@ -10,7 +10,7 @@ allprojects {
 		}
 	}
 	dependencies {
-  	        compile 'com.github.BosCattle:JMessage:V0.0.2'
+  	        compile 'com.github.BosCattle.JMessage:PowerSupportUI:V0.0.8'
   	}
 ```
 ### Maven
@@ -22,8 +22,8 @@ allprojects {
 		</repository>
 </repositories>
 <dependency>
-  	    <groupId>com.github.BosCattle</groupId>
-  	    <artifactId>JMessage</artifactId>
-  	    <version>V0.0.1</version>
+  	    <groupId>com.github.BosCattle.JMessage</groupId>
+        <artifactId>PowerSupportUI</artifactId>
+        <version>V0.0.8</version>
  </dependency>
 ```
