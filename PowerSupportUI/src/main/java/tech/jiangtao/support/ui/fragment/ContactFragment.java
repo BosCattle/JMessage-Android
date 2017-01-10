@@ -3,12 +3,10 @@ package tech.jiangtao.support.ui.fragment;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,28 +15,18 @@ import butterknife.BindView;
 import com.kevin.library.widget.CleanDialog;
 import com.kevin.library.widget.SideBar;
 import com.kevin.library.widget.builder.IconFlag;
-import com.kevin.library.widget.builder.NegativeClickListener;
 import com.kevin.library.widget.builder.PositiveClickListener;
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import tech.jiangtao.support.kit.eventbus.ContactEvent;
-import tech.jiangtao.support.kit.eventbus.MessageTest;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.LogUtils;
-import tech.jiangtao.support.kit.util.PinYinUtils;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.activity.ChatActivity;
@@ -152,7 +140,7 @@ public class ContactFragment extends BaseFragment
             }
             if (i > 0) {
               if (mVCardRealmRealmResults.get(i - 1).getFirstLetter() != null
-                  &&!mVCardRealmRealmResults.get(i - 1)
+                  && !mVCardRealmRealmResults.get(i - 1)
                   .getFirstLetter()
                   .equals(mVCardRealmRealmResults.get(i).getFirstLetter())) {
                 mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
@@ -204,13 +192,12 @@ public class ContactFragment extends BaseFragment
 
   @Override public void onItemClick(int position, View view) {
     LogUtils.d(TAG, "onItemClick: ");
-    if (position==0){
+    if (position == 0) {
       GroupListActivity.startGroupList(getContext());
-    }else if (position==1){
+    } else if (position == 1) {
       NewFriendActivity.startNewFriend(getContext());
-    }
-    else {
-      ChatActivity.startChat((Activity) getContext(),mConstrutContact.get(position).mVCardRealm);
+    } else {
+      ChatActivity.startChat((Activity) getContext(), mConstrutContact.get(position).mVCardRealm);
     }
   }
 
