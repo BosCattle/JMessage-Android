@@ -1,1 +1,1 @@
-include ':app', ':PowerSupportKit', ':PowerSupportUI', ':SupportWebRTC', ':BQMM_Lib'
+include ':app', ':PowerSupportKit', ':PowerSupportUI', ':SupportWebRTC'
