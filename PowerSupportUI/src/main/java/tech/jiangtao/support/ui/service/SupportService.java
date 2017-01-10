@@ -41,6 +41,8 @@ import org.jivesoftware.smack.roster.RosterListener;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.jivesoftware.smackx.iqregister.AccountManager;
+import org.jivesoftware.smackx.muc.MultiUserChat;
+import org.jivesoftware.smackx.muc.MultiUserChatManager;
 import org.jivesoftware.smackx.vcardtemp.VCardManager;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 
@@ -96,6 +98,7 @@ public class SupportService extends Service
     private SupportServiceConnection mSupportServiceConnection;
     private SupportBinder mSupportBinder;
     private Presence mFriendsPresence;
+    private MultiUserChatManager mMultiUserChatManager;
 
     @Override
     public void onCreate() {
@@ -765,6 +768,22 @@ public class SupportService extends Service
     public void disconnect(UnRegisterEvent event) {
         mXMPPConnection.disconnect();
         connect(false);
+    }
+
+    /**
+     * 添加群组
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void addMuc(String mucJid,String nickname){
+        mMultiUserChatManager = MultiUserChatManager.getInstanceFor(mXMPPConnection);
+        MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(mucJid);
+        try {
+            multiUserChat.create(nickname);
+        } catch (XMPPException.XMPPErrorException e) {
+            e.printStackTrace();
+        } catch (SmackException e) {
+            e.printStackTrace();
+        }
     }
 
     class SupportServiceConnection implements ServiceConnection {
