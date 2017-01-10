@@ -15,6 +15,7 @@
         android:priority="1000"
         android:process=":remote">
     </service>
+    <service android:name=".service.XMPPService$InnerService"/>
     <service
         android:name=".service.XMPPService"
         android:enabled="true"
