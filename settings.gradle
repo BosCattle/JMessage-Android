@@ -1,1 +1,1 @@
-include ':app', ':PowerSupportKit', ':PowerSupportUI', ':SupportWebRTC', ':Emoji-release'
+include ':app', ':PowerSupportKit', ':PowerSupportUI', ':SupportWebRTC', ':BQMM_Lib'
