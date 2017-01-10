@@ -121,7 +121,8 @@ public class IndexActivity extends BaseActivity implements ViewPager.OnPageChang
     mRxPermissions.requestEach(Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE,
         Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_LOGS).subscribe(permission -> {
+        Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_LOGS,
+        Manifest.permission.WAKE_LOCK, Manifest.permission.VIBRATE).subscribe(permission -> {
       if (permission.granted) {
         agree();
       } else if (permission.shouldShowRequestPermissionRationale) {
@@ -163,7 +164,7 @@ public class IndexActivity extends BaseActivity implements ViewPager.OnPageChang
   }
 
   public void agree() {
-    appPreferences.put("enter",true);
+    appPreferences.put("enter", true);
     LoginActivity.startLogin(this);
   }
 

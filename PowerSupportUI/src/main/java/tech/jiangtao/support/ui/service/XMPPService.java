@@ -84,11 +84,11 @@ public class XMPPService extends Service {
         if (!HermesEventBus.getDefault().isRegistered(this)) {
             HermesEventBus.getDefault().register(this);
         }
-        startForegroundCompat();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        startForegroundCompat();
         if (mRealm == null || mRealm.isClosed()) {
             mRealm = Realm.getDefaultInstance();
         }
@@ -168,8 +168,7 @@ public class XMPPService extends Service {
             }
             LogUtils.d(TAG, "当前应用是否处于前台" + ServiceUtils.isApplicationBroughtToBackground(this.getApplicationContext()) + "");
             if (message.messageAuthor == MessageAuthor.FRIEND
-                    && intent != null
-                    && ServiceUtils.isApplicationBroughtToBackground(this.getApplicationContext())) {
+                    && intent != null) {
                 if (message.messageType == MessageExtensionType.TEXT) {
                     showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), message.message,
                             intent);
@@ -203,13 +202,11 @@ public class XMPPService extends Service {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void addFriendsNotification(FriendRequest request) {
-        if (!mPowerManager.isScreenOn()) {
-            mWakelock.acquire();
-        }
+        mWakelock.acquire();
         Intent i = new Intent(this, NewFriendActivity.class);
         i.putExtra(NewFriendActivity.NEW_FLAG, request);
         showOnesNotification(request.username, "有一个添加好友请求", i);
-        mWakelock.acquire();
+        mWakelock.release();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -282,9 +279,7 @@ public class XMPPService extends Service {
     }
 
     public void showOnesNotification(String name, String info, Intent intent) {
-        if (!mPowerManager.isScreenOn()) {
-            mWakelock.acquire();
-        }
+        mWakelock.acquire();
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Notification.Builder builder = new Notification.Builder(this);
@@ -303,7 +298,7 @@ public class XMPPService extends Service {
             notification.flags = Notification.FLAG_AUTO_CANCEL;
             notification.defaults = Notification.DEFAULT_SOUND;
             mNotificationManager.notify(0, notification);
-            mWakelock.acquire();
+            mWakelock.release();
         }
     }
 
@@ -372,8 +367,13 @@ public class XMPPService extends Service {
         @Override
         public void onCreate() {
             super.onCreate();
+        }
+
+        @Override public int onStartCommand(Intent intent, int flags, int startId) {
             startForeground(NOTIFICATION_ID, fadeNotification(this));
+            stopForeground(true);
             stopSelf();
+            return super.onStartCommand(intent, flags, startId);
         }
 
         @Nullable
@@ -381,18 +381,13 @@ public class XMPPService extends Service {
         public IBinder onBind(Intent intent) {
             return null;
         }
-
-        @Override
-        public void onDestroy() {
-            stopForeground(true);
-            super.onDestroy();
-        }
     }
 
     private static Notification fadeNotification(Context context) {
         Notification notification = new Notification();
         // 随便给一个icon，反正不会显示，只是假装自己是合法的Notification而已
         notification.icon = R.drawable.abc_ab_share_pack_mtrl_alpha;
+        notification.priority  = Notification.PRIORITY_MIN;
         notification.contentView = new RemoteViews(context.getPackageName(), R.layout.notification_view);
         return notification;
     }
@@ -402,11 +397,11 @@ public class XMPPService extends Service {
             // api 18（4.3）
             startForeground(NOTIFICATION_ID, new Notification());
         } else {
+
             // api 18的时候，google管严了
             // 先把自己做成一个前台服务，提供合法的参数
-            startForeground(NOTIFICATION_ID, fadeNotification(this));
-            // 再起一个服务，也是前台的
             startService(new Intent(this, InnerService.class));
+            startForeground(NOTIFICATION_ID, fadeNotification(this));
         }
     }
 }
