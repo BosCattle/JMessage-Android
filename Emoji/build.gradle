@@ -3,6 +3,7 @@ apply plugin: 'com.android.library'
 dependencies {
     compile files('libs/bqmm_v1.7.8.jar')
     compile 'com.android.support:support-v4:24.2.1'
+    compile project(':Emoji-release')
 }
 
 android {
