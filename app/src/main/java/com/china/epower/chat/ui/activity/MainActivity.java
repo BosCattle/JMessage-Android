@@ -101,7 +101,7 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
 
   public void initToolbar() {
     mToolbar.setTitle("");
-    mTvToolbar.setText("融合通信");
+    mTvToolbar.setText("统一通信");
     setSupportActionBar(mToolbar);
   }
 
