@@ -34,7 +34,6 @@ import tech.jiangtao.support.ui.activity.GroupListActivity;
 import tech.jiangtao.support.ui.activity.NewFriendActivity;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
-import tech.jiangtao.support.ui.linstener.ContactItemCallback;
 import tech.jiangtao.support.ui.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
@@ -57,7 +56,6 @@ public class ContactFragment extends BaseFragment
   @BindView(R2.id.ui_view_bubble) TextView mUiViewBuddle;
   public static final String TAG = ContactFragment.class.getSimpleName();
   private ContactAdapter mBaseEasyAdapter;
-  private ContactItemCallback mContactItemCallback;
   private List<ConstrutContact> mConstrutContact;
   private Realm mRealm;
   private RealmResults<VCardRealm> mVCardRealmRealmResults;
@@ -230,11 +228,6 @@ public class ContactFragment extends BaseFragment
         .positiveTextColor(Color.WHITE)
         .builder();
     dialog.showDialog();
-  }
-
-  @Override public void onAttach(Context context) {
-    super.onAttach(context);
-    mContactItemCallback = (ContactItemCallback) context;
   }
 
   @Override public void onDestroy() {

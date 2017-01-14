@@ -837,7 +837,11 @@ public class SupportService extends Service
     }
     if (user.user != null && user.user.equals(username + "@" + SupportIM.mDomain)) {
       //是当前用户，发送通知，缓存到本地数据库
-
+      for (int i=0;i<rooms.size();i++){
+        LogUtils.d(TAG,roomInfo.get(i).getName());
+        LogUtils.d(TAG,roomInfo.get(i).getDescription());
+        LogUtils.d(TAG,roomInfo.get(i).getForm().toString());
+      }
     } else {
       // 不是当前用户,暂时不做此功能
 

@@ -58,10 +58,6 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar"/>
     <activity
-        android:name=".ui.activity.AddGroupActivity"
-        android:screenOrientation="portrait"
-        android:theme="@style/AppTheme.NoActionBar"/>
-    <activity
         android:name="tech.jiangtao.support.ui.activity.ChatActivity"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar">

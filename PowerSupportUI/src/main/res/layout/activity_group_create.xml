@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_group_create"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="tech.jiangtao.support.ui.activity.GroupCreateActivity"
+    >
+
+  <include layout="@layout/include_header"
+      android:id="@+id/header"/>
+
+  <FrameLayout
+      android:id="@+id/frame"
+      android:layout_below="@+id/header"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+    <android.support.v7.widget.SearchView
+        android:singleLine="true"
+        android:maxLines="1"
+        android:id="@+id/group_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="好友昵称"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/group_add"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+  </FrameLayout>
+
+</RelativeLayout>

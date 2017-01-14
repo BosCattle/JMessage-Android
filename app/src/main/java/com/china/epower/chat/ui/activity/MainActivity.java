@@ -29,6 +29,7 @@ import butterknife.OnClick;
 import java.util.List;
 import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.ui.activity.ChatActivity;
+import tech.jiangtao.support.ui.activity.GroupCreateActivity;
 import tech.jiangtao.support.ui.fragment.ChatListFragment;
 import tech.jiangtao.support.ui.linstener.ContactItemCallback;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
@@ -119,7 +120,7 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
           AddFriendActivity.startAddFriend(MainActivity.this);
           break;
         case R.id.add_group:
-          AddGroupActivity.startAddGroup(MainActivity.this);
+          GroupCreateActivity.startGroupCreate(MainActivity.this);
           break;
         case R.id.free_call:
 

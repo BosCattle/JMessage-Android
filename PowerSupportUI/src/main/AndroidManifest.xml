@@ -4,7 +4,6 @@
     package="tech.jiangtao.support.ui">
 
   <!-- 表情云 -->
-
   <!-- 表情云 -->
   <application
       android:allowBackup="true"
@@ -36,6 +35,7 @@
         android:enabled="true">
       <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED"/>
+
         <category android:name="android.intent.category.HOME"/>
       </intent-filter>
     </receiver>
@@ -70,10 +70,15 @@
         android:name="com.melink.bqmmsdk.ui.store.ServiceDeclaration"
         android:screenOrientation="portrait">
     </activity>
-    <activity android:name=".activity.NewFriendActivity"
+    <activity
+        android:name=".activity.NewFriendActivity"
         android:theme="@style/AppTheme.NoActionBar">
     </activity>
-    <activity android:name=".activity.GroupListActivity"
+    <activity
+        android:name=".activity.GroupListActivity"
+        android:theme="@style/AppTheme.NoActionBar">
+    </activity>
+    <activity android:name=".activity.GroupCreateActivity"
         android:theme="@style/AppTheme.NoActionBar">
     </activity>
   </application>
