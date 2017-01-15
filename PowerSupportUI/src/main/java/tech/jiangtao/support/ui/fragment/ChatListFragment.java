@@ -3,8 +3,10 @@ package tech.jiangtao.support.ui.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import com.kevin.library.widget.CleanDialog;
 import com.kevin.library.widget.builder.IconFlag;
 import com.kevin.library.widget.builder.NegativeClickListener;
@@ -63,11 +66,13 @@ public class ChatListFragment extends BaseFragment
   public static final String TAG = Fragment.class.getSimpleName();
   @BindView(R2.id.chat_list) RecyclerView mChatList;
   @BindView(R2.id.chat_swift_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
+  @BindView(R2.id.chat_frame) ImageView mImageView;
   private SessionAdapter mSessionAdapter;
   private List<SessionListMessage> mSessionMessage;
   private Realm mRealm;
   private RealmResults<SessionRealm> mSessionRealm;
   private ContactItemCallback mContactItemCallback;
+  private Drawable mDrawable;
 
   public static ChatListFragment newInstance() {
     return new ChatListFragment();
@@ -298,5 +303,20 @@ public class ChatListFragment extends BaseFragment
         mSwipeRefreshLayout.setRefreshing(false);
       }
     },3000);
+  }
+
+  public void frameImage(boolean isShow){
+    if (isShow){
+      if (mDrawable!=null) {
+        mImageView.setImageDrawable(mDrawable);
+      }
+      mImageView.setVisibility(View.VISIBLE);
+    }else {
+      mImageView.setVisibility(View.GONE);
+    }
+  }
+
+  public void setmDrawable(Drawable mDrawable) {
+    this.mDrawable = mDrawable;
   }
 }
