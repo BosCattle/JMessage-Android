@@ -28,6 +28,6 @@ public class ContactCellViewHolder extends tech.jiangtao.support.ui.adapter.Cont
   }
 
   @Override public void bindTo(int position, ConstrutContact l) {
-    mLetterCell.setText(l.mTitle);
+    mLetterCell.setText(l.mTitle.toUpperCase());
   }
 }
