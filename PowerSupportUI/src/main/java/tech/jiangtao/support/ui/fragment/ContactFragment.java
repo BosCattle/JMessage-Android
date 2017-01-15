@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -49,11 +51,12 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  **/
 public class ContactFragment extends BaseFragment
     implements EasyViewHolder.OnItemClickListener, EasyViewHolder.OnItemLongClickListener,
-    EasyViewHolder.OnItemLeftScrollListener {
+    EasyViewHolder.OnItemLeftScrollListener,SwipeRefreshLayout.OnRefreshListener {
 
   @BindView(R2.id.contact_list) RecyclerView mContactList;
   @BindView(R2.id.sidebar) SideBar mSideBar;
   @BindView(R2.id.ui_view_bubble) TextView mUiViewBuddle;
+  @BindView(R2.id.contact_swift_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
   public static final String TAG = ContactFragment.class.getSimpleName();
   private ContactAdapter mBaseEasyAdapter;
   private List<ConstrutContact> mConstrutContact;
@@ -67,9 +70,20 @@ public class ContactFragment extends BaseFragment
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     super.onCreateView(inflater, container, savedInstanceState);
+    setRefresh();
     setAdapter();
     getContact();
     return getView();
+  }
+
+  private void setRefresh() {
+    mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+        android.R.color.holo_green_light, android.R.color.holo_orange_light,
+        android.R.color.holo_red_light);
+    mSwipeRefreshLayout.setDistanceToTriggerSync(300);
+    mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.WHITE);
+    mSwipeRefreshLayout.setSize(SwipeRefreshLayout.LARGE);
+    mSwipeRefreshLayout.setOnRefreshListener(this);
   }
 
   @Override public int layout() {
@@ -232,5 +246,13 @@ public class ContactFragment extends BaseFragment
 
   @Override public void onDestroy() {
     super.onDestroy();
+  }
+
+  @Override public void onRefresh() {
+    new Handler().postDelayed(new Runnable() {
+      @Override public void run() {
+        mSwipeRefreshLayout.setRefreshing(false);
+      }
+    },3000);
   }
 }

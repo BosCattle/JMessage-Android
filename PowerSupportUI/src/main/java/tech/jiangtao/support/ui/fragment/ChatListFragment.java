@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -55,10 +57,12 @@ import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
  * Update: 02/12/2016 11:38 AM </br>
  **/
 public class ChatListFragment extends BaseFragment
-    implements EasyViewHolder.OnItemClickListener, EasyViewHolder.OnItemLongClickListener {
+    implements EasyViewHolder.OnItemClickListener, EasyViewHolder.OnItemLongClickListener,
+    SwipeRefreshLayout.OnRefreshListener {
 
   public static final String TAG = Fragment.class.getSimpleName();
   @BindView(R2.id.chat_list) RecyclerView mChatList;
+  @BindView(R2.id.chat_swift_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
   private SessionAdapter mSessionAdapter;
   private List<SessionListMessage> mSessionMessage;
   private Realm mRealm;
@@ -80,8 +84,19 @@ public class ChatListFragment extends BaseFragment
     if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
+    setRefresh();
     setAdapter();
     return getView();
+  }
+
+  private void setRefresh() {
+    mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+        android.R.color.holo_green_light, android.R.color.holo_orange_light,
+        android.R.color.holo_red_light);
+    mSwipeRefreshLayout.setDistanceToTriggerSync(300);
+    mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.WHITE);
+    mSwipeRefreshLayout.setSize(SwipeRefreshLayout.LARGE);
+    mSwipeRefreshLayout.setOnRefreshListener(this);
   }
 
   @Override public int layout() {
@@ -240,7 +255,7 @@ public class ChatListFragment extends BaseFragment
     if (vCardRealms.size() != 0) {
       vCardRealm = vCardRealms.first();
     }
-    ChatActivity.startChat((Activity) getContext(),vCardRealm);
+    ChatActivity.startChat((Activity) getContext(), vCardRealm);
   }
 
   @Override public void onDestroyView() {
@@ -275,5 +290,13 @@ public class ChatListFragment extends BaseFragment
         .builder();
     dialog.showDialog();
     return false;
+  }
+
+  @Override public void onRefresh() {
+    new Handler().postDelayed(new Runnable() {
+      @Override public void run() {
+        mSwipeRefreshLayout.setRefreshing(false);
+      }
+    },3000);
   }
 }
