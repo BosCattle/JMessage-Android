@@ -19,15 +19,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import tech.jiangtao.support.kit.realm.VCardRealm;
+import tech.jiangtao.support.kit.util.LogUtils;
+import tech.jiangtao.support.kit.util.PinYinUtils;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
+import tech.jiangtao.support.ui.fragment.ContactFragment;
 import tech.jiangtao.support.ui.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
@@ -39,6 +45,9 @@ public class GroupCreateActivity extends BaseActivity
   @BindView(R2.id.toolbar) Toolbar mToolbar;
   @BindView(R2.id.group_add) RecyclerView mGroupAdd;
   @BindView(R2.id.group_edit) SearchView mSearchView;
+  public static final String TAG = GroupCreateActivity.class.getSimpleName();
+  private Realm mRealm;
+  private RealmResults<VCardRealm> mVCardRealmRealmResults;
   private ContactAdapter mContactAdapter;
   private List<ConstrutContact> mConstrutContact;
 
@@ -49,6 +58,7 @@ public class GroupCreateActivity extends BaseActivity
     setUpToolbar();
     setUpEditText();
     setUpAdapter();
+    getContact();
   }
 
   /**
@@ -63,18 +73,6 @@ public class GroupCreateActivity extends BaseActivity
     mGroupAdd.addItemDecoration(RecyclerViewUtils.buildItemDecoration(this));
     mGroupAdd.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     mGroupAdd.setAdapter(mContactAdapter);
-    mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_MEMBER_CHOICE)
-        .title("妈的智障")
-        .id(0)
-        .build());
-    mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_MEMBER_CHOICE)
-        .title("妈的智障")
-        .id(0)
-        .build());
-    mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_MEMBER_CHOICE)
-        .title("妈的智障")
-        .id(0)
-        .build());
   }
 
   /**
@@ -115,6 +113,68 @@ public class GroupCreateActivity extends BaseActivity
     mToolbar.setNavigationOnClickListener(v -> this.finish());
   }
 
+  private void getContact() {
+    if (mRealm == null || mRealm.isClosed()) {
+      mRealm = Realm.getDefaultInstance();
+    }
+    mRealm.executeTransaction(realm -> {
+      RealmQuery<VCardRealm> realmQuery = realm.where(VCardRealm.class);
+      mVCardRealmRealmResults = realmQuery.equalTo("friend", true).findAllSorted("firstLetter");
+      LogUtils.d(TAG, "getContact: 打印出好友的数量:" + mVCardRealmRealmResults.size());
+      for (int i = 0; i < mVCardRealmRealmResults.size(); i++) {
+        if (mVCardRealmRealmResults != null
+            && mVCardRealmRealmResults.get(i) != null
+            && mVCardRealmRealmResults.get(i).getFirstLetter() != null) {
+          if (i == 0) {
+            mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
+                .title(mVCardRealmRealmResults.get(i).getFirstLetter())
+                .build());
+          }
+          if (i > 0) {
+            if (mVCardRealmRealmResults.get(i - 1).getFirstLetter() != null
+                && !(mVCardRealmRealmResults.get(i - 1)
+                .getFirstLetter()
+                .equals(mVCardRealmRealmResults.get(i).getFirstLetter()))) {
+              mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
+                  .title(mVCardRealmRealmResults.get(i).getFirstLetter())
+                  .build());
+            }
+          }
+        }
+        mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_MEMBER_CHOICE)
+            .vCardRealm(mVCardRealmRealmResults.get(i))
+            .build());
+      }
+      mContactAdapter.notifyDataSetChanged();
+      mVCardRealmRealmResults.addChangeListener(element -> {
+        mConstrutContact.clear();
+        for (int i = 0; i < mVCardRealmRealmResults.size(); i++) {
+          if (mVCardRealmRealmResults.get(i).getFirstLetter() != null) {
+            if (i == 0) {
+              mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
+                  .title(mVCardRealmRealmResults.get(i).getFirstLetter())
+                  .build());
+            }
+            if (i > 0) {
+              if (mVCardRealmRealmResults.get(i - 1).getFirstLetter() != null
+                  && !mVCardRealmRealmResults.get(i - 1)
+                  .getFirstLetter()
+                  .equals(mVCardRealmRealmResults.get(i).getFirstLetter())) {
+                mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
+                    .title(mVCardRealmRealmResults.get(i).getFirstLetter())
+                    .build());
+              }
+            }
+          }
+          mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_MEMBER_CHOICE)
+              .vCardRealm(mVCardRealmRealmResults.get(i))
+              .build());
+        }
+        mContactAdapter.notifyDataSetChanged();
+      });
+    });
+  }
+
   @Override protected boolean preSetupToolbar() {
     return false;
   }
@@ -125,10 +185,33 @@ public class GroupCreateActivity extends BaseActivity
   }
 
   @Override public boolean onQueryTextSubmit(String query) {
+    //点击搜索按钮后查询数据库
+    String pinYin = PinYinUtils.ccs2Pinyin(query);
+    if (mRealm == null || mRealm.isClosed()) {
+      mRealm = Realm.getDefaultInstance();
+    }
+    mRealm.executeTransaction(realm -> {
+      RealmQuery<VCardRealm> realmQuery = realm.where(VCardRealm.class);
+      RealmResults<VCardRealm> results =
+          realmQuery.equalTo("friend", true).contains("allPinYin", pinYin).findAll();
+      if (results.size()!=0){
+        mConstrutContact.clear();
+      }
+      for (int i = 0;i<results.size();i++){
+        mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_MEMBER_CHOICE)
+            .vCardRealm(results.get(i))
+            .build());
+      }
+      mContactAdapter.notifyDataSetChanged();
+    });
     return false;
   }
 
   @Override public boolean onQueryTextChange(String newText) {
+    if (newText.equals("")){
+      mConstrutContact.clear();
+      getContact();
+    }
     return false;
   }
 
@@ -138,7 +221,7 @@ public class GroupCreateActivity extends BaseActivity
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.menu_group_create,menu);
+    inflater.inflate(R.menu.menu_group_create, menu);
     return true;
   }
 

@@ -36,11 +36,11 @@ public class GroupMemberViewHolder extends tech.jiangtao.support.ui.adapter.Cont
 
   @Override public void bindTo(int position, ConstrutContact l) {
     Glide.with(mContext)
-        .load(l.mId)
+        .load(l.mVCardRealm.getAvatar())
         .placeholder(R.mipmap.ic_launcher)
         .centerCrop()
         .into(mGroupMemberAvatar);
-    mGroupMemberName.setText(l.mTitle);
+    mGroupMemberName.setText(l.mVCardRealm.getNickName());
     mGroupMemberCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked){

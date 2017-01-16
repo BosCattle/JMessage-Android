@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import com.kevin.library.widget.CleanDialog;
 import com.kevin.library.widget.builder.IconFlag;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import tech.jiangtao.support.kit.callback.QueryUserCallBack;
 import tech.jiangtao.support.kit.eventbus.AddRosterEvent;
@@ -39,10 +41,9 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  * Update: 10/12/2016 9:58 PM </br>
  **/
 public class AddFriendFragment extends BaseFragment
-    implements EasyViewHolder.OnItemClickListener, QueryUserCallBack {
+    implements EasyViewHolder.OnItemClickListener, QueryUserCallBack,SearchView.OnQueryTextListener {
 
-  @BindView(R2.id.search_view) EditText mSearchView;
-  @BindView(R2.id.search_submit) TextView mSearchSubmit;
+  @BindView(R2.id.friend_edit) SearchView mSearchView;
   @BindView(R2.id.friend_list) RecyclerView mFriendContaner;
   private BaseEasyAdapter mBaseEasyAdapter;
   private ArrayList<QueryUserResult> mList = new ArrayList<>();
@@ -55,8 +56,34 @@ public class AddFriendFragment extends BaseFragment
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     super.onCreateView(inflater, container, savedInstanceState);
+    setUpEditText();
     setAdapter();
     return getView();
+  }
+
+  private void setUpEditText() {
+    mSearchView.setIconifiedByDefault(false);
+    //为该SearchView组件设置事件监听器
+    mSearchView.setOnQueryTextListener(this);
+    //设置该SearchView显示搜索按钮
+    mSearchView.setSubmitButtonEnabled(false);
+    mSearchView.setIconified(false);
+    //设置该SearchView内默认显示的提示文本
+    mSearchView.setQueryHint("用户昵称");
+    if (mSearchView != null) {
+      try {        //--拿到字节码
+        Class<?> argClass = mSearchView.getClass();
+        //--指定某个私有属性,mSearchPlate是搜索框父布局的名字
+        Field ownField = argClass.getDeclaredField("mSearchPlate");
+        //--暴力反射,只有暴力反射才能拿到私有属性
+        ownField.setAccessible(true);
+        View mView = (View) ownField.get(mSearchView);
+        //--设置背景
+        mView.setBackgroundColor(Color.TRANSPARENT);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   public void setAdapter() {
@@ -73,14 +100,6 @@ public class AddFriendFragment extends BaseFragment
 
   @Override public int layout() {
     return R.layout.fragment_add_friend;
-  }
-
-  @OnClick(R2.id.search_submit) public void onClick(View v) {
-    if (mSearchView.getText().toString() != "") {
-      mQuery = new SimpleUserQuery();
-      mQuery.startQuery(new QueryUser(mSearchView.getText().toString()), this);
-      SimpleHUD.showLoadingMessage(getContext(),"正在查询",false);
-    }
   }
 
   @Override public void onItemClick(int position, View view) {
@@ -114,5 +133,18 @@ public class AddFriendFragment extends BaseFragment
     SimpleHUD.dismiss();
     SimpleHUD.showErrorMessage(getContext(), errorReason);
     mQuery.destroy();
+  }
+
+  @Override public boolean onQueryTextSubmit(String query) {
+    if (query!=null&&query != ""&&query.trim()!="") {
+      mQuery = new SimpleUserQuery();
+      mQuery.startQuery(new QueryUser(query), this);
+      SimpleHUD.showLoadingMessage(getContext(),"正在查询",false);
+    }
+    return false;
+  }
+
+  @Override public boolean onQueryTextChange(String newText) {
+    return false;
   }
 }

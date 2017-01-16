@@ -130,6 +130,7 @@ public class ChatListFragment extends BaseFragment
       Iterator<SessionRealm> it = mSessionRealm.iterator();
       LogUtils.d(TAG, "getChatList: 数量为" + mSessionRealm.size());
       while (it.hasNext()) {
+        frameImage(false);
         SessionRealm messageRealm = it.next();
         //这儿需要查一下MessageRealm和VCardRealm;
         RealmResults<VCardRealm> vCardRealms = realm.where(VCardRealm.class)
@@ -188,6 +189,7 @@ public class ChatListFragment extends BaseFragment
         LogUtils.d(TAG, "getChatList: 会话数量" + element.size());
         mSessionMessage.clear();
         while (iterator.hasNext()) {
+          frameImage(false);
           SessionRealm messageRealm = iterator.next();
           //这儿需要查一下MessageRealm和VCardRealm;
           RealmResults<VCardRealm> vCardRealms = realm.where(VCardRealm.class)
@@ -305,6 +307,10 @@ public class ChatListFragment extends BaseFragment
     },3000);
   }
 
+  /**
+   * 设置背景
+   * @param isShow
+   */
   public void frameImage(boolean isShow){
     if (isShow){
       if (mDrawable!=null) {
