@@ -32,7 +32,7 @@ public class SimpleCGroup {
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN)
-  public void recievedGroupInfo(GroupCreateCallBackEvent event){
+  private void recievedGroupInfo(GroupCreateCallBackEvent event){
     if (event!=null){
       mCallBack.createSuccess();
     }else {

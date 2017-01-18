@@ -25,9 +25,15 @@ import io.realm.RealmResults;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import net.grandcentrix.tray.AppPreferences;
+import net.grandcentrix.tray.core.ItemNotFoundException;
+import tech.jiangtao.support.kit.callback.GroupCreateCallBack;
+import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateParam;
 import tech.jiangtao.support.kit.realm.VCardRealm;
+import tech.jiangtao.support.kit.userdata.SimpleCGroup;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.PinYinUtils;
+import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
@@ -50,6 +56,9 @@ public class GroupCreateActivity extends BaseActivity
   private RealmResults<VCardRealm> mVCardRealmRealmResults;
   private ContactAdapter mContactAdapter;
   private List<ConstrutContact> mConstrutContact;
+  private SimpleCGroup mSimpleCGroup;
+  private GroupCreateParam mGroupCreateParam;
+  private AppPreferences mAppPreferences;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -59,6 +68,8 @@ public class GroupCreateActivity extends BaseActivity
     setUpEditText();
     setUpAdapter();
     getContact();
+    mSimpleCGroup = new SimpleCGroup();
+    mAppPreferences = new AppPreferences(this);
   }
 
   /**
@@ -226,6 +237,32 @@ public class GroupCreateActivity extends BaseActivity
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId()==R.id.menu_group_create){
+      //检查是否有选择，创建群
+      String userJid = null;
+      String username = null;
+      try {
+        userJid = mAppPreferences.getString("userJid");
+        username = mAppPreferences.getString("username");
+        if (username==null){
+          username = StringSplitUtil.splitPrefix(userJid);
+        }
+      } catch (ItemNotFoundException e) {
+        e.printStackTrace();
+      }
+      mGroupCreateParam = new GroupCreateParam(username+"的群",userJid,null);
+      mSimpleCGroup.startCreateGroup(mGroupCreateParam, new GroupCreateCallBack() {
+        @Override public void createSuccess() {
+          //创建群聊成功
+          GroupChatActivity.startGroupChat(GroupCreateActivity.this);
+        }
+
+        @Override public void createFailed(String failedReason) {
+          //创建群聊失败
+
+        }
+      });
+    }
     return true;
   }
 }
