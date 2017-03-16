@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-  compileSdkVersion 25
-  buildToolsVersion "25.0.0"
+  compileSdkVersion rootProject.ext.android.compileSdkVersion
+  buildToolsVersion rootProject.ext.android.buildToolsVersion
 
   defaultConfig {
-    minSdkVersion 15
-    targetSdkVersion 25
+    minSdkVersion rootProject.ext.android.minSdkVersion
+    targetSdkVersion rootProject.ext.android.targetSdkVersion
     versionCode 1
     versionName "1.0"
   }
@@ -23,8 +23,8 @@ android {
 
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
-  compile 'com.android.support:appcompat-v7:25.0.0'
-  compile 'io.reactivex:rxandroid:1.2.1'
-  compile 'io.reactivex:rxjava:1.1.6'
-  compile 'io.pristine:libjingle:9127@aar'
+  compile 'com.android.support:appcompat-v7:'+rootProject.ext.depsVersion.supportVersion
+  compile 'io.reactivex:rxandroid:'+rootProject.ext.depsVersion.rxAndroidVersion
+  compile 'io.reactivex:rxjava:'+rootProject.ext.depsVersion.rxJavaVersion
+  compile 'io.pristine:libjingle:'+rootProject.ext.depsVersion.libjingleVersion
 }

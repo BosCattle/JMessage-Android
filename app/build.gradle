@@ -6,7 +6,7 @@ apply plugin: 'me.tatarka.retrolambda'
 def gitVersionCode() {
   def cmd = 'git rev-list HEAD --all  --count'
   def str = cmd.execute().text.trim()
-  if (str.empty||str==null) {
+  if (str.empty || str == null) {
     return 1
   } else {
     return str.toInteger()
@@ -30,13 +30,13 @@ def buildTime() {
 }
 
 android {
-  compileSdkVersion 24
-  buildToolsVersion '25.0.0'
+  compileSdkVersion rootProject.ext.android.compileSdkVersion
+  buildToolsVersion rootProject.ext.android.buildToolsVersion
   defaultConfig {
     applicationId "com.china.epower.chat"
     multiDexEnabled true
-    minSdkVersion 15
-    targetSdkVersion 24
+    minSdkVersion rootProject.ext.android.minSdkVersion
+    targetSdkVersion rootProject.ext.android.targetSdkVersion
     versionCode getVersionCode()
     versionName getVersionName()
     resValue "string", "tray__authority", "${applicationId}.tray"
@@ -57,8 +57,8 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility rootProject.ext.android.javaVersion
+    targetCompatibility rootProject.ext.android.javaVersion
   }
   lintOptions {
     checkReleaseBuilds false
@@ -91,31 +91,29 @@ android {
       signingConfig signingConfigs.release
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
-//    debug {
-//      minifyEnabled false
-//      signingConfig signingConfigs.debug
-//    }
+    //    debug {
+    //      minifyEnabled false
+    //      signingConfig signingConfigs.debug
+    //    }
   }
 }
 
 dependencies {
   compile fileTree(include: ['*.jar'], dir: 'libs')
   compile project(':PowerSupportUI')
-  compile 'com.android.support:multidex:1.0.1'
-  compile 'com.github.Doublemine:SimpleHud:0.1.2'
-  compile 'io.reactivex:rxandroid:1.2.1'
-  compile 'io.reactivex:rxjava:1.1.6'
-  compile 'com.roughike:bottom-bar:2.0.2'
-  compile 'com.github.BosCattle:ViewCollection:V0.0.5'
-  compile 'com.pgyersdk:sdk:2.2'
-  compile 'com.afollestad.material-dialogs:core:0.9.1.0'
-  compile 'com.github.BosCattle:MultiType-FilePicker:1.0.1'
-  compile 'com.jakewharton:butterknife:8.4.0'
-  testCompile 'junit:junit:4.12'
-  testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-  annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-  apt 'com.jakewharton:butterknife-compiler:8.4.0'
-  debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-  releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-  compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.0@aar'
+  compile 'com.android.support:multidex:' + rootProject.ext.depsVersion.multidexVersion
+  compile 'com.github.Doublemine:SimpleHud:' + rootProject.ext.depsVersion.simpleHudVersion
+  compile 'io.reactivex:rxandroid:' + rootProject.ext.depsVersion.rxAndroidVersion
+  compile 'io.reactivex:rxjava:' + rootProject.ext.depsVersion.rxJavaVersion
+  compile 'com.roughike:bottom-bar:' + rootProject.ext.depsVersion.bottombarVersion
+  compile 'com.github.BosCattle:ViewCollection:' + rootProject.ext.depsVersion.viewcollectionVersion
+  compile 'com.pgyersdk:sdk:' + rootProject.ext.depsVersion.pgyersdkVersion
+  compile 'com.afollestad.material-dialogs:core:' + rootProject.ext.depsVersion.materialDialogsVersion
+  compile 'com.github.BosCattle:MultiType-FilePicker:' + rootProject.ext.depsVersion.multiTypeFilePickerVersion
+  compile 'com.jakewharton:butterknife:' + rootProject.ext.depsVersion.butterknifeVersion
+  annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
+  apt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
+  debugCompile 'com.squareup.leakcanary:leakcanary-android:' + rootProject.ext.depsVersion.leakcanaryAndroidVersion
+  releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:' + rootProject.ext.depsVersion.leakcanaryAndroidVersion
+  compile 'com.tbruyelle.rxpermissions:rxpermissions:' + rootProject.ext.depsVersion.rxpermissionsVersion
 }
