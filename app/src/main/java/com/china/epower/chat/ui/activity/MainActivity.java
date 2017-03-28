@@ -22,18 +22,16 @@ import com.pgyersdk.update.UpdateManagerListener;
 import com.roughike.bottombar.BottomBar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import java.util.List;
-import tech.jiangtao.support.kit.realm.VCardRealm;
-import tech.jiangtao.support.ui.activity.ChatActivity;
 import tech.jiangtao.support.ui.activity.GroupCreateActivity;
+import tech.jiangtao.support.ui.activity.GroupSearchActivity;
 import tech.jiangtao.support.ui.fragment.ChatListFragment;
 import tech.jiangtao.support.ui.fragment.ContactFragment;
 import tech.jiangtao.support.ui.linstener.ContactItemCallback;
-import tech.jiangtao.support.ui.pattern.ConstrutContact;
 
 /**
  * Class: MainActivity </br>
@@ -120,8 +118,11 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
         case R.id.add_friend:
           AddFriendActivity.startAddFriend(MainActivity.this);
           break;
-        case R.id.add_group:
+        case R.id.create_group:
           GroupCreateActivity.startGroupCreate(MainActivity.this);
+          break;
+        case R.id.search_group:
+          GroupSearchActivity.startGroupCreate(MainActivity.this);
           break;
         case R.id.free_call:
 

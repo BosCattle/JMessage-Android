@@ -1,7 +1,0 @@
-#Tue Mar 28 16:02:38 CST 2017
-base.0=/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_f9080f14cdf975de550e308d1af1844e141a6cc1
-renamed.1=classes.dex
-renamed.0=classes2.dex
-file.1=/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_d8d71d9bcb6b3cb1b095465ac283d60aacf0ede9/classes.dex
-base.1=/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_d8d71d9bcb6b3cb1b095465ac283d60aacf0ede9
-file.0=/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_f9080f14cdf975de550e308d1af1844e141a6cc1/classes.dex

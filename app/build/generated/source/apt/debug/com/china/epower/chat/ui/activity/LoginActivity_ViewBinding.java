@@ -17,9 +17,9 @@ import java.lang.Override;
 public class LoginActivity_ViewBinding extends BaseActivity_ViewBinding {
   private LoginActivity target;
 
-  private View view2131689637;
+  private View view2131689635;
 
-  private View view2131689639;
+  private View view2131689637;
 
   @UiThread
   public LoginActivity_ViewBinding(LoginActivity target) {
@@ -39,7 +39,7 @@ public class LoginActivity_ViewBinding extends BaseActivity_ViewBinding {
     target.mLoginPassword = Utils.findRequiredViewAsType(source, R.id.login_password, "field 'mLoginPassword'", AppCompatEditText.class);
     view = Utils.findRequiredView(source, R.id.login_button, "field 'mLoginButton' and method 'onClick'");
     target.mLoginButton = Utils.castView(view, R.id.login_button, "field 'mLoginButton'", AppCompatButton.class);
-    view2131689637 = view;
+    view2131689635 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -48,7 +48,7 @@ public class LoginActivity_ViewBinding extends BaseActivity_ViewBinding {
     });
     view = Utils.findRequiredView(source, R.id.register, "field 'mRegisterText' and method 'onClick'");
     target.mRegisterText = Utils.castView(view, R.id.register, "field 'mRegisterText'", AppCompatTextView.class);
-    view2131689639 = view;
+    view2131689637 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -70,10 +70,10 @@ public class LoginActivity_ViewBinding extends BaseActivity_ViewBinding {
     target.mLoginButton = null;
     target.mRegisterText = null;
 
+    view2131689635.setOnClickListener(null);
+    view2131689635 = null;
     view2131689637.setOnClickListener(null);
     view2131689637 = null;
-    view2131689639.setOnClickListener(null);
-    view2131689639 = null;
 
     super.unbind();
   }

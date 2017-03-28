@@ -8,8 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.OkHttpClient;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 
@@ -17,9 +19,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
   @Nullable @BindView(R2.id.tv_toolbar) TextView mTvToolbar;
   @Nullable @BindView(R2.id.toolbar) Toolbar mToolbar;
-
+  public OkHttpClient mOkHttpClient;
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    mOkHttpClient = new OkHttpClient();
   }
 
 

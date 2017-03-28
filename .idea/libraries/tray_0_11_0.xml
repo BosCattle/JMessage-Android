@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="tray-0.11.0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/e96a38e9b66ffd8617f5ad2fcdd9d8530dd79e9c/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/e96a38e9b66ffd8617f5ad2fcdd9d8530dd79e9c/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.grandcentrix.tray/tray/0.11.0/ed039f5b981527d3616a771f9a6aaa7259c56651/tray-0.11.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

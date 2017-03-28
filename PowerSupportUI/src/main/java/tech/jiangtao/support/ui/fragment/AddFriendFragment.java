@@ -9,14 +9,14 @@ import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.OnClick;
+
 import com.kevin.library.widget.CleanDialog;
 import com.kevin.library.widget.builder.IconFlag;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+
+import butterknife.BindView;
 import tech.jiangtao.support.kit.callback.QueryUserCallBack;
 import tech.jiangtao.support.kit.eventbus.AddRosterEvent;
 import tech.jiangtao.support.kit.eventbus.QueryUser;

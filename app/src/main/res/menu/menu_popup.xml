@@ -5,9 +5,13 @@
         android:icon="@mipmap/ic_add_white_36dp"
         android:title="添加好友" />
     <item
-        android:id="@+id/add_group"
+        android:id="@+id/create_group"
         android:icon="@mipmap/ic_add_white_36dp"
-        android:title="添加群" />
+        android:title="创建群" />
+    <item
+        android:id="@+id/search_group"
+        android:icon="@mipmap/ic_add_white_36dp"
+        android:title="查找群" />
     <item
         android:id="@+id/free_call"
         android:icon="@mipmap/ic_add_white_36dp"

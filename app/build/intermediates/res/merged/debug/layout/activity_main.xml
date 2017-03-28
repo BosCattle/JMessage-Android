@@ -49,11 +49,11 @@
   </android.support.design.widget.AppBarLayout>
 
   <FrameLayout
-      android:layout_below="@+id/header"
       android:id="@+id/contentContainer"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_above="@+id/bottomBar" />
+      android:layout_below="@+id/header"
+      android:layout_alignParentStart="true" />
 
     <com.roughike.bottombar.BottomBar
       app:bb_inActiveTabAlpha="0.6"

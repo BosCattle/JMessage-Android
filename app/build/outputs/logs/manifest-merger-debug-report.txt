@@ -19,6 +19,7 @@ ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidMani
 		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:2:11-69
 uses-sdk
 ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:8:3-79
+MERGED from [com.android.support:multidex:1.0.1] /Users/Vurtex/.android/build-cache/5dcf03643fc7006b6b75fc212368deb4d0239228/output/AndroidManifest.xml:18:5-42
 MERGED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:8:5-10:41
 MERGED from [JMessage:PowerSupportKit:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:7:5-9:41
 MERGED from [io.realm:realm-android-library:2.2.0] /Users/Vurtex/.android/build-cache/16a684d55fb2944a0231f4eec99d95605389a0cf/output/AndroidManifest.xml:5:5-7:41
@@ -29,7 +30,6 @@ MERGED from [net.grandcentrix.tray:tray:0.11.0] /Users/Vurtex/.android/build-cac
 MERGED from [de.hdodenhof:circleimageview:2.1.0] /Users/Vurtex/.android/build-cache/b128411f9abc1c20ce3489c9232bebdd3ed81de2/output/AndroidManifest.xml:5:5-7:41
 MERGED from [com.github.chrisbanes:PhotoView:1.3.1] /Users/Vurtex/.android/build-cache/8a8f8a0b9474183e4e84d9fac27a707d43963b15/output/AndroidManifest.xml:8:5-10:41
 MERGED from [com.github.BosCattle:Emoji:V0.0.1] /Users/Vurtex/.android/build-cache/e16dc2f30666fcb0b696018ebd86d24699fa7c7b/output/AndroidManifest.xml:7:5-9:41
-MERGED from [com.android.support:multidex:1.0.1] /Users/Vurtex/.android/build-cache/ca0012b8667d467aa0967dbe99966058d769c1ad/output/AndroidManifest.xml:18:5-42
 MERGED from [com.github.Doublemine:SimpleHud:0.1.2] /Users/Vurtex/.android/build-cache/d9a59b4f22181ea2ebb9a8752bfd298048e84e2d/output/AndroidManifest.xml:7:5-9:41
 MERGED from [io.reactivex:rxandroid:1.2.1] /Users/Vurtex/.android/build-cache/dea76bcf09c4f7fe56ff8a4931f514f9a60a42ea/output/AndroidManifest.xml:19:5-43
 MERGED from [com.roughike:bottom-bar:2.0.2] /Users/Vurtex/.android/build-cache/4cb92826ca329baa0388fd613622a2ff8531de17/output/AndroidManifest.xml:8:5-10:41
@@ -37,24 +37,24 @@ MERGED from [com.github.BosCattle:ViewCollection:V0.0.5] /Users/Vurtex/.android/
 MERGED from [com.pnikosis:materialish-progress:1.7] /Users/Vurtex/.android/build-cache/f10dd70064aa177be1d3741745f08fe23e260705/output/AndroidManifest.xml:7:5-9:41
 MERGED from [com.pgyersdk:sdk:2.2] /Users/Vurtex/.android/build-cache/bf61dfbeff36e00db9e8e285d2bed4fc90b01c41/output/AndroidManifest.xml:6:5-8:41
 MERGED from [com.afollestad.material-dialogs:core:0.9.4.1] /Users/Vurtex/.android/build-cache/8cc6ff705ce48c4a759c5162cfd578309b09d2ba/output/AndroidManifest.xml:8:5-11:75
-MERGED from [com.android.support:support-v13:25.2.0] /Users/Vurtex/.android/build-cache/b66964a2aa4f00ba1be06743606f2714c7685655/output/AndroidManifest.xml:21:5-23:55
+MERGED from [com.android.support:support-v13:25.2.0] /Users/Vurtex/.android/build-cache/2774bb287462d723986dba7653866dacc93878db/output/AndroidManifest.xml:21:5-23:55
 MERGED from [me.zhanghai.android.materialprogressbar:library:1.3.0] /Users/Vurtex/.android/build-cache/94ba3364229814f3a6f6522d7e0fcd3baeba7fee/output/AndroidManifest.xml:12:5-14:41
 MERGED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:7:5-9:41
 MERGED from [com.bm.photoview:library:1.4.1] /Users/Vurtex/.android/build-cache/6ba0bcd72dc07fb47e698f09e604136553c0dbc4/output/AndroidManifest.xml:7:5-9:41
-MERGED from [com.android.support:design:25.2.0] /Users/Vurtex/.android/build-cache/09239641948af094b0e957232becbff9e3b3ad94/output/AndroidManifest.xml:21:5-23:62
-MERGED from [com.android.support:recyclerview-v7:25.2.0] /Users/Vurtex/.android/build-cache/b4e81477e8e324a10397c2f32ebcfbd0b26d1a88/output/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:transition:25.2.0] /Users/Vurtex/.android/build-cache/0054af9130551d5ad3b53b44cb605213dbf80971/output/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:25.2.0] /Users/Vurtex/.android/build-cache/274b217fc884ce44a9bbe559f30fc1518d069f6d/output/AndroidManifest.xml:21:5-23:62
+MERGED from [com.android.support:recyclerview-v7:25.2.0] /Users/Vurtex/.android/build-cache/dd2ee9a2a0869277282e0bf2b261482cc9f997e3/output/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:transition:25.2.0] /Users/Vurtex/.android/build-cache/2f33ae82b288310fa52dca707bd718cbe662d3ca/output/AndroidManifest.xml:20:5-44
 MERGED from [pub.devrel:easypermissions:0.2.1] /Users/Vurtex/.android/build-cache/d345c26a14ae511621f4e6ae445b84c057109bb4/output/AndroidManifest.xml:8:5-10:41
-MERGED from [com.android.support:appcompat-v7:25.2.0] /Users/Vurtex/.android/build-cache/2d1f6415b988c1f13705562c3dc2c18628fc3d98/output/AndroidManifest.xml:21:5-23:78
-MERGED from [com.android.support:support-v4:25.2.0] /Users/Vurtex/.android/build-cache/97b8dc1f95854dd264476c6171d8504620c51904/output/AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:support-fragment:25.2.0] /Users/Vurtex/.android/build-cache/306c8e81f5df38382b83a3b7182918731b768528/output/AndroidManifest.xml:21:5-23:60
-MERGED from [com.android.support:support-media-compat:25.2.0] /Users/Vurtex/.android/build-cache/f57aab420b8cf57e4b8fd9619deffc23cf5cdf97/output/AndroidManifest.xml:21:5-23:63
-MERGED from [com.android.support:support-core-ui:25.2.0] /Users/Vurtex/.android/build-cache/4fe12568097f5459883b41f9d91782e972be54a5/output/AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:support-core-utils:25.2.0] /Users/Vurtex/.android/build-cache/5e03a87b1ffb64888232c57310138fc09f97605b/output/AndroidManifest.xml:21:5-23:61
-MERGED from [com.android.support:animated-vector-drawable:25.2.0] /Users/Vurtex/.android/build-cache/1ec42f528605240866069fe79ac4612e741fe03f/output/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:25.2.0] /Users/Vurtex/.android/build-cache/f302e49cba64384a8e8ddfdcb0fad55941a5fd28/output/AndroidManifest.xml:21:5-43
+MERGED from [com.android.support:appcompat-v7:25.2.0] /Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:support-v4:25.2.0] /Users/Vurtex/.android/build-cache/cd9e14bc97e650ec4ee820a38c435241858b0618/output/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.2.0] /Users/Vurtex/.android/build-cache/9edd54f66e8baf55ee4a4139672530a32ec62fea/output/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.2.0] /Users/Vurtex/.android/build-cache/0245ae974785426d909ed4c9db9f5b1f5bb251f3/output/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:25.2.0] /Users/Vurtex/.android/build-cache/e26277a870af7bf0a1bb1c59c7d3fcb0f477728e/output/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:25.2.0] /Users/Vurtex/.android/build-cache/a3da7a961cdce082523c911fda8c7d22cdc48246/output/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:animated-vector-drawable:25.2.0] /Users/Vurtex/.android/build-cache/b6adbdda9a426bc107f8beabde062883a3fe224d/output/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.2.0] /Users/Vurtex/.android/build-cache/aaeee0f6b82a71a085bd717eaee13d0097e57c66/output/AndroidManifest.xml:21:5-43
 MERGED from [com.jakewharton:butterknife:8.5.1] /Users/Vurtex/.android/build-cache/f51513a2b3267f42493b10503f08fa04db70f5cc/output/AndroidManifest.xml:5:5-43
-MERGED from [com.android.support:support-compat:25.2.0] /Users/Vurtex/.android/build-cache/715d85ac505f3bc375dda6aa8260677d116114df/output/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-compat:25.2.0] /Users/Vurtex/.android/build-cache/b8c0e27cb6016e185b122912f3aa1e5ceefb3bdc/output/AndroidManifest.xml:21:5-23:58
 MERGED from [com.tbruyelle.rxpermissions:rxpermissions:0.9.0] /Users/Vurtex/.android/build-cache/fbbd011ff444c8a1f6f358dc223589b5bd092efc/output/AndroidManifest.xml:7:5-9:41
 MERGED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:20:5-22:41
 	tools:overrideLibrary
@@ -134,21 +134,21 @@ MERGED from [com.github.BosCattle:ViewCollection:V0.0.5] /Users/Vurtex/.android/
 MERGED from [com.pnikosis:materialish-progress:1.7] /Users/Vurtex/.android/build-cache/f10dd70064aa177be1d3741745f08fe23e260705/output/AndroidManifest.xml:11:5-20
 MERGED from [com.pgyersdk:sdk:2.2] /Users/Vurtex/.android/build-cache/bf61dfbeff36e00db9e8e285d2bed4fc90b01c41/output/AndroidManifest.xml:10:5-11:19
 MERGED from [com.afollestad.material-dialogs:core:0.9.4.1] /Users/Vurtex/.android/build-cache/8cc6ff705ce48c4a759c5162cfd578309b09d2ba/output/AndroidManifest.xml:13:5-20
-MERGED from [com.android.support:support-v13:25.2.0] /Users/Vurtex/.android/build-cache/b66964a2aa4f00ba1be06743606f2714c7685655/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v13:25.2.0] /Users/Vurtex/.android/build-cache/2774bb287462d723986dba7653866dacc93878db/output/AndroidManifest.xml:25:5-20
 MERGED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:14:5-38:19
 MERGED from [com.bm.photoview:library:1.4.1] /Users/Vurtex/.android/build-cache/6ba0bcd72dc07fb47e698f09e604136553c0dbc4/output/AndroidManifest.xml:11:5-12:19
-MERGED from [com.android.support:design:25.2.0] /Users/Vurtex/.android/build-cache/09239641948af094b0e957232becbff9e3b3ad94/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:transition:25.2.0] /Users/Vurtex/.android/build-cache/0054af9130551d5ad3b53b44cb605213dbf80971/output/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:design:25.2.0] /Users/Vurtex/.android/build-cache/274b217fc884ce44a9bbe559f30fc1518d069f6d/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:transition:25.2.0] /Users/Vurtex/.android/build-cache/2f33ae82b288310fa52dca707bd718cbe662d3ca/output/AndroidManifest.xml:22:5-20
 MERGED from [pub.devrel:easypermissions:0.2.1] /Users/Vurtex/.android/build-cache/d345c26a14ae511621f4e6ae445b84c057109bb4/output/AndroidManifest.xml:12:5-20
-MERGED from [com.android.support:appcompat-v7:25.2.0] /Users/Vurtex/.android/build-cache/2d1f6415b988c1f13705562c3dc2c18628fc3d98/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-v4:25.2.0] /Users/Vurtex/.android/build-cache/97b8dc1f95854dd264476c6171d8504620c51904/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-fragment:25.2.0] /Users/Vurtex/.android/build-cache/306c8e81f5df38382b83a3b7182918731b768528/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-media-compat:25.2.0] /Users/Vurtex/.android/build-cache/f57aab420b8cf57e4b8fd9619deffc23cf5cdf97/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-ui:25.2.0] /Users/Vurtex/.android/build-cache/4fe12568097f5459883b41f9d91782e972be54a5/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-utils:25.2.0] /Users/Vurtex/.android/build-cache/5e03a87b1ffb64888232c57310138fc09f97605b/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:animated-vector-drawable:25.2.0] /Users/Vurtex/.android/build-cache/1ec42f528605240866069fe79ac4612e741fe03f/output/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-vector-drawable:25.2.0] /Users/Vurtex/.android/build-cache/f302e49cba64384a8e8ddfdcb0fad55941a5fd28/output/AndroidManifest.xml:23:5-20
-MERGED from [com.android.support:support-compat:25.2.0] /Users/Vurtex/.android/build-cache/715d85ac505f3bc375dda6aa8260677d116114df/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:appcompat-v7:25.2.0] /Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:25.2.0] /Users/Vurtex/.android/build-cache/cd9e14bc97e650ec4ee820a38c435241858b0618/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-fragment:25.2.0] /Users/Vurtex/.android/build-cache/9edd54f66e8baf55ee4a4139672530a32ec62fea/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:25.2.0] /Users/Vurtex/.android/build-cache/0245ae974785426d909ed4c9db9f5b1f5bb251f3/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:25.2.0] /Users/Vurtex/.android/build-cache/e26277a870af7bf0a1bb1c59c7d3fcb0f477728e/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:25.2.0] /Users/Vurtex/.android/build-cache/a3da7a961cdce082523c911fda8c7d22cdc48246/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.2.0] /Users/Vurtex/.android/build-cache/b6adbdda9a426bc107f8beabde062883a3fe224d/output/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:25.2.0] /Users/Vurtex/.android/build-cache/aaeee0f6b82a71a085bd717eaee13d0097e57c66/output/AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-compat:25.2.0] /Users/Vurtex/.android/build-cache/b8c0e27cb6016e185b122912f3aa1e5ceefb3bdc/output/AndroidManifest.xml:25:5-20
 MERGED from [com.tbruyelle.rxpermissions:rxpermissions:0.9.0] /Users/Vurtex/.android/build-cache/fbbd011ff444c8a1f6f358dc223589b5bd092efc/output/AndroidManifest.xml:11:5-20
 MERGED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:28:5-57:19
 	android:label
