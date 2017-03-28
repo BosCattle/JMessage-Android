@@ -20,10 +20,10 @@ import tech.jiangtao.support.kit.archive.type.MessageBodyType;
 public class MessageArchiveAnswerIQ extends IQ {
 
     public String time;
-    public String withJid;
-    public Set<MessageBody> messageBody;
+    private String withJid;
+    Set<MessageBody> messageBody;
     public int first;
-    public int last;
+    private int last;
     public int count;
 
     public String getWithJid() {
