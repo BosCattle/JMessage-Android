@@ -31,6 +31,7 @@ import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.ui.activity.ChatActivity;
 import tech.jiangtao.support.ui.activity.GroupCreateActivity;
 import tech.jiangtao.support.ui.fragment.ChatListFragment;
+import tech.jiangtao.support.ui.fragment.ContactFragment;
 import tech.jiangtao.support.ui.linstener.ContactItemCallback;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 
@@ -96,7 +97,7 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
   public void initFragments() {
     mFragments = new ArrayList<>();
     mFragments.add(ChatListFragment.newInstance());
-    mFragments.add(tech.jiangtao.support.ui.fragment.ContactFragment.newInstance());
+    mFragments.add(ContactFragment.newInstance());
     mFragments.add(PersonalFragment.newInstance());
   }
 
