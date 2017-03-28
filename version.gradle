@@ -1,9 +1,9 @@
 ext {
 
-  android = [compileSdkVersion: 24,
+  android = [compileSdkVersion: 25,
              buildToolsVersion: '25.0.2',
              minSdkVersion    : 19,
-             targetSdkVersion : 24,
+             targetSdkVersion : 25,
              javaVersion      : JavaVersion.VERSION_1_8,]
 
   depsVersion = [supportVersion                    : '25.2.0',
