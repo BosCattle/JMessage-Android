@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_chat_back_mine.png",
+        "source": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/res/mipmap-xxxhdpi/ic_chat_back_mine.png"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_launcher.png",
+        "source": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_chat_message_other.png",
+        "source": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/res/mipmap-xxxhdpi/ic_chat_message_other.png"
+    }
+]

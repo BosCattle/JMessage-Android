@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
+    >
+
+  <ImageView
+      android:layout_margin="16dp"
+      tools:src="@mipmap/ic_launcher"
+      android:layout_width="56dp"
+      android:layout_height="56dp"
+      android:id="@+id/add_friend_img"
+      android:contentDescription=""
+      />
+  <TextView
+      android:id="@+id/add_friend_username"
+      android:textStyle="bold"
+      android:textColor="@color/black"
+      android:textSize="16sp"
+      tools:text="哈哈哈"
+      android:padding="8dp"
+      android:layout_marginTop="16dp"
+      android:layout_toRightOf="@+id/add_friend_img"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      />
+  <TextView
+      android:id="@+id/add_friend_email"
+      android:layout_below="@+id/add_friend_username"
+      tools:text="哈哈哈"
+      android:layout_toRightOf="@+id/add_friend_img"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="8dp"
+      />
+
+  <TextView
+      android:id="@+id/add_friend_submit"
+      android:textColor="@color/white"
+      android:background="@drawable/shapr_add_friend"
+      android:text="添加好友"
+      android:layout_marginRight="16dp"
+      android:layout_centerVertical="true"
+      android:layout_alignParentRight="true"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      />
+
+</RelativeLayout>

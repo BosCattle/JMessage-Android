@@ -1,0 +1,490 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:2:1-83:12
+	package
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:4:5-36
+		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+	android:versionName
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:5:5-30
+		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+	xmlns:tools
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:3:5-51
+	android:versionCode
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:6:5-28
+		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:2:11-69
+uses-sdk
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:8:3-79
+MERGED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:8:5-10:41
+MERGED from [JMessage:PowerSupportKit:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:7:5-9:41
+MERGED from [io.realm:realm-android-library:2.2.0] /Users/Vurtex/.android/build-cache/16a684d55fb2944a0231f4eec99d95605389a0cf/output/AndroidManifest.xml:5:5-7:41
+MERGED from [com.getkeepsafe.relinker:relinker:1.2.2] /Users/Vurtex/.android/build-cache/347d8f7822cdb9f32dc54e02e356b27e5849a41c/output/AndroidManifest.xml:7:5-43
+MERGED from [xiaofei.library:hermes-eventbus:0.3.0] /Users/Vurtex/.android/build-cache/27b78713c1ada66398745f19d0c1c2d514c88306/output/AndroidManifest.xml:7:5-9:41
+MERGED from [xiaofei.library:hermes:0.7.0] /Users/Vurtex/.android/build-cache/9e1cf6ea84752f2421186f80a0fab77b1f100994/output/AndroidManifest.xml:7:5-9:41
+MERGED from [net.grandcentrix.tray:tray:0.11.0] /Users/Vurtex/.android/build-cache/e96a38e9b66ffd8617f5ad2fcdd9d8530dd79e9c/output/AndroidManifest.xml:7:5-9:41
+MERGED from [de.hdodenhof:circleimageview:2.1.0] /Users/Vurtex/.android/build-cache/b128411f9abc1c20ce3489c9232bebdd3ed81de2/output/AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.chrisbanes:PhotoView:1.3.1] /Users/Vurtex/.android/build-cache/8a8f8a0b9474183e4e84d9fac27a707d43963b15/output/AndroidManifest.xml:8:5-10:41
+MERGED from [com.github.BosCattle:Emoji:V0.0.1] /Users/Vurtex/.android/build-cache/e16dc2f30666fcb0b696018ebd86d24699fa7c7b/output/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:multidex:1.0.1] /Users/Vurtex/.android/build-cache/ca0012b8667d467aa0967dbe99966058d769c1ad/output/AndroidManifest.xml:18:5-42
+MERGED from [com.github.Doublemine:SimpleHud:0.1.2] /Users/Vurtex/.android/build-cache/d9a59b4f22181ea2ebb9a8752bfd298048e84e2d/output/AndroidManifest.xml:7:5-9:41
+MERGED from [io.reactivex:rxandroid:1.2.1] /Users/Vurtex/.android/build-cache/dea76bcf09c4f7fe56ff8a4931f514f9a60a42ea/output/AndroidManifest.xml:19:5-43
+MERGED from [com.roughike:bottom-bar:2.0.2] /Users/Vurtex/.android/build-cache/4cb92826ca329baa0388fd613622a2ff8531de17/output/AndroidManifest.xml:8:5-10:41
+MERGED from [com.github.BosCattle:ViewCollection:V0.0.5] /Users/Vurtex/.android/build-cache/16ec56564f83738317ed638b0a828b0883a5e3a3/output/AndroidManifest.xml:7:5-9:41
+MERGED from [com.pnikosis:materialish-progress:1.7] /Users/Vurtex/.android/build-cache/f10dd70064aa177be1d3741745f08fe23e260705/output/AndroidManifest.xml:7:5-9:41
+MERGED from [com.pgyersdk:sdk:2.2] /Users/Vurtex/.android/build-cache/bf61dfbeff36e00db9e8e285d2bed4fc90b01c41/output/AndroidManifest.xml:6:5-8:41
+MERGED from [com.afollestad.material-dialogs:core:0.9.4.1] /Users/Vurtex/.android/build-cache/8cc6ff705ce48c4a759c5162cfd578309b09d2ba/output/AndroidManifest.xml:8:5-11:75
+MERGED from [com.android.support:support-v13:25.2.0] /Users/Vurtex/.android/build-cache/b66964a2aa4f00ba1be06743606f2714c7685655/output/AndroidManifest.xml:21:5-23:55
+MERGED from [me.zhanghai.android.materialprogressbar:library:1.3.0] /Users/Vurtex/.android/build-cache/94ba3364229814f3a6f6522d7e0fcd3baeba7fee/output/AndroidManifest.xml:12:5-14:41
+MERGED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:7:5-9:41
+MERGED from [com.bm.photoview:library:1.4.1] /Users/Vurtex/.android/build-cache/6ba0bcd72dc07fb47e698f09e604136553c0dbc4/output/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:design:25.2.0] /Users/Vurtex/.android/build-cache/09239641948af094b0e957232becbff9e3b3ad94/output/AndroidManifest.xml:21:5-23:62
+MERGED from [com.android.support:recyclerview-v7:25.2.0] /Users/Vurtex/.android/build-cache/b4e81477e8e324a10397c2f32ebcfbd0b26d1a88/output/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:transition:25.2.0] /Users/Vurtex/.android/build-cache/0054af9130551d5ad3b53b44cb605213dbf80971/output/AndroidManifest.xml:20:5-44
+MERGED from [pub.devrel:easypermissions:0.2.1] /Users/Vurtex/.android/build-cache/d345c26a14ae511621f4e6ae445b84c057109bb4/output/AndroidManifest.xml:8:5-10:41
+MERGED from [com.android.support:appcompat-v7:25.2.0] /Users/Vurtex/.android/build-cache/2d1f6415b988c1f13705562c3dc2c18628fc3d98/output/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:support-v4:25.2.0] /Users/Vurtex/.android/build-cache/97b8dc1f95854dd264476c6171d8504620c51904/output/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.2.0] /Users/Vurtex/.android/build-cache/306c8e81f5df38382b83a3b7182918731b768528/output/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.2.0] /Users/Vurtex/.android/build-cache/f57aab420b8cf57e4b8fd9619deffc23cf5cdf97/output/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:25.2.0] /Users/Vurtex/.android/build-cache/4fe12568097f5459883b41f9d91782e972be54a5/output/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:25.2.0] /Users/Vurtex/.android/build-cache/5e03a87b1ffb64888232c57310138fc09f97605b/output/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:animated-vector-drawable:25.2.0] /Users/Vurtex/.android/build-cache/1ec42f528605240866069fe79ac4612e741fe03f/output/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.2.0] /Users/Vurtex/.android/build-cache/f302e49cba64384a8e8ddfdcb0fad55941a5fd28/output/AndroidManifest.xml:21:5-43
+MERGED from [com.jakewharton:butterknife:8.5.1] /Users/Vurtex/.android/build-cache/f51513a2b3267f42493b10503f08fa04db70f5cc/output/AndroidManifest.xml:5:5-43
+MERGED from [com.android.support:support-compat:25.2.0] /Users/Vurtex/.android/build-cache/715d85ac505f3bc375dda6aa8260677d116114df/output/AndroidManifest.xml:21:5-23:58
+MERGED from [com.tbruyelle.rxpermissions:rxpermissions:0.9.0] /Users/Vurtex/.android/build-cache/fbbd011ff444c8a1f6f358dc223589b5bd092efc/output/AndroidManifest.xml:7:5-9:41
+MERGED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:20:5-22:41
+	tools:overrideLibrary
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:8:13-77
+	android:targetSdkVersion
+		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:9:3-76
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:9:20-74
+uses-permission#android.permission.INTERNET
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:10:3-64
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:10:20-62
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:11:3-72
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:11:20-70
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:12:3-73
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:12:20-71
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:13:3-78
+MERGED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:11:5-81
+MERGED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:26:5-81
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:13:20-76
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:14:3-68
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:14:20-66
+uses-permission#android.permission.READ_LOGS
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:15:3-65
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:15:20-63
+uses-permission#android.permission.SYSTEM_ALERT_WINDOW
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:16:3-75
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:16:20-73
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:17:3-78
+MERGED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:12:5-80
+MERGED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:25:5-80
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:17:20-75
+uses-permission#android.permission.MOUNT_UNMOUNT_FILESYSTEMS
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:18:3-81
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:18:20-79
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:19:3-78
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:19:20-76
+uses-permission#android.permission.GET_TASKS
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:20:3-65
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:20:20-63
+uses-permission#android.permission.WAKE_LOCK
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:21:3-66
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:21:20-63
+application
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:23:3-81:17
+MERGED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:14:5-95:19
+MERGED from [JMessage:PowerSupportKit:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:11:5-18:19
+MERGED from [xiaofei.library:hermes-eventbus:0.3.0] /Users/Vurtex/.android/build-cache/27b78713c1ada66398745f19d0c1c2d514c88306/output/AndroidManifest.xml:11:5-13:19
+MERGED from [xiaofei.library:hermes:0.7.0] /Users/Vurtex/.android/build-cache/9e1cf6ea84752f2421186f80a0fab77b1f100994/output/AndroidManifest.xml:11:5-53
+MERGED from [net.grandcentrix.tray:tray:0.11.0] /Users/Vurtex/.android/build-cache/e96a38e9b66ffd8617f5ad2fcdd9d8530dd79e9c/output/AndroidManifest.xml:11:5-17:19
+MERGED from [de.hdodenhof:circleimageview:2.1.0] /Users/Vurtex/.android/build-cache/b128411f9abc1c20ce3489c9232bebdd3ed81de2/output/AndroidManifest.xml:9:5-20
+MERGED from [com.github.Doublemine:SimpleHud:0.1.2] /Users/Vurtex/.android/build-cache/d9a59b4f22181ea2ebb9a8752bfd298048e84e2d/output/AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.BosCattle:ViewCollection:V0.0.5] /Users/Vurtex/.android/build-cache/16ec56564f83738317ed638b0a828b0883a5e3a3/output/AndroidManifest.xml:11:5-15:19
+MERGED from [com.pnikosis:materialish-progress:1.7] /Users/Vurtex/.android/build-cache/f10dd70064aa177be1d3741745f08fe23e260705/output/AndroidManifest.xml:11:5-20
+MERGED from [com.pgyersdk:sdk:2.2] /Users/Vurtex/.android/build-cache/bf61dfbeff36e00db9e8e285d2bed4fc90b01c41/output/AndroidManifest.xml:10:5-11:19
+MERGED from [com.afollestad.material-dialogs:core:0.9.4.1] /Users/Vurtex/.android/build-cache/8cc6ff705ce48c4a759c5162cfd578309b09d2ba/output/AndroidManifest.xml:13:5-20
+MERGED from [com.android.support:support-v13:25.2.0] /Users/Vurtex/.android/build-cache/b66964a2aa4f00ba1be06743606f2714c7685655/output/AndroidManifest.xml:25:5-20
+MERGED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:14:5-38:19
+MERGED from [com.bm.photoview:library:1.4.1] /Users/Vurtex/.android/build-cache/6ba0bcd72dc07fb47e698f09e604136553c0dbc4/output/AndroidManifest.xml:11:5-12:19
+MERGED from [com.android.support:design:25.2.0] /Users/Vurtex/.android/build-cache/09239641948af094b0e957232becbff9e3b3ad94/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:transition:25.2.0] /Users/Vurtex/.android/build-cache/0054af9130551d5ad3b53b44cb605213dbf80971/output/AndroidManifest.xml:22:5-20
+MERGED from [pub.devrel:easypermissions:0.2.1] /Users/Vurtex/.android/build-cache/d345c26a14ae511621f4e6ae445b84c057109bb4/output/AndroidManifest.xml:12:5-20
+MERGED from [com.android.support:appcompat-v7:25.2.0] /Users/Vurtex/.android/build-cache/2d1f6415b988c1f13705562c3dc2c18628fc3d98/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:25.2.0] /Users/Vurtex/.android/build-cache/97b8dc1f95854dd264476c6171d8504620c51904/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-fragment:25.2.0] /Users/Vurtex/.android/build-cache/306c8e81f5df38382b83a3b7182918731b768528/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:25.2.0] /Users/Vurtex/.android/build-cache/f57aab420b8cf57e4b8fd9619deffc23cf5cdf97/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:25.2.0] /Users/Vurtex/.android/build-cache/4fe12568097f5459883b41f9d91782e972be54a5/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:25.2.0] /Users/Vurtex/.android/build-cache/5e03a87b1ffb64888232c57310138fc09f97605b/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.2.0] /Users/Vurtex/.android/build-cache/1ec42f528605240866069fe79ac4612e741fe03f/output/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:25.2.0] /Users/Vurtex/.android/build-cache/f302e49cba64384a8e8ddfdcb0fad55941a5fd28/output/AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-compat:25.2.0] /Users/Vurtex/.android/build-cache/715d85ac505f3bc375dda6aa8260677d116114df/output/AndroidManifest.xml:25:5-20
+MERGED from [com.tbruyelle.rxpermissions:rxpermissions:0.9.0] /Users/Vurtex/.android/build-cache/fbbd011ff444c8a1f6f358dc223589b5bd092efc/output/AndroidManifest.xml:11:5-20
+MERGED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:28:5-57:19
+	android:label
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:27:7-39
+	android:supportsRtl
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:29:7-33
+	tools:ignore
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:31:7-33
+	android:allowBackup
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:25:7-33
+	android:icon
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:26:7-41
+	android:largeHeap
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:28:7-31
+	android:theme
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:30:7-38
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:24:7-35
+meta-data#PGYER_APPID
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:33:5-36:17
+	android:value
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:35:9-39
+		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:34:9-35
+service#xiaofei.library.hermes.HermesService$HermesService0
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:37:5-38:77
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:38:9-75
+activity#com.pgyersdk.activity.FeedbackActivity
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:40:5-70
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:40:15-68
+activity#com.china.epower.chat.ui.activity.MainActivity
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:41:5-45:54
+	android:screenOrientation
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:44:9-45
+	android:launchMode
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:43:9-40
+	android:theme
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:45:9-52
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:42:9-49
+activity#com.china.epower.chat.ui.activity.LoginActivity
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:46:5-50:16
+	android:screenOrientation
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:48:9-45
+	android:theme
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:49:9-52
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:47:9-50
+activity#com.china.epower.chat.ui.activity.RegisterActivity
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:51:5-54:54
+	android:screenOrientation
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:53:9-45
+	android:theme
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:54:9-52
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:52:9-53
+activity#com.china.epower.chat.ui.activity.AddFriendActivity
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:56:5-59:54
+	android:screenOrientation
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:58:9-45
+	android:theme
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:59:9-52
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:57:9-54
+activity#tech.jiangtao.support.ui.activity.ChatActivity
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:60:5-64:16
+	android:screenOrientation
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:62:9-45
+	android:theme
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:63:9-52
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:61:9-70
+activity#com.china.epower.chat.ui.activity.PersonalDetailActivity
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:65:5-68:54
+	android:screenOrientation
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:67:9-45
+	android:theme
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:68:9-52
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:66:9-59
+activity#com.china.epower.chat.ui.activity.LauncherActivity
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:69:5-77:16
+	android:screenOrientation
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:71:9-45
+	android:theme
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:72:9-61
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:70:9-53
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:73:7-76:23
+action#android.intent.action.MAIN
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:74:9-60
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:74:17-58
+category#android.intent.category.LAUNCHER
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:75:9-68
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:75:19-66
+activity#com.china.epower.chat.ui.activity.IndexActivity
+ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:78:5-80:52
+	android:screenOrientation
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:79:7-43
+	android:theme
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:80:7-50
+	android:name
+		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:78:15-56
+service#tech.jiangtao.support.ui.service.SupportService
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:17:9-22:19
+	android:enabled
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:19:13-35
+	android:process
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:21:13-38
+	android:priority
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:20:13-36
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:18:13-75
+service#tech.jiangtao.support.ui.service.XMPPService$InnerService
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:23:9-93
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:23:18-90
+service#tech.jiangtao.support.ui.service.XMPPService
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:24:9-27:39
+	android:enabled
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:26:13-35
+	android:priority
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:27:13-36
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:25:13-72
+receiver#tech.jiangtao.support.ui.reciever.NetworkConnectChangedReceiver
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:29:9-37:20
+	android:enabled
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:31:13-35
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:30:13-91
+intent-filter#android.net.conn.CONNECTIVITY_CHANGE+android.net.wifi.STATE_CHANGE+android.net.wifi.WIFI_STATE_CHANGED
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:32:13-36:29
+action#android.net.conn.CONNECTIVITY_CHANGE
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:33:17-79
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:33:25-76
+action#android.net.wifi.WIFI_STATE_CHANGED
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:34:17-78
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:34:25-75
+action#android.net.wifi.STATE_CHANGE
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:35:17-72
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:35:25-69
+receiver#tech.jiangtao.support.ui.reciever.BootBroadcastReceiver
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:39:9-47:20
+	android:enabled
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:41:13-35
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:40:13-83
+intent-filter#android.intent.action.BOOT_COMPLETED+android.intent.category.HOME
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:42:13-46:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:43:17-79
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:43:25-76
+category#android.intent.category.HOME
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:45:17-73
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:45:27-70
+receiver#tech.jiangtao.support.ui.reciever.TickBroadcastReceiver
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:49:9-53:20
+	android:enabled
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:51:13-35
+	android:exported
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:52:13-37
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:50:13-83
+activity#com.melink.bqmmsdk.ui.store.EmojiPackageList
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:55:9-58:20
+	android:screenOrientation
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:57:13-49
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:56:13-72
+activity#com.melink.bqmmsdk.ui.store.EmojiDetail
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:59:9-62:20
+	android:screenOrientation
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:61:13-49
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:60:13-67
+activity#com.melink.bqmmsdk.ui.store.EmojiPackageDetail
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:63:9-66:20
+	android:screenOrientation
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:65:13-49
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:64:13-74
+activity#com.melink.bqmmsdk.ui.store.EmojiPackageSetting
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:67:9-70:20
+	android:screenOrientation
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:69:13-49
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:68:13-75
+activity#com.melink.bqmmsdk.ui.store.EmojiPackageSort
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:71:9-74:20
+	android:screenOrientation
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:73:13-49
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:72:13-72
+activity#com.melink.bqmmsdk.ui.store.ServiceDeclaration
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:75:9-78:20
+	android:screenOrientation
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:77:13-49
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:76:13-74
+activity#tech.jiangtao.support.ui.activity.NewFriendActivity
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:79:9-82:20
+	android:theme
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:81:13-56
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:80:13-79
+activity#tech.jiangtao.support.ui.activity.GroupListActivity
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:83:9-86:20
+	android:theme
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:85:13-56
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:84:13-79
+activity#tech.jiangtao.support.ui.activity.GroupCreateActivity
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:87:9-90:20
+	android:theme
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:89:13-56
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:88:13-81
+activity#tech.jiangtao.support.ui.activity.GroupChatActivity
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:91:9-94:20
+	android:theme
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:93:13-56
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:92:13-79
+service#tech.jiangtao.support.kit.service.FileTransferService
+ADDED from [JMessage:PowerSupportKit:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:14:9-17:19
+	android:exported
+		ADDED from [JMessage:PowerSupportKit:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:16:13-36
+	android:name
+		ADDED from [JMessage:PowerSupportKit:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:15:13-81
+service#xiaofei.library.hermeseventbus.HermesEventBus$Service
+ADDED from [xiaofei.library:hermes-eventbus:0.3.0] /Users/Vurtex/.android/build-cache/27b78713c1ada66398745f19d0c1c2d514c88306/output/AndroidManifest.xml:12:9-89
+	android:name
+		ADDED from [xiaofei.library:hermes-eventbus:0.3.0] /Users/Vurtex/.android/build-cache/27b78713c1ada66398745f19d0c1c2d514c88306/output/AndroidManifest.xml:12:18-86
+provider#net.grandcentrix.tray.provider.TrayContentProvider
+ADDED from [net.grandcentrix.tray:tray:0.11.0] /Users/Vurtex/.android/build-cache/e96a38e9b66ffd8617f5ad2fcdd9d8530dd79e9c/output/AndroidManifest.xml:12:9-16:44
+	android:authorities
+		ADDED from [net.grandcentrix.tray:tray:0.11.0] /Users/Vurtex/.android/build-cache/e96a38e9b66ffd8617f5ad2fcdd9d8530dd79e9c/output/AndroidManifest.xml:14:13-58
+	android:multiprocess
+		ADDED from [net.grandcentrix.tray:tray:0.11.0] /Users/Vurtex/.android/build-cache/e96a38e9b66ffd8617f5ad2fcdd9d8530dd79e9c/output/AndroidManifest.xml:16:13-41
+	android:exported
+		ADDED from [net.grandcentrix.tray:tray:0.11.0] /Users/Vurtex/.android/build-cache/e96a38e9b66ffd8617f5ad2fcdd9d8530dd79e9c/output/AndroidManifest.xml:15:13-37
+	android:name
+		ADDED from [net.grandcentrix.tray:tray:0.11.0] /Users/Vurtex/.android/build-cache/e96a38e9b66ffd8617f5ad2fcdd9d8530dd79e9c/output/AndroidManifest.xml:13:13-78
+activity#com.vincent.filepicker.activity.ImagePickActivity
+ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:17:9-20:54
+	android:screenOrientation
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:19:13-49
+	android:theme
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:20:13-51
+	android:name
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:18:13-77
+activity#com.vincent.filepicker.activity.ImageBrowserActivity
+ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:21:9-25:54
+	android:screenOrientation
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:24:13-49
+	android:hardwareAccelerated
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:23:13-48
+	android:theme
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:25:13-51
+	android:name
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:22:13-80
+activity#com.vincent.filepicker.activity.VideoPickActivity
+ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:26:9-29:54
+	android:screenOrientation
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:28:13-49
+	android:theme
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:29:13-51
+	android:name
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:27:13-77
+activity#com.vincent.filepicker.activity.AudioPickActivity
+ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:30:9-33:54
+	android:screenOrientation
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:32:13-49
+	android:theme
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:33:13-51
+	android:name
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:31:13-77
+activity#com.vincent.filepicker.activity.NormalFilePickActivity
+ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:34:9-37:54
+	android:screenOrientation
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:36:13-49
+	android:theme
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:37:13-51
+	android:name
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:35:13-82
+service#com.squareup.leakcanary.internal.HeapAnalyzerService
+ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:29:9-32:45
+	android:enabled
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:31:13-36
+	android:process
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:32:13-42
+	android:name
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:30:13-80
+service#com.squareup.leakcanary.DisplayLeakService
+ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:33:9-35:39
+	android:enabled
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:35:13-36
+	android:name
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:34:13-70
+activity#com.squareup.leakcanary.internal.DisplayLeakActivity
+ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:37:9-49:20
+	android:enabled
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:39:13-36
+	android:label
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:41:13-71
+	android:icon
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:40:13-54
+	android:theme
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:43:13-63
+	android:taskAffinity
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:42:13-59
+	android:name
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:38:13-80
+activity#com.squareup.leakcanary.internal.RequestStoragePermissionActivity
+ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:50:9-56:68
+	android:enabled
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:52:13-36
+	android:label
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:54:13-82
+	android:icon
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:53:13-54
+	android:theme
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:56:13-65
+	android:taskAffinity
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:55:13-59
+	android:name
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:51:13-93

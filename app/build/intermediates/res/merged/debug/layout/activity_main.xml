@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.china.epower.chat.ui.activity.MainActivity"
+    >
+  <android.support.design.widget.AppBarLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/header"
+      xmlns:tools="http://schemas.android.com/tools"
+      app:elevation="8dp"
+      >
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:theme="@style/ThemeOverlay.AppCompat.Light"
+        >
+
+      <TextView
+          android:id="@+id/tv_toolbar"
+          android:layout_width="wrap_content"
+          android:layout_height="?attr/actionBarSize"
+          android:layout_gravity="center"
+          android:gravity="center"
+          android:maxLines="1"
+          android:textSize="18sp"
+          tools:text="登录"
+          android:textColor="@color/white"
+          />
+
+        <ImageView
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:src="@mipmap/ic_add_white_36dp"
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="" />
+
+    </android.support.v7.widget.Toolbar>
+  </android.support.design.widget.AppBarLayout>
+
+  <FrameLayout
+      android:layout_below="@+id/header"
+      android:id="@+id/contentContainer"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_above="@+id/bottomBar" />
+
+    <com.roughike.bottombar.BottomBar
+      app:bb_inActiveTabAlpha="0.6"
+      app:bb_activeTabAlpha="1"
+      app:bb_showShadow="true"
+      android:id="@+id/bottomBar"
+      android:layout_width="match_parent"
+      android:layout_height="64dp"
+      android:layout_alignParentBottom="true"
+      app:bb_tabXmlResource="@xml/bottom_bars" />
+
+</RelativeLayout>

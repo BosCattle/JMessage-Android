@@ -1,0 +1,83 @@
+[
+    {
+        "outputFile": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-zh/values-zh.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 38,
+                    "endOffset": 89
+                },
+                "from": {
+                    "file": "/Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/res/values-zh/values-zh.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 38,
+                        "endOffset": 89
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 94,
+                    "endColumn": 57,
+                    "endOffset": 147
+                },
+                "from": {
+                    "file": "/Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/res/values-zh/values-zh.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 94,
+                        "endColumn": 57,
+                        "endOffset": 147
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 152,
+                    "endColumn": 63,
+                    "endOffset": 211
+                },
+                "from": {
+                    "file": "/Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/res/values-zh/values-zh.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 152,
+                        "endColumn": 63,
+                        "endOffset": 211
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 216,
+                    "endColumn": 43,
+                    "endOffset": 255
+                },
+                "from": {
+                    "file": "/Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/res/values-zh/values-zh.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 216,
+                        "endColumn": 43,
+                        "endOffset": 255
+                    }
+                }
+            }
+        ]
+    }
+]

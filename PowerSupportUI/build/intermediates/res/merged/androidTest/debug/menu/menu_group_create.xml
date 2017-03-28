@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <item android:id="@+id/menu_group_create"
+      android:title="@string/group_create"
+      app:showAsAction="always"
+      android:icon="@mipmap/ic_publish"
+      android:visible="true"
+    />
+</menu>

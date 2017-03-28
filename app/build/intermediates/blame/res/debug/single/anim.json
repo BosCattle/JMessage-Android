@@ -1,0 +1,106 @@
+[
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/abc_popup_exit.xml",
+        "source": "/Users/Vurtex/.android/build-cache/2d1f6415b988c1f13705562c3dc2c18628fc3d98/output/res/anim/abc_popup_exit.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/design_fab_in.xml",
+        "source": "/Users/Vurtex/.android/build-cache/09239641948af094b0e957232becbff9e3b3ad94/output/res/anim/design_fab_in.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/bqmm_slide_in_from_right.xml",
+        "source": "/Users/Vurtex/.android/build-cache/e16dc2f30666fcb0b696018ebd86d24699fa7c7b/output/res/anim/bqmm_slide_in_from_right.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/set_made_out.xml",
+        "source": "/Users/Vurtex/.android/build-cache/16ec56564f83738317ed638b0a828b0883a5e3a3/output/res/anim/set_made_out.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/abc_shrink_fade_out_from_bottom.xml",
+        "source": "/Users/Vurtex/.android/build-cache/2d1f6415b988c1f13705562c3dc2c18628fc3d98/output/res/anim/abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/abc_grow_fade_in_from_bottom.xml",
+        "source": "/Users/Vurtex/.android/build-cache/2d1f6415b988c1f13705562c3dc2c18628fc3d98/output/res/anim/abc_grow_fade_in_from_bottom.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/abc_slide_out_top.xml",
+        "source": "/Users/Vurtex/.android/build-cache/2d1f6415b988c1f13705562c3dc2c18628fc3d98/output/res/anim/abc_slide_out_top.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/decelerate_cubic.xml",
+        "source": "/Users/Vurtex/.android/build-cache/8cc6ff705ce48c4a759c5162cfd578309b09d2ba/output/res/anim/decelerate_cubic.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/bqmm_slide_in_from_left.xml",
+        "source": "/Users/Vurtex/.android/build-cache/e16dc2f30666fcb0b696018ebd86d24699fa7c7b/output/res/anim/bqmm_slide_in_from_left.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/bqmm_slide_out_to_right.xml",
+        "source": "/Users/Vurtex/.android/build-cache/e16dc2f30666fcb0b696018ebd86d24699fa7c7b/output/res/anim/bqmm_slide_out_to_right.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/design_fab_out.xml",
+        "source": "/Users/Vurtex/.android/build-cache/09239641948af094b0e957232becbff9e3b3ad94/output/res/anim/design_fab_out.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/popup_exit.xml",
+        "source": "/Users/Vurtex/.android/build-cache/8cc6ff705ce48c4a759c5162cfd578309b09d2ba/output/res/anim/popup_exit.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/popup_enter.xml",
+        "source": "/Users/Vurtex/.android/build-cache/8cc6ff705ce48c4a759c5162cfd578309b09d2ba/output/res/anim/popup_enter.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/abc_slide_out_bottom.xml",
+        "source": "/Users/Vurtex/.android/build-cache/2d1f6415b988c1f13705562c3dc2c18628fc3d98/output/res/anim/abc_slide_out_bottom.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/abc_popup_enter.xml",
+        "source": "/Users/Vurtex/.android/build-cache/2d1f6415b988c1f13705562c3dc2c18628fc3d98/output/res/anim/abc_popup_enter.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/abc_slide_in_top.xml",
+        "source": "/Users/Vurtex/.android/build-cache/2d1f6415b988c1f13705562c3dc2c18628fc3d98/output/res/anim/abc_slide_in_top.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/design_snackbar_in.xml",
+        "source": "/Users/Vurtex/.android/build-cache/09239641948af094b0e957232becbff9e3b3ad94/output/res/anim/design_snackbar_in.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/design_bottom_sheet_slide_in.xml",
+        "source": "/Users/Vurtex/.android/build-cache/09239641948af094b0e957232becbff9e3b3ad94/output/res/anim/design_bottom_sheet_slide_in.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/design_bottom_sheet_slide_out.xml",
+        "source": "/Users/Vurtex/.android/build-cache/09239641948af094b0e957232becbff9e3b3ad94/output/res/anim/design_bottom_sheet_slide_out.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/abc_fade_out.xml",
+        "source": "/Users/Vurtex/.android/build-cache/2d1f6415b988c1f13705562c3dc2c18628fc3d98/output/res/anim/abc_fade_out.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/abc_slide_in_bottom.xml",
+        "source": "/Users/Vurtex/.android/build-cache/2d1f6415b988c1f13705562c3dc2c18628fc3d98/output/res/anim/abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/design_snackbar_out.xml",
+        "source": "/Users/Vurtex/.android/build-cache/09239641948af094b0e957232becbff9e3b3ad94/output/res/anim/design_snackbar_out.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/abc_fade_in.xml",
+        "source": "/Users/Vurtex/.android/build-cache/2d1f6415b988c1f13705562c3dc2c18628fc3d98/output/res/anim/abc_fade_in.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/set_made_in.xml",
+        "source": "/Users/Vurtex/.android/build-cache/16ec56564f83738317ed638b0a828b0883a5e3a3/output/res/anim/set_made_in.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/bqmm_slide_out_to_left.xml",
+        "source": "/Users/Vurtex/.android/build-cache/e16dc2f30666fcb0b696018ebd86d24699fa7c7b/output/res/anim/bqmm_slide_out_to_left.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/app/build/intermediates/res/merged/debug/anim/progressbar.xml",
+        "source": "/Users/Vurtex/.android/build-cache/d9a59b4f22181ea2ebb9a8752bfd298048e84e2d/output/res/anim/progressbar.xml"
+    }
+]

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_register"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.china.epower.chat.ui.activity.RegisterActivity"
+    >
+
+  <include layout="@layout/include_header"
+      android:id="@+id/header"/>
+
+  <ImageView
+      android:layout_below="@+id/header"
+      android:id="@+id/register_img"
+      android:src="@mipmap/ic_launcher"
+      android:layout_margin="32dp"
+      android:layout_centerHorizontal="true"
+      android:layout_width="96dp"
+      android:layout_height="96dp"
+      />
+
+  <LinearLayout
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:id="@+id/login_edittext_container"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      android:layout_below="@+id/register_img"
+      android:background="@drawable/shape_login"
+      android:orientation="vertical"
+      android:padding="@dimen/activity_horizontal_margin"
+      >
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/register_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入账号"
+        android:inputType="text"
+        android:padding="@dimen/activity_horizontal_margin"
+        />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/register_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入密码"
+        android:inputType="textPassword"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/register_retry_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请确认密码"
+        android:inputType="textPassword"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        />
+
+  </LinearLayout>
+
+  <android.support.v7.widget.AppCompatButton
+      android:id="@+id/register_button"
+      android:layout_margin="@dimen/margin_32"
+      android:background="@drawable/shape_button"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/login_edittext_container"
+      android:text="注 册"
+      android:textSize="18sp"
+      android:textColor="@color/white"
+      />
+
+</RelativeLayout>

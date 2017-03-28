@@ -1,0 +1,14 @@
+<tabs>
+  <tab
+      id="@+id/tab_home"
+      icon="@mipmap/ic_home"
+      title="聊天" />
+  <tab
+      id="@+id/tab_contact"
+      icon="@mipmap/ic_contact"
+      title="通讯录" />
+  <tab
+      id="@+id/tab_personal"
+      icon="@mipmap/ic_personal"
+      title="我的" />
+</tabs>

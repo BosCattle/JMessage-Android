@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_group_create"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+  <include
+      layout="@layout/include_header"
+      android:id="@+id/header"
+      />
+
+  <RelativeLayout
+      android:id="@+id/frame"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_below="@+id/header"
+      >
+    <LinearLayout
+        android:id="@+id/group_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:alpha="255"
+        >
+      <android.support.v7.widget.SearchView
+          android:id="@+id/group_edit"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@null"
+          android:maxLines="1"
+          />
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="0.5dp"
+          android:background="?colorPrimary"
+          android:layout_marginLeft="@dimen/divider_default_height"
+          android:layout_marginRight="@dimen/divider_default_height"
+          />
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/group_container"
+        android:id="@+id/group_add"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+  </RelativeLayout>
+
+</RelativeLayout>
