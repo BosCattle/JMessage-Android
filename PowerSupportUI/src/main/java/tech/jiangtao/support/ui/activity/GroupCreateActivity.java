@@ -57,7 +57,6 @@ public class GroupCreateActivity extends BaseActivity
   @BindView(R2.id.tv_toolbar) TextView mTvToolbar;
   @BindView(R2.id.toolbar) Toolbar mToolbar;
   @BindView(R2.id.group_add) RecyclerView mGroupAdd;
-  @BindView(R2.id.group_edit) SearchView mSearchView;
   public static final String TAG = GroupCreateActivity.class.getSimpleName();
   private ContactAdapter mContactAdapter;
   private List<ConstrutContact> mConstrutContact;
@@ -74,7 +73,6 @@ public class GroupCreateActivity extends BaseActivity
   public void init(){
     mAppPreferences = new AppPreferences(this);
     setUpToolbar();
-    setUpEditText();
     setUpAdapter();
   }
 
@@ -90,36 +88,6 @@ public class GroupCreateActivity extends BaseActivity
     mGroupAdd.addItemDecoration(RecyclerViewUtils.buildItemDecoration(this));
     mGroupAdd.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     mGroupAdd.setAdapter(mContactAdapter);
-  }
-
-  /**
-   * Method: setUpEditText </br>
-   * Description:  设置SearchView</br>
-   * Date: 15/01/2017 11:08 PM </br>
-   **/
-  private void setUpEditText() {
-    mSearchView.setIconifiedByDefault(false);
-    //为该SearchView组件设置事件监听器
-    mSearchView.setOnQueryTextListener(this);
-    //设置该SearchView显示搜索按钮
-    mSearchView.setSubmitButtonEnabled(false);
-    mSearchView.setIconified(false);
-    //设置该SearchView内默认显示的提示文本
-    mSearchView.setQueryHint("查找");
-    if (mSearchView != null) {
-      try {        // 拿到字节码
-        Class<?> argClass = mSearchView.getClass();
-        // 指定某个私有属性,mSearchPlate是搜索框父布局的名字
-        Field ownField = argClass.getDeclaredField("mSearchPlate");
-        // 暴力反射,只有暴力反射才能拿到私有属性
-        ownField.setAccessible(true);
-        View mView = (View) ownField.get(mSearchView);
-        // 设置背景
-        mView.setBackgroundColor(Color.TRANSPARENT);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
   }
 
   public void setUpToolbar() {
