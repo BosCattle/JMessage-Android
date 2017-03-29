@@ -1,5 +1,5 @@
 *.iml
-.gradlegit
+.gradle
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
@@ -78,3 +78,4 @@ build/intermediates/rs/
 build/intermediates/shaders/
 build/intermediates/transforms/mergeJniLibs/
 build/tmp/
+
