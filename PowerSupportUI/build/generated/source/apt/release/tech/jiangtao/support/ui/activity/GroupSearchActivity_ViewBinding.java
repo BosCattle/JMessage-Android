@@ -5,6 +5,8 @@ import android.support.annotation.UiThread;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import butterknife.internal.Utils;
 import java.lang.IllegalStateException;
@@ -27,7 +29,9 @@ public class GroupSearchActivity_ViewBinding extends BaseActivity_ViewBinding {
 
     target.mTvToolbar = Utils.findRequiredViewAsType(source, R.id.tv_toolbar, "field 'mTvToolbar'", TextView.class);
     target.mToolbar = Utils.findRequiredViewAsType(source, R.id.toolbar, "field 'mToolbar'", Toolbar.class);
-    target.mGroupAdd = Utils.findRequiredViewAsType(source, R.id.group_add, "field 'mGroupAdd'", RecyclerView.class);
+    target.etGroupName = Utils.findRequiredViewAsType(source, R.id.et_groupName, "field 'etGroupName'", EditText.class);
+    target.btnSearchGroup = Utils.findRequiredViewAsType(source, R.id.btn_searchGroup, "field 'btnSearchGroup'", Button.class);
+    target.groupList = Utils.findRequiredViewAsType(source, R.id.rv_groupList, "field 'groupList'", RecyclerView.class);
   }
 
   @Override
@@ -38,7 +42,9 @@ public class GroupSearchActivity_ViewBinding extends BaseActivity_ViewBinding {
 
     target.mTvToolbar = null;
     target.mToolbar = null;
-    target.mGroupAdd = null;
+    target.etGroupName = null;
+    target.btnSearchGroup = null;
+    target.groupList = null;
 
     super.unbind();
   }

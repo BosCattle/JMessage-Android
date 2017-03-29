@@ -24,15 +24,15 @@ import tech.jiangtao.support.ui.view.AudioRecordButton;
 public class ChatFragment_ViewBinding implements Unbinder {
   private ChatFragment target;
 
-  private View view2131558581;
-
   private View view2131558583;
-
-  private View view2131558584;
 
   private View view2131558585;
 
   private View view2131558586;
+
+  private View view2131558587;
+
+  private View view2131558588;
 
   @UiThread
   public ChatFragment_ViewBinding(final ChatFragment target, View source) {
@@ -43,7 +43,7 @@ public class ChatFragment_ViewBinding implements Unbinder {
     target.mSwiftRefresh = Utils.findRequiredViewAsType(source, R.id.swift_refresh, "field 'mSwiftRefresh'", SwipeRefreshLayout.class);
     view = Utils.findRequiredView(source, R.id.chat_speak, "field 'mChatSpeak' and method 'onClick'");
     target.mChatSpeak = Utils.castView(view, R.id.chat_speak, "field 'mChatSpeak'", ImageView.class);
-    view2131558581 = view;
+    view2131558583 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -52,7 +52,7 @@ public class ChatFragment_ViewBinding implements Unbinder {
     });
     view = Utils.findRequiredView(source, R.id.chat_add_other_information, "field 'mChatAddOtherInformation' and method 'onClick'");
     target.mChatAddOtherInformation = Utils.castView(view, R.id.chat_add_other_information, "field 'mChatAddOtherInformation'", ImageView.class);
-    view2131558583 = view;
+    view2131558585 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -61,7 +61,7 @@ public class ChatFragment_ViewBinding implements Unbinder {
     });
     view = Utils.findRequiredView(source, R.id.chat_send_message, "field 'mChatSendMessage' and method 'onClick'");
     target.mChatSendMessage = Utils.castView(view, R.id.chat_send_message, "field 'mChatSendMessage'", BQMMSendButton.class);
-    view2131558584 = view;
+    view2131558586 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -71,7 +71,7 @@ public class ChatFragment_ViewBinding implements Unbinder {
     target.mContainerSend = Utils.findRequiredViewAsType(source, R.id.container_send, "field 'mContainerSend'", FrameLayout.class);
     view = Utils.findRequiredView(source, R.id.add_smile, "field 'mAddSmile' and method 'onClick'");
     target.mAddSmile = Utils.castView(view, R.id.add_smile, "field 'mAddSmile'", CheckBox.class);
-    view2131558585 = view;
+    view2131558587 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -85,7 +85,7 @@ public class ChatFragment_ViewBinding implements Unbinder {
     target.mChatBottom = Utils.findRequiredViewAsType(source, R.id.chat_bottom, "field 'mChatBottom'", RelativeLayout.class);
     view = Utils.findRequiredView(source, R.id.chat_audio_record, "field 'mAudioRecord' and method 'onClick'");
     target.mAudioRecord = Utils.castView(view, R.id.chat_audio_record, "field 'mAudioRecord'", AudioRecordButton.class);
-    view2131558586 = view;
+    view2131558588 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -115,15 +115,15 @@ public class ChatFragment_ViewBinding implements Unbinder {
     target.mChatBottom = null;
     target.mAudioRecord = null;
 
-    view2131558581.setOnClickListener(null);
-    view2131558581 = null;
     view2131558583.setOnClickListener(null);
     view2131558583 = null;
-    view2131558584.setOnClickListener(null);
-    view2131558584 = null;
     view2131558585.setOnClickListener(null);
     view2131558585 = null;
     view2131558586.setOnClickListener(null);
     view2131558586 = null;
+    view2131558587.setOnClickListener(null);
+    view2131558587 = null;
+    view2131558588.setOnClickListener(null);
+    view2131558588 = null;
   }
 }

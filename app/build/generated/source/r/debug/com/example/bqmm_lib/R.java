@@ -113,13 +113,13 @@ public final class R {
         public static final int ic_launcher = 0x7f020074;
     }
     public static final class id {
-        public static final int action_settings = 0x7f0f015e;
-        public static final int bqmm_imageText = 0x7f0f00c0;
-        public static final int bqmm_message_gif = 0x7f0f00c3;
-        public static final int bqmm_message_img = 0x7f0f00c2;
-        public static final int bqmm_message_tv = 0x7f0f00c1;
-        public static final int keyboard_emoji_iv = 0x7f0f00be;
-        public static final int keyboard_face_iv = 0x7f0f00bf;
+        public static final int action_settings = 0x7f0f0160;
+        public static final int bqmm_imageText = 0x7f0f00c2;
+        public static final int bqmm_message_gif = 0x7f0f00c5;
+        public static final int bqmm_message_img = 0x7f0f00c4;
+        public static final int bqmm_message_tv = 0x7f0f00c3;
+        public static final int keyboard_emoji_iv = 0x7f0f00c0;
+        public static final int keyboard_face_iv = 0x7f0f00c1;
     }
     public static final class layout {
         public static final int bqmm_item_emoji = 0x7f040032;

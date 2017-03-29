@@ -14,7 +14,7 @@ import java.lang.Override;
 public class RegisterActivity_ViewBinding extends BaseActivity_ViewBinding {
   private RegisterActivity target;
 
-  private View view2131689653;
+  private View view2131689655;
 
   @UiThread
   public RegisterActivity_ViewBinding(RegisterActivity target) {
@@ -33,7 +33,7 @@ public class RegisterActivity_ViewBinding extends BaseActivity_ViewBinding {
     target.mRegisterRetryPassword = Utils.findRequiredViewAsType(source, R.id.register_retry_password, "field 'mRegisterRetryPassword'", AppCompatEditText.class);
     view = Utils.findRequiredView(source, R.id.register_button, "field 'mRegisterButton' and method 'onClick'");
     target.mRegisterButton = Utils.castView(view, R.id.register_button, "field 'mRegisterButton'", AppCompatButton.class);
-    view2131689653 = view;
+    view2131689655 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -53,8 +53,8 @@ public class RegisterActivity_ViewBinding extends BaseActivity_ViewBinding {
     target.mRegisterRetryPassword = null;
     target.mRegisterButton = null;
 
-    view2131689653.setOnClickListener(null);
-    view2131689653 = null;
+    view2131689655.setOnClickListener(null);
+    view2131689655 = null;
 
     super.unbind();
   }

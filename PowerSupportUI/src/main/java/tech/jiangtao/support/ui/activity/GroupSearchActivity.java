@@ -11,6 +11,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.grandcentrix.tray.AppPreferences;
@@ -41,109 +44,123 @@ import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
  * Update: 2017/3/28 下午3:41 </br>
  **/
 public class GroupSearchActivity extends BaseActivity
-    implements  EasyViewHolder.OnItemClickListener ,SearchView.OnQueryTextListener {
+        implements EasyViewHolder.OnItemClickListener, SearchView.OnQueryTextListener {
 
-  @BindView(R2.id.tv_toolbar) TextView mTvToolbar;
-  @BindView(R2.id.toolbar) Toolbar mToolbar;
-  @BindView(R2.id.group_add) RecyclerView mGroupAdd;
-  public static final String TAG = GroupSearchActivity.class.getSimpleName();
-  private ContactAdapter mContactAdapter;
-  private List<ConstrutContact> mConstrutContact;
-  private SimpleCGroup mSimpleCGroup;
-  private AppPreferences mAppPreferences;
+    @BindView(R2.id.tv_toolbar)
+    TextView mTvToolbar;
+    @BindView(R2.id.toolbar)
+    Toolbar mToolbar;
+    public static final String TAG = GroupSearchActivity.class.getSimpleName();
+    @BindView(R2.id.et_groupName)
+    EditText etGroupName;
+    @BindView(R2.id.btn_searchGroup)
+    Button btnSearchGroup;
+    @BindView(R2.id.rv_groupList)
+    RecyclerView groupList;
+    private ContactAdapter mContactAdapter;
+    private List<ConstrutContact> mConstrutContact;
+    private SimpleCGroup mSimpleCGroup;
+    private AppPreferences mAppPreferences;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_group_search);
-    ButterKnife.bind(this);
-    init();
-  }
-
-  public void init(){
-    mAppPreferences = new AppPreferences(this);
-    setUpToolbar();
-    setUpAdapter();
-  }
-
-  /**
-   * Method: setUpAdapter </br>
-   * Description:  设置Adapter</br>
-   * Date: 15/01/2017 11:08 PM </br>
-   **/
-  private void setUpAdapter() {
-    mConstrutContact = new ArrayList<>();
-    mContactAdapter = new ContactAdapter(this, mConstrutContact);
-    mContactAdapter.setOnClickListener(this);
-    mGroupAdd.addItemDecoration(RecyclerViewUtils.buildItemDecoration(this));
-    mGroupAdd.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-    mGroupAdd.setAdapter(mContactAdapter);
-  }
-
-  public void setUpToolbar() {
-    mToolbar.setTitle("");
-    mTvToolbar.setText("查找群");
-    setSupportActionBar(mToolbar);
-    mToolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
-    mToolbar.setNavigationOnClickListener(v -> this.finish());
-  }
-
-  @Override protected boolean preSetupToolbar() {
-    return false;
-  }
-
-  public static void startGroupCreate(Context context) {
-    Intent intent = new Intent(context, GroupSearchActivity.class);
-    context.startActivity(intent);
-  }
-
-  @Override public void onItemClick(int position, View view) {
-
-  }
-
-  @Override public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.menu_group_create, menu);
-    return true;
-  }
-
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId()==R.id.menu_group_create){
-      //检查是否有选择，创建群
-      String userJid = null;
-      String username = null;
-      try {
-        userJid = mAppPreferences.getString("userJid");
-        username = mAppPreferences.getString("username");
-        if (username==null){
-          username = StringSplitUtil.splitPrefix(userJid);
-        }
-      } catch (ItemNotFoundException e) {
-        e.printStackTrace();
-      }
-      GroupCreateParam mGroupCreateParam = new GroupCreateParam(username + "的群", userJid, null);
-      mSimpleCGroup.startCreateGroup(mGroupCreateParam, new GroupCreateCallBack() {
-        @Override public void createSuccess() {
-          //创建群聊成功
-          GroupChatActivity.startGroupChat(GroupSearchActivity.this);
-        }
-
-        @Override public void createFailed(String failedReason) {
-          //创建群聊失败
-
-        }
-      });
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_group_search);
+        ButterKnife.bind(this);
+        init();
     }
-    return true;
-  }
 
-  @Override
-  public boolean onQueryTextSubmit(String query) {
-    return false;
-  }
+    public void init() {
+        mAppPreferences = new AppPreferences(this);
+        setUpToolbar();
+        setUpAdapter();
+    }
 
-  @Override
-  public boolean onQueryTextChange(String newText) {
-    //TODO 更改后就开始执行查询动作
-    return false;
-  }
+    /**
+     * Method: setUpAdapter </br>
+     * Description:  设置Adapter</br>
+     * Date: 15/01/2017 11:08 PM </br>
+     **/
+    private void setUpAdapter() {
+        mConstrutContact = new ArrayList<>();
+        mContactAdapter = new ContactAdapter(this, mConstrutContact);
+        mContactAdapter.setOnClickListener(this);
+        groupList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(this));
+        groupList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        groupList.setAdapter(mContactAdapter);
+    }
+
+    public void setUpToolbar() {
+        mToolbar.setTitle("");
+        mTvToolbar.setText("查找群");
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
+        mToolbar.setNavigationOnClickListener(v -> this.finish());
+    }
+
+    @Override
+    protected boolean preSetupToolbar() {
+        return false;
+    }
+
+    public static void startGroupCreate(Context context) {
+        Intent intent = new Intent(context, GroupSearchActivity.class);
+        context.startActivity(intent);
+    }
+
+    @Override
+    public void onItemClick(int position, View view) {
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_group_create, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_group_create) {
+            //检查是否有选择，创建群
+            String userJid = null;
+            String username = null;
+            try {
+                userJid = mAppPreferences.getString("userJid");
+                username = mAppPreferences.getString("username");
+                if (username == null) {
+                    username = StringSplitUtil.splitPrefix(userJid);
+                }
+            } catch (ItemNotFoundException e) {
+                e.printStackTrace();
+            }
+            GroupCreateParam mGroupCreateParam = new GroupCreateParam(username + "的群", userJid, null);
+            mSimpleCGroup.startCreateGroup(mGroupCreateParam, new GroupCreateCallBack() {
+                @Override
+                public void createSuccess() {
+                    //创建群聊成功
+                    GroupChatActivity.startGroupChat(GroupSearchActivity.this);
+                }
+
+                @Override
+                public void createFailed(String failedReason) {
+                    //创建群聊失败
+
+                }
+            });
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        //TODO 更改后就开始执行查询动作
+        return false;
+    }
 }

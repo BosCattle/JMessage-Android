@@ -1,11 +1,11 @@
 [
     {
-        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/mipmap-xxhdpi-v4/ic_take_photograph.png",
-        "source": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/debug/res/mipmap-xxhdpi-v4/ic_take_photograph.png"
-    },
-    {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/mipmap-xxhdpi-v4/ic_home.png",
         "source": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/debug/res/mipmap-xxhdpi-v4/ic_home.png"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/mipmap-xxhdpi-v4/ic_take_photograph.png",
+        "source": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/debug/res/mipmap-xxhdpi-v4/ic_take_photograph.png"
     },
     {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/mipmap-xxhdpi-v4/ic_camera.png",
