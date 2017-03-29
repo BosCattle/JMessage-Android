@@ -10,7 +10,6 @@
       layout="@layout/include_header"
       android:id="@+id/header"
       />
-
   <android.support.v7.widget.RecyclerView
       android:id="@+id/group_search"
       android:layout_width="match_parent"
