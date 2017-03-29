@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="liblinphone">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/PowerSupportSip/libs/liblinphone.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
