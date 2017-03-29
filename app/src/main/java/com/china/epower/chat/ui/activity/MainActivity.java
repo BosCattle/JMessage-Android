@@ -27,13 +27,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import java.util.List;
-import tech.jiangtao.support.kit.realm.VCardRealm;
-import tech.jiangtao.support.ui.activity.ChatActivity;
 import tech.jiangtao.support.ui.activity.GroupCreateActivity;
 import tech.jiangtao.support.ui.fragment.ChatListFragment;
 import tech.jiangtao.support.ui.fragment.ContactFragment;
 import tech.jiangtao.support.ui.linstener.ContactItemCallback;
-import tech.jiangtao.support.ui.pattern.ConstrutContact;
 
 /**
  * Class: MainActivity </br>
