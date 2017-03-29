@@ -16,12 +16,12 @@
         "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/layout/abc_screen_simple_overlay_action_mode.xml"
     },
     {
-        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/SupportWebRTC/build/intermediates/res/merged/debug/layout/notification_action.xml",
-        "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/layout/notification_action.xml"
-    },
-    {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/SupportWebRTC/build/intermediates/res/merged/debug/layout/abc_action_bar_title_item.xml",
         "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/layout/abc_action_bar_title_item.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/SupportWebRTC/build/intermediates/res/merged/debug/layout/notification_action.xml",
+        "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/layout/notification_action.xml"
     },
     {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/SupportWebRTC/build/intermediates/res/merged/debug/layout/abc_screen_toolbar.xml",

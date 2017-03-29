@@ -4,12 +4,12 @@
         "source": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/debug/res/layout/notification_view.xml"
     },
     {
-        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/select_dialog_item_material.xml",
-        "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/layout/select_dialog_item_material.xml"
-    },
-    {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/support_simple_spinner_dropdown_item.xml",
         "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/layout/support_simple_spinner_dropdown_item.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/select_dialog_item_material.xml",
+        "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/layout/select_dialog_item_material.xml"
     },
     {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/abc_action_mode_bar.xml",
@@ -24,16 +24,16 @@
         "source": "/Users/Vurtex/.android/build-cache/274b217fc884ce44a9bbe559f30fc1518d069f6d/output/res/layout/design_navigation_item.xml"
     },
     {
-        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/layout_item_image_pick.xml",
-        "source": "/Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/res/layout/layout_item_image_pick.xml"
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_item_header.xml",
+        "source": "/Users/Vurtex/.android/build-cache/274b217fc884ce44a9bbe559f30fc1518d069f6d/output/res/layout/design_navigation_item_header.xml"
     },
     {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/notification_template_part_time.xml",
         "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/layout/notification_template_part_time.xml"
     },
     {
-        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_item_header.xml",
-        "source": "/Users/Vurtex/.android/build-cache/274b217fc884ce44a9bbe559f30fc1518d069f6d/output/res/layout/design_navigation_item_header.xml"
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/layout_item_image_pick.xml",
+        "source": "/Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/res/layout/layout_item_image_pick.xml"
     },
     {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/abc_popup_menu_header_item_layout.xml",
@@ -44,16 +44,16 @@
         "source": "/Users/Vurtex/.android/build-cache/e16dc2f30666fcb0b696018ebd86d24699fa7c7b/output/res/layout/bqmm_message_view_left.xml"
     },
     {
-        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/notification_action.xml",
-        "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/layout/notification_action.xml"
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/abc_activity_chooser_view_list_item.xml",
+        "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/layout/abc_activity_chooser_view_list_item.xml"
     },
     {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/abc_list_menu_item_radio.xml",
         "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/layout/abc_list_menu_item_radio.xml"
     },
     {
-        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/abc_activity_chooser_view_list_item.xml",
-        "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/layout/abc_activity_chooser_view_list_item.xml"
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/notification_action.xml",
+        "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/layout/notification_action.xml"
     },
     {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/activity_group_list.xml",
@@ -76,12 +76,12 @@
         "source": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/debug/res/layout/list_item_player_mine.xml"
     },
     {
-        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/design_bottom_sheet_dialog.xml",
-        "source": "/Users/Vurtex/.android/build-cache/274b217fc884ce44a9bbe559f30fc1518d069f6d/output/res/layout/design_bottom_sheet_dialog.xml"
-    },
-    {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/design_text_input_password_icon.xml",
         "source": "/Users/Vurtex/.android/build-cache/274b217fc884ce44a9bbe559f30fc1518d069f6d/output/res/layout/design_text_input_password_icon.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/design_bottom_sheet_dialog.xml",
+        "source": "/Users/Vurtex/.android/build-cache/274b217fc884ce44a9bbe559f30fc1518d069f6d/output/res/layout/design_bottom_sheet_dialog.xml"
     },
     {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/view_slide_view.xml",
@@ -144,12 +144,12 @@
         "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/layout/notification_template_part_chronometer.xml"
     },
     {
-        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/notification_template_lines_media.xml",
-        "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/layout/notification_template_lines_media.xml"
-    },
-    {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/list_item_express.xml",
         "source": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/debug/res/layout/list_item_express.xml"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/notification_template_lines_media.xml",
+        "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/layout/notification_template_lines_media.xml"
     },
     {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/layout/simplehud.xml",

@@ -8,12 +8,12 @@
         "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/drawable-mdpi-v4/abc_ic_star_black_36dp.png"
     },
     {
-        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportSip/build/intermediates/res/merged/debug/drawable-mdpi-v4/abc_ic_star_black_16dp.png",
-        "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/drawable-mdpi-v4/abc_ic_star_black_16dp.png"
-    },
-    {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportSip/build/intermediates/res/merged/debug/drawable-mdpi-v4/abc_list_pressed_holo_dark.9.png",
         "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/drawable-mdpi-v4/abc_list_pressed_holo_dark.9.png"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportSip/build/intermediates/res/merged/debug/drawable-mdpi-v4/abc_ic_star_black_16dp.png",
+        "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/drawable-mdpi-v4/abc_ic_star_black_16dp.png"
     },
     {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportSip/build/intermediates/res/merged/debug/drawable-mdpi-v4/abc_ic_star_half_black_48dp.png",

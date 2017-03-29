@@ -143,5 +143,20 @@
     <orderEntry type="library" exported="" name="support-vector-drawable-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-25.2.0" level="project" />
     <orderEntry type="module" module-name="PowerSupportKit" exported="" />
+    <orderEntry type="library" exported="" name="jxmpp-util-cache-0.4.2" level="project" />
+    <orderEntry type="library" exported="" name="concurrent-utils-0.1.4" level="project" />
+    <orderEntry type="library" exported="" name="smack-sasl-provided-4.1.9" level="project" />
+    <orderEntry type="library" exported="" name="smack-android-4.1.9" level="project" />
+    <orderEntry type="library" exported="" name="minidns-0.1.7" level="project" />
+    <orderEntry type="library" exported="" name="smack-tcp-4.1.9" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.5" level="project" />
+    <orderEntry type="library" exported="" name="jxmpp-core-0.4.2" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="xpp3-1.1.4c" level="project" />
+    <orderEntry type="library" exported="" name="eventbus-3.0.0" level="project" />
+    <orderEntry type="library" exported="" name="smack-resolver-minidns-4.1.9" level="project" />
+    <orderEntry type="library" exported="" name="smack-im-4.1.9" level="project" />
+    <orderEntry type="library" exported="" name="smack-core-4.1.9" level="project" />
+    <orderEntry type="library" exported="" name="smack-android-extensions-4.1.9" level="project" />
+    <orderEntry type="library" exported="" name="smack-extensions-4.1.9" level="project" />
   </component>
 </module>
