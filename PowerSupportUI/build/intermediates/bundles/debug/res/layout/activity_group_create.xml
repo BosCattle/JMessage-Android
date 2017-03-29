@@ -6,14 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
+<!--<EditText-->
+    <!--android:id="@+id/et_groupName"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:hint="请输入群名"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_centerHorizontal="true" />-->
   <include
-      layout="@layout/include_header"
-      android:id="@+id/header"
-      />
+    layout="@layout/include_header"
+    android:id="@+id/header"
+    />
 
   <android.support.v7.widget.RecyclerView
-      android:id="@+id/group_add"
+      android:id="@+id/rv_constansList"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_below="@+id/header"

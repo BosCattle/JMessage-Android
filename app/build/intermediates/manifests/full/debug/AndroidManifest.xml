@@ -152,6 +152,10 @@
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
+            android:name="tech.jiangtao.support.ui.activity.GroupSearchActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
             android:name="tech.jiangtao.support.ui.activity.GroupChatActivity"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>

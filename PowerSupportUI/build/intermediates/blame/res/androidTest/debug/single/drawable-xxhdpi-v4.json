@@ -84,12 +84,12 @@
         "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/drawable-xxhdpi-v4/abc_menu_hardkey_panel_mtrl_mult.9.png"
     },
     {
-        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4/abc_btn_check_to_on_mtrl_000.png",
-        "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/drawable-xxhdpi-v4/abc_btn_check_to_on_mtrl_000.png"
-    },
-    {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4/abc_textfield_search_default_mtrl_alpha.9.png",
         "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/drawable-xxhdpi-v4/abc_textfield_search_default_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4/abc_btn_check_to_on_mtrl_000.png",
+        "source": "/Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/res/drawable-xxhdpi-v4/abc_btn_check_to_on_mtrl_000.png"
     },
     {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4/abc_scrubber_track_mtrl_alpha.9.png",

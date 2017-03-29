@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import java.io.Serializable;
 
 /**
  * Class: VCardRealm </br>
@@ -37,8 +36,8 @@ public class VCardRealm extends RealmObject implements Parcelable {
     this.jid = jid;
   }
 
-  public VCardRealm(String nickName, String jid, boolean friend, String allPinYin,
-      String firstLetter) {
+  public VCardRealm( String jid, String nickName,
+      String firstLetter,String allPinYin,boolean friend) {
     this.nickName = nickName;
     this.jid = jid;
     this.friend = friend;

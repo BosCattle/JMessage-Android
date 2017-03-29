@@ -27,7 +27,7 @@ public class GroupCreateActivity_ViewBinding extends BaseActivity_ViewBinding {
 
     target.mTvToolbar = Utils.findRequiredViewAsType(source, R.id.tv_toolbar, "field 'mTvToolbar'", TextView.class);
     target.mToolbar = Utils.findRequiredViewAsType(source, R.id.toolbar, "field 'mToolbar'", Toolbar.class);
-    target.mGroupAdd = Utils.findRequiredViewAsType(source, R.id.group_add, "field 'mGroupAdd'", RecyclerView.class);
+    target.mConstantsList = Utils.findRequiredViewAsType(source, R.id.rv_constansList, "field 'mConstantsList'", RecyclerView.class);
   }
 
   @Override
@@ -38,7 +38,7 @@ public class GroupCreateActivity_ViewBinding extends BaseActivity_ViewBinding {
 
     target.mTvToolbar = null;
     target.mToolbar = null;
-    target.mGroupAdd = null;
+    target.mConstantsList = null;
 
     super.unbind();
   }

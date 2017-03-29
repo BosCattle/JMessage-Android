@@ -180,11 +180,11 @@
         "source": "/Users/Vurtex/.android/build-cache/f17bec2e29a9cedb397a190483ee70a5d9a10ac3/output/res/drawable-xhdpi-v4/abc_ic_menu_share_mtrl_alpha.png"
     },
     {
-        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_popup_background_mtrl_mult.9.png",
-        "source": "/Users/Vurtex/.android/build-cache/f17bec2e29a9cedb397a190483ee70a5d9a10ac3/output/res/drawable-xhdpi-v4/abc_popup_background_mtrl_mult.9.png"
-    },
-    {
         "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png",
         "source": "/Users/Vurtex/.android/build-cache/f17bec2e29a9cedb397a190483ee70a5d9a10ac3/output/res/drawable-xhdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "/Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_popup_background_mtrl_mult.9.png",
+        "source": "/Users/Vurtex/.android/build-cache/f17bec2e29a9cedb397a190483ee70a5d9a10ac3/output/res/drawable-xhdpi-v4/abc_popup_background_mtrl_mult.9.png"
     }
 ]

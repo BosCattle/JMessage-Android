@@ -122,7 +122,7 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
           GroupCreateActivity.startGroupCreate(MainActivity.this);
           break;
         case R.id.search_group:
-          GroupSearchActivity.startGroupCreate(MainActivity.this);
+          GroupSearchActivity.startGroupSearch(MainActivity.this);
           break;
         case R.id.free_call:
 

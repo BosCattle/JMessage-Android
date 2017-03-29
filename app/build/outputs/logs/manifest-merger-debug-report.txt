@@ -123,7 +123,7 @@ ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidMani
 		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:21:20-63
 application
 ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:23:3-81:17
-MERGED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:14:5-95:19
+MERGED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:14:5-99:19
 MERGED from [JMessage:PowerSupportKit:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:11:5-18:19
 MERGED from [xiaofei.library:hermes-eventbus:0.3.0] /Users/Vurtex/.android/build-cache/27b78713c1ada66398745f19d0c1c2d514c88306/output/AndroidManifest.xml:11:5-13:19
 MERGED from [xiaofei.library:hermes:0.7.0] /Users/Vurtex/.android/build-cache/9e1cf6ea84752f2421186f80a0fab77b1f100994/output/AndroidManifest.xml:11:5-53
@@ -378,12 +378,18 @@ ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProj
 		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:89:13-56
 	android:name
 		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:88:13-81
-activity#tech.jiangtao.support.ui.activity.GroupChatActivity
+activity#tech.jiangtao.support.ui.activity.GroupSearchActivity
 ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:91:9-94:20
 	android:theme
 		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:93:13-56
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:92:13-79
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:92:13-81
+activity#tech.jiangtao.support.ui.activity.GroupChatActivity
+ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:95:9-98:20
+	android:theme
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:97:13-56
+	android:name
+		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:96:13-79
 service#tech.jiangtao.support.kit.service.FileTransferService
 ADDED from [JMessage:PowerSupportKit:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:14:9-17:19
 	android:exported

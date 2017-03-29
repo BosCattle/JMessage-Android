@@ -15,14 +15,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import net.grandcentrix.tray.AppPreferences;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import tech.jiangtao.support.kit.userdata.SimpleCGroup;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
@@ -54,8 +51,6 @@ public class GroupSearchActivity extends BaseActivity
     RecyclerView groupList;
     private ContactAdapter mContactAdapter;
     private List<ConstrutContact> mConstrutContact;
-    private SimpleCGroup mSimpleCGroup;
-    private AppPreferences mAppPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +61,24 @@ public class GroupSearchActivity extends BaseActivity
     }
 
     public void init() {
-        mAppPreferences = new AppPreferences(this);
         setUpToolbar();
         setUpAdapter();
+        btnSearchGroup.setOnClickListener(v->{
+//                HashMap params=new HashMap<String,String>();
+//                ApiService.getInstance().createApiService(UserServiceApi.class).post(params) .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread()).subscribe(string->{
+//                    //TODO 这里解析JSON
+//                });
+//                for (int i=0;i<10;i++) {
+//                    ConstrutContact build = new ConstrutContact.Builder().build();
+//                    build.mType = ContactType.TYPE_GROUP;
+//                    build.mId = R.mipmap.ic_chat_default;
+//                    build.mTitle = "TestGroup"+i;
+//                    build.mVCardRealm = new VCardRealm("jid"+i);
+//                    mConstrutContact.add(build);
+//                }
+//                mContactAdapter.notifyDataSetChanged();
+        });
     }
 
     /**
@@ -103,7 +113,7 @@ public class GroupSearchActivity extends BaseActivity
         return false;
     }
 
-    public static void startGroupCreate(Context context) {
+    public static void startGroupSearch(Context context) {
         Intent intent = new Intent(context, GroupSearchActivity.class);
         context.startActivity(intent);
     }

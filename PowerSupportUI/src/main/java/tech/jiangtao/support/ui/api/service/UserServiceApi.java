@@ -13,4 +13,6 @@ import rx.Observable;
 public interface UserServiceApi {
     @POST("ajax.mobileSword")
     Observable<String> post(@QueryMap HashMap<String,String> paramsMap);
+
+
 }

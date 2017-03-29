@@ -16,7 +16,7 @@ import java.lang.Override;
 public class PersonalFragment_ViewBinding implements Unbinder {
   private PersonalFragment target;
 
-  private View view2131689637;
+  private View view2131689638;
 
   @UiThread
   public PersonalFragment_ViewBinding(final PersonalFragment target, View source) {
@@ -26,7 +26,7 @@ public class PersonalFragment_ViewBinding implements Unbinder {
     target.mPersonalList = Utils.findRequiredViewAsType(source, R.id.personal_list, "field 'mPersonalList'", RecyclerView.class);
     view = Utils.findRequiredView(source, R.id.login_button, "field 'mLoginButton' and method 'onClick'");
     target.mLoginButton = Utils.castView(view, R.id.login_button, "field 'mLoginButton'", AppCompatButton.class);
-    view2131689637 = view;
+    view2131689638 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -45,7 +45,7 @@ public class PersonalFragment_ViewBinding implements Unbinder {
     target.mPersonalList = null;
     target.mLoginButton = null;
 
-    view2131689637.setOnClickListener(null);
-    view2131689637 = null;
+    view2131689638.setOnClickListener(null);
+    view2131689638 = null;
   }
 }
