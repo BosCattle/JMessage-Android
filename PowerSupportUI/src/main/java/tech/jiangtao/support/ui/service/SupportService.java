@@ -753,9 +753,9 @@ public class SupportService extends Service
     connect(false);
   }
 
-  /**
-   * 添加群组
-   */
+
+
+  // 创建群组
   @Subscribe(threadMode = ThreadMode.MAIN) public void createMuc(String mucJid, String nickname,
       Collection<String> owner) {
     MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(mucJid);
