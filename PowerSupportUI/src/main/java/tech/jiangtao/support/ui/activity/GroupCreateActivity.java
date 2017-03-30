@@ -155,6 +155,7 @@ public class GroupCreateActivity extends BaseActivity
         if (item.getItemId() == R.id.menu_group_create) {
             EditText et = new EditText(GroupCreateActivity.this);
             et.setHint("请输入群名");
+            et.setWidth(RecyclerView.LayoutParams.WRAP_CONTENT);
             new AlertDialog.Builder(GroupCreateActivity.this).setTitle("请输入群名").setView(et).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -163,7 +164,7 @@ public class GroupCreateActivity extends BaseActivity
                     LogUtils.d(TAG, size+"");
                     //执行创建群动作
                 }
-            }).setNegativeButton("取消",null);
+            }).setNegativeButton("取消",null).create().show();
         }
         return true;
     }
