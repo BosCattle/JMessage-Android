@@ -5,8 +5,7 @@
 .idea/*
 /captures
 .externalNativeBuild
-/*/build
-build
+/build
 build/generated/assets/
 build/generated/res/
 build/generated/source/aidl/

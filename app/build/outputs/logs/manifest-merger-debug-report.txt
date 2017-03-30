@@ -19,7 +19,6 @@ ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidMani
 		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:2:11-69
 uses-sdk
 ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:8:3-79
-MERGED from [com.android.support:multidex:1.0.1] /Users/Vurtex/.android/build-cache/5dcf03643fc7006b6b75fc212368deb4d0239228/output/AndroidManifest.xml:18:5-42
 MERGED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:8:5-10:41
 MERGED from [JMessage:PowerSupportKit:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:7:5-9:41
 MERGED from [io.realm:realm-android-library:2.2.0] /Users/Vurtex/.android/build-cache/16a684d55fb2944a0231f4eec99d95605389a0cf/output/AndroidManifest.xml:5:5-7:41
@@ -30,6 +29,7 @@ MERGED from [net.grandcentrix.tray:tray:0.11.0] /Users/Vurtex/.android/build-cac
 MERGED from [de.hdodenhof:circleimageview:2.1.0] /Users/Vurtex/.android/build-cache/b128411f9abc1c20ce3489c9232bebdd3ed81de2/output/AndroidManifest.xml:5:5-7:41
 MERGED from [com.github.chrisbanes:PhotoView:1.3.1] /Users/Vurtex/.android/build-cache/8a8f8a0b9474183e4e84d9fac27a707d43963b15/output/AndroidManifest.xml:8:5-10:41
 MERGED from [com.github.BosCattle:Emoji:V0.0.1] /Users/Vurtex/.android/build-cache/e16dc2f30666fcb0b696018ebd86d24699fa7c7b/output/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:multidex:1.0.1] /Users/Vurtex/.android/build-cache/5dcf03643fc7006b6b75fc212368deb4d0239228/output/AndroidManifest.xml:18:5-42
 MERGED from [com.github.Doublemine:SimpleHud:0.1.2] /Users/Vurtex/.android/build-cache/d9a59b4f22181ea2ebb9a8752bfd298048e84e2d/output/AndroidManifest.xml:7:5-9:41
 MERGED from [io.reactivex:rxandroid:1.2.1] /Users/Vurtex/.android/build-cache/dea76bcf09c4f7fe56ff8a4931f514f9a60a42ea/output/AndroidManifest.xml:19:5-43
 MERGED from [com.roughike:bottom-bar:2.0.2] /Users/Vurtex/.android/build-cache/4cb92826ca329baa0388fd613622a2ff8531de17/output/AndroidManifest.xml:8:5-10:41

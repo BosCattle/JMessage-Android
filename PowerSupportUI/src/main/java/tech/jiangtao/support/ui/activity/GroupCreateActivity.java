@@ -16,7 +16,6 @@ import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,6 +25,8 @@ import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.callback.GroupCreateCallBack;
 import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateParam;
 import tech.jiangtao.support.kit.userdata.SimpleCGroup;
+import tech.jiangtao.support.kit.util.ErrorAction;
+import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
@@ -33,6 +34,7 @@ import tech.jiangtao.support.ui.adapter.ContactAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.api.ApiService;
 import tech.jiangtao.support.ui.api.service.UserServiceApi;
+import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
 
@@ -58,6 +60,7 @@ public class GroupCreateActivity extends BaseActivity
     private List<ConstrutContact> mConstrutContact;
     private SimpleCGroup mSimpleCGroup;
     private AppPreferences mAppPreferences;
+    private UserServiceApi mUserServiceApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +73,31 @@ public class GroupCreateActivity extends BaseActivity
 
     public void init() {
         mAppPreferences = new AppPreferences(this);
+        String name =null;
+        try {
+            name = mAppPreferences.getString("userJid");
+        }catch (ItemNotFoundException e){
+            e.printStackTrace();
+        }
+        name="vurtex@dc-a4b8eb92-xmpp.jiangtao.tech.";
+        LogUtils.d(TAG,name);
+        mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
         setUpToolbar();
         setUpAdapter();
-        //TODO
-        HashMap params = new HashMap<String, String>();
-        ApiService.getInstance().createApiService(UserServiceApi.class).post(params).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(string -> {
+        mUserServiceApi.post(name).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(list -> {
             //TODO 这里解析JSON
+            for (Friends friends : list) {
+                LogUtils.d(TAG, friends.toString());
+            }
+        }, new ErrorAction() {
+            @Override
+            public void call(Throwable throwable) {
+                super.call(throwable);
+                LogUtils.d(TAG,throwable.getLocalizedMessage());
+            }
         });
+
     }
 
     /**
