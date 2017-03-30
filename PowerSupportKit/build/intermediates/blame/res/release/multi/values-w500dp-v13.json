@@ -22,29 +22,5 @@
                 }
             }
         ]
-    },
-    {
-        "outputFile": "/Users/kevin/Project/Android/Company/PowerChat/PowerSupportKit/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-w500dp-v13/values-w500dp-v13.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 54,
-                    "endOffset": 105
-                },
-                "from": {
-                    "file": "/Users/kevin/.android/build-cache/d3455aa8aaedabbe3eb889c999a4a477a333a4fc/output/res/values-w500dp-v13/values-w500dp-v13.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 4,
-                        "startOffset": 55,
-                        "endColumn": 54,
-                        "endOffset": 105
-                    }
-                }
-            }
-        ]
     }
 ]

@@ -2,6 +2,7 @@ package tech.jiangtao.support.ui.pattern;
 
 import android.support.annotation.DrawableRes;
 import tech.jiangtao.support.kit.realm.VCardRealm;
+import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.model.type.ContactType;
 
 /**
@@ -19,11 +20,13 @@ public class ConstrutContact {
   public @DrawableRes int mId;
   public String mTitle;
   public VCardRealm mVCardRealm;
+  public Friends mFriends;
 
   public static class Builder {
     public ContactType type;
     public @DrawableRes int id;
     public String title;
+    public Friends friends;
     public VCardRealm vCardRealm;
     public ConstrutContact build(){
       ConstrutContact contact = new ConstrutContact();
@@ -31,6 +34,7 @@ public class ConstrutContact {
       contact.mId = id;
       contact.mTitle = title;
       contact.mVCardRealm = vCardRealm;
+      contact.mFriends=friends;
       return contact;
     }
 
@@ -53,5 +57,11 @@ public class ConstrutContact {
       this.vCardRealm = realm;
       return this;
     }
+
+    public Builder friends(Friends friends){
+      this.friends  = friends;
+      return this;
+    }
+
   }
 }
