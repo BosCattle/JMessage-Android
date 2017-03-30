@@ -9,20 +9,9 @@ import android.view.View;
 import butterknife.BindView;
 import butterknife.OnClick;
 import com.china.epower.chat.R;
-import com.cocosw.favor.FavorAdapter;
-import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smackx.iqregister.AccountManager;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.schedulers.Schedulers;
-import tech.jiangtao.support.kit.callback.ConnectionCallback;
-import tech.jiangtao.support.kit.realm.sharepreference.Account;
-import tech.jiangtao.support.kit.service.SupportService;
-import tech.jiangtao.support.kit.util.ErrorAction;
+import tech.jiangtao.support.kit.callback.RegisterCallBack;
+import tech.jiangtao.support.kit.eventbus.RegisterAccount;
+import tech.jiangtao.support.kit.userdata.SimpleRegister;
 import work.wanghao.simplehud.SimpleHUD;
 
 public class RegisterActivity extends BaseActivity {
@@ -31,6 +20,7 @@ public class RegisterActivity extends BaseActivity {
   @BindView(R.id.register_password) AppCompatEditText mRegisterPassword;
   @BindView(R.id.register_retry_password) AppCompatEditText mRegisterRetryPassword;
   @BindView(R.id.register_button) AppCompatButton mRegisterButton;
+  private SimpleRegister mSimpleRegister;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -43,41 +33,21 @@ public class RegisterActivity extends BaseActivity {
   }
 
   public void register(String username,String password){
-    AccountManager manager = AccountManager.getInstance(SupportService.getmXMPPConnection());
-    Observable.create(new Observable.OnSubscribe<Object>() {
-      @Override public void call(Subscriber<? super Object> subscriber) {
-        try {
-          manager.createAccount(username,password);
-          subscriber.onCompleted();
-        } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
-          subscriber.onError(e);
-          e.printStackTrace();
-        }
-      }
-    }).subscribeOn(Schedulers.io()).doOnSubscribe(()->SimpleHUD.showLoadingMessage(RegisterActivity.this,"正在注册...",false)).observeOn(
-        AndroidSchedulers.mainThread()).subscribe(o -> {
-
-    }, new ErrorAction() {
-      @Override public void call(Throwable throwable) {
-        super.call(throwable);
+    //注册
+    mSimpleRegister = new SimpleRegister();
+    SimpleHUD.showLoadingMessage(this,"正在注册",false);
+    mSimpleRegister.startRegister(new RegisterAccount(username, password), new RegisterCallBack() {
+      @Override public void success(RegisterAccount account) {
+        //注册成功
         SimpleHUD.dismiss();
-        SimpleHUD.showErrorMessage(RegisterActivity.this,"注册失败"+throwable.toString());
+        SimpleHUD.showSuccessMessage(RegisterActivity.this,"注册成功");
+        MainActivity.startMain(RegisterActivity.this);
       }
-    }, new Action0() {
-      @Override public void call() {
-        SupportService.login(username, password, new ConnectionCallback() {
-          @Override public void connection(XMPPConnection connection) {
-            SimpleHUD.dismiss();
-            SimpleHUD.showSuccessMessage(RegisterActivity.this,"注册成功");
-            saveSharePreference(username,password);
-            MainActivity.startMain(RegisterActivity.this);
-          }
 
-          @Override public void connectionFailed(Exception e) {
-            SimpleHUD.dismiss();
-            SimpleHUD.showErrorMessage(RegisterActivity.this,"登录失败");
-          }
-        });
+      @Override public void error(String reason) {
+        //注册失败
+        SimpleHUD.dismiss();
+        SimpleHUD.showErrorMessage(RegisterActivity.this,"注册失败");
       }
     });
   }
@@ -108,11 +78,5 @@ public class RegisterActivity extends BaseActivity {
 
   public static void startRegister(Activity activity) {
     activity.startActivity(new Intent(activity, RegisterActivity.class));
-  }
-
-  public void saveSharePreference(String name, String passwd) {
-    Account account = new FavorAdapter.Builder(this).build().create(Account.class);
-    account.setPassword(passwd);
-    account.setUserName(name);
   }
 }

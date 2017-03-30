@@ -1,8 +1,12 @@
 package com.china.epower.chat.model.test;
-
 /**
- * Created by kevin on 30/11/2016.
- */
+ * Class: MessageTest </br>
+ * Description: 没什么卵用 </br>
+ * Creator: kevin </br>
+ * Email: jiangtao103cp@gmail.com </br>
+ * Date: 2017/3/28 下午3:05</br>
+ * Update: 2017/3/28 下午3:05 </br>
+ **/
 
 public class MessageTest {
 

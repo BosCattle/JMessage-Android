@@ -1,6 +1,5 @@
 package tech.jiangtao.support.kit.callback;
 
-import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 
 /**
  * Class: VCardCallback </br>
@@ -13,8 +12,8 @@ import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 
 public interface VCardCallback {
 
-  void recieveVCard(VCard vCard,String userJid);
+  void success(String success);
 
-  void settingVCard(String message);
+  void error(String message);
 
 }

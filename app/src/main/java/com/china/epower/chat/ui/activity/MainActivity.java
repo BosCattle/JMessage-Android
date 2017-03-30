@@ -2,7 +2,6 @@ package com.china.epower.chat.ui.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,14 +22,16 @@ import com.pgyersdk.update.UpdateManagerListener;
 import com.roughike.bottombar.BottomBar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import java.util.List;
+import tech.jiangtao.support.ui.activity.GroupCreateActivity;
+import tech.jiangtao.support.ui.activity.GroupSearchActivity;
 import tech.jiangtao.support.ui.fragment.ChatListFragment;
+import tech.jiangtao.support.ui.fragment.ContactFragment;
 import tech.jiangtao.support.ui.linstener.ContactItemCallback;
-import tech.jiangtao.support.ui.pattern.ConstrutContact;
 
 /**
  * Class: MainActivity </br>
@@ -94,13 +95,13 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
   public void initFragments() {
     mFragments = new ArrayList<>();
     mFragments.add(ChatListFragment.newInstance());
-    mFragments.add(tech.jiangtao.support.ui.fragment.ContactFragment.newInstance());
+    mFragments.add(ContactFragment.newInstance());
     mFragments.add(PersonalFragment.newInstance());
   }
 
   public void initToolbar() {
     mToolbar.setTitle("");
-    mTvToolbar.setText("融合通信");
+    mTvToolbar.setText("统一通信");
     setSupportActionBar(mToolbar);
   }
 
@@ -117,8 +118,11 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
         case R.id.add_friend:
           AddFriendActivity.startAddFriend(MainActivity.this);
           break;
-        case R.id.add_group:
-          AddGroupActivity.startAddGroup(MainActivity.this);
+        case R.id.create_group:
+          GroupCreateActivity.startGroupCreate(MainActivity.this);
+          break;
+        case R.id.search_group:
+          GroupSearchActivity.startGroupSearch(MainActivity.this);
           break;
         case R.id.free_call:
 
@@ -137,16 +141,6 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
   }
 
   @Override public void onItemClick(int position, View view, Object object) {
-    if (object instanceof ConstrutContact) {
-      if (position == 0) {
-
-      } else if (position == 1) {
-
-      } else {
-        ConstrutContact data = (ConstrutContact) object;
-        ChatActivity.startChat(this, data.mVCardRealm);
-      }
-    }
   }
 
   public void updateCheck() {
@@ -157,7 +151,7 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
         // 将新版本信息封装到AppBean中
         final AppBean appBean = getAppBeanFromString(result);
         new AlertDialog.Builder(MainActivity.this).setTitle("更新")
-            .setMessage("统一通信有更新啦。版本号"+appBean.getReleaseNote()+appBean.getVersionCode())
+            .setMessage("统一通信有更新啦。版本号" + appBean.getReleaseNote() + appBean.getVersionCode())
             .setNegativeButton("确定",
                 (dialog, which) -> startDownloadTask(MainActivity.this, appBean.getDownloadURL()))
             .show();

@@ -89,6 +89,10 @@ public class AudioManager {
     }
   }
 
+  public void onDestroy(){
+    mAudioStateListener = null;
+  }
+
   public interface AudioStateListener{
     void wellPrepared();
   }

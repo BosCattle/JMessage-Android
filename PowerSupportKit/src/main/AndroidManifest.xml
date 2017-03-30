@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tech.jiangtao.support.kit">
-
   <application
       android:allowBackup="true"
       android:supportsRtl="true">
-    <service
-        android:name=".service.SupportService"
-        android:enabled="true"
-        android:exported="true">
-    </service>
     <service
         android:name=".service.FileTransferService"
         android:exported="true">

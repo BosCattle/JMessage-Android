@@ -16,11 +16,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.china.epower.chat.R;
-import com.cocosw.favor.FavorAdapter;
-import org.jivesoftware.smack.XMPPConnection;
-import tech.jiangtao.support.kit.callback.ConnectionCallback;
-import tech.jiangtao.support.kit.realm.sharepreference.Account;
-import tech.jiangtao.support.kit.service.SupportService;
+import tech.jiangtao.support.kit.callback.LoginCallBack;
+import tech.jiangtao.support.kit.eventbus.LoginParam;
+import tech.jiangtao.support.kit.userdata.SimpleLogin;
 import work.wanghao.simplehud.SimpleHUD;
 
 import static java.lang.System.exit;
@@ -35,7 +33,7 @@ import static java.lang.System.exit;
  * 登录的功能拿到服务去做，登录成功，在服务器中跳转到主页面
  * 保存用户信息到数据库中
  **/
-public class LoginActivity extends BaseActivity implements ConnectionCallback {
+public class LoginActivity extends BaseActivity implements LoginCallBack {
 
   @BindView(R.id.tv_toolbar) TextView mTvToolbar;
   @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -43,6 +41,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallback {
   @BindView(R.id.login_password) AppCompatEditText mLoginPassword;
   @BindView(R.id.login_button) AppCompatButton mLoginButton;
   @BindView(R.id.register) AppCompatTextView mRegisterText;
+  private SimpleLogin mSimpleLogin;
 
   public static final String TAG = LoginActivity.class.getSimpleName();
 
@@ -51,6 +50,7 @@ public class LoginActivity extends BaseActivity implements ConnectionCallback {
     setContentView(R.layout.activity_login);
     ButterKnife.bind(this);
     setUpToolbar();
+    mSimpleLogin = new SimpleLogin();
   }
 
   @Override protected boolean preSetupToolbar() {
@@ -81,8 +81,8 @@ public class LoginActivity extends BaseActivity implements ConnectionCallback {
         }
         SimpleHUD.showLoadingMessage(LoginActivity.this, (String) getText(R.string.profile_loading),
             false);
-        SupportService.login(mLoginUsername.getText().toString(),
-            mLoginPassword.getText().toString(), this);
+        mSimpleLogin.startLogin(new LoginParam(mLoginUsername.getText().toString(),
+            mLoginPassword.getText().toString()), this);
         break;
       case R.id.register:
         RegisterActivity.startRegister(LoginActivity.this);
@@ -90,23 +90,17 @@ public class LoginActivity extends BaseActivity implements ConnectionCallback {
     }
   }
 
-  @Override public void connection(XMPPConnection connection) {
+  @Override
+  public void connectSuccess() {
     SimpleHUD.dismiss();
-    saveSharePreference(mLoginUsername.getText().toString(), mLoginPassword.getText().toString());
     SimpleHUD.showSuccessMessage(this, (String) getText(R.string.connect_success), () -> {
       MainActivity.startMain(LoginActivity.this);
     });
   }
 
-  public void saveSharePreference(String name, String passwd) {
-    Account account = new FavorAdapter.Builder(this).build().create(Account.class);
-    account.setPassword(passwd);
-    account.setUserName(name);
-  }
-
-  @Override public void connectionFailed(Exception e) {
+  @Override public void connectionFailed(String e) {
     SimpleHUD.dismiss();
-    SimpleHUD.showErrorMessage(this, getText(R.string.connect_fail) + e.toString());
+    SimpleHUD.showErrorMessage(this, getText(R.string.connect_fail) + e);
   }
 
   public static void startLogin(Activity activity) {

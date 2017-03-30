@@ -173,6 +173,9 @@ public class PinYinUtils {
      * @return 拼音
      */
     public static String ccs2Pinyin(String ccs) {
+        if (ccs==null){
+            return "";
+        }
         String cc, py;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < ccs.length(); i++) {
@@ -192,6 +195,9 @@ public class PinYinUtils {
      * @return 拼音
      */
     public static String ccs2Pinyin(String ccs, String split) {
+        if (ccs==null){
+            return "";
+        }
         String cc, py;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < ccs.length(); i++) {

@@ -17,11 +17,14 @@ import tech.jiangtao.support.ui.pattern.ConstrutContact;
  * Update: 30/11/2016 3:55 PM </br>
  **/
 
-public abstract class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public abstract class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{
   private EasyViewHolder.OnItemClickListener mItemClickListener;
+  private EasyViewHolder.OnItemLongClickListener mItemLongClickListener;
+
   public ContactViewHolder(Context context, ViewGroup parent,int layoutId) {
     super(LayoutInflater.from(context).inflate(layoutId,parent,false));
     itemView.setOnClickListener(this);
+    itemView.setOnLongClickListener(this);
   }
 
 
@@ -36,5 +39,14 @@ public abstract class ContactViewHolder extends RecyclerView.ViewHolder implemen
 
   public void setOnItemClickListener(EasyViewHolder.OnItemClickListener onItemClickListener){
     mItemClickListener = onItemClickListener;
+  }
+
+  public void setOnItemLongClickListener(EasyViewHolder.OnItemLongClickListener onItemLongClickListener){
+    mItemLongClickListener = onItemLongClickListener;
+  }
+
+  @Override public boolean onLongClick(View v) {
+    return mItemLongClickListener != null && mItemLongClickListener.onItemLongClick(
+        getAdapterPosition(), v);
   }
 }

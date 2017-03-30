@@ -1,6 +1,5 @@
 package tech.jiangtao.support.kit.callback;
 
-import org.jivesoftware.smack.XMPPConnection;
 
 /**
  * Class: LoginCallBack </br>
@@ -13,7 +12,7 @@ import org.jivesoftware.smack.XMPPConnection;
 
 public interface LoginCallBack {
 
-  void connectSuccess(XMPPConnection connection);
+  void connectSuccess();
 
-  void connectionFailed(Exception e);
+  void connectionFailed(String e);
 }

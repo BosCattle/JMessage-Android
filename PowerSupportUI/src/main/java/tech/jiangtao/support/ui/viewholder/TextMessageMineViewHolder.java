@@ -1,6 +1,7 @@
 package tech.jiangtao.support.ui.viewholder;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,8 +35,7 @@ public class TextMessageMineViewHolder extends ChatBaseViewHolder {
 
   @Override public void bindTo(int position, ConstructMessage constructMessage) {
     Glide.with(mContext)
-        .load(constructMessage.mAvatar)
-        .asBitmap()
+        .load(Uri.parse(constructMessage.mAvatar!=null?constructMessage.mAvatar:""))
         .centerCrop()
         .error(R.mipmap.ic_chat_default)
         .placeholder(R.mipmap.ic_chat_default)

@@ -39,8 +39,7 @@ public class ChatImageOtherViewHolder extends ChatBaseViewHolder {
 
   @Override public void bindTo(int position, ConstructMessage constructMessage) {
     Glide.with(mContext)
-        .load(constructMessage.mAvatar)
-        .asBitmap()
+        .load(Uri.parse(constructMessage.mAvatar!=null?constructMessage.mAvatar:""))
         .centerCrop()
         .error(R.mipmap.ic_chat_default)
         .placeholder(R.mipmap.ic_chat_default)
@@ -53,7 +52,8 @@ public class ChatImageOtherViewHolder extends ChatBaseViewHolder {
         .into(mItemChatImg);
 
     mItemChatImg.setOnClickListener(v -> {
-      ImageDialogManager manager = new ImageDialogManager(mContext,constructMessage.mMessage.fimePath);
+      ImageDialogManager manager =
+          new ImageDialogManager(mContext, constructMessage.mMessage.fimePath);
       manager.showDiaog();
     });
   }

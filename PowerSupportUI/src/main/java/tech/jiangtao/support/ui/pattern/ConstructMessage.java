@@ -1,7 +1,6 @@
 package tech.jiangtao.support.ui.pattern;
 
 import tech.jiangtao.support.ui.model.Message;
-import tech.jiangtao.support.ui.model.User;
 import tech.jiangtao.support.ui.model.type.MessageType;
 
 /**
@@ -10,12 +9,12 @@ import tech.jiangtao.support.ui.model.type.MessageType;
  */
 
 public class ConstructMessage  {
-    public byte[] mAvatar;
+    public String mAvatar;
     public Message mMessage;
     public MessageType mMessageType;
 
     public static class Builder{
-        public byte[] avatar;
+        public String avatar;
         public Message message;
         public MessageType messageType;
 
@@ -27,7 +26,7 @@ public class ConstructMessage  {
             return constructMessage;
         }
 
-        public Builder avatar(byte[] avatar){
+        public Builder avatar(String avatar){
             this.avatar = avatar;
             return this;
         }

@@ -3,7 +3,6 @@ package tech.jiangtao.support.kit.realm;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import java.sql.Date;
-import java.util.UUID;
 
 /**
  * Class: MessageRealm </br>
@@ -21,20 +20,24 @@ import java.util.UUID;
 public class MessageRealm extends RealmObject {
 
   @PrimaryKey
-  public String id = UUID.randomUUID().toString();
+  public String id;
+  // message_from
   public String mainJID;
+  // message_to
   public String withJID;
+  // 消息内容
   public String textMessage;
+  // TODO: 03/01/2017 暂时保留时间戳，备用
   public java.util.Date time;
+  // // TODO: 03/01/2017 暂时保留，thread_id
   public String thread;
-
-  public java.util.Date getTime() {
-    return time;
-  }
-
-  public void setTime(java.util.Date time) {
-    this.time = time;
-  }
+  // 具体到聊天类型
+  public String type;
+  // 消息类型
+  public String messageType;
+  // 消息状态
+  // TODO: 03/01/2017 true: 表示已读，false:表示未读
+  public boolean messageStatus;
 
   public String getId() {
     return id;
@@ -60,7 +63,19 @@ public class MessageRealm extends RealmObject {
     this.withJID = withJID;
   }
 
-  public void setTime(Date time) {
+  public String getTextMessage() {
+    return textMessage;
+  }
+
+  public void setTextMessage(String textMessage) {
+    this.textMessage = textMessage;
+  }
+
+  public java.util.Date getTime() {
+    return time;
+  }
+
+  public void setTime(java.util.Date time) {
     this.time = time;
   }
 
@@ -72,11 +87,27 @@ public class MessageRealm extends RealmObject {
     this.thread = thread;
   }
 
-  public String getTextMessage() {
-    return textMessage;
+  public String getType() {
+    return type;
   }
 
-  public void setTextMessage(String textMessage) {
-    this.textMessage = textMessage;
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public String getMessageType() {
+    return messageType;
+  }
+
+  public void setMessageType(String messageType) {
+    this.messageType = messageType;
+  }
+
+  public boolean isMessageStatus() {
+    return messageStatus;
+  }
+
+  public void setMessageStatus(boolean messageStatus) {
+    this.messageStatus = messageStatus;
   }
 }

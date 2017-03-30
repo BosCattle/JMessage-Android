@@ -1,60 +1,58 @@
 package com.china.epower.chat.ui.activity;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.china.epower.chat.R;
-import com.china.epower.chat.app.PowerApp;
 import com.china.epower.chat.model.type.ListDataType;
 import com.china.epower.chat.ui.adapter.EasyViewHolder;
 import com.china.epower.chat.ui.adapter.PersonalDataAdapter;
 import com.china.epower.chat.ui.pattern.ConstructListData;
-import com.china.epower.chat.utils.ErrorAction;
 import com.china.epower.chat.utils.RecyclerViewUtils;
 import com.vincent.filepicker.Constant;
 import com.vincent.filepicker.activity.ImagePickActivity;
 import com.vincent.filepicker.filter.entity.ImageFile;
+
+import net.grandcentrix.tray.AppPreferences;
+import net.grandcentrix.tray.core.ItemNotFoundException;
+
 import java.io.File;
-import java.lang.reflect.Array;
-import java.net.URL;
 import java.util.ArrayList;
-import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.util.stringencoder.Base64;
-import org.jivesoftware.smackx.vcardtemp.VCardManager;
-import org.jivesoftware.smackx.vcardtemp.packet.VCard;
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
+
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.callback.VCardCallback;
-import tech.jiangtao.support.kit.init.SupportIM;
-import tech.jiangtao.support.kit.service.SupportService;
+import tech.jiangtao.support.kit.eventbus.LocalVCardEvent;
+import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.userdata.SimpleVCard;
-import tech.jiangtao.support.kit.util.FileUtil;
+import tech.jiangtao.support.kit.util.StringSplitUtil;
+import tech.jiangtao.support.ui.api.ApiService;
+import tech.jiangtao.support.ui.api.service.UpLoadServiceApi;
 import work.wanghao.simplehud.SimpleHUD;
 
-import static com.china.epower.chat.ui.fragment.PersonalFragment.TAG_UPDATE;
 import static com.vincent.filepicker.Constant.REQUEST_CODE_PICK_IMAGE;
 import static com.vincent.filepicker.activity.VideoPickActivity.IS_NEED_CAMERA;
+import static xiaofei.library.hermes.Hermes.getContext;
+
 /**
  * Class: PersonalDetailActivity </br>
  * Description: 个人信息界面 </br>
@@ -63,9 +61,10 @@ import static com.vincent.filepicker.activity.VideoPickActivity.IS_NEED_CAMERA;
  * Date: 01/12/2016 10:58 PM</br>
  * Update: 01/12/2016 10:58 PM </br>
  * 用rxJava封装一层VCard，用原生太麻烦。
+ * vCard也许为空
  **/
 public class PersonalDetailActivity extends BaseActivity
-    implements EasyViewHolder.OnItemClickListener,VCardCallback {
+    implements EasyViewHolder.OnItemClickListener, VCardCallback {
 
   public static final int TAG_IMAGE = 100;
   public static final int TAG_USERNAME = 200;
@@ -81,26 +80,46 @@ public class PersonalDetailActivity extends BaseActivity
   @BindView(R.id.recyclerview) RecyclerView mRecyclerview;
   private ArrayList<ConstructListData> mDatas;
   private PersonalDataAdapter mDataAdapter;
-  private VCard mVCard;
-  private SimpleVCard vCard ;
+  private VCardRealm mVCardRealm;
+  private SimpleVCard mSimpleVCard;
+  private UpLoadServiceApi mUpLoadServiceApi;
+  private Realm mRealm;
+  private LocalVCardEvent mLocalVCardEvent = new LocalVCardEvent();
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_personal_detail);
     ButterKnife.bind(this);
+    getLocalVCardRealm();
     setUpToolbar();
-    getVCard();
     setAdapter();
+  }
+
+  private void getLocalVCardRealm() {
+    mSimpleVCard = new SimpleVCard();
+    mRealm = Realm.getDefaultInstance();
+    RealmQuery<VCardRealm> realmQuery = mRealm.where(VCardRealm.class);
+    final AppPreferences appPreferences = new AppPreferences(getContext());
+    try {
+      //测试1@dc-a4b8eb92-xmpp.jiangtao.tech./jiangtao,获取和更新VcARD
+      mLocalVCardEvent.setJid(StringSplitUtil.splitDivider(appPreferences.getString("userJid")));
+      Log.d(TAG, "getLocalVCardRealm: " + appPreferences.getString("userJid"));
+      RealmResults<VCardRealm> realmResult = realmQuery.equalTo("jid",
+          StringSplitUtil.splitDivider(appPreferences.getString("userJid"))).findAll();
+      if (realmResult.size() != 0) {
+        mVCardRealm = realmResult.first();
+        mLocalVCardEvent.setNickName(mVCardRealm.getNickName());
+        mLocalVCardEvent.setAvatar(mVCardRealm.getAvatar());
+      } else {
+        mSimpleVCard.startUpdate(mLocalVCardEvent, this);
+      }
+    } catch (ItemNotFoundException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override protected boolean preSetupToolbar() {
     return false;
-  }
-
-  private void getVCard() {
-    vCard = new SimpleVCard(SupportService.getmXMPPConnection().getUser());
-    vCard.setmVCardCallback(this);
-    vCard.getVCard();
   }
 
   public void setUpToolbar() {
@@ -109,11 +128,8 @@ public class PersonalDetailActivity extends BaseActivity
       mTvToolbar.setText("个人信息");
       setSupportActionBar(mToolbar);
       mToolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
-      mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View v) {
-          ActivityCompat.finishAfterTransition(PersonalDetailActivity.this);
-        }
-      });
+      mToolbar.setNavigationOnClickListener(
+          v -> ActivityCompat.finishAfterTransition(PersonalDetailActivity.this));
     }
   }
 
@@ -157,50 +173,59 @@ public class PersonalDetailActivity extends BaseActivity
 
   public ArrayList<ConstructListData> buildData() {
     mDatas.clear();
-    String avatar =
-        "https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1478986459429&di=a8e5cd961cbfafab630ee5e0dbb48229&imgtype=0&src=http%3A%2F%2Fimage81.360doc.com%2FDownloadImg%2F2015%2F01%2F2419%2F49440174_1.jpg";
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_IMAGE)
         .tag(TAG_IMAGE)
-        .image((mVCard!=null&&mVCard.getAvatar()!=null)?mVCard.getAvatar():null)
+        .image((mVCardRealm != null && mVCardRealm.getAvatar() != null) ? mVCardRealm.getAvatar()
+            : null)
         .title("头像")
         .build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
         .tag(TAG_USERNAME)
         .title("用户名")
-        .subtitle(mVCard!=null&&mVCard.getNickName()!=null?mVCard.getNickName():"")
+        .subtitle(
+            mVCardRealm != null && mVCardRealm.getNickName() != null ? mVCardRealm.getNickName()
+                : "")
         .build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
         .tag(TAG_SEX)
         .title("性别")
-        .subtitle((mVCard!=null&&mVCard.getField("sex")!=null)?mVCard.getField("sex"):"")
+        .subtitle(
+            (mVCardRealm != null && mVCardRealm.getSex() != null) ? mVCardRealm.getSex() : "男")
         .build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
         .tag(TAG_SUBJECT)
         .title("部门")
-        .subtitle((mVCard!=null&&mVCard.getField("subject")!=null)?mVCard.getField("subject"):"")
+        .subtitle(
+            (mVCardRealm != null && mVCardRealm.getSubject() != null) ? mVCardRealm.getSubject()
+                : "")
         .build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
         .tag(TAG_POSITION)
         .title("职位")
-        .subtitle((mVCard!=null&&mVCard.getField("office")!=null)?mVCard.getField("office"):"")
+        .subtitle(
+            (mVCardRealm != null && mVCardRealm.getOffice() != null) ? mVCardRealm.getOffice() : "")
         .build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
         .tag(TAG_EMAIL)
         .title("邮箱")
-        .subtitle((mVCard!=null&&mVCard.getEmailWork()!=null)?mVCard.getEmailWork():"")
+        .subtitle(
+            (mVCardRealm != null && mVCardRealm.getEmail() != null) ? mVCardRealm.getEmail() : "")
         .build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
         .tag(TAG_PHONE)
         .title("手机号")
-        .subtitle((mVCard!=null&&mVCard.getPhoneWork("voice")!=null)?mVCard.getPhoneWork("voice"):"")
+        .subtitle((mVCardRealm != null && mVCardRealm.getPhoneNumber() != null)
+            ? mVCardRealm.getPhoneNumber() : "")
         .build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
         .tag(TAG_STYLE)
         .title("个性签名")
-        .subtitle((mVCard!=null&&mVCard.getPrefix()!=null)?mVCard.getPrefix():"")
+        .subtitle(
+            (mVCardRealm != null && mVCardRealm.getSignature() != null) ? mVCardRealm.getSignature()
+                : "")
         .build());
     return mDatas;
   }
@@ -217,15 +242,14 @@ public class PersonalDetailActivity extends BaseActivity
         .input(R.string.hint_dialog_input, R.string.hint_dialog_input, (dialog, input) -> {
           dialog.dismiss();
           if (input.length() >= 6) {
-            SimpleHUD.showErrorMessage(this,
-                (String) getText(R.string.profile_max_length));
+            SimpleHUD.showErrorMessage(this, (String) getText(R.string.profile_max_length));
           } else if (input.length() == 0) {
-            SimpleHUD.showErrorMessage(this,
-                (String) getText(R.string.profile_min_length));
+            SimpleHUD.showErrorMessage(this, (String) getText(R.string.profile_min_length));
           } else {
-            if (mVCard!=null) {
-              mVCard.setNickName(input.toString());
-              vCard.setVCard(mVCard);
+            if (mLocalVCardEvent != null) {
+              mLocalVCardEvent.setNickName(input.toString());
+              //发送请求
+              mSimpleVCard.startUpdate(mLocalVCardEvent, this);
             }
           }
         })
@@ -238,12 +262,12 @@ public class PersonalDetailActivity extends BaseActivity
         .inputType(InputType.TYPE_CLASS_TEXT)
         .input(R.string.hint_dialog_email, R.string.hint_dialog_email, (dialog, input) -> {
           dialog.dismiss();
-          if (mVCard!=null&&input.toString().contains("@")) {
-            mVCard.setEmailWork(input.toString());
-            vCard.setVCard(mVCard);
-          }else {
-            SimpleHUD.showErrorMessage(this,
-                (String) getText(R.string.profile_email_pro));
+          if (mLocalVCardEvent != null && input.toString().contains("@")) {
+            mLocalVCardEvent.setEmail(input.toString());
+            //发送通知
+            mSimpleVCard.startUpdate(mLocalVCardEvent, this);
+          } else {
+            SimpleHUD.showErrorMessage(this, (String) getText(R.string.profile_email_pro));
           }
         })
         .show();
@@ -255,12 +279,12 @@ public class PersonalDetailActivity extends BaseActivity
         .inputType(InputType.TYPE_CLASS_TEXT)
         .input(R.string.hint_dialog_phone, R.string.hint_dialog_phone, (dialog, input) -> {
           dialog.dismiss();
-          if (mVCard!=null&&input.length()==11) {
-            mVCard.setPhoneWork("voice",input.toString());
-            vCard.setVCard(mVCard);
-          }else {
-            SimpleHUD.showErrorMessage(this,
-                (String) getText(R.string.profile_phone_pro));
+          if (mVCardRealm != null && input.length() == 11) {
+            mLocalVCardEvent.setPhoneNumber(input.toString());
+            //发送通知
+            mSimpleVCard.startUpdate(mLocalVCardEvent, this);
+          } else {
+            SimpleHUD.showErrorMessage(this, (String) getText(R.string.profile_phone_pro));
           }
         })
         .show();
@@ -271,9 +295,10 @@ public class PersonalDetailActivity extends BaseActivity
         .items(R.array.sex)
         .itemsCallbackSingleChoice(-1, (dialog, view, which, text) -> {
           String[] list = getResources().getStringArray(R.array.sex);
-          if (mVCard!=null) {
-            mVCard.setField("sex", list[which]);
-            vCard.setVCard(mVCard);
+          if (mLocalVCardEvent != null) {
+            mLocalVCardEvent.setSex(list[which]);
+            //发送通知
+            mSimpleVCard.startUpdate(mLocalVCardEvent, this);
           }
           return true;
         })
@@ -286,9 +311,10 @@ public class PersonalDetailActivity extends BaseActivity
         .items(R.array.subject)
         .itemsCallbackSingleChoice(-1, (dialog, view, which, text) -> {
           String[] list = getResources().getStringArray(R.array.subject);
-          if (mVCard!=null) {
-            mVCard.setField("subject", list[which]);
-            vCard.setVCard(mVCard);
+          if (mLocalVCardEvent != null) {
+            mLocalVCardEvent.setSubject(list[which]);
+            //发送通知
+            mSimpleVCard.startUpdate(mLocalVCardEvent, this);
           }
           return true;
         })
@@ -301,17 +327,16 @@ public class PersonalDetailActivity extends BaseActivity
         .items(R.array.office)
         .itemsCallbackSingleChoice(-1, (dialog, view, which, text) -> {
           String[] list = getResources().getStringArray(R.array.office);
-          if (mVCard!=null) {
-            mVCard.setField("office", list[which]);
-            vCard.setVCard(mVCard);
+          if (mLocalVCardEvent != null) {
+            mLocalVCardEvent.setOffice(list[which]);
+            //发送通知
+            mSimpleVCard.startUpdate(mLocalVCardEvent, this);
           }
           return true;
         })
         .positiveText(R.string.profile_sure)
         .show();
   }
-
-
 
   public void showImageChoose() {
     Intent intent1 = new Intent(this, ImagePickActivity.class);
@@ -324,37 +349,53 @@ public class PersonalDetailActivity extends BaseActivity
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == RESULT_OK) {
       ArrayList<ImageFile> list = data.getParcelableArrayListExtra(Constant.RESULT_PICK_IMAGE);
-      if (list.size()!=0){
-        byte[] bytes = FileUtil.getFileByte(list.get(0).getPath());
-        if (mVCard!=null){
-          Log.d(TAG, "onActivityResult: mVCard不为null");
-          mVCard.setAvatar(bytes);
-          vCard.setVCard(mVCard);
-        }
+      if (list.size() != 0) {
+        Log.d(TAG, "onActivityResult: mVCard不为null");
+        uploadFile(list.get(0).getPath(), "avatar");
+        //发送通知
       }
     }
   }
 
-  @Override public void recieveVCard(VCard vCard,String userJID) {
-    // 拿到VCard,进行数据构建
-    if (vCard==null){
-      SimpleHUD.showErrorMessage(this,"vCard获取失败");
-    }else {
-      mVCard = vCard;
-      buildData();
-      mDataAdapter.notifyDataSetChanged();
-    }
-  }
-
-  @Override public void settingVCard(String message) {
-    Log.d(TAG, "settingVCard: "+message);
-    mDataAdapter.clear();
-    buildData();
-    mDataAdapter.notifyDataSetChanged();
-    SimpleHUD.showInfoMessage(this,message);
-  }
-
   @Override protected void onDestroy() {
     super.onDestroy();
+    mRealm.close();
+  }
+
+  @Override public void success(String success) {
+    SimpleHUD.showSuccessMessage(this, success);
+    buildData();
+    mDataAdapter.notifyDataSetChanged();
+  }
+
+  @Override public void error(String message) {
+    SimpleHUD.showErrorMessage(this, message);
+  }
+
+  /**
+   * @param path 文件路径
+   * @param type 文件类型,必须为avatar
+   */
+  public void uploadFile(String path, String type) {
+    if (mUpLoadServiceApi == null) {
+      mUpLoadServiceApi = ApiService.getInstance().createApiService(UpLoadServiceApi.class);
+    }
+    // use the FileUtils to get the actual file by uri
+    File file = new File(path);
+    // create RequestBody instance from file
+    RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+    // MultipartBody.Part is used to send also the actual file name
+    MultipartBody.Part body =
+        MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+    RequestBody typeBody = RequestBody.create(MediaType.parse("multipart/form-data"), type);
+    mUpLoadServiceApi.upload(body, typeBody)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(filePath -> {
+          Log.d(TAG, "uploadFile: " + filePath);
+          mLocalVCardEvent.setAvatar(
+              tech.jiangtao.support.ui.utils.CommonUtils.getUrl("avatar", filePath.filePath));
+          mSimpleVCard.startUpdate(mLocalVCardEvent, this);
+        });
   }
 }

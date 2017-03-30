@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_group_create"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+  <include
+      layout="@layout/include_header"
+      android:id="@+id/header"
+      />
+  <LinearLayout
+      android:id="@+id/ll_searchLayout"
+      android:layout_below="@+id/header"
+      android:layout_width="match_parent"
+      android:orientation="horizontal"
+      android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/et_groupName"
+        android:layout_width="0dp"
+        android:lines="1"
+        android:layout_height="wrap_content"
+        android:layout_weight="8"
+        android:hint="请输入群名"/>
+    <Button
+        android:id="@+id/btn_searchGroup"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:text="查找群"/>
+  </LinearLayout>
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/rv_groupList"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_below="@+id/ll_searchLayout"
+      />
+</RelativeLayout>

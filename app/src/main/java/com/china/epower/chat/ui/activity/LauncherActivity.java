@@ -5,58 +5,44 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import com.china.epower.chat.R;
-import com.cocosw.favor.FavorAdapter;
 
-import org.jivesoftware.smack.XMPPConnection;
+import net.grandcentrix.tray.AppPreferences;
+import net.grandcentrix.tray.core.ItemNotFoundException;
 
-import tech.jiangtao.support.kit.callback.ConnectionCallback;
-import tech.jiangtao.support.kit.realm.sharepreference.Account;
-import tech.jiangtao.support.kit.realm.sharepreference.FirstEnter;
-import tech.jiangtao.support.kit.service.SupportService;
-import work.wanghao.simplehud.SimpleHUD;
+import static xiaofei.library.hermes.Hermes.getContext;
 
 public class LauncherActivity extends AppCompatActivity {
 
-    private static final int SPLASH_DISPLAY_LENGTH = 3000;
+  private static final int SPLASH_DISPLAY_LENGTH = 3000;
+  private AppPreferences appPreferences = new AppPreferences(getContext());
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        super.onCreate(savedInstanceState);
-    }
+  @Override protected void onCreate(Bundle savedInstanceState) {
+    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    super.onCreate(savedInstanceState);
+  }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //检查是否登录
-        new Handler().postDelayed(() -> {
-            Account account =
-                    new FavorAdapter.Builder(LauncherActivity.this).build().create(Account.class);
-            FirstEnter enter = new FavorAdapter.Builder(this).build().create(FirstEnter.class);
-            if (enter.getEntered())
-            {
-                if (account.getUserName() != null && SupportService.getmXMPPConnection() != null) {
-                    if (SupportService.getmXMPPConnection().getUser() != null && !SupportService.getmXMPPConnection().getUser().equals("")) {
-                        MainActivity.startMain(LauncherActivity.this);
-                    } else {
-                        SupportService.login(account.getUserName(), account.getPassword(), new ConnectionCallback() {
-                            @Override public void connection(XMPPConnection connection) {
-                                MainActivity.startMain(LauncherActivity.this);
-                            }
+  @Override protected void onResume() {
+    super.onResume();
+    //检查是否登录
+    new Handler().postDelayed(() -> {
 
-                            @Override public void connectionFailed(Exception e) {
-                                SimpleHUD.showErrorMessage(LauncherActivity.this, "登录失败" + e);
-                            }
-                        });
-                    }
-                } else {
-                    LoginActivity.startLogin(LauncherActivity.this);
-                }
-            }else {
-                IndexActivity.startIndex(this);
+          try {
+            if (appPreferences.getBoolean("enter")) {
+              String username = appPreferences.getString("userJid");
+              String password = appPreferences.getString("password");
+              if (username != null && password != null) {
+                MainActivity.startMain(LauncherActivity.this);
+              } else {
+                LoginActivity.startLogin(LauncherActivity.this);
+              }
+            } else {
+              IndexActivity.startIndex(this);
             }
+          } catch (ItemNotFoundException e) {
+            e.printStackTrace();
+            IndexActivity.startIndex(this);
+          }
         }, SPLASH_DISPLAY_LENGTH);
-    }
+  }
 }

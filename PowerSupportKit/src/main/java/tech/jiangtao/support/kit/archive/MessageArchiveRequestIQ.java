@@ -1,6 +1,7 @@
 package tech.jiangtao.support.kit.archive;
 
 import android.util.Log;
+import java.util.Objects;
 import org.jivesoftware.smack.packet.IQ;
 
 /**
@@ -46,14 +47,14 @@ public class MessageArchiveRequestIQ extends IQ {
 
   @Override protected IQChildElementXmlStringBuilder getIQChildElementBuilder(
       IQChildElementXmlStringBuilder xml) {
-    if (getJid()!=null&&getJid()!="") {
+    if (getJid()!=null&& !Objects.equals(getJid(), "")) {
       xml.optAttribute("with", getJid());
     }
-    if (getTime()!=null&&getTime()!="") {
+    if (getTime()!=null&& !Objects.equals(getTime(), "")) {
       xml.optAttribute("start", getTime());
     }
     xml.rightAngleBracket();
-    Log.e(TAG, "getIQChildElementBuilder: "+xml.toString());
+    Log.d(TAG, "getIQChildElementBuilder: "+xml.toString());
     return xml;
   }
 }

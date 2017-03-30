@@ -4,14 +4,18 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import com.bumptech.glide.Glide;
+
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ChatBaseViewHolder;
@@ -38,28 +42,26 @@ public class PlayerMineViewHolder extends ChatBaseViewHolder {
 
   public PlayerMineViewHolder(Context context, ViewGroup parent) {
     super(context, parent, R.layout.list_item_player_mine);
-    ButterKnife.bind(this,itemView);
+    ButterKnife.bind(this, itemView);
     mContext = context;
   }
 
-  @SuppressLint("SetTextI18n") @Override public void bindTo(int position, ConstructMessage constructMessage) {
+  @SuppressLint("SetTextI18n") @Override
+  public void bindTo(int position, ConstructMessage constructMessage) {
     Glide.with(mContext)
-        .load(constructMessage.mAvatar)
-        .asBitmap()
+        .load(Uri.parse(constructMessage.mAvatar!=null?constructMessage.mAvatar:""))
         .centerCrop()
         .error(R.mipmap.ic_chat_default)
         .placeholder(R.mipmap.ic_chat_default)
         .into(mItemChatAvatar);
-    mItemChatMessage.setText(""+(int)(constructMessage.mMessage.time));
+    mItemChatMessage.setText("" + (int) (constructMessage.mMessage.time));
     mViewPlayerStyle.setOnClickListener(v -> {
       mViewPlayerStyle.setBackgroundResource(R.drawable.anim_player_animation);
       AnimationDrawable background = (AnimationDrawable) mViewPlayerStyle.getBackground();
       background.start();
-      MediaManager.playSound(constructMessage.mMessage.fimePath, new MediaPlayer.OnCompletionListener() {
-        @Override public void onCompletion(MediaPlayer mp) {
-          MediaManager.release();
-          mViewPlayerStyle.setBackgroundResource(R.mipmap.ic_voice_left);
-        }
+      MediaManager.playSound(constructMessage.mMessage.fimePath, mp -> {
+        MediaManager.release();
+        mViewPlayerStyle.setBackgroundResource(R.mipmap.ic_voice_left);
       });
     });
   }

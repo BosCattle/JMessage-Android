@@ -19,7 +19,7 @@ import tech.jiangtao.support.ui.R;
  * Update: 24/12/2016 11:58 AM </br>
  **/
 
-public class AudioRecordButton extends Button implements AudioManager.AudioStateListener {
+public class AudioRecordButton extends Button{
 
   private static final int MOVE_DISTANCE_Y = 50;
   private static final int STATE_NORMAL = 0X01;
@@ -75,13 +75,11 @@ public class AudioRecordButton extends Button implements AudioManager.AudioState
     super(context, attrs);
     mDialogManager = new DialogManager(getContext());
     mAudioManager = AudioManager.getInstance();
-    mAudioManager.setmAudioStateListener(this);
-    setOnLongClickListener(new OnLongClickListener() {
-      @Override public boolean onLongClick(View v) {
-        isReady = true;
-        mAudioManager.prepareAudio();
-        return false;
-      }
+    mAudioManager.setmAudioStateListener(() -> mHandler.sendEmptyMessage(MSG_AUDIO_PREPARED));
+    setOnLongClickListener(v -> {
+      isReady = true;
+      mAudioManager.prepareAudio();
+      return false;
     });
   }
 
@@ -160,10 +158,6 @@ public class AudioRecordButton extends Button implements AudioManager.AudioState
           break;
       }
     }
-  }
-
-  @Override public void wellPrepared() {
-    mHandler.sendEmptyMessage(MSG_AUDIO_PREPARED);
   }
 
   //录音完成回调
