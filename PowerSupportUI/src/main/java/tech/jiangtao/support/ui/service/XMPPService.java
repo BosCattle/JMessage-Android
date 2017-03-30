@@ -334,6 +334,9 @@ public class XMPPService extends Service {
         });
     }
 
+    //
+
+
     /**
      * 保证连接的代码
      */

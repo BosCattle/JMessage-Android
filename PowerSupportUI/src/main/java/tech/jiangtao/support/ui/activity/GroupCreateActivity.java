@@ -15,13 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
@@ -50,62 +47,57 @@ import work.wanghao.simplehud.SimpleHUD;
  * Update: 2017/3/28 下午3:41 </br>
  **/
 public class GroupCreateActivity extends BaseActivity
-        implements EasyViewHolder.OnItemClickListener {
+    implements EasyViewHolder.OnItemClickListener {
+  @BindView(R2.id.tv_toolbar) TextView mTvToolbar;
+  @BindView(R2.id.toolbar) Toolbar mToolbar;
+  @BindView(R2.id.rv_constansList) RecyclerView mConstantsList;
+  public static final String TAG = GroupCreateActivity.class.getSimpleName();
+  private ContactAdapter mContactAdapter;
+  private List<ConstrutContact> mConstrutContact;
+  private SimpleCGroup mSimpleCGroup;
+  private AppPreferences mAppPreferences;
+  private UserServiceApi mUserServiceApi;
+  public static List<Friends> mChoicedFriends = new ArrayList<>();
 
-    @BindView(R2.id.tv_toolbar)
-    TextView mTvToolbar;
-    @BindView(R2.id.toolbar)
-    Toolbar mToolbar;
-    @BindView(R2.id.rv_constansList)
-    RecyclerView mConstantsList;
-    public static final String TAG = GroupCreateActivity.class.getSimpleName();
-    private ContactAdapter mContactAdapter;
-    private List<ConstrutContact> mConstrutContact;
-    private SimpleCGroup mSimpleCGroup;
-    private AppPreferences mAppPreferences;
-    private UserServiceApi mUserServiceApi;
-    public static List<Friends> mChoicedFriends=new ArrayList<>();
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_create);
-        ButterKnife.bind(this);
-        init();
+  @Override protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_group_create);
+    ButterKnife.bind(this);
+    init();
+  }
 
+  public void init() {
+    mAppPreferences = new AppPreferences(this);
+    String name = null;
+    try {
+      name = mAppPreferences.getString("userJid");
+    } catch (ItemNotFoundException e) {
+      e.printStackTrace();
     }
-
-    public void init() {
-        mAppPreferences = new AppPreferences(this);
-        String name =null;
-        try {
-            name = mAppPreferences.getString("userJid");
-        }catch (ItemNotFoundException e){
-            e.printStackTrace();
-        }
-        name="vurtex@dc-a4b8eb92-xmpp.jiangtao.tech.";
-        LogUtils.d(TAG,name);
-        mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
-        setUpToolbar();
-        setUpAdapter();
-        mUserServiceApi.post(name).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(list -> {
-            //TODO 这里解析JSON
-            for (Friends friends : list) {
-                ConstrutContact build = new ConstrutContact.Builder().build();
-                build.mType = ContactType.TYPE_CHOICE_MEMBER_CHOICE;
-                build.mFriends=friends;
-                LogUtils.d(TAG, friends.toString());
-                mConstrutContact.add(build);
-            }
-            mContactAdapter.notifyDataSetChanged();
+    name = "vurtex@dc-a4b8eb92-xmpp.jiangtao.tech.";
+    LogUtils.d(TAG, name);
+    mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
+    setUpToolbar();
+    setUpAdapter();
+    mUserServiceApi.post(name)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(list -> {
+          //TODO 这里解析JSON
+          for (Friends friends : list) {
+            ConstrutContact build = new ConstrutContact.Builder().build();
+            build.mType = ContactType.TYPE_CHOICE_MEMBER_CHOICE;
+            build.mFriends = friends;
+            LogUtils.d(TAG, friends.toString());
+            mConstrutContact.add(build);
+          }
+          mContactAdapter.notifyDataSetChanged();
         }, new ErrorAction() {
-            @Override
-            public void call(Throwable throwable) {
-                super.call(throwable);
-                LogUtils.d(TAG,throwable.getLocalizedMessage());
-            }
+          @Override public void call(Throwable throwable) {
+            super.call(throwable);
+            LogUtils.d(TAG, throwable.getLocalizedMessage());
+          }
         });
-
     }
 
     /**
@@ -155,20 +147,20 @@ public class GroupCreateActivity extends BaseActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_group_create) {
-            new MaterialDialog.Builder(this).title(R.string.hint_dialog_phone)
-                    .content(R.string.group_create_alert)
-                    .inputType(InputType.TYPE_CLASS_TEXT)
-                    .input(R.string.hint_dialog_phone, R.string.hint_dialog_phone, (dialog, input) -> {
-                        dialog.dismiss();
-                        if (mVCardRealm != null && input.length() == 11) {
-                            mLocalVCardEvent.setPhoneNumber(input.toString());
-                            //发送通知
-                            mSimpleVCard.startUpdate(mLocalVCardEvent, this);
-                        } else {
-                            SimpleHUD.showErrorMessage(this, (String) getText(R.string.profile_phone_pro));
-                        }
-                    })
-                    .show();
+//            new MaterialDialog.Builder(this).title(R.string.hint_dialog_phone)
+//                    .content(R.string.group_create_alert)
+//                    .inputType(InputType.TYPE_CLASS_TEXT)
+//                    .input(R.string.hint_dialog_phone, R.string.hint_dialog_phone, (dialog, input) -> {
+//                        dialog.dismiss();
+//                        if (mVCardRealm != null && input.length() == 11) {
+//                            mLocalVCardEvent.setPhoneNumber(input.toString());
+//                            //发送通知
+//                            mSimpleVCard.startUpdate(mLocalVCardEvent, this);
+//                        } else {
+//                            SimpleHUD.showErrorMessage(this, (String) getText(R.string.profile_phone_pro));
+//                        }
+//                    })
+//                    .show();
             EditText et = new EditText(GroupCreateActivity.this);
             et.setHint("请输入群名");
             et.setWidth(RecyclerView.LayoutParams.WRAP_CONTENT);
@@ -182,6 +174,6 @@ public class GroupCreateActivity extends BaseActivity
                 }
             }).setNegativeButton("取消",null).create().show();
         }
-        return true;
-    }
+    return true;
+  }
 }
