@@ -15,10 +15,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
@@ -36,7 +41,6 @@ import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
-import work.wanghao.simplehud.SimpleHUD;
 
 /**
  * Class: GroupCreateActivity </br>
@@ -147,20 +151,22 @@ public class GroupCreateActivity extends BaseActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_group_create) {
-//            new MaterialDialog.Builder(this).title(R.string.hint_dialog_phone)
-//                    .content(R.string.group_create_alert)
-//                    .inputType(InputType.TYPE_CLASS_TEXT)
-//                    .input(R.string.hint_dialog_phone, R.string.hint_dialog_phone, (dialog, input) -> {
-//                        dialog.dismiss();
-//                        if (mVCardRealm != null && input.length() == 11) {
-//                            mLocalVCardEvent.setPhoneNumber(input.toString());
-//                            //发送通知
-//                            mSimpleVCard.startUpdate(mLocalVCardEvent, this);
-//                        } else {
+            new MaterialDialog.Builder(this).title("创建群")
+                    .content(R.string.group_create_alert)
+                    .inputType(InputType.TYPE_CLASS_TEXT)
+                    .input(getString(R.string.group_create_alert), "", (dialog, input) -> {
+                        dialog.dismiss();
+                        if (mChoicedFriends != null && input.length() == 11) {
+                            //TODO 收集选择的成员
+                            int size = mChoicedFriends.size();
+                            LogUtils.d(TAG, size+"");
+                            //执行创建群动作
+
+                        } else {
 //                            SimpleHUD.showErrorMessage(this, (String) getText(R.string.profile_phone_pro));
-//                        }
-//                    })
-//                    .show();
+                        }
+                    })
+                    .show();
             EditText et = new EditText(GroupCreateActivity.this);
             et.setHint("请输入群名");
             et.setWidth(RecyclerView.LayoutParams.WRAP_CONTENT);
