@@ -12,6 +12,7 @@ import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.viewholder.ContactCellViewHolder;
 import tech.jiangtao.support.ui.viewholder.ContactHeadViewHolder;
 import tech.jiangtao.support.ui.viewholder.ContactsViewHolder;
+import tech.jiangtao.support.ui.viewholder.GroupChoiceMemberViewHolder;
 import tech.jiangtao.support.ui.viewholder.GroupMemberViewHolder;
 
 /**
@@ -56,6 +57,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
         break;
       case 3:
         viewHolder = new GroupMemberViewHolder(mContext,parent);
+        break;
+      case 4:
+      viewHolder = new GroupChoiceMemberViewHolder(mContext,parent);
+        break;
     }
     bindListener(viewHolder);
     return viewHolder;
@@ -79,6 +84,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
       type = 2;
     }else if (mDatas.get(position).mType==ContactType.TYPE_MEMBER_CHOICE){
       type = 3;
+    }else if (mDatas.get(position).mType==ContactType.TYPE_CHOICE_MEMBER_CHOICE){
+      type = 4;
     }
     return type;
   }

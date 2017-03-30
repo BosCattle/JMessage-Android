@@ -1,8 +1,10 @@
 package tech.jiangtao.support.ui.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import net.grandcentrix.tray.AppPreferences;
@@ -22,12 +25,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import tech.jiangtao.support.kit.callback.GroupCreateCallBack;
-import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateParam;
 import tech.jiangtao.support.kit.userdata.SimpleCGroup;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
-import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
@@ -35,6 +35,7 @@ import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.api.ApiService;
 import tech.jiangtao.support.ui.api.service.UserServiceApi;
 import tech.jiangtao.support.ui.model.group.Friends;
+import tech.jiangtao.support.ui.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
 
@@ -61,7 +62,7 @@ public class GroupCreateActivity extends BaseActivity
     private SimpleCGroup mSimpleCGroup;
     private AppPreferences mAppPreferences;
     private UserServiceApi mUserServiceApi;
-
+    public static List<Friends> mChoicedFriends=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,8 +89,13 @@ public class GroupCreateActivity extends BaseActivity
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(list -> {
             //TODO 这里解析JSON
             for (Friends friends : list) {
+                ConstrutContact build = new ConstrutContact.Builder().build();
+                build.mType = ContactType.TYPE_CHOICE_MEMBER_CHOICE;
+                build.mFriends=friends;
                 LogUtils.d(TAG, friends.toString());
+                mConstrutContact.add(build);
             }
+            mContactAdapter.notifyDataSetChanged();
         }, new ErrorAction() {
             @Override
             public void call(Throwable throwable) {
@@ -147,32 +153,17 @@ public class GroupCreateActivity extends BaseActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_group_create) {
-            //检查是否有选择，创建群
-            String userJid = null;
-            String username = null;
-            try {
-                userJid = mAppPreferences.getString("userJid");
-                username = mAppPreferences.getString("username");
-                if (username == null) {
-                    username = StringSplitUtil.splitPrefix(userJid);
-                }
-            } catch (ItemNotFoundException e) {
-                e.printStackTrace();
-            }
-            GroupCreateParam mGroupCreateParam = new GroupCreateParam(username + "的群", userJid, null);
-            mSimpleCGroup.startCreateGroup(mGroupCreateParam, new GroupCreateCallBack() {
+            EditText et = new EditText(GroupCreateActivity.this);
+            et.setHint("请输入群名");
+            new AlertDialog.Builder(GroupCreateActivity.this).setTitle("请输入群名").setView(et).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
-                public void createSuccess() {
-                    //创建群聊成功
-                    GroupChatActivity.startGroupChat(GroupCreateActivity.this);
+                public void onClick(DialogInterface dialog, int which) {
+                    //TODO 收集选择的成员
+                    int size = mChoicedFriends.size();
+                    LogUtils.d(TAG, size+"");
+                    //执行创建群动作
                 }
-
-                @Override
-                public void createFailed(String failedReason) {
-                    //创建群聊失败
-
-                }
-            });
+            }).setNegativeButton("取消",null);
         }
         return true;
     }
