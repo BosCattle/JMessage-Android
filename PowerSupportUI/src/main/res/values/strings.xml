@@ -9,5 +9,8 @@
   <string name="friends_request">有一个新的好友请求</string>
   <string name="friends_agree">同意</string>
   <string name="friends_refuse">拒绝</string>
-  <string name="group_create">确定</string>
+  <string name="group_yes">确定</string>
+  <string name="group_cancel">取消</string>
+  <string name="group_create_alert">请输入群名</string>
+
 </resources>

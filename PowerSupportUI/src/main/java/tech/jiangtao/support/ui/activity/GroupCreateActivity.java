@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,6 +39,7 @@ import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
+import work.wanghao.simplehud.SimpleHUD;
 
 /**
  * Class: GroupCreateActivity </br>
@@ -153,6 +155,20 @@ public class GroupCreateActivity extends BaseActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_group_create) {
+            new MaterialDialog.Builder(this).title(R.string.hint_dialog_phone)
+                    .content(R.string.group_create_alert)
+                    .inputType(InputType.TYPE_CLASS_TEXT)
+                    .input(R.string.hint_dialog_phone, R.string.hint_dialog_phone, (dialog, input) -> {
+                        dialog.dismiss();
+                        if (mVCardRealm != null && input.length() == 11) {
+                            mLocalVCardEvent.setPhoneNumber(input.toString());
+                            //发送通知
+                            mSimpleVCard.startUpdate(mLocalVCardEvent, this);
+                        } else {
+                            SimpleHUD.showErrorMessage(this, (String) getText(R.string.profile_phone_pro));
+                        }
+                    })
+                    .show();
             EditText et = new EditText(GroupCreateActivity.this);
             et.setHint("请输入群名");
             et.setWidth(RecyclerView.LayoutParams.WRAP_CONTENT);

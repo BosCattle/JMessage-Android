@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <item android:id="@+id/menu_group_create"
-      android:title="@string/group_create"
+      android:title="@string/group_yes"
       app:showAsAction="always"
       android:icon="@mipmap/ic_publish"
       android:visible="true"

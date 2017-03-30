@@ -53,4 +53,5 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:'+rootProject.ext.depsVersion.logginginterceptorVersion
     compile 'com.github.chrisbanes:PhotoView:'+rootProject.ext.depsVersion.photoViewVersion
     compile 'com.github.BosCattle:Emoji:'+rootProject.ext.depsVersion.emojiVersion
+    compile 'com.afollestad.material-dialogs:core:' + rootProject.ext.depsVersion.materialDialogsVersion
 }
