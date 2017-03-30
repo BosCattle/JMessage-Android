@@ -18,7 +18,6 @@ import tech.jiangtao.support.ui.model.FilePath;
  * Date: 15/01/2017 11:07 PM</br>
  * Update: 15/01/2017 11:07 PM </br>
  **/
-
 public interface UpLoadServiceApi {
   @Multipart @POST("file/fileupload") Observable<FilePath> upload(@Part MultipartBody.Part file);
 
