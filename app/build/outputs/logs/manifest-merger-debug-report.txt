@@ -1,496 +1,496 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:2:1-83:12
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:2:1-83:12
 	package
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:4:5-36
-		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:4:5-36
+		INJECTED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml
 	android:versionName
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:5:5-30
-		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:5:5-30
+		INJECTED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml
 	xmlns:tools
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:3:5-51
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:3:5-51
 	android:versionCode
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:6:5-28
-		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:6:5-28
+		INJECTED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:2:11-69
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:2:11-69
 uses-sdk
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:8:3-79
-MERGED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:8:5-10:41
-MERGED from [JMessage:PowerSupportKit:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:7:5-9:41
-MERGED from [io.realm:realm-android-library:2.2.0] /Users/Vurtex/.android/build-cache/16a684d55fb2944a0231f4eec99d95605389a0cf/output/AndroidManifest.xml:5:5-7:41
-MERGED from [com.getkeepsafe.relinker:relinker:1.2.2] /Users/Vurtex/.android/build-cache/347d8f7822cdb9f32dc54e02e356b27e5849a41c/output/AndroidManifest.xml:7:5-43
-MERGED from [xiaofei.library:hermes-eventbus:0.3.0] /Users/Vurtex/.android/build-cache/27b78713c1ada66398745f19d0c1c2d514c88306/output/AndroidManifest.xml:7:5-9:41
-MERGED from [xiaofei.library:hermes:0.7.0] /Users/Vurtex/.android/build-cache/9e1cf6ea84752f2421186f80a0fab77b1f100994/output/AndroidManifest.xml:7:5-9:41
-MERGED from [net.grandcentrix.tray:tray:0.11.0] /Users/Vurtex/.android/build-cache/e96a38e9b66ffd8617f5ad2fcdd9d8530dd79e9c/output/AndroidManifest.xml:7:5-9:41
-MERGED from [de.hdodenhof:circleimageview:2.1.0] /Users/Vurtex/.android/build-cache/b128411f9abc1c20ce3489c9232bebdd3ed81de2/output/AndroidManifest.xml:5:5-7:41
-MERGED from [com.github.chrisbanes:PhotoView:1.3.1] /Users/Vurtex/.android/build-cache/8a8f8a0b9474183e4e84d9fac27a707d43963b15/output/AndroidManifest.xml:8:5-10:41
-MERGED from [com.github.BosCattle:Emoji:V0.0.1] /Users/Vurtex/.android/build-cache/e16dc2f30666fcb0b696018ebd86d24699fa7c7b/output/AndroidManifest.xml:7:5-9:41
-MERGED from [com.android.support:multidex:1.0.1] /Users/Vurtex/.android/build-cache/5dcf03643fc7006b6b75fc212368deb4d0239228/output/AndroidManifest.xml:18:5-42
-MERGED from [com.github.Doublemine:SimpleHud:0.1.2] /Users/Vurtex/.android/build-cache/d9a59b4f22181ea2ebb9a8752bfd298048e84e2d/output/AndroidManifest.xml:7:5-9:41
-MERGED from [io.reactivex:rxandroid:1.2.1] /Users/Vurtex/.android/build-cache/dea76bcf09c4f7fe56ff8a4931f514f9a60a42ea/output/AndroidManifest.xml:19:5-43
-MERGED from [com.roughike:bottom-bar:2.0.2] /Users/Vurtex/.android/build-cache/4cb92826ca329baa0388fd613622a2ff8531de17/output/AndroidManifest.xml:8:5-10:41
-MERGED from [com.github.BosCattle:ViewCollection:V0.0.5] /Users/Vurtex/.android/build-cache/16ec56564f83738317ed638b0a828b0883a5e3a3/output/AndroidManifest.xml:7:5-9:41
-MERGED from [com.pnikosis:materialish-progress:1.7] /Users/Vurtex/.android/build-cache/f10dd70064aa177be1d3741745f08fe23e260705/output/AndroidManifest.xml:7:5-9:41
-MERGED from [com.pgyersdk:sdk:2.2] /Users/Vurtex/.android/build-cache/bf61dfbeff36e00db9e8e285d2bed4fc90b01c41/output/AndroidManifest.xml:6:5-8:41
-MERGED from [com.afollestad.material-dialogs:core:0.9.4.1] /Users/Vurtex/.android/build-cache/8cc6ff705ce48c4a759c5162cfd578309b09d2ba/output/AndroidManifest.xml:8:5-11:75
-MERGED from [com.android.support:support-v13:25.2.0] /Users/Vurtex/.android/build-cache/2774bb287462d723986dba7653866dacc93878db/output/AndroidManifest.xml:21:5-23:55
-MERGED from [me.zhanghai.android.materialprogressbar:library:1.3.0] /Users/Vurtex/.android/build-cache/94ba3364229814f3a6f6522d7e0fcd3baeba7fee/output/AndroidManifest.xml:12:5-14:41
-MERGED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:7:5-9:41
-MERGED from [com.bm.photoview:library:1.4.1] /Users/Vurtex/.android/build-cache/6ba0bcd72dc07fb47e698f09e604136553c0dbc4/output/AndroidManifest.xml:7:5-9:41
-MERGED from [com.android.support:design:25.2.0] /Users/Vurtex/.android/build-cache/274b217fc884ce44a9bbe559f30fc1518d069f6d/output/AndroidManifest.xml:21:5-23:62
-MERGED from [com.android.support:recyclerview-v7:25.2.0] /Users/Vurtex/.android/build-cache/dd2ee9a2a0869277282e0bf2b261482cc9f997e3/output/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:transition:25.2.0] /Users/Vurtex/.android/build-cache/2f33ae82b288310fa52dca707bd718cbe662d3ca/output/AndroidManifest.xml:20:5-44
-MERGED from [pub.devrel:easypermissions:0.2.1] /Users/Vurtex/.android/build-cache/d345c26a14ae511621f4e6ae445b84c057109bb4/output/AndroidManifest.xml:8:5-10:41
-MERGED from [com.android.support:appcompat-v7:25.2.0] /Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/AndroidManifest.xml:21:5-23:78
-MERGED from [com.android.support:support-v4:25.2.0] /Users/Vurtex/.android/build-cache/cd9e14bc97e650ec4ee820a38c435241858b0618/output/AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:support-fragment:25.2.0] /Users/Vurtex/.android/build-cache/9edd54f66e8baf55ee4a4139672530a32ec62fea/output/AndroidManifest.xml:21:5-23:60
-MERGED from [com.android.support:support-media-compat:25.2.0] /Users/Vurtex/.android/build-cache/0245ae974785426d909ed4c9db9f5b1f5bb251f3/output/AndroidManifest.xml:21:5-23:63
-MERGED from [com.android.support:support-core-ui:25.2.0] /Users/Vurtex/.android/build-cache/e26277a870af7bf0a1bb1c59c7d3fcb0f477728e/output/AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:support-core-utils:25.2.0] /Users/Vurtex/.android/build-cache/a3da7a961cdce082523c911fda8c7d22cdc48246/output/AndroidManifest.xml:21:5-23:61
-MERGED from [com.android.support:animated-vector-drawable:25.2.0] /Users/Vurtex/.android/build-cache/b6adbdda9a426bc107f8beabde062883a3fe224d/output/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:25.2.0] /Users/Vurtex/.android/build-cache/aaeee0f6b82a71a085bd717eaee13d0097e57c66/output/AndroidManifest.xml:21:5-43
-MERGED from [com.jakewharton:butterknife:8.5.1] /Users/Vurtex/.android/build-cache/f51513a2b3267f42493b10503f08fa04db70f5cc/output/AndroidManifest.xml:5:5-43
-MERGED from [com.android.support:support-compat:25.2.0] /Users/Vurtex/.android/build-cache/b8c0e27cb6016e185b122912f3aa1e5ceefb3bdc/output/AndroidManifest.xml:21:5-23:58
-MERGED from [com.tbruyelle.rxpermissions:rxpermissions:0.9.0] /Users/Vurtex/.android/build-cache/fbbd011ff444c8a1f6f358dc223589b5bd092efc/output/AndroidManifest.xml:7:5-9:41
-MERGED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:20:5-22:41
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:8:3-79
+MERGED from [com.android.support:multidex:1.0.1] /Users/kevin/.android/build-cache/131874969559f3dd29bce8de18f5456318b494a1/output/AndroidManifest.xml:18:5-42
+MERGED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:8:5-10:41
+MERGED from [PowerChat:PowerSupportKit:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:7:5-9:41
+MERGED from [io.realm:realm-android-library:2.2.0] /Users/kevin/.android/build-cache/0ae5f5a2bda38ed5ddb7d6415bf5a9896e51899a/output/AndroidManifest.xml:5:5-7:41
+MERGED from [com.getkeepsafe.relinker:relinker:1.2.2] /Users/kevin/.android/build-cache/518dfbb0c7d5d3fcf782518e1c5be84932080a37/output/AndroidManifest.xml:7:5-43
+MERGED from [xiaofei.library:hermes-eventbus:0.3.0] /Users/kevin/.android/build-cache/53a1bcd82fbd5dd5f48eda29473177050270267b/output/AndroidManifest.xml:7:5-9:41
+MERGED from [xiaofei.library:hermes:0.7.0] /Users/kevin/.android/build-cache/e7be8896103fa88482132d6a61c195dda9ded0ed/output/AndroidManifest.xml:7:5-9:41
+MERGED from [net.grandcentrix.tray:tray:0.11.0] /Users/kevin/.android/build-cache/bb5157fd5f380b619f1aef8ede88d2441349f28b/output/AndroidManifest.xml:7:5-9:41
+MERGED from [de.hdodenhof:circleimageview:2.1.0] /Users/kevin/.android/build-cache/0f7c075ee09bb6f15708ecccdad88188b9261ac9/output/AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.chrisbanes:PhotoView:1.3.1] /Users/kevin/.android/build-cache/6caade049cd2c5caac8f1afbdb0f0427503fe7f0/output/AndroidManifest.xml:8:5-10:41
+MERGED from [com.github.BosCattle:Emoji:V0.0.1] /Users/kevin/.android/build-cache/a97e9bb38bda6b4fd0a31eca56ad1a50868ac61d/output/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.Doublemine:SimpleHud:0.1.2] /Users/kevin/.android/build-cache/3c353203604fdeb9f2a1d69502d5957d7f352efa/output/AndroidManifest.xml:7:5-9:41
+MERGED from [io.reactivex:rxandroid:1.2.1] /Users/kevin/.android/build-cache/904f719a27b630f6fcbe71898002d83438e8f079/output/AndroidManifest.xml:19:5-43
+MERGED from [com.roughike:bottom-bar:2.0.2] /Users/kevin/.android/build-cache/1941604e6a772a798ba37544f79c238ec8a34545/output/AndroidManifest.xml:8:5-10:41
+MERGED from [com.github.BosCattle:ViewCollection:V0.0.5] /Users/kevin/.android/build-cache/1c46dae8da7e609e061479e8d7399c846126ccdd/output/AndroidManifest.xml:7:5-9:41
+MERGED from [com.pnikosis:materialish-progress:1.7] /Users/kevin/.android/build-cache/d2926f328bfa014eeee4815e6e8890961af921a6/output/AndroidManifest.xml:7:5-9:41
+MERGED from [com.pgyersdk:sdk:2.2] /Users/kevin/.android/build-cache/6d79b6121444031edd75c592bb674c0c4d6d03f2/output/AndroidManifest.xml:6:5-8:41
+MERGED from [com.afollestad.material-dialogs:core:0.9.4.1] /Users/kevin/.android/build-cache/f331abe4c2c18ea9b27e3471e1ad916eca719fbb/output/AndroidManifest.xml:8:5-11:75
+MERGED from [com.android.support:support-v13:25.2.0] /Users/kevin/.android/build-cache/3c7001fb1795b97abffd33e3a6e838cc4b1b44af/output/AndroidManifest.xml:21:5-23:55
+MERGED from [me.zhanghai.android.materialprogressbar:library:1.3.0] /Users/kevin/.android/build-cache/df6254a4c5e663cd137d7579557a4bc404da3f46/output/AndroidManifest.xml:12:5-14:41
+MERGED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:7:5-9:41
+MERGED from [com.bm.photoview:library:1.4.1] /Users/kevin/.android/build-cache/530d8e21289cdf4ec210464a574c38b20534d7a7/output/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:design:25.2.0] /Users/kevin/.android/build-cache/fd6167fc2c27479e90957613841655fd91dbbb6e/output/AndroidManifest.xml:21:5-23:62
+MERGED from [com.android.support:recyclerview-v7:25.2.0] /Users/kevin/.android/build-cache/4640356a8f1d0411ec800fd70ad50fcfb3bbe59c/output/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:transition:25.2.0] /Users/kevin/.android/build-cache/2b0daa6b39cbb75ae1c7a4d0dc27a68f936fef2e/output/AndroidManifest.xml:20:5-44
+MERGED from [pub.devrel:easypermissions:0.2.1] /Users/kevin/.android/build-cache/c03b45bd8720333f33c0e4f421911284826727ec/output/AndroidManifest.xml:8:5-10:41
+MERGED from [com.android.support:appcompat-v7:25.2.0] /Users/kevin/.android/build-cache/973785d54516b383391445bf0f5083dbf0e4433d/output/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:support-v4:25.2.0] /Users/kevin/.android/build-cache/5521436b7474eab4589892cc3e7f94f3c90a7396/output/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.2.0] /Users/kevin/.android/build-cache/3bdb2509dfdf9c4c1cf19407e21b44192a3e1d2e/output/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.2.0] /Users/kevin/.android/build-cache/53cf970bfc9086376dfd707f0b29f64f61459b35/output/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:25.2.0] /Users/kevin/.android/build-cache/8599091b94e41d6f602dfdeeca2cd784c0d66883/output/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:25.2.0] /Users/kevin/.android/build-cache/14373a24feb50dde17dafa1d9433e6ab03662a6b/output/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:animated-vector-drawable:25.2.0] /Users/kevin/.android/build-cache/584d8dff44db04382b6101e2903031c23a77d2ac/output/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.2.0] /Users/kevin/.android/build-cache/e27a5100cd918c6dbca883dbf67c2f4cb584f62d/output/AndroidManifest.xml:21:5-43
+MERGED from [com.jakewharton:butterknife:8.5.1] /Users/kevin/.android/build-cache/b0f079b8a2fc749c2e73cb80106f649c4bc55ffe/output/AndroidManifest.xml:5:5-43
+MERGED from [com.android.support:support-compat:25.2.0] /Users/kevin/.android/build-cache/54e9185501733ddc156f1fd6b446df28e1797452/output/AndroidManifest.xml:21:5-23:58
+MERGED from [com.tbruyelle.rxpermissions:rxpermissions:0.9.0] /Users/kevin/.android/build-cache/2b028a50aecef73df3e215fc9ac1ace44160feda/output/AndroidManifest.xml:7:5-9:41
+MERGED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:20:5-22:41
 	tools:overrideLibrary
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:8:13-77
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:8:13-77
 	android:targetSdkVersion
-		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:9:3-76
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:9:3-76
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:9:20-74
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:9:20-74
 uses-permission#android.permission.INTERNET
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:10:3-64
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:10:3-64
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:10:20-62
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:10:20-62
 uses-permission#android.permission.READ_PHONE_STATE
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:11:3-72
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:11:3-72
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:11:20-70
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:11:20-70
 uses-permission#android.permission.ACCESS_WIFI_STATE
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:12:3-73
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:12:3-73
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:12:20-71
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:12:20-71
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:13:3-78
-MERGED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:11:5-81
-MERGED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:26:5-81
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:13:3-78
+MERGED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:11:5-81
+MERGED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:26:5-81
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:13:20-76
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:13:20-76
 uses-permission#android.permission.RECORD_AUDIO
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:14:3-68
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:14:3-68
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:14:20-66
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:14:20-66
 uses-permission#android.permission.READ_LOGS
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:15:3-65
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:15:3-65
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:15:20-63
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:15:20-63
 uses-permission#android.permission.SYSTEM_ALERT_WINDOW
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:16:3-75
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:16:3-75
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:16:20-73
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:16:20-73
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:17:3-78
-MERGED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:12:5-80
-MERGED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:25:5-80
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:17:3-78
+MERGED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:12:5-80
+MERGED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:25:5-80
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:17:20-75
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:17:20-75
 uses-permission#android.permission.MOUNT_UNMOUNT_FILESYSTEMS
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:18:3-81
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:18:3-81
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:18:20-79
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:18:20-79
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:19:3-78
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:19:3-78
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:19:20-76
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:19:20-76
 uses-permission#android.permission.GET_TASKS
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:20:3-65
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:20:3-65
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:20:20-63
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:20:20-63
 uses-permission#android.permission.WAKE_LOCK
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:21:3-66
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:21:3-66
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:21:20-63
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:21:20-63
 application
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:23:3-81:17
-MERGED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:14:5-99:19
-MERGED from [JMessage:PowerSupportKit:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:11:5-18:19
-MERGED from [xiaofei.library:hermes-eventbus:0.3.0] /Users/Vurtex/.android/build-cache/27b78713c1ada66398745f19d0c1c2d514c88306/output/AndroidManifest.xml:11:5-13:19
-MERGED from [xiaofei.library:hermes:0.7.0] /Users/Vurtex/.android/build-cache/9e1cf6ea84752f2421186f80a0fab77b1f100994/output/AndroidManifest.xml:11:5-53
-MERGED from [net.grandcentrix.tray:tray:0.11.0] /Users/Vurtex/.android/build-cache/e96a38e9b66ffd8617f5ad2fcdd9d8530dd79e9c/output/AndroidManifest.xml:11:5-17:19
-MERGED from [de.hdodenhof:circleimageview:2.1.0] /Users/Vurtex/.android/build-cache/b128411f9abc1c20ce3489c9232bebdd3ed81de2/output/AndroidManifest.xml:9:5-20
-MERGED from [com.github.Doublemine:SimpleHud:0.1.2] /Users/Vurtex/.android/build-cache/d9a59b4f22181ea2ebb9a8752bfd298048e84e2d/output/AndroidManifest.xml:11:5-15:19
-MERGED from [com.github.BosCattle:ViewCollection:V0.0.5] /Users/Vurtex/.android/build-cache/16ec56564f83738317ed638b0a828b0883a5e3a3/output/AndroidManifest.xml:11:5-15:19
-MERGED from [com.pnikosis:materialish-progress:1.7] /Users/Vurtex/.android/build-cache/f10dd70064aa177be1d3741745f08fe23e260705/output/AndroidManifest.xml:11:5-20
-MERGED from [com.pgyersdk:sdk:2.2] /Users/Vurtex/.android/build-cache/bf61dfbeff36e00db9e8e285d2bed4fc90b01c41/output/AndroidManifest.xml:10:5-11:19
-MERGED from [com.afollestad.material-dialogs:core:0.9.4.1] /Users/Vurtex/.android/build-cache/8cc6ff705ce48c4a759c5162cfd578309b09d2ba/output/AndroidManifest.xml:13:5-20
-MERGED from [com.android.support:support-v13:25.2.0] /Users/Vurtex/.android/build-cache/2774bb287462d723986dba7653866dacc93878db/output/AndroidManifest.xml:25:5-20
-MERGED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:14:5-38:19
-MERGED from [com.bm.photoview:library:1.4.1] /Users/Vurtex/.android/build-cache/6ba0bcd72dc07fb47e698f09e604136553c0dbc4/output/AndroidManifest.xml:11:5-12:19
-MERGED from [com.android.support:design:25.2.0] /Users/Vurtex/.android/build-cache/274b217fc884ce44a9bbe559f30fc1518d069f6d/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:transition:25.2.0] /Users/Vurtex/.android/build-cache/2f33ae82b288310fa52dca707bd718cbe662d3ca/output/AndroidManifest.xml:22:5-20
-MERGED from [pub.devrel:easypermissions:0.2.1] /Users/Vurtex/.android/build-cache/d345c26a14ae511621f4e6ae445b84c057109bb4/output/AndroidManifest.xml:12:5-20
-MERGED from [com.android.support:appcompat-v7:25.2.0] /Users/Vurtex/.android/build-cache/afd63b681f2556aaf5df1434137129cdf2e478f0/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-v4:25.2.0] /Users/Vurtex/.android/build-cache/cd9e14bc97e650ec4ee820a38c435241858b0618/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-fragment:25.2.0] /Users/Vurtex/.android/build-cache/9edd54f66e8baf55ee4a4139672530a32ec62fea/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-media-compat:25.2.0] /Users/Vurtex/.android/build-cache/0245ae974785426d909ed4c9db9f5b1f5bb251f3/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-ui:25.2.0] /Users/Vurtex/.android/build-cache/e26277a870af7bf0a1bb1c59c7d3fcb0f477728e/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-utils:25.2.0] /Users/Vurtex/.android/build-cache/a3da7a961cdce082523c911fda8c7d22cdc48246/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:animated-vector-drawable:25.2.0] /Users/Vurtex/.android/build-cache/b6adbdda9a426bc107f8beabde062883a3fe224d/output/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-vector-drawable:25.2.0] /Users/Vurtex/.android/build-cache/aaeee0f6b82a71a085bd717eaee13d0097e57c66/output/AndroidManifest.xml:23:5-20
-MERGED from [com.android.support:support-compat:25.2.0] /Users/Vurtex/.android/build-cache/b8c0e27cb6016e185b122912f3aa1e5ceefb3bdc/output/AndroidManifest.xml:25:5-20
-MERGED from [com.tbruyelle.rxpermissions:rxpermissions:0.9.0] /Users/Vurtex/.android/build-cache/fbbd011ff444c8a1f6f358dc223589b5bd092efc/output/AndroidManifest.xml:11:5-20
-MERGED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:28:5-57:19
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:23:3-81:17
+MERGED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:14:5-99:19
+MERGED from [PowerChat:PowerSupportKit:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:11:5-18:19
+MERGED from [xiaofei.library:hermes-eventbus:0.3.0] /Users/kevin/.android/build-cache/53a1bcd82fbd5dd5f48eda29473177050270267b/output/AndroidManifest.xml:11:5-13:19
+MERGED from [xiaofei.library:hermes:0.7.0] /Users/kevin/.android/build-cache/e7be8896103fa88482132d6a61c195dda9ded0ed/output/AndroidManifest.xml:11:5-53
+MERGED from [net.grandcentrix.tray:tray:0.11.0] /Users/kevin/.android/build-cache/bb5157fd5f380b619f1aef8ede88d2441349f28b/output/AndroidManifest.xml:11:5-17:19
+MERGED from [de.hdodenhof:circleimageview:2.1.0] /Users/kevin/.android/build-cache/0f7c075ee09bb6f15708ecccdad88188b9261ac9/output/AndroidManifest.xml:9:5-20
+MERGED from [com.github.Doublemine:SimpleHud:0.1.2] /Users/kevin/.android/build-cache/3c353203604fdeb9f2a1d69502d5957d7f352efa/output/AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.BosCattle:ViewCollection:V0.0.5] /Users/kevin/.android/build-cache/1c46dae8da7e609e061479e8d7399c846126ccdd/output/AndroidManifest.xml:11:5-15:19
+MERGED from [com.pnikosis:materialish-progress:1.7] /Users/kevin/.android/build-cache/d2926f328bfa014eeee4815e6e8890961af921a6/output/AndroidManifest.xml:11:5-20
+MERGED from [com.pgyersdk:sdk:2.2] /Users/kevin/.android/build-cache/6d79b6121444031edd75c592bb674c0c4d6d03f2/output/AndroidManifest.xml:10:5-11:19
+MERGED from [com.afollestad.material-dialogs:core:0.9.4.1] /Users/kevin/.android/build-cache/f331abe4c2c18ea9b27e3471e1ad916eca719fbb/output/AndroidManifest.xml:13:5-20
+MERGED from [com.android.support:support-v13:25.2.0] /Users/kevin/.android/build-cache/3c7001fb1795b97abffd33e3a6e838cc4b1b44af/output/AndroidManifest.xml:25:5-20
+MERGED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:14:5-38:19
+MERGED from [com.bm.photoview:library:1.4.1] /Users/kevin/.android/build-cache/530d8e21289cdf4ec210464a574c38b20534d7a7/output/AndroidManifest.xml:11:5-12:19
+MERGED from [com.android.support:design:25.2.0] /Users/kevin/.android/build-cache/fd6167fc2c27479e90957613841655fd91dbbb6e/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:transition:25.2.0] /Users/kevin/.android/build-cache/2b0daa6b39cbb75ae1c7a4d0dc27a68f936fef2e/output/AndroidManifest.xml:22:5-20
+MERGED from [pub.devrel:easypermissions:0.2.1] /Users/kevin/.android/build-cache/c03b45bd8720333f33c0e4f421911284826727ec/output/AndroidManifest.xml:12:5-20
+MERGED from [com.android.support:appcompat-v7:25.2.0] /Users/kevin/.android/build-cache/973785d54516b383391445bf0f5083dbf0e4433d/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:25.2.0] /Users/kevin/.android/build-cache/5521436b7474eab4589892cc3e7f94f3c90a7396/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-fragment:25.2.0] /Users/kevin/.android/build-cache/3bdb2509dfdf9c4c1cf19407e21b44192a3e1d2e/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:25.2.0] /Users/kevin/.android/build-cache/53cf970bfc9086376dfd707f0b29f64f61459b35/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:25.2.0] /Users/kevin/.android/build-cache/8599091b94e41d6f602dfdeeca2cd784c0d66883/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:25.2.0] /Users/kevin/.android/build-cache/14373a24feb50dde17dafa1d9433e6ab03662a6b/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.2.0] /Users/kevin/.android/build-cache/584d8dff44db04382b6101e2903031c23a77d2ac/output/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:25.2.0] /Users/kevin/.android/build-cache/e27a5100cd918c6dbca883dbf67c2f4cb584f62d/output/AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-compat:25.2.0] /Users/kevin/.android/build-cache/54e9185501733ddc156f1fd6b446df28e1797452/output/AndroidManifest.xml:25:5-20
+MERGED from [com.tbruyelle.rxpermissions:rxpermissions:0.9.0] /Users/kevin/.android/build-cache/2b028a50aecef73df3e215fc9ac1ace44160feda/output/AndroidManifest.xml:11:5-20
+MERGED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:28:5-57:19
 	android:label
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:27:7-39
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:27:7-39
 	android:supportsRtl
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:29:7-33
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:29:7-33
 	tools:ignore
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:31:7-33
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:31:7-33
 	android:allowBackup
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:25:7-33
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:25:7-33
 	android:icon
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:26:7-41
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:26:7-41
 	android:largeHeap
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:28:7-31
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:28:7-31
 	android:theme
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:30:7-38
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:30:7-38
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:24:7-35
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:24:7-35
 meta-data#PGYER_APPID
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:33:5-36:17
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:33:5-36:17
 	android:value
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:35:9-39
-		INJECTED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:35:9-39
+		INJECTED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:34:9-35
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:34:9-35
 service#xiaofei.library.hermes.HermesService$HermesService0
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:37:5-38:77
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:37:5-38:77
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:38:9-75
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:38:9-75
 activity#com.pgyersdk.activity.FeedbackActivity
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:40:5-70
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:40:5-70
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:40:15-68
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:40:15-68
 activity#com.china.epower.chat.ui.activity.MainActivity
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:41:5-45:54
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:41:5-45:54
 	android:screenOrientation
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:44:9-45
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:44:9-45
 	android:launchMode
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:43:9-40
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:43:9-40
 	android:theme
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:45:9-52
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:45:9-52
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:42:9-49
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:42:9-49
 activity#com.china.epower.chat.ui.activity.LoginActivity
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:46:5-50:16
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:46:5-50:16
 	android:screenOrientation
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:48:9-45
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:48:9-45
 	android:theme
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:49:9-52
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:49:9-52
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:47:9-50
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:47:9-50
 activity#com.china.epower.chat.ui.activity.RegisterActivity
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:51:5-54:54
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:51:5-54:54
 	android:screenOrientation
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:53:9-45
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:53:9-45
 	android:theme
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:54:9-52
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:54:9-52
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:52:9-53
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:52:9-53
 activity#com.china.epower.chat.ui.activity.AddFriendActivity
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:56:5-59:54
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:56:5-59:54
 	android:screenOrientation
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:58:9-45
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:58:9-45
 	android:theme
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:59:9-52
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:59:9-52
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:57:9-54
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:57:9-54
 activity#tech.jiangtao.support.ui.activity.ChatActivity
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:60:5-64:16
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:60:5-64:16
 	android:screenOrientation
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:62:9-45
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:62:9-45
 	android:theme
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:63:9-52
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:63:9-52
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:61:9-70
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:61:9-70
 activity#com.china.epower.chat.ui.activity.PersonalDetailActivity
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:65:5-68:54
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:65:5-68:54
 	android:screenOrientation
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:67:9-45
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:67:9-45
 	android:theme
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:68:9-52
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:68:9-52
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:66:9-59
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:66:9-59
 activity#com.china.epower.chat.ui.activity.LauncherActivity
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:69:5-77:16
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:69:5-77:16
 	android:screenOrientation
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:71:9-45
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:71:9-45
 	android:theme
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:72:9-61
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:72:9-61
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:70:9-53
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:70:9-53
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:73:7-76:23
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:73:7-76:23
 action#android.intent.action.MAIN
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:74:9-60
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:74:9-60
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:74:17-58
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:74:17-58
 category#android.intent.category.LAUNCHER
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:75:9-68
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:75:9-68
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:75:19-66
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:75:19-66
 activity#com.china.epower.chat.ui.activity.IndexActivity
-ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:78:5-80:52
+ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:78:5-80:52
 	android:screenOrientation
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:79:7-43
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:79:7-43
 	android:theme
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:80:7-50
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:80:7-50
 	android:name
-		ADDED from /Users/Vurtex/AndroidStudioProjects/JMessage/app/src/main/AndroidManifest.xml:78:15-56
+		ADDED from /Users/kevin/Project/Android/Company/PowerChat/app/src/main/AndroidManifest.xml:78:15-56
 service#tech.jiangtao.support.ui.service.SupportService
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:17:9-22:19
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:17:9-22:19
 	android:enabled
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:19:13-35
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:19:13-35
 	android:process
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:21:13-38
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:21:13-38
 	android:priority
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:20:13-36
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:20:13-36
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:18:13-75
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:18:13-75
 service#tech.jiangtao.support.ui.service.XMPPService$InnerService
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:23:9-93
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:23:9-93
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:23:18-90
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:23:18-90
 service#tech.jiangtao.support.ui.service.XMPPService
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:24:9-27:39
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:24:9-27:39
 	android:enabled
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:26:13-35
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:26:13-35
 	android:priority
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:27:13-36
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:27:13-36
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:25:13-72
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:25:13-72
 receiver#tech.jiangtao.support.ui.reciever.NetworkConnectChangedReceiver
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:29:9-37:20
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:29:9-37:20
 	android:enabled
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:31:13-35
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:31:13-35
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:30:13-91
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:30:13-91
 intent-filter#android.net.conn.CONNECTIVITY_CHANGE+android.net.wifi.STATE_CHANGE+android.net.wifi.WIFI_STATE_CHANGED
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:32:13-36:29
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:32:13-36:29
 action#android.net.conn.CONNECTIVITY_CHANGE
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:33:17-79
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:33:17-79
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:33:25-76
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:33:25-76
 action#android.net.wifi.WIFI_STATE_CHANGED
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:34:17-78
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:34:17-78
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:34:25-75
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:34:25-75
 action#android.net.wifi.STATE_CHANGE
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:35:17-72
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:35:17-72
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:35:25-69
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:35:25-69
 receiver#tech.jiangtao.support.ui.reciever.BootBroadcastReceiver
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:39:9-47:20
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:39:9-47:20
 	android:enabled
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:41:13-35
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:41:13-35
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:40:13-83
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:40:13-83
 intent-filter#android.intent.action.BOOT_COMPLETED+android.intent.category.HOME
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:42:13-46:29
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:42:13-46:29
 action#android.intent.action.BOOT_COMPLETED
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:43:17-79
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:43:17-79
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:43:25-76
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:43:25-76
 category#android.intent.category.HOME
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:45:17-73
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:45:17-73
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:45:27-70
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:45:27-70
 receiver#tech.jiangtao.support.ui.reciever.TickBroadcastReceiver
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:49:9-53:20
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:49:9-53:20
 	android:enabled
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:51:13-35
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:51:13-35
 	android:exported
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:52:13-37
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:52:13-37
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:50:13-83
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:50:13-83
 activity#com.melink.bqmmsdk.ui.store.EmojiPackageList
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:55:9-58:20
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:55:9-58:20
 	android:screenOrientation
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:57:13-49
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:57:13-49
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:56:13-72
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:56:13-72
 activity#com.melink.bqmmsdk.ui.store.EmojiDetail
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:59:9-62:20
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:59:9-62:20
 	android:screenOrientation
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:61:13-49
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:61:13-49
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:60:13-67
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:60:13-67
 activity#com.melink.bqmmsdk.ui.store.EmojiPackageDetail
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:63:9-66:20
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:63:9-66:20
 	android:screenOrientation
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:65:13-49
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:65:13-49
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:64:13-74
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:64:13-74
 activity#com.melink.bqmmsdk.ui.store.EmojiPackageSetting
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:67:9-70:20
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:67:9-70:20
 	android:screenOrientation
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:69:13-49
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:69:13-49
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:68:13-75
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:68:13-75
 activity#com.melink.bqmmsdk.ui.store.EmojiPackageSort
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:71:9-74:20
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:71:9-74:20
 	android:screenOrientation
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:73:13-49
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:73:13-49
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:72:13-72
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:72:13-72
 activity#com.melink.bqmmsdk.ui.store.ServiceDeclaration
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:75:9-78:20
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:75:9-78:20
 	android:screenOrientation
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:77:13-49
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:77:13-49
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:76:13-74
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:76:13-74
 activity#tech.jiangtao.support.ui.activity.NewFriendActivity
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:79:9-82:20
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:79:9-82:20
 	android:theme
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:81:13-56
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:81:13-56
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:80:13-79
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:80:13-79
 activity#tech.jiangtao.support.ui.activity.GroupListActivity
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:83:9-86:20
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:83:9-86:20
 	android:theme
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:85:13-56
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:85:13-56
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:84:13-79
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:84:13-79
 activity#tech.jiangtao.support.ui.activity.GroupCreateActivity
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:87:9-90:20
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:87:9-90:20
 	android:theme
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:89:13-56
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:89:13-56
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:88:13-81
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:88:13-81
 activity#tech.jiangtao.support.ui.activity.GroupSearchActivity
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:91:9-94:20
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:91:9-94:20
 	android:theme
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:93:13-56
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:93:13-56
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:92:13-81
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:92:13-81
 activity#tech.jiangtao.support.ui.activity.GroupChatActivity
-ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:95:9-98:20
+ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:95:9-98:20
 	android:theme
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:97:13-56
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:97:13-56
 	android:name
-		ADDED from [JMessage:PowerSupportUI:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:96:13-79
+		ADDED from [PowerChat:PowerSupportUI:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportUI/build/intermediates/bundles/default/AndroidManifest.xml:96:13-79
 service#tech.jiangtao.support.kit.service.FileTransferService
-ADDED from [JMessage:PowerSupportKit:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:14:9-17:19
+ADDED from [PowerChat:PowerSupportKit:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:14:9-17:19
 	android:exported
-		ADDED from [JMessage:PowerSupportKit:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:16:13-36
+		ADDED from [PowerChat:PowerSupportKit:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:16:13-36
 	android:name
-		ADDED from [JMessage:PowerSupportKit:unspecified] /Users/Vurtex/AndroidStudioProjects/JMessage/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:15:13-81
+		ADDED from [PowerChat:PowerSupportKit:unspecified] /Users/kevin/Project/Android/Company/PowerChat/PowerSupportKit/build/intermediates/bundles/default/AndroidManifest.xml:15:13-81
 service#xiaofei.library.hermeseventbus.HermesEventBus$Service
-ADDED from [xiaofei.library:hermes-eventbus:0.3.0] /Users/Vurtex/.android/build-cache/27b78713c1ada66398745f19d0c1c2d514c88306/output/AndroidManifest.xml:12:9-89
+ADDED from [xiaofei.library:hermes-eventbus:0.3.0] /Users/kevin/.android/build-cache/53a1bcd82fbd5dd5f48eda29473177050270267b/output/AndroidManifest.xml:12:9-89
 	android:name
-		ADDED from [xiaofei.library:hermes-eventbus:0.3.0] /Users/Vurtex/.android/build-cache/27b78713c1ada66398745f19d0c1c2d514c88306/output/AndroidManifest.xml:12:18-86
+		ADDED from [xiaofei.library:hermes-eventbus:0.3.0] /Users/kevin/.android/build-cache/53a1bcd82fbd5dd5f48eda29473177050270267b/output/AndroidManifest.xml:12:18-86
 provider#net.grandcentrix.tray.provider.TrayContentProvider
-ADDED from [net.grandcentrix.tray:tray:0.11.0] /Users/Vurtex/.android/build-cache/e96a38e9b66ffd8617f5ad2fcdd9d8530dd79e9c/output/AndroidManifest.xml:12:9-16:44
+ADDED from [net.grandcentrix.tray:tray:0.11.0] /Users/kevin/.android/build-cache/bb5157fd5f380b619f1aef8ede88d2441349f28b/output/AndroidManifest.xml:12:9-16:44
 	android:authorities
-		ADDED from [net.grandcentrix.tray:tray:0.11.0] /Users/Vurtex/.android/build-cache/e96a38e9b66ffd8617f5ad2fcdd9d8530dd79e9c/output/AndroidManifest.xml:14:13-58
+		ADDED from [net.grandcentrix.tray:tray:0.11.0] /Users/kevin/.android/build-cache/bb5157fd5f380b619f1aef8ede88d2441349f28b/output/AndroidManifest.xml:14:13-58
 	android:multiprocess
-		ADDED from [net.grandcentrix.tray:tray:0.11.0] /Users/Vurtex/.android/build-cache/e96a38e9b66ffd8617f5ad2fcdd9d8530dd79e9c/output/AndroidManifest.xml:16:13-41
+		ADDED from [net.grandcentrix.tray:tray:0.11.0] /Users/kevin/.android/build-cache/bb5157fd5f380b619f1aef8ede88d2441349f28b/output/AndroidManifest.xml:16:13-41
 	android:exported
-		ADDED from [net.grandcentrix.tray:tray:0.11.0] /Users/Vurtex/.android/build-cache/e96a38e9b66ffd8617f5ad2fcdd9d8530dd79e9c/output/AndroidManifest.xml:15:13-37
+		ADDED from [net.grandcentrix.tray:tray:0.11.0] /Users/kevin/.android/build-cache/bb5157fd5f380b619f1aef8ede88d2441349f28b/output/AndroidManifest.xml:15:13-37
 	android:name
-		ADDED from [net.grandcentrix.tray:tray:0.11.0] /Users/Vurtex/.android/build-cache/e96a38e9b66ffd8617f5ad2fcdd9d8530dd79e9c/output/AndroidManifest.xml:13:13-78
+		ADDED from [net.grandcentrix.tray:tray:0.11.0] /Users/kevin/.android/build-cache/bb5157fd5f380b619f1aef8ede88d2441349f28b/output/AndroidManifest.xml:13:13-78
 activity#com.vincent.filepicker.activity.ImagePickActivity
-ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:17:9-20:54
+ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:17:9-20:54
 	android:screenOrientation
-		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:19:13-49
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:19:13-49
 	android:theme
-		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:20:13-51
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:20:13-51
 	android:name
-		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:18:13-77
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:18:13-77
 activity#com.vincent.filepicker.activity.ImageBrowserActivity
-ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:21:9-25:54
+ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:21:9-25:54
 	android:screenOrientation
-		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:24:13-49
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:24:13-49
 	android:hardwareAccelerated
-		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:23:13-48
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:23:13-48
 	android:theme
-		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:25:13-51
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:25:13-51
 	android:name
-		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:22:13-80
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:22:13-80
 activity#com.vincent.filepicker.activity.VideoPickActivity
-ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:26:9-29:54
+ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:26:9-29:54
 	android:screenOrientation
-		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:28:13-49
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:28:13-49
 	android:theme
-		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:29:13-51
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:29:13-51
 	android:name
-		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:27:13-77
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:27:13-77
 activity#com.vincent.filepicker.activity.AudioPickActivity
-ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:30:9-33:54
+ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:30:9-33:54
 	android:screenOrientation
-		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:32:13-49
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:32:13-49
 	android:theme
-		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:33:13-51
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:33:13-51
 	android:name
-		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:31:13-77
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:31:13-77
 activity#com.vincent.filepicker.activity.NormalFilePickActivity
-ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:34:9-37:54
+ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:34:9-37:54
 	android:screenOrientation
-		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:36:13-49
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:36:13-49
 	android:theme
-		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:37:13-51
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:37:13-51
 	android:name
-		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/Vurtex/.android/build-cache/e6c373fcfe66bd6515fb99c8f85a9cc428a40d60/output/AndroidManifest.xml:35:13-82
+		ADDED from [com.github.BosCattle:MultiType-FilePicker:1.0.1] /Users/kevin/.android/build-cache/08984c92750757d6644c5ff9d564a876486e64a0/output/AndroidManifest.xml:35:13-82
 service#com.squareup.leakcanary.internal.HeapAnalyzerService
-ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:29:9-32:45
+ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:29:9-32:45
 	android:enabled
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:31:13-36
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:31:13-36
 	android:process
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:32:13-42
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:32:13-42
 	android:name
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:30:13-80
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:30:13-80
 service#com.squareup.leakcanary.DisplayLeakService
-ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:33:9-35:39
+ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:33:9-35:39
 	android:enabled
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:35:13-36
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:35:13-36
 	android:name
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:34:13-70
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:34:13-70
 activity#com.squareup.leakcanary.internal.DisplayLeakActivity
-ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:37:9-49:20
+ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:37:9-49:20
 	android:enabled
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:39:13-36
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:39:13-36
 	android:label
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:41:13-71
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:41:13-71
 	android:icon
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:40:13-54
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:40:13-54
 	android:theme
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:43:13-63
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:43:13-63
 	android:taskAffinity
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:42:13-59
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:42:13-59
 	android:name
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:38:13-80
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:38:13-80
 activity#com.squareup.leakcanary.internal.RequestStoragePermissionActivity
-ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:50:9-56:68
+ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:50:9-56:68
 	android:enabled
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:52:13-36
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:52:13-36
 	android:label
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:54:13-82
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:54:13-82
 	android:icon
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:53:13-54
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:53:13-54
 	android:theme
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:56:13-65
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:56:13-65
 	android:taskAffinity
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:55:13-59
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:55:13-59
 	android:name
-		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/Vurtex/.android/build-cache/d88fa4585358c27c1b4f7d1efd5ff244af38ed06/output/AndroidManifest.xml:51:13-93
+		ADDED from [com.squareup.leakcanary:leakcanary-android:1.5] /Users/kevin/.android/build-cache/6f83c0be77d157ca264b5fa9e25a1397925819dc/output/AndroidManifest.xml:51:13-93
