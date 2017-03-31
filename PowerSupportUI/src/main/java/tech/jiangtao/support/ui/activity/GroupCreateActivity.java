@@ -1,10 +1,8 @@
 package tech.jiangtao.support.ui.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -28,9 +25,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tech.jiangtao.support.kit.callback.GroupCreateCallBack;
+import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateParam;
 import tech.jiangtao.support.kit.userdata.SimpleCGroup;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
+import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
@@ -41,6 +41,7 @@ import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
+import work.wanghao.simplehud.SimpleHUD;
 
 /**
  * Class: GroupCreateActivity </br>
@@ -51,57 +52,65 @@ import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
  * Update: 2017/3/28 下午3:41 </br>
  **/
 public class GroupCreateActivity extends BaseActivity
-    implements EasyViewHolder.OnItemClickListener {
-  @BindView(R2.id.tv_toolbar) TextView mTvToolbar;
-  @BindView(R2.id.toolbar) Toolbar mToolbar;
-  @BindView(R2.id.rv_constansList) RecyclerView mConstantsList;
-  public static final String TAG = GroupCreateActivity.class.getSimpleName();
-  private ContactAdapter mContactAdapter;
-  private List<ConstrutContact> mConstrutContact;
-  private SimpleCGroup mSimpleCGroup;
-  private AppPreferences mAppPreferences;
-  private UserServiceApi mUserServiceApi;
-  public static List<Friends> mChoicedFriends = new ArrayList<>();
+        implements EasyViewHolder.OnItemClickListener, GroupCreateCallBack {
+    @BindView(R2.id.tv_toolbar)
+    TextView mTvToolbar;
+    @BindView(R2.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R2.id.rv_constansList)
+    RecyclerView mConstantsList;
+    public static final String TAG = GroupCreateActivity.class.getSimpleName();
+    private ContactAdapter mContactAdapter;
+    private List<ConstrutContact> mConstrutContact;
+    private SimpleCGroup mSimpleCGroup;
+    private AppPreferences mAppPreferences;
+    private UserServiceApi mUserServiceApi;
+    public static List<Friends> mChoicedFriends = new ArrayList<>();
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_group_create);
-    ButterKnife.bind(this);
-    init();
-  }
-
-  public void init() {
-    mAppPreferences = new AppPreferences(this);
-    String name = null;
-    try {
-      name = mAppPreferences.getString("userJid");
-    } catch (ItemNotFoundException e) {
-      e.printStackTrace();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_group_create);
+        ButterKnife.bind(this);
+        mSimpleCGroup = new SimpleCGroup();
+        init();
     }
-    name = "vurtex@dc-a4b8eb92-xmpp.jiangtao.tech.";
-    LogUtils.d(TAG, name);
-    mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
-    setUpToolbar();
-    setUpAdapter();
-    mUserServiceApi.post(name)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(list -> {
-          //TODO 这里解析JSON
-          for (Friends friends : list) {
-            ConstrutContact build = new ConstrutContact.Builder().build();
-            build.mType = ContactType.TYPE_CHOICE_MEMBER_CHOICE;
-            build.mFriends = friends;
-            LogUtils.d(TAG, friends.toString());
-            mConstrutContact.add(build);
-          }
-          mContactAdapter.notifyDataSetChanged();
-        }, new ErrorAction() {
-          @Override public void call(Throwable throwable) {
-            super.call(throwable);
-            LogUtils.d(TAG, throwable.getLocalizedMessage());
-          }
-        });
+
+    public void init() {
+        mAppPreferences = new AppPreferences(this);
+        String name = null;
+        try {
+            name = mAppPreferences.getString("userJid");
+            //TODO 待测试
+            name= StringSplitUtil.splitPrefix(name);
+        } catch (ItemNotFoundException e) {
+            e.printStackTrace();
+        }
+        name = "vurtex@dc-a4b8eb92-xmpp.jiangtao.tech.";
+        LogUtils.d(TAG, name);
+        mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
+        setUpToolbar();
+        setUpAdapter();
+        mUserServiceApi.post(name)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(list -> {
+                    //TODO 这里解析JSON
+                    for (Friends friends : list) {
+                        ConstrutContact build = new ConstrutContact.Builder().build();
+                        build.mType = ContactType.TYPE_CHOICE_MEMBER_CHOICE;
+                        build.mFriends = friends;
+                        LogUtils.d(TAG, friends.toString());
+                        mConstrutContact.add(build);
+                    }
+                    mContactAdapter.notifyDataSetChanged();
+                }, new ErrorAction() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        super.call(throwable);
+                        LogUtils.d(TAG, throwable.getLocalizedMessage());
+                    }
+                });
     }
 
     /**
@@ -156,30 +165,36 @@ public class GroupCreateActivity extends BaseActivity
                     .inputType(InputType.TYPE_CLASS_TEXT)
                     .input(getString(R.string.group_create_alert), "", (dialog, input) -> {
                         dialog.dismiss();
-                        if (mChoicedFriends != null && input.length() == 11) {
+                        if (mChoicedFriends != null && input.length() <= 11) {
                             //TODO 收集选择的成员
                             int size = mChoicedFriends.size();
-                            LogUtils.d(TAG, size+"");
+                            LogUtils.d(TAG, size + "");
                             //执行创建群动作
-
+                            try {
+                                mSimpleCGroup.startCreateGroup(new GroupCreateParam(input + "", mAppPreferences.getString("userJid"), new ArrayList<String>() {
+                                }),this);
+                            } catch (ItemNotFoundException e) {
+                                mSimpleCGroup.destory();
+                                e.printStackTrace();
+                            }
                         } else {
-//                            SimpleHUD.showErrorMessage(this, (String) getText(R.string.profile_phone_pro));
+                            SimpleHUD.showErrorMessage(this, (String) getText(R.string.group_name_check_alert));
                         }
+                        mSimpleCGroup.destory();
                     })
                     .show();
-            EditText et = new EditText(GroupCreateActivity.this);
-            et.setHint("请输入群名");
-            et.setWidth(RecyclerView.LayoutParams.WRAP_CONTENT);
-            new AlertDialog.Builder(GroupCreateActivity.this).setTitle("请输入群名").setView(et).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //TODO 收集选择的成员
-                    int size = mChoicedFriends.size();
-                    LogUtils.d(TAG, size+"");
-                    //执行创建群动作
-                }
-            }).setNegativeButton("取消",null).create().show();
         }
-    return true;
-  }
+        return true;
+    }
+
+    @Override
+    public void createSuccess() {
+        this.finish();
+        GroupListActivity.startGroupList(this);
+    }
+
+    @Override
+    public void createFailed(String failedReason) {
+        SimpleHUD.showErrorMessage(this, failedReason);
+    }
 }

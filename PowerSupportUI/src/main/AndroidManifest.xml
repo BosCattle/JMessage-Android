@@ -86,9 +86,6 @@
         android:name=".activity.GroupSearchActivity"
         android:theme="@style/AppTheme.NoActionBar">
     </activity>
-    <activity android:name=".activity.GroupChatActivity"
-        android:theme="@style/AppTheme.NoActionBar">
-    </activity>
   </application>
 
 </manifest>

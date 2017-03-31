@@ -2,16 +2,13 @@ package tech.jiangtao.support.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -50,7 +47,6 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 import io.realm.RealmResults;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -63,8 +59,6 @@ import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.realm.MessageRealm;
-import tech.jiangtao.support.kit.realm.SessionRealm;
-import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
@@ -78,6 +72,7 @@ import tech.jiangtao.support.ui.api.ApiService;
 import tech.jiangtao.support.ui.api.service.UpLoadServiceApi;
 import tech.jiangtao.support.ui.model.ChatExtraModel;
 import tech.jiangtao.support.ui.model.Message;
+import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.model.type.MessageType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
 import tech.jiangtao.support.ui.utils.CommonUtils;
@@ -100,10 +95,13 @@ import static com.vincent.filepicker.activity.VideoPickActivity.IS_NEED_CAMERA;
  * Date: 02/12/2016 11:40 AM</br>
  * Update: 02/12/2016 11:40 AM </br>
  **/
-public class ChatFragment extends BaseFragment
+public class GroupChatFragment extends BaseFragment
     implements TextWatcher, View.OnClickListener, EasyViewHolder.OnItemClickListener,
     View.OnLongClickListener, AudioRecordButton.onAudioFinishRecordListener,
     SwipeRefreshLayout.OnRefreshListener, View.OnFocusChangeListener {
+
+  public static final String USER_OWN="own";
+  public static final String USER_FRIEND="friend";
 
   @BindView(R2.id.recycler) RecyclerView mRecycler;
   @BindView(R2.id.swift_refresh) SwipeRefreshLayout mSwiftRefresh;
@@ -120,9 +118,6 @@ public class ChatFragment extends BaseFragment
   @BindView(R2.id.chat_audio_record) AudioRecordButton mAudioRecord;
   private ChatMessageAdapter mChatMessageAdapter;
   private List<ConstructMessage> mMessages;
-  private VCardRealm mVCardRealm;
-  private VCardRealm mOwnVCardRealm;
-  private Realm mRealm;
   private BQMM mBQMM;
   private UpLoadServiceApi mUpLoadServiceApi;
   private boolean mIsRefresh;
@@ -130,17 +125,17 @@ public class ChatFragment extends BaseFragment
   private LinearLayoutManager mLinearLayoutManager;
   private String mUserJid;
   private int mPage = 1;
-  private RealmResults<MessageRealm> mMessageRealm;
+  private Friends mFriends;
+  private Friends mOwn;
   private InputMethodManager mInputMethodManager;
 
-  public static ChatFragment newInstance() {
-    return new ChatFragment();
+  public static GroupChatFragment newInstance() {
+    return new GroupChatFragment();
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     super.onCreateView(inflater, container, savedInstanceState);
-    mRealm = Realm.getDefaultInstance();
     init();
     ButterKnife.bind(this, getView());
     return getView();
@@ -179,38 +174,15 @@ public class ChatFragment extends BaseFragment
     ArrayList<ChatExtraModel> mChatExtraItems = new ArrayList<>();
     mChatSendOther.setAdapter(mBaseEasyAdapter);
     mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_photo, "图片"));
-    //mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_location, "位置"));
-    //mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_call, "打电话"));
-    //mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_call, "视频"));
-    //mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_call, "文档"));
-    //mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_call, "语音"));
+    mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_location, "位置"));
+    mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_call, "打电话"));
+    mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_call, "视频"));
+    mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_call, "文档"));
+    mChatExtraItems.add(new ChatExtraModel(R.mipmap.ic_call, "语音"));
     mBaseEasyAdapter.addAll(mChatExtraItems);
     mBaseEasyAdapter.notifyDataSetChanged();
   }
 
-  public void loadOwnRealm() {
-    mMessages = new ArrayList<>();
-    mVCardRealm = getArguments().getParcelable("vCard");
-    final AppPreferences appPreferences = new AppPreferences(getContext());
-    try {
-      mUserJid = appPreferences.getString("userJid");
-    } catch (ItemNotFoundException e) {
-      e.printStackTrace();
-    }
-    RealmResults<VCardRealm> realms = mRealm.where(VCardRealm.class)
-        .equalTo("jid", StringSplitUtil.splitDivider(mUserJid))
-        .findAll();
-    if (realms.size() != 0) {
-      mOwnVCardRealm = realms.first();
-    }
-    //jid中包含空和full jid,检查和进行处理
-    mMessageRealm = mRealm.where(MessageRealm.class)
-        .equalTo("mainJID", mVCardRealm.getJid())
-        .or()
-        .equalTo("withJID", mVCardRealm.getJid())
-        .findAll();
-    updateItems(mMessageRealm, mUserJid, mPage);
-  }
 
   /**
    * 根据条件更新
@@ -231,7 +203,7 @@ public class ChatFragment extends BaseFragment
         if (messageRealmse.get(i).getMessageType().equals(MessageExtensionType.TEXT.toString())) {
           message1.type = FileType.TYPE_TEXT;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
-              .avatar(mOwnVCardRealm != null ? mOwnVCardRealm.getAvatar() : null)
+              .avatar(mFriends != null ? mFriends.avatar : null)
               .message(message1)
               .build());
         } else if (messageRealmse.get(i)
@@ -241,8 +213,8 @@ public class ChatFragment extends BaseFragment
               messageRealmse.get(i).getTextMessage());
           message1.type = FileType.TYPE_IMAGE;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
-              .avatar(mOwnVCardRealm != null && mOwnVCardRealm.getAvatar() != null
-                  ? mOwnVCardRealm.getAvatar() : null)
+              .avatar(mOwn != null && mOwn.avatar != null
+                  ? mOwn.avatar : null)
               .message(message1)
               .build());
         } else if (messageRealmse.get(i)
@@ -253,8 +225,8 @@ public class ChatFragment extends BaseFragment
           message1.time = 10;
           message1.type = FileType.TYPE_AUDIO;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
-              .avatar(mOwnVCardRealm != null && mOwnVCardRealm.getAvatar() != null
-                  ? mOwnVCardRealm.getAvatar() : null)
+              .avatar(mOwn != null && mOwn.avatar != null
+                  ? mOwn.avatar : null)
               .message(message1)
               .build());
         }
@@ -265,7 +237,7 @@ public class ChatFragment extends BaseFragment
         if (messageRealmse.get(i).getMessageType().equals(MessageExtensionType.TEXT.toString())) {
           message1.paramContent = messageRealmse.get(i).getTextMessage();
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-              .avatar(mVCardRealm.getAvatar())
+              .avatar(mFriends.avatar)
               .message(message1)
               .build());
         } else if (messageRealmse.get(i)
@@ -274,7 +246,7 @@ public class ChatFragment extends BaseFragment
           message1.fimePath = CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(),
               messageRealmse.get(i).getTextMessage());
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
-              .avatar(mVCardRealm.getAvatar())
+              .avatar(mFriends.avatar)
               .message(message1)
               .build());
         } else if (messageRealmse.get(i)
@@ -283,7 +255,7 @@ public class ChatFragment extends BaseFragment
           message1.fimePath = CommonUtils.getUrl(MessageExtensionType.AUDIO.toString(),
               messageRealmse.get(i).getTextMessage());
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
-              .avatar(mVCardRealm.getAvatar())
+              .avatar(mFriends.avatar)
               .message(message1)
               .build());
         }
@@ -299,48 +271,23 @@ public class ChatFragment extends BaseFragment
   }
 
   private void init() {
+    mOwn = getArguments().getParcelable(USER_OWN);
+    mFriends = getArguments().getParcelable(USER_FRIEND);
+    final AppPreferences appPreferences = new AppPreferences(getContext());
+    try {
+      mUserJid = appPreferences.getString("userJid");
+    } catch (ItemNotFoundException e) {
+      e.printStackTrace();
+    }
     mUpLoadServiceApi = ApiService.getInstance().createApiService(UpLoadServiceApi.class);
     mInputMethodManager =
         (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
     setViewListener();
-    setUpRefreshing();
     setUpBQMM();
-    loadOwnRealm();
     setAdapter();
     setExtraAdapter();
   }
 
-  private void setUpRefreshing() {
-    mSwiftRefresh.setColorSchemeResources(android.R.color.holo_blue_bright,
-        android.R.color.holo_green_light, android.R.color.holo_orange_light,
-        android.R.color.holo_red_light);
-    mSwiftRefresh.setDistanceToTriggerSync(300);
-    mSwiftRefresh.setProgressBackgroundColorSchemeColor(Color.WHITE);
-    mSwiftRefresh.setSize(SwipeRefreshLayout.LARGE);
-    mSwiftRefresh.setOnRefreshListener(this);
-    mRecycler.addOnScrollListener(new OnScrollListener() {
-      @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-        super.onScrollStateChanged(recyclerView, newState);
-        if (newState == RecyclerView.SCROLL_STATE_IDLE
-            && mLastVisibleItem + 1 == mChatMessageAdapter.getItemCount()) {
-          //已经跳到最后一项
-          if (mPage > 1) {
-            mPage -= 1;
-            new Handler().postDelayed(new Runnable() {
-              @Override public void run() {
-                updateItems(mMessageRealm, mUserJid, mPage);
-              }
-            }, 2000);
-          }
-        }
-      }
-
-      @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        super.onScrolled(recyclerView, dx, dy);
-        mLastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
-      }
-    });
-  }
 
   private void setUpBQMM() {
     mBQMM = BQMM.getInstance();
@@ -405,22 +352,22 @@ public class ChatFragment extends BaseFragment
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveLastMessage message) {
     LogUtils.d("----------->", "onMessage: " + message);
-    if (StringSplitUtil.splitDivider(message.userJID).equals(mVCardRealm.getJid())
-        || StringSplitUtil.splitDivider(message.ownJid).equals(mVCardRealm.getJid())) {
+    if (StringSplitUtil.splitDivider(message.userJID).equals(mFriends.userId)
+        || StringSplitUtil.splitDivider(message.ownJid).equals(mFriends.userId)) {
       if (message.messageAuthor == MessageAuthor.FRIEND) {
         Message message1 = new Message();
         message1.paramContent = message.message;
         if (message.messageType == MessageExtensionType.TEXT) {
           message1.paramContent = message.message;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-              .avatar(mVCardRealm.getAvatar())
+              .avatar(mFriends.avatar)
               .message(message1)
               .build());
         } else if (message.messageType == MessageExtensionType.IMAGE) {
           message1.fimePath =
               CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(), message.message);
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
-              .avatar(mVCardRealm.getAvatar())
+              .avatar(mFriends.avatar)
               .message(message1)
               .build());
           LogUtils.d(TAG, "onMessage: " + message1);
@@ -428,7 +375,7 @@ public class ChatFragment extends BaseFragment
           message1.fimePath =
               CommonUtils.getUrl(MessageExtensionType.AUDIO.toString(), message.message);
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
-              .avatar(mVCardRealm.getAvatar())
+              .avatar(mFriends.avatar)
               .message(message1)
               .build());
           LogUtils.d(TAG, "onMessage: " + message1);
@@ -439,7 +386,7 @@ public class ChatFragment extends BaseFragment
         if (message.messageType == MessageExtensionType.TEXT) {
           message2.type = FileType.TYPE_TEXT;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
-              .avatar(mOwnVCardRealm != null ? mOwnVCardRealm.getAvatar() : null)
+              .avatar(mOwn != null ? mOwn.avatar : null)
               .message(message2)
               .build());
         } else if (message.messageType == MessageExtensionType.IMAGE) {
@@ -447,8 +394,8 @@ public class ChatFragment extends BaseFragment
               CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(), message.message);
           message2.type = FileType.TYPE_IMAGE;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
-              .avatar(mOwnVCardRealm != null && mOwnVCardRealm.getAvatar() != null
-                  ? mOwnVCardRealm.getAvatar() : null)
+              .avatar(mOwn != null && mOwn.avatar != null
+                  ? mOwn.avatar : null)
               .message(message2)
               .build());
         } else if (message.messageType == MessageExtensionType.AUDIO) {
@@ -457,8 +404,8 @@ public class ChatFragment extends BaseFragment
           message2.time = 10;
           message2.type = FileType.TYPE_AUDIO;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
-              .avatar(mOwnVCardRealm != null && mOwnVCardRealm.getAvatar() != null
-                  ? mOwnVCardRealm.getAvatar() : null)
+              .avatar(mOwn != null && mOwn.avatar != null
+                  ? mOwn.avatar : null)
               .message(message2)
               .build());
         }
@@ -472,15 +419,15 @@ public class ChatFragment extends BaseFragment
     Message message1 = new Message();
     message1.paramContent = realm.getTextMessage();
     LogUtils.d(TAG, "addMessageToAdapter: " + realm.getMainJID());
-    LogUtils.d(TAG, "addMessageToAdapter-----: " + mVCardRealm.getJid());
-    if (mVCardRealm != null && realm.getMainJID().equals(mVCardRealm.getJid())) {
+    LogUtils.d(TAG, "addMessageToAdapter-----: " + mFriends.userId);
+    if (mFriends != null && realm.getMainJID().equals(mFriends.userId)) {
       mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-          .avatar(mVCardRealm != null ? mVCardRealm.getAvatar() : null)
+          .avatar(mFriends != null ? mFriends.userId : null)
           .message(message1)
           .build());
     } else {
       mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
-          .avatar(mOwnVCardRealm != null ? mOwnVCardRealm.getAvatar() : null)
+          .avatar(mOwn != null ? mOwn.avatar : null)
           .message(message1)
           .build());
     }
@@ -489,24 +436,6 @@ public class ChatFragment extends BaseFragment
 
   @Override public void onPause() {
     super.onPause();
-    //将会话的为未读数目设置为0
-    if (mOwnVCardRealm != null
-        && mVCardRealm != null
-        && mOwnVCardRealm.getJid() != null
-        && mVCardRealm.getJid() != null
-        && StringSplitUtil.splitDivider(mVCardRealm.getJid()) != StringSplitUtil.splitDivider(
-        mOwnVCardRealm.getJid())) {
-      mRealm.executeTransactionAsync(realm -> {
-        LogUtils.d(TAG, "onPause: 执行到.....");
-        SessionRealm sessionRealm = realm.where(SessionRealm.class)
-            .equalTo("vcard_id", StringSplitUtil.splitDivider(mVCardRealm.getJid()))
-            .findFirst();
-        if (sessionRealm != null) {
-          LogUtils.d(TAG, "onPause: 执行到.....对象不为空");
-          sessionRealm.setUnReadCount(0);
-        }
-      });
-    }
   }
 
   @Override public void onItemClick(int position, View view) {
@@ -562,7 +491,7 @@ public class ChatFragment extends BaseFragment
    * 发送消息到对方，并且添加到本地
    */
   public void sendMyFriendMessage(String message, MessageExtensionType type) {
-    TextMessage message1 = new TextMessage(mVCardRealm.getJid(), message);
+    TextMessage message1 = new TextMessage(mFriends.userId, message);
     message1.messageType = type;
     HermesEventBus.getDefault().post(message1);
     //将消息更新到本地
@@ -613,7 +542,6 @@ public class ChatFragment extends BaseFragment
 
   @Override public void onDestroyView() {
     super.onDestroyView();
-    mRealm.close();
     AudioManager.getInstance().onDestroy();
   }
 
@@ -649,7 +577,6 @@ public class ChatFragment extends BaseFragment
   @Override public void onRefresh() {
     mPage += 1;
     LogUtils.d(TAG, "onRefresh: 打印出当前的mPage" + mPage);
-    updateItems(mMessageRealm, mUserJid, mPage);
   }
 
   @Override public void onFocusChange(View v, boolean hasFocus) {

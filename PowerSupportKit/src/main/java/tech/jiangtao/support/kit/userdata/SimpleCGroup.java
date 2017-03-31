@@ -32,7 +32,7 @@ public class SimpleCGroup {
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN)
-  private void recievedGroupInfo(GroupCreateCallBackEvent event){
+  public void recievedGroupInfo(GroupCreateCallBackEvent event){
     if (event!=null){
       mCallBack.createSuccess();
     }else {
@@ -40,7 +40,7 @@ public class SimpleCGroup {
     }
   }
 
-  public void destory(){
+  public  void destory(){
     HermesEventBus.getDefault().unregister(this);
   }
 }

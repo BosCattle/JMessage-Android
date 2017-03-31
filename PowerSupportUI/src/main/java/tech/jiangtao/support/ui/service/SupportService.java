@@ -7,20 +7,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.os.PowerManager;
 import android.os.RemoteException;
-import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -51,11 +41,16 @@ import org.jivesoftware.smackx.muc.MultiUserChatManager;
 import org.jivesoftware.smackx.muc.RoomInfo;
 import org.jivesoftware.smackx.vcardtemp.VCardManager;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
-
-import de.measite.minidns.record.MX;
 import org.jivesoftware.smackx.xdata.Form;
-import org.jivesoftware.smackx.xdata.FormField;
 import org.jivesoftware.smackx.xdata.packet.DataForm;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -85,14 +80,15 @@ import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.eventbus.muc.PullJoinedRooms;
+import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateParam;
 import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.realm.VCardRealm;
-import tech.jiangtao.support.kit.util.LogUtils;
-import tech.jiangtao.support.ui.SupportAIDLConnection;
-import tech.jiangtao.support.ui.reciever.TickBroadcastReceiver;
 import tech.jiangtao.support.kit.util.ErrorAction;
+import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.PinYinUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
+import tech.jiangtao.support.ui.SupportAIDLConnection;
+import tech.jiangtao.support.ui.reciever.TickBroadcastReceiver;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static xiaofei.library.hermes.Hermes.getContext;
@@ -753,35 +749,31 @@ public class SupportService extends Service
     connect(false);
   }
 
-
-
-  // 创建群组
-  @Subscribe(threadMode = ThreadMode.MAIN) public void createMuc(String mucJid, String nickname,
-      Collection<String> owner) {
-    MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(mucJid);
+  /**
+   * 创建群组
+   * @param param
+   */
+  @Subscribe(threadMode = ThreadMode.MAIN) public void createMuc(GroupCreateParam param) {
+    String roomName = param.roomName;
+    String nickname =param.nickname;
+    Collection<String> owner = param.owner ;
+    String groupId=roomName+"@muc."+SupportIM.mDomain;
+    MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(groupId);
     try {
       //表示当前用户在房间中的昵称
-      multiUserChat.create(nickname);
+      // TODO: 2017/3/3暂时
+      multiUserChat.create(roomName);
+
       Form form = multiUserChat.getConfigurationForm();
       Form submitForm = form.createAnswerForm();
       //房间的名称
-      submitForm.setAnswer("muc#roomconfig_roomname", StringSplitUtil.splitPrefix(mucJid));
-      //保证只有注册的昵称才能进入房间
-      submitForm.setAnswer("x-muc#roomconfig_reservednick", true);
+      submitForm.setAnswer("muc#roomconfig_roomname", StringSplitUtil.splitPrefix(groupId));
       //设置为永久房间
       submitForm.setAnswer("muc#roomconfig_persistentroom", true);
-      //设置房间人数上限，注意，参数不是int！！！！！
-      submitForm.setAnswer("muc#roomconfig_maxusers", new ArrayList<>(100));
-      ArrayList owners = new ArrayList();
-      owners.addAll(owner);
-      submitForm.setAnswer("muc#roomconfig_roomowners", owners);
+//      submitForm.setAnswer("muc#roomconfig_roomowners", owners);
       multiUserChat.sendConfigurationForm(submitForm);
-      try {
-        pullJoinedRooms(
-            new PullJoinedRooms(appPreferences.getString("username" + "@" + SupportIM.mDomain)));
-      } catch (ItemNotFoundException e) {
-        e.printStackTrace();
-      }
+//        pullJoinedRooms(
+//            new PullJoinedRooms(appPreferences.getString("username" + "@" + SupportIM.mDomain)));
     } catch (XMPPException.XMPPErrorException | SmackException e) {
       e.printStackTrace();
     }
