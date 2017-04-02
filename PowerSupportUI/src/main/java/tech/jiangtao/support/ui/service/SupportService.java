@@ -190,22 +190,20 @@ public class SupportService extends Service
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void sendMessage(TextMessage message) {
     Chat chat = ChatManager.getInstanceFor(mXMPPConnection).createChat(message.userJID);
-    Observable.create(new Observable.OnSubscribe<Message>() {
-      @Override public void call(Subscriber<? super Message> subscriber) {
-        try {
-          Message message1 = new Message();
-          message1.setBody(message.message);
-          DefaultExtensionElement extensionElement =
-              new DefaultExtensionElement("message_type", "message:extension");
-          extensionElement.setValue("type", message.messageType.toString());
-          message1.addExtension(extensionElement);
-          chat.sendMessage(message1);
-          subscriber.onNext(message1);
-        } catch (SmackException.NotConnectedException e) {
-          connect(true);
-          subscriber.onError(e);
-          e.printStackTrace();
-        }
+    Observable.create((Observable.OnSubscribe<Message>) subscriber -> {
+      try {
+        Message message1 = new Message();
+        message1.setBody(message.message);
+        DefaultExtensionElement extensionElement =
+            new DefaultExtensionElement("message_type", "message:extension");
+        extensionElement.setValue("type", message.messageType.toString());
+        message1.addExtension(extensionElement);
+        chat.sendMessage(message1);
+        subscriber.onNext(message1);
+      } catch (SmackException.NotConnectedException e) {
+        connect(true);
+        subscriber.onError(e);
+        e.printStackTrace();
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
       LogUtils.d(TAG, "sendMessage: 发送成功");
@@ -294,14 +292,12 @@ public class SupportService extends Service
   public void connect(boolean needAutoLogin) {
     if (mXMPPConnection == null || !mXMPPConnection.isConnected()) {
       init();
-      Observable.create(new Observable.OnSubscribe<AbstractXMPPConnection>() {
-        @Override public void call(Subscriber<? super AbstractXMPPConnection> subscriber) {
-          try {
-            subscriber.onNext(mXMPPConnection.connect());
-          } catch (SmackException | IOException | XMPPException e) {
-            e.printStackTrace();
-            subscriber.onError(new Throwable(e.toString()));
-          }
+      Observable.create((Observable.OnSubscribe<AbstractXMPPConnection>) subscriber -> {
+        try {
+          subscriber.onNext(mXMPPConnection.connect());
+        } catch (SmackException | IOException | XMPPException e) {
+          e.printStackTrace();
+          subscriber.onError(new Throwable(e.toString()));
         }
       })
           .subscribeOn(Schedulers.io())
@@ -593,15 +589,13 @@ public class SupportService extends Service
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void queryUser(QueryUser user) {
     mVCardManager = VCardManager.getInstanceFor(mXMPPConnection);
-    Observable.create(new Observable.OnSubscribe<VCard>() {
-      @Override public void call(Subscriber<? super VCard> subscriber) {
-        try {
-          subscriber.onNext(mVCardManager.loadVCard(user.username + "@" + SupportIM.mDomain));
-        } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
-          e.printStackTrace();
-          subscriber.onError(e);
-          connect(true);
-        }
+    Observable.create((Observable.OnSubscribe<VCard>) subscriber -> {
+      try {
+        subscriber.onNext(mVCardManager.loadVCard(user.username + "@" + SupportIM.mDomain));
+      } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
+        e.printStackTrace();
+        subscriber.onError(e);
+        connect(true);
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(vCard -> {
       LogUtils.d(TAG, "queryUser: " + vCard.toXML());
@@ -626,16 +620,14 @@ public class SupportService extends Service
   @Subscribe(threadMode = ThreadMode.MAIN) public void deleteFriends(RosterEntryBus user) {
     mRoster = Roster.getInstanceFor(mXMPPConnection);
     RosterEntry entry = mRoster.getEntry(user.jid);
-    Observable.create(new Observable.OnSubscribe<RosterEntry>() {
-      @Override public void call(Subscriber<? super RosterEntry> subscriber) {
-        try {
-          mRoster.removeEntry(entry);
-          subscriber.onNext(entry);
-        } catch (SmackException.NotLoggedInException | SmackException.NoResponseException | SmackException.NotConnectedException | XMPPException.XMPPErrorException e) {
-          e.printStackTrace();
-          subscriber.onError(e);
-          connect(true);
-        }
+    Observable.create((Observable.OnSubscribe<RosterEntry>) subscriber -> {
+      try {
+        mRoster.removeEntry(entry);
+        subscriber.onNext(entry);
+      } catch (SmackException.NotLoggedInException | SmackException.NoResponseException | SmackException.NotConnectedException | XMPPException.XMPPErrorException e) {
+        e.printStackTrace();
+        subscriber.onError(e);
+        connect(true);
       }
     })
         .subscribeOn(Schedulers.io())
