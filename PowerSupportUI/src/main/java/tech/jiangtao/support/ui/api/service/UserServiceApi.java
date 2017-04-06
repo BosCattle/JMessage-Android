@@ -4,9 +4,12 @@ import java.util.List;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 import tech.jiangtao.support.ui.model.group.Friends;
+import tech.jiangtao.support.ui.model.group.Groups;
 
 /**
  * Created by Vurtex on 2017/3/29.
@@ -22,6 +25,14 @@ public interface UserServiceApi {
     @FormUrlEncoded
     @POST("user/queryUserList")
     Observable<List<Friends>> post(@Field("userId") String userId);
+
+    /**
+     * 获取我加入的所有群组
+     * @param uid
+     * @return
+     */
+    @GET("group/joined")
+    Observable<List<Groups>> getOwnGroup(@Query("uid") String uid);
 
 
 }

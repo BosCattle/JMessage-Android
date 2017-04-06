@@ -117,7 +117,7 @@ public class GroupChatFragment extends BaseFragment
   @BindView(R2.id.chat_bottom) RelativeLayout mChatBottom;
   @BindView(R2.id.chat_audio_record) AudioRecordButton mAudioRecord;
   private ChatMessageAdapter mChatMessageAdapter;
-  private List<ConstructMessage> mMessages;
+  private List<ConstructMessage> mMessages = new ArrayList<>();
   private BQMM mBQMM;
   private UpLoadServiceApi mUpLoadServiceApi;
   private boolean mIsRefresh;
@@ -327,7 +327,6 @@ public class GroupChatFragment extends BaseFragment
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
     mRecycler.setLayoutManager(mLinearLayoutManager);
     mRecycler.setAdapter(mChatMessageAdapter);
-    updateChatData();
   }
 
   @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {

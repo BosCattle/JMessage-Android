@@ -21,6 +21,7 @@ public class ConstrutContact {
   public String mTitle;
   public VCardRealm mVCardRealm;
   public Friends mFriends;
+  public Object mObject;
 
   public static class Builder {
     public ContactType type;
@@ -28,6 +29,7 @@ public class ConstrutContact {
     public String title;
     public Friends friends;
     public VCardRealm vCardRealm;
+    public Object object;
     public ConstrutContact build(){
       ConstrutContact contact = new ConstrutContact();
       contact.mType = type;
@@ -35,6 +37,7 @@ public class ConstrutContact {
       contact.mTitle = title;
       contact.mVCardRealm = vCardRealm;
       contact.mFriends=friends;
+      contact.mObject = object;
       return contact;
     }
 
@@ -60,6 +63,11 @@ public class ConstrutContact {
 
     public Builder friends(Friends friends){
       this.friends  = friends;
+      return this;
+    }
+
+    public Builder object(Object object){
+      this.object = object;
       return this;
     }
 

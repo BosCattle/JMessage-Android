@@ -80,6 +80,7 @@ import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.eventbus.muc.PullJoinedRooms;
+import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateCallBackEvent;
 import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateParam;
 import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.realm.VCardRealm;
@@ -743,32 +744,37 @@ public class SupportService extends Service
 
   /**
    * 创建群组
-   * @param param
    */
   @Subscribe(threadMode = ThreadMode.MAIN) public void createMuc(GroupCreateParam param) {
     String roomName = param.roomName;
-    String nickname =param.nickname;
-    Collection<String> owner = param.owner ;
-    String groupId=roomName+"@muc."+SupportIM.mDomain;
+    String nickname = param.nickname;
+    Collection<String> owner = param.owner;
+    String groupId = roomName + "@muc." + SupportIM.mDomain;
     MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(groupId);
-    try {
-      //表示当前用户在房间中的昵称
-      // TODO: 2017/3/3暂时
-      multiUserChat.create(roomName);
-
-      Form form = multiUserChat.getConfigurationForm();
-      Form submitForm = form.createAnswerForm();
-      //房间的名称
-      submitForm.setAnswer("muc#roomconfig_roomname", StringSplitUtil.splitPrefix(groupId));
-      //设置为永久房间
-      submitForm.setAnswer("muc#roomconfig_persistentroom", true);
-//      submitForm.setAnswer("muc#roomconfig_roomowners", owners);
-      multiUserChat.sendConfigurationForm(submitForm);
-//        pullJoinedRooms(
-//            new PullJoinedRooms(appPreferences.getString("username" + "@" + SupportIM.mDomain)));
-    } catch (XMPPException.XMPPErrorException | SmackException e) {
-      e.printStackTrace();
-    }
+    Observable.create((Observable.OnSubscribe<String>) subscriber -> {
+      try {
+        multiUserChat.create(roomName);
+        Form form = multiUserChat.getConfigurationForm();
+        Form submitForm = form.createAnswerForm();
+        //房间的名称
+        submitForm.setAnswer("muc#roomconfig_roomname", StringSplitUtil.splitPrefix(groupId));
+        //设置为永久房间
+        submitForm.setAnswer("muc#roomconfig_persistentroom", true);
+        //      submitForm.setAnswer("muc#roomconfig_roomowners", owners);
+        multiUserChat.sendConfigurationForm(submitForm);
+        subscriber.onNext("");
+      } catch (SmackException | XMPPException.XMPPErrorException e) {
+        e.printStackTrace();
+        subscriber.onError(e);
+      }
+    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
+      HermesEventBus.getDefault().post(new GroupCreateCallBackEvent("创建成功"));
+    }, new ErrorAction() {
+      @Override public void call(Throwable throwable) {
+        super.call(throwable);
+        HermesEventBus.getDefault().post(new GroupCreateCallBackEvent(throwable.getMessage()));
+      }
+    });
   }
 
   // 邀请群成员
@@ -821,10 +827,10 @@ public class SupportService extends Service
     }
     if (user.user != null && user.user.equals(username + "@" + SupportIM.mDomain)) {
       //是当前用户，发送通知，缓存到本地数据库
-      for (int i=0;i<rooms.size();i++){
-        LogUtils.d(TAG,roomInfo.get(i).getName());
-        LogUtils.d(TAG,roomInfo.get(i).getDescription());
-        LogUtils.d(TAG,roomInfo.get(i).getForm().toString());
+      for (int i = 0; i < rooms.size(); i++) {
+        LogUtils.d(TAG, roomInfo.get(i).getName());
+        LogUtils.d(TAG, roomInfo.get(i).getDescription());
+        LogUtils.d(TAG, roomInfo.get(i).getForm().toString());
       }
     } else {
       // 不是当前用户,暂时不做此功能

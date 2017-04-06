@@ -86,6 +86,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
       type = 3;
     }else if (mDatas.get(position).mType==ContactType.TYPE_CHOICE_MEMBER_CHOICE){
       type = 4;
+    }else if (mDatas.get(position).mType==ContactType.TYPE_GROUP_DETAIL){
+      type = 5;
     }
     return type;
   }

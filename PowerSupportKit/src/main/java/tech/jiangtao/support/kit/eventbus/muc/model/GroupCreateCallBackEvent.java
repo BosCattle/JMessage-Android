@@ -11,4 +11,9 @@ package tech.jiangtao.support.kit.eventbus.muc.model;
 
 public class GroupCreateCallBackEvent {
 
+  public String message;
+
+  public GroupCreateCallBackEvent(String message){
+    this.message = message;
+  }
 }
