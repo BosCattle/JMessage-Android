@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+  <include layout="@layout/include_header"
+      android:id="@+id/header"/>
+
+  <android.support.v7.widget.RecyclerView
+      android:layout_below="@+id/header"
+      android:id="@+id/group_detail_recycle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_above="@+id/delete_group_button"
+      />
+
+  <android.support.v7.widget.AppCompatButton
+      android:id="@+id/delete_group_button"
+      android:layout_margin="@dimen/activity_horizontal_margin"
+      android:background="@drawable/shape_button"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:text="删 除"
+      android:textSize="18sp"
+      android:textColor="@color/white"
+      />
+
+</RelativeLayout>

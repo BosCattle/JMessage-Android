@@ -5,53 +5,54 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'android-apt'
 apply plugin: 'com.github.dcendents.android-maven'
 android {
-    compileSdkVersion rootProject.ext.android.compileSdkVersion
-    buildToolsVersion rootProject.ext.android.buildToolsVersion
+  compileSdkVersion rootProject.ext.android.compileSdkVersion
+  buildToolsVersion rootProject.ext.android.buildToolsVersion
 
-    defaultConfig {
-        minSdkVersion rootProject.ext.android.minSdkVersion
-        targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-        resValue "string", "tray__authority", "${applicationId}.tray"
+  defaultConfig {
+    minSdkVersion rootProject.ext.android.minSdkVersion
+    targetSdkVersion rootProject.ext.android.targetSdkVersion
+    versionCode 1
+    versionName "1.0"
+    resValue "string", "tray__authority", "${applicationId}.tray"
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-    compileOptions {
-        sourceCompatibility rootProject.ext.android.javaVersion
-        targetCompatibility rootProject.ext.android.javaVersion
-    }
-    lintOptions {
-        abortOnError false
-    }
+  }
+  compileOptions {
+    sourceCompatibility rootProject.ext.android.javaVersion
+    targetCompatibility rootProject.ext.android.javaVersion
+  }
+  lintOptions {
+    abortOnError false
+  }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':PowerSupportKit')
-    compile 'com.android.support:appcompat-v7:'+rootProject.ext.depsVersion.supportVersion
-    compile 'com.android.support:design:'+rootProject.ext.depsVersion.supportVersion
-    compile 'com.android.support:support-v4:'+rootProject.ext.depsVersion.supportVersion
-    compile 'com.github.bumptech.glide:glide:'+rootProject.ext.depsVersion.glideVersion
-    compile 'de.hdodenhof:circleimageview:'+rootProject.ext.depsVersion.circleimageviewVersion
-    compile 'com.jakewharton:butterknife:'+rootProject.ext.depsVersion.butterknifeVersion
-    compile 'com.github.BosCattle:ViewCollection:'+rootProject.ext.depsVersion.viewcollectionVersion
-    compile 'com.github.Doublemine:SimpleHud:'+rootProject.ext.depsVersion.simpleHudVersion
-    compile 'com.github.BosCattle:MultiType-FilePicker:'+rootProject.ext.depsVersion.multiTypeFilePickerVersion
-    compile 'com.tbruyelle.rxpermissions:rxpermissions:'+rootProject.ext.depsVersion.rxpermissionsVersion
-    annotationProcessor 'com.jakewharton:butterknife-compiler:'+rootProject.ext.depsVersion.butterknifeVersion
-    apt 'com.jakewharton:butterknife-compiler:'+rootProject.ext.depsVersion.butterknifeVersion
-    compile 'com.squareup.retrofit2:adapter-rxjava:'+rootProject.ext.depsVersion.rxjavaadapter
-    compile 'com.squareup.retrofit2:retrofit:'+rootProject.ext.depsVersion.retrofitVersion
-    compile 'com.squareup.retrofit2:converter-jackson:'+rootProject.ext.depsVersion.jacksonVersion
-    compile 'com.squareup.okhttp3:okhttp:'+rootProject.ext.depsVersion.okhttpVersion
-    compile 'com.squareup.okio:okio:'+rootProject.ext.depsVersion.okioVersion
-    compile 'com.squareup.okhttp3:logging-interceptor:'+rootProject.ext.depsVersion.logginginterceptorVersion
-    compile 'com.github.chrisbanes:PhotoView:'+rootProject.ext.depsVersion.photoViewVersion
-    compile 'com.github.BosCattle:Emoji:'+rootProject.ext.depsVersion.emojiVersion
-    compile 'com.afollestad.material-dialogs:core:' + rootProject.ext.depsVersion.materialDialogsVersion
+  compile fileTree(include: ['*.jar'], dir: 'libs')
+  compile project(':PowerSupportKit')
+  compile 'com.android.support:appcompat-v7:' + rootProject.ext.depsVersion.supportVersion
+  compile 'com.android.support:design:' + rootProject.ext.depsVersion.supportVersion
+  compile 'com.android.support:support-v4:' + rootProject.ext.depsVersion.supportVersion
+  compile 'com.github.bumptech.glide:glide:' + rootProject.ext.depsVersion.glideVersion
+  compile 'de.hdodenhof:circleimageview:' + rootProject.ext.depsVersion.circleimageviewVersion
+  compile 'com.jakewharton:butterknife:' + rootProject.ext.depsVersion.butterknifeVersion
+  compile 'com.github.BosCattle:ViewCollection:' + rootProject.ext.depsVersion.viewcollectionVersion
+  compile 'com.github.Doublemine:SimpleHud:' + rootProject.ext.depsVersion.simpleHudVersion
+  compile 'com.github.BosCattle:MultiType-FilePicker:' + rootProject.ext.depsVersion.multiTypeFilePickerVersion
+  compile 'com.tbruyelle.rxpermissions:rxpermissions:' + rootProject.ext.depsVersion.rxpermissionsVersion
+  annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
+  apt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
+  compile 'com.squareup.retrofit2:adapter-rxjava:' + rootProject.ext.depsVersion.rxjavaadapter
+  compile 'com.squareup.retrofit2:retrofit:' + rootProject.ext.depsVersion.retrofitVersion
+  compile 'com.squareup.retrofit2:converter-jackson:' + rootProject.ext.depsVersion.jacksonVersion
+  compile 'com.squareup.okhttp3:okhttp:' + rootProject.ext.depsVersion.okhttpVersion
+  compile 'com.squareup.okio:okio:' + rootProject.ext.depsVersion.okioVersion
+  compile 'com.squareup.okhttp3:logging-interceptor:' + rootProject.ext.depsVersion.logginginterceptorVersion
+  compile 'com.github.chrisbanes:PhotoView:' + rootProject.ext.depsVersion.photoViewVersion
+  compile 'com.github.BosCattle:Emoji:' + rootProject.ext.depsVersion.emojiVersion
+  compile 'com.afollestad.material-dialogs:core:' + rootProject.ext.depsVersion.materialDialogsVersion
+  compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
 }
