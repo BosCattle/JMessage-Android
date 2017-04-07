@@ -82,7 +82,6 @@ public class GroupCreateActivity extends BaseActivity
     } catch (ItemNotFoundException e) {
       e.printStackTrace();
     }
-    name = "vurtex@dc-a4b8eb92-xmpp.jiangtao.tech.";
     LogUtils.d(TAG, name);
     mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
     setUpToolbar();
