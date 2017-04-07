@@ -56,7 +56,7 @@ public class PersonalFragment extends BaseFragment implements EasyViewHolder.OnI
   @BindView(R.id.login_button) AppCompatButton mLoginButton;
   private PersonalDataAdapter mDataAdapter;
   private Realm mRealm;
-  private List mDatas = new ArrayList();
+  private List<ConstructListData> mData = new ArrayList<>();
 
   public static PersonalFragment newInstance() {
     return new PersonalFragment();
@@ -92,9 +92,9 @@ public class PersonalFragment extends BaseFragment implements EasyViewHolder.OnI
   }
 
   public List<ConstructListData> buildData( VCardRealm mVCardRealm) {
-    mDatas.clear();
-    mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
-    mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_HEAD)
+    mData.clear();
+    mData.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
+    mData.add(new ConstructListData.Builder().type(ListDataType.TAG_HEAD)
         .tag(TAG_HEAD)
         .image(
             mVCardRealm != null && mVCardRealm.getAvatar() != null ? mVCardRealm.getAvatar() : null)
@@ -105,37 +105,37 @@ public class PersonalFragment extends BaseFragment implements EasyViewHolder.OnI
             : "部门")
         .arrowIcon(R.mipmap.ic_arrow)
         .build());
-    mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
-    mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_NORMAL)
+    mData.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
+    mData.add(new ConstructListData.Builder().type(ListDataType.TAG_NORMAL)
         .tag(TAG_NOTIFICATION)
         .title("通知")
         .arrowIcon(R.mipmap.ic_arrow)
         .build());
-    mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_NORMAL)
+    mData.add(new ConstructListData.Builder().type(ListDataType.TAG_NORMAL)
         .tag(TAG_CACHE)
         .title("清除缓存")
         .arrowIcon(R.mipmap.ic_arrow)
         .build());
-    mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_NORMAL)
+    mData.add(new ConstructListData.Builder().type(ListDataType.TAG_NORMAL)
         .tag(TAG_UPDATE_PASSWORD)
         .title("修改密码")
         .arrowIcon(R.mipmap.ic_arrow)
         .build());
-    mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
+    mData.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
         .tag(TAG_UPDATE)
         .title("版本更新")
         .subtitle("当前是最新版本")
         .build());
-    mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_NORMAL)
+    mData.add(new ConstructListData.Builder().type(ListDataType.TAG_NORMAL)
         .tag(TAG_ABOUT)
         .title("关于我们")
         .arrowIcon(R.mipmap.ic_arrow)
         .build());
-    return mDatas;
+    return mData;
   }
 
   @Override public void onItemClick(int position, View view) {
-    switch (((ConstructListData) mDatas.get(position)).getmTag()) {
+    switch ((mData.get(position)).getmTag()) {
       case TAG_HEAD:
         PersonalDetailActivity.startPersonalDetail(getActivity());
         break;

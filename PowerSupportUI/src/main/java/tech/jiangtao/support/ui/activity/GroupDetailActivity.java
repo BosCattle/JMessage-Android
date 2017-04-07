@@ -4,15 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import java.util.ArrayList;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
+import tech.jiangtao.support.ui.adapter.ContactAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
+import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
 
 /**
  * Class: GroupDetailActivity </br>
@@ -29,11 +33,35 @@ public class GroupDetailActivity extends BaseActivity
   @BindView(R2.id.toolbar) Toolbar mToolbar;
   @BindView(R2.id.group_detail_recycle) RecyclerView mGroupDetailRecycle;
   @BindView(R2.id.delete_group_button) AppCompatButton mDeleteGroupButton;
+  private ContactAdapter mContactAdapter;
+  private ArrayList mConstrutContact;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_group_detail);
     ButterKnife.bind(this);
+    setUpToolbar();
+    setUpAdapter();
+    updateGroupData();
+  }
+
+  private void updateGroupData() {
+
+    mConstrutContact.clear();
+    mConstrutContact.add(null);
+  }
+
+  /**
+   * 更新和完善群信息的。
+   */
+  private void setUpAdapter() {
+    mConstrutContact = new ArrayList<>();
+    mContactAdapter = new ContactAdapter(this, mConstrutContact);
+    mContactAdapter.setOnClickListener(this);
+    mGroupDetailRecycle.addItemDecoration(RecyclerViewUtils.buildItemDecoration(this));
+    mGroupDetailRecycle.setLayoutManager(
+        new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    mGroupDetailRecycle.setAdapter(mContactAdapter);
   }
 
   @Override protected boolean preSetupToolbar() {
@@ -43,6 +71,15 @@ public class GroupDetailActivity extends BaseActivity
   public static void startGroupDetail(Activity activity) {
     Intent intent = new Intent(activity, GroupDetailActivity.class);
     activity.startActivity(intent);
+  }
+
+
+  public void setUpToolbar() {
+    mToolbar.setTitle("");
+    mTvToolbar.setText("群详情");
+    setSupportActionBar(mToolbar);
+    mToolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
+    mToolbar.setNavigationOnClickListener(v -> this.finish());
   }
 
   @Override public void onItemClick(int position, View view) {

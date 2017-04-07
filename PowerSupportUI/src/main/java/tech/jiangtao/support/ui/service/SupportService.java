@@ -39,6 +39,7 @@ import org.jivesoftware.smackx.muc.InvitationRejectionListener;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.jivesoftware.smackx.muc.MultiUserChatManager;
 import org.jivesoftware.smackx.muc.RoomInfo;
+import org.jivesoftware.smackx.muc.SubjectUpdatedListener;
 import org.jivesoftware.smackx.vcardtemp.VCardManager;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 import org.jivesoftware.smackx.xdata.Form;
@@ -96,7 +97,7 @@ import static xiaofei.library.hermes.Hermes.getContext;
 
 public class SupportService extends Service
     implements ChatManagerListener, ConnectionListener, RosterListener, InvitationListener,
-    InvitationRejectionListener {
+    InvitationRejectionListener,SubjectUpdatedListener {
 
   private static final String TAG = SupportService.class.getSimpleName();
   private XMPPTCPConnection mXMPPConnection;
@@ -799,49 +800,12 @@ public class SupportService extends Service
     }
   }
 
-  /**
-   * 获取用户所加入的群组
-   */
-  @Subscribe(threadMode = ThreadMode.MAIN) public void pullJoinedRooms(PullJoinedRooms user) {
-    List<String> rooms = new ArrayList<>();
-    String username = null;
-    try {
-      username = appPreferences.getString("username");
-    } catch (ItemNotFoundException e) {
-      e.printStackTrace();
-    }
-    try {
-      rooms = mMultiUserChatManager.getJoinedRooms(user.user);
-    } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
-      e.printStackTrace();
-    }
-    ArrayList<String> roomData = new ArrayList<>();
-    roomData.addAll(rooms);
-    ArrayList<RoomInfo> roomInfo = new ArrayList<>();
-    for (int i = 0; i < rooms.size(); i++) {
-      try {
-        roomInfo.add(mMultiUserChatManager.getRoomInfo(roomData.get(i)));
-      } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
-        e.printStackTrace();
-      }
-    }
-    if (user.user != null && user.user.equals(username + "@" + SupportIM.mDomain)) {
-      //是当前用户，发送通知，缓存到本地数据库
-      for (int i = 0; i < rooms.size(); i++) {
-        LogUtils.d(TAG, roomInfo.get(i).getName());
-        LogUtils.d(TAG, roomInfo.get(i).getDescription());
-        LogUtils.d(TAG, roomInfo.get(i).getForm().toString());
-      }
-    } else {
-      // 不是当前用户,暂时不做此功能
-
-    }
-  }
 
   @Override public void invitationReceived(XMPPConnection conn, MultiUserChat room, String inviter,
       String reason, String password, Message message) {
     // 这里是收到群邀请请求
     try {
+      LogUtils.e(TAG,"收到"+inviter+"的邀请。"+inviter+"邀请你加入"+room.getRoom());
       room.join(inviter);
     } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
       e.printStackTrace();
@@ -850,6 +814,11 @@ public class SupportService extends Service
 
   @Override public void invitationDeclined(String invitee, String reason) {
     //发出的邀请被拒绝
+
+  }
+
+  // 群公告
+  @Override public void subjectUpdated(String subject, String from) {
 
   }
 

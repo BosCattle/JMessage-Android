@@ -24,6 +24,7 @@ import tech.jiangtao.support.ui.pattern.ConstrutContact;
  * Date: 15/01/2017 11:14 PM</br>
  * Update: 15/01/2017 11:14 PM </br>
  **/
+// TODO: 2017/4/7  type：邀请用户加入群
 public class GroupChoiceMemberViewHolder extends tech.jiangtao.support.ui.adapter.ContactViewHolder {
 
   @BindView(R2.id.group_member_avatar) CircleImageView mGroupMemberAvatar;
