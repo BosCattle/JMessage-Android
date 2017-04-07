@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/group_detail_member"
+      android:layout_width="match_parent"
+      android:layout_height="100dp"
+      android:alpha="100"
+      android:elevation="10dp"
+      android:layout_toLeftOf="@+id/group_detail_arrow"
+      />
+
+  <ImageView
+      android:id="@+id/group_detail_arrow"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentRight="true"
+      android:src="@mipmap/ic_arrow"
+      android:layout_centerVertical="true"
+      android:layout_margin="20px"
+      />
+</RelativeLayout>

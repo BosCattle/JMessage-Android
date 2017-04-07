@@ -19,12 +19,12 @@
       />
 
   <android.support.v7.widget.AppCompatButton
+      android:layout_below="@+id/group_detail_recycle"
       android:id="@+id/delete_group_button"
       android:layout_margin="@dimen/activity_horizontal_margin"
       android:background="@drawable/shape_button"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
       android:text="删 除"
       android:textSize="18sp"
       android:textColor="@color/white"

@@ -13,6 +13,9 @@ import tech.jiangtao.support.ui.viewholder.ContactCellViewHolder;
 import tech.jiangtao.support.ui.viewholder.ContactHeadViewHolder;
 import tech.jiangtao.support.ui.viewholder.ContactsViewHolder;
 import tech.jiangtao.support.ui.viewholder.GroupChoiceMemberViewHolder;
+import tech.jiangtao.support.ui.viewholder.GroupDetailMemberViewHolder;
+import tech.jiangtao.support.ui.viewholder.GroupDetailRadioViewHolder;
+import tech.jiangtao.support.ui.viewholder.GroupDetailValueViewHolder;
 import tech.jiangtao.support.ui.viewholder.GroupMemberViewHolder;
 import tech.jiangtao.support.ui.viewholder.GroupNameViewHolder;
 
@@ -65,6 +68,15 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
       case 6:
         viewHolder = new GroupNameViewHolder(mContext,parent);
         break;
+      case 7:
+        viewHolder = new GroupDetailMemberViewHolder(mContext,parent);
+        break;
+      case 8:
+        viewHolder = new GroupDetailValueViewHolder(mContext,parent);
+        break;
+      case 9:
+        viewHolder = new GroupDetailRadioViewHolder(mContext,parent);
+        break;
     }
     bindListener(viewHolder);
     return viewHolder;
@@ -94,6 +106,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
       type = 5;
     }else if (mDatas.get(position).mType==ContactType.TYPE_GROUP_DETAIL_HEAD){
       type = 6;
+    }else if (mDatas.get(position).mType==ContactType.TYPE_GROUP_MEMBER){
+      type = 7;
+    }else if (mDatas.get(position).mType==ContactType.TYPE_GROUP_VALUE){
+      type = 8;
+    }else if (mDatas.get(position).mType==ContactType.TYPE_GROUP_RADIO){
+      type = 9;
     }
     return type;
   }
