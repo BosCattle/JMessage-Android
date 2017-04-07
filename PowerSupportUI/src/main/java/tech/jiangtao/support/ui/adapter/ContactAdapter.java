@@ -4,7 +4,9 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+
 import java.util.List;
+
 import tech.jiangtao.support.ui.linstener.DebouncedOnClickListener;
 import tech.jiangtao.support.ui.linstener.DebouncedOnLongClickListener;
 import tech.jiangtao.support.ui.model.type.ContactType;

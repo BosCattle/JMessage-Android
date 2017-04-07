@@ -87,7 +87,7 @@ public class GroupCreateActivity extends BaseActivity
     mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
     setUpToolbar();
     setUpAdapter();
-    mUserServiceApi.post(name)
+    mUserServiceApi.queryUserList(name)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(list -> {

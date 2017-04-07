@@ -6,9 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.bumptech.glide.Glide;
 import tech.jiangtao.support.kit.eventbus.FriendRequest;
 import tech.jiangtao.support.kit.eventbus.RecieveFriend;
 import tech.jiangtao.support.ui.R;
@@ -29,6 +31,7 @@ public class NewFriendViewHolder extends EasyViewHolder<FriendRequest> {
   @BindView(R2.id.new_friend_avatar) ImageView mNewFriendAvatar;
   @BindView(R2.id.new_friend_nickname) TextView mNewFriendNickname;
   @BindView(R2.id.new_friend_agree) TextView mNewFriendAgree;
+  @BindView(R2.id.new_friend_refused) TextView mNewFriendRefused;
   private Context mContext;
 
   public NewFriendViewHolder(Context context, ViewGroup parent) {
@@ -49,6 +52,11 @@ public class NewFriendViewHolder extends EasyViewHolder<FriendRequest> {
       @Override public void onClick(View v) {
         HermesEventBus.getDefault().post(new RecieveFriend(true));
         mNewFriendAgree.setText("成功");
+      }
+    });
+    mNewFriendRefused.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        //TODO 拒绝对方申请
       }
     });
   }

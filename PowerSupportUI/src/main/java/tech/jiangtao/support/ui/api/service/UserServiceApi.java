@@ -24,7 +24,7 @@ public interface UserServiceApi {
      */
     @FormUrlEncoded
     @POST("user/queryUserList")
-    Observable<List<Friends>> post(@Field("userId") String userId);
+    Observable<List<Friends>> queryUserList(@Field("userId") String userId);
 
     /**
      * 获取我加入的所有群组
@@ -33,6 +33,13 @@ public interface UserServiceApi {
      */
     @GET("group/joined")
     Observable<List<Groups>> getOwnGroup(@Query("uid") String uid);
+    /**
+     * 获取我加入的所有群组
+     * @param roomName
+     * @return
+     */
+    @GET("group/search")
+    Observable<List<Groups>> getQueryGroup(@Query("roomName") String roomName);
 
 
 }
