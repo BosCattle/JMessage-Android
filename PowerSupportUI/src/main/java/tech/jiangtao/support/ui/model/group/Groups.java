@@ -23,6 +23,10 @@ public class Groups implements Parcelable {
   public String owner;
   public List<Friends> members;
   public String node;
+  public String avatar;
+
+  public Groups() {
+  }
 
   @Override public int describeContents() {
     return 0;
@@ -37,9 +41,7 @@ public class Groups implements Parcelable {
     dest.writeString(this.owner);
     dest.writeTypedList(this.members);
     dest.writeString(this.node);
-  }
-
-  public Groups() {
+    dest.writeString(this.avatar);
   }
 
   protected Groups(Parcel in) {
@@ -51,6 +53,7 @@ public class Groups implements Parcelable {
     this.owner = in.readString();
     this.members = in.createTypedArrayList(Friends.CREATOR);
     this.node = in.readString();
+    this.avatar = in.readString();
   }
 
   public static final Creator<Groups> CREATOR = new Creator<Groups>() {

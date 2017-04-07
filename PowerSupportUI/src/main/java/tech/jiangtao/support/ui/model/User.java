@@ -14,7 +14,6 @@ import android.os.Parcelable;
 
 public class User implements Parcelable {
   public String userId;
-  public int onlineStatus;
   public String nickName;
   public String avatar;
 
@@ -27,14 +26,12 @@ public class User implements Parcelable {
 
   @Override public void writeToParcel(Parcel dest, int flags) {
     dest.writeString(this.userId);
-    dest.writeInt(this.onlineStatus);
     dest.writeString(this.nickName);
     dest.writeString(this.avatar);
   }
 
   protected User(Parcel in) {
     this.userId = in.readString();
-    this.onlineStatus = in.readInt();
     this.nickName = in.readString();
     this.avatar = in.readString();
   }
