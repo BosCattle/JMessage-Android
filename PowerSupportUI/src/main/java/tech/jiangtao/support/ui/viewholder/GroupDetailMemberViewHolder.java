@@ -67,7 +67,7 @@ public class GroupDetailMemberViewHolder
     mBaseEasyAdapter.setOnClickListener((position1, view) -> {
       if (position1 == mFriends.size() - 1) {
         // 进入列表，选择用户进群
-        InviteFriendsActivity.startInviteFriends((Activity) mContext);
+        InviteFriendsActivity.startInviteFriends((Activity) mContext,l.mTitle);
       }
     });
   }

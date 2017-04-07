@@ -12,6 +12,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import tech.jiangtao.support.kit.eventbus.InviteFriend;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
+import tech.jiangtao.support.ui.activity.InviteFriendsActivity;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.model.group.Friends;
 import xiaofei.library.hermeseventbus.HermesEventBus;
@@ -50,9 +51,9 @@ public class InviteFriendsViewHolder extends EasyViewHolder<Friends> {
     mFriendMemberCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
         if (checked){
-          HermesEventBus.getDefault().post(new InviteFriend(friends));
+          InviteFriendsActivity.mFriends.add(friends);
         }else {
-          HermesEventBus.getDefault().post(new InviteFriend(friends));
+          InviteFriendsActivity.mFriends.remove(friends);
         }
       }
     });

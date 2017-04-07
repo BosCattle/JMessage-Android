@@ -22,7 +22,9 @@ import org.greenrobot.eventbus.ThreadMode;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.eventbus.InviteFriend;
+import tech.jiangtao.support.kit.eventbus.InvitedFriendToGroup;
 import tech.jiangtao.support.kit.userdata.SimpleCGroup;
+import tech.jiangtao.support.kit.userdata.SimpleGroupInvited;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
@@ -40,6 +42,7 @@ import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
 import tech.jiangtao.support.ui.viewholder.GroupGridViewHolder;
 import tech.jiangtao.support.ui.viewholder.InviteFriendsViewHolder;
+import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
  * Class: InviteFriendsActivity </br>
@@ -51,12 +54,16 @@ import tech.jiangtao.support.ui.viewholder.InviteFriendsViewHolder;
  **/
 public class InviteFriendsActivity extends BaseActivity {
 
+  public static final String TAG = InviteFriendsActivity.class.getSimpleName();
+  public static final String MUCJID = "mucJid";
   @BindView(R2.id.tv_toolbar) TextView mTvToolbar;
   @BindView(R2.id.toolbar) Toolbar mToolbar;
   @BindView(R2.id.invite_group_recycle) RecyclerView mInviteGroupRecycle;
-  public static final String TAG = InviteFriendsActivity.class.getSimpleName();
   private BaseEasyAdapter mBaseEasyAdapter;
-  private List<Friends> mFriends;
+  // TODO: 2017/4/7 泄漏
+  public static List<Friends> mFriends = new ArrayList<>();
+  private SimpleGroupInvited mSimpleGroupInvited;
+  private String mucJid;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -66,6 +73,8 @@ public class InviteFriendsActivity extends BaseActivity {
   }
 
   public void init() {
+    //mSimpleGroupInvited = new SimpleGroupInvited();
+    mucJid = getIntent().getStringExtra(MUCJID);
     AppPreferences mAppPreferences = new AppPreferences(this);
     String name = null;
     try {
@@ -116,28 +125,31 @@ public class InviteFriendsActivity extends BaseActivity {
     return false;
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN) public void recievedInvitedFriend(InviteFriend friend) {
-    if (mFriends.contains(friend.getObject())) {
-      mFriends.remove(friend.getObject());
-    } else {
-      mFriends.add((Friends) friend.getObject());
-    }
-  }
-
-  public static void startInviteFriends(Activity activity) {
+  public static void startInviteFriends(Activity activity, String mucJid) {
     Intent intent = new Intent(activity, InviteFriendsActivity.class);
+    intent.putExtra(MUCJID, mucJid);
     activity.startActivity(intent);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater  =  getMenuInflater();
-    inflater.inflate(R.menu.menu_group_invite,menu);
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.menu_group_invite, menu);
     return super.onCreateOptionsMenu(menu);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId()==R.id.menu_group_invite){
+    if (item.getItemId() == R.id.menu_group_invite) {
       // 发送邀请请求
+      ArrayList<String> userjid = new ArrayList<>();
+      if (mFriends.size() != 0) {
+        for (Friends friend : mFriends) {
+          userjid.add(friend.userId);
+        }
+        String reason = "妈的智障";
+        InvitedFriendToGroup ift = new InvitedFriendToGroup(mucJid, userjid, reason);
+        HermesEventBus.getDefault().post(ift);
+      }
+      //mSimpleGroupInvited.startPost(ift);
     }
     return super.onOptionsItemSelected(item);
   }
