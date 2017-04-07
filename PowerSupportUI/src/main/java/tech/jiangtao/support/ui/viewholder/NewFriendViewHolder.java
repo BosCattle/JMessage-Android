@@ -52,11 +52,14 @@ public class NewFriendViewHolder extends EasyViewHolder<FriendRequest> {
       @Override public void onClick(View v) {
         HermesEventBus.getDefault().post(new RecieveFriend(true));
         mNewFriendAgree.setText("成功");
+        mNewFriendAgree.setEnabled(false);
       }
     });
     mNewFriendRefused.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        //TODO 拒绝对方申请
+        HermesEventBus.getDefault().post(new RecieveFriend(false));
+        mNewFriendRefused.setText("拒绝成功");
+        mNewFriendRefused.setEnabled(false);
       }
     });
   }

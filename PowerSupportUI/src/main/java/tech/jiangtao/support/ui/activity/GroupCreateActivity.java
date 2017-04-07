@@ -63,7 +63,7 @@ public class GroupCreateActivity extends BaseActivity
   private AppPreferences mAppPreferences;
   private UserServiceApi mUserServiceApi;
   // 这样会有内存泄漏
-  public static List<Friends> mChoicedFriends = new ArrayList<>();
+  public static List<Object> mChoicedFriends = new ArrayList<>();
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -95,7 +95,7 @@ public class GroupCreateActivity extends BaseActivity
           for (Friends friends : list) {
             ConstrutContact build = new ConstrutContact.Builder().build();
             build.mType = ContactType.TYPE_CHOICE_MEMBER_CHOICE;
-            build.mFriends = friends;
+            build.mObject = friends;
             LogUtils.d(TAG, friends.toString());
             mConstrutContact.add(build);
           }
@@ -164,7 +164,7 @@ public class GroupCreateActivity extends BaseActivity
               int size = mChoicedFriends.size();
               LogUtils.d(TAG, size + "");
               //执行创建群动作
-              SimpleHUD.showLoadingMessage(this, "正在创建群", false);
+              SimpleHUD.showLoadingMessage(this, "正在创建群", true);
               try {
                 mSimpleCGroup.startCreateGroup(
                     new GroupCreateParam(input + "", mAppPreferences.getString("userJid"),

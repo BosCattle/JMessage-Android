@@ -38,7 +38,6 @@ import org.jivesoftware.smackx.muc.InvitationListener;
 import org.jivesoftware.smackx.muc.InvitationRejectionListener;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.jivesoftware.smackx.muc.MultiUserChatManager;
-import org.jivesoftware.smackx.muc.RoomInfo;
 import org.jivesoftware.smackx.muc.SubjectUpdatedListener;
 import org.jivesoftware.smackx.vcardtemp.VCardManager;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
@@ -46,14 +45,11 @@ import org.jivesoftware.smackx.xdata.Form;
 import org.jivesoftware.smackx.xdata.packet.DataForm;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.archive.MessageArchiveIQProvider;
@@ -80,7 +76,6 @@ import tech.jiangtao.support.kit.eventbus.RegisterResult;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
-import tech.jiangtao.support.kit.eventbus.muc.PullJoinedRooms;
 import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateCallBackEvent;
 import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateParam;
 import tech.jiangtao.support.kit.init.SupportIM;
@@ -777,6 +772,13 @@ public class SupportService extends Service
       }
     });
   }
+
+//  @Subscribe(threadMode = ThreadMode.MAIN) public void doInvite(InviteParam param) {
+//    if(param.choice)
+//      mMultiUserChatManager.getMultiUserChat("");
+//      else
+//    mMultiUserChatManager.decline();
+//  }
 
   // 邀请群成员
   @Subscribe(threadMode = ThreadMode.MAIN) public void inviteMucMember(String mucJid,

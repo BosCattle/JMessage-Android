@@ -14,6 +14,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.activity.GroupCreateActivity;
+import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 
 /**
@@ -40,17 +41,17 @@ public class GroupChoiceMemberViewHolder extends tech.jiangtao.support.ui.adapte
 
   @Override public void bindTo(int position, ConstrutContact l) {
     Glide.with(mContext)
-        .load(l.mFriends.avatar)
+        .load(((Friends)(l.mObject)).avatar)
         .placeholder(R.mipmap.ic_launcher)
         .centerCrop()
         .into(mGroupMemberAvatar);
-    mGroupMemberName.setText(l.mFriends.nickName);
+    mGroupMemberName.setText(((Friends)(l.mObject)).nickName);
     mGroupMemberCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked)
-          GroupCreateActivity.mChoicedFriends.add(l.mFriends);
+          GroupCreateActivity.mChoicedFriends.add(l.mObject);
         else
-          GroupCreateActivity.mChoicedFriends.remove(l.mFriends);
+          GroupCreateActivity.mChoicedFriends.remove(l.mObject);
       }
     });
   }

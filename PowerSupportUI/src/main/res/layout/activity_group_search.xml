@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     >
 
-  <!--<include-->
-      <!--layout="@layout/include_header"-->
-      <!--android:id="@+id/header"-->
-      <!--/>-->
+  <include
+      layout="@layout/include_header"
+      android:id="@+id/header"
+      />
   <LinearLayout
       android:id="@+id/ll_searchLayout"
       android:layout_below="@+id/header"
@@ -30,10 +30,10 @@
         android:layout_weight="2"
         android:text="查找群"/>
   </LinearLayout>
-  <!--<android.support.v7.widget.RecyclerView-->
-      <!--android:id="@+id/rv_groupList"-->
-      <!--android:layout_width="match_parent"-->
-      <!--android:layout_height="match_parent"-->
-      <!--android:layout_below="@+id/ll_searchLayout"-->
-      <!--/>-->
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/rv_groupList"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_below="@+id/ll_searchLayout"
+      />
 </RelativeLayout>

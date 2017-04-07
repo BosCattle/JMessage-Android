@@ -21,7 +21,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.StringUtils;
 import tech.jiangtao.support.ui.R;
@@ -45,7 +44,6 @@ import work.wanghao.simplehud.SimpleHUD;
  * Update: 2017/3/28 下午3:41 </br>
  **/
 public class GroupSearchActivity extends BaseActivity implements SearchView.OnQueryTextListener {
-
     @BindView(R2.id.tv_toolbar)
     TextView mTvToolbar;
     @BindView(R2.id.toolbar)
@@ -80,12 +78,10 @@ public class GroupSearchActivity extends BaseActivity implements SearchView.OnQu
                 if (list!=null){
                     mGroups = list;
                 }
-                for (int i = 0; i < list.size(); i++) {
+                for (Groups mGroups: list) {
                     ConstrutContact build = new ConstrutContact.Builder().build();
-                    build.mType = ContactType.TYPE_GROUP;
-                    build.mId = R.mipmap.ic_chat_default;
-                    build.mTitle = "TestGroup" + i;
-                    build.mVCardRealm = new VCardRealm("jid" + i);
+                    build.mType = ContactType.TYPE_GROUP_LIST;
+                    build.mObject=mGroups;
                     mConstrutContact.add(build);
                 }
                 mContactAdapter.notifyDataSetChanged();

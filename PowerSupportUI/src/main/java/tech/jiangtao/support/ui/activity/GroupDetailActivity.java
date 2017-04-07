@@ -9,13 +9,17 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import java.util.ArrayList;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
+import tech.jiangtao.support.ui.model.type.ContactType;
+import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
 
 /**
@@ -34,7 +38,7 @@ public class GroupDetailActivity extends BaseActivity
   @BindView(R2.id.group_detail_recycle) RecyclerView mGroupDetailRecycle;
   @BindView(R2.id.delete_group_button) AppCompatButton mDeleteGroupButton;
   private ContactAdapter mContactAdapter;
-  private ArrayList mConstrutContact;
+  private ArrayList<ConstrutContact> mConstrutContact;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -46,9 +50,23 @@ public class GroupDetailActivity extends BaseActivity
   }
 
   private void updateGroupData() {
-
     mConstrutContact.clear();
-    mConstrutContact.add(null);
+    mConstrutContact.add(new ConstrutContact.Builder()
+            .type(ContactType.TYPE_GROUP_DETAIL_HEAD)
+            .title("群名").build());
+    mConstrutContact.add(new ConstrutContact.Builder()
+        .type(ContactType.TYPE_GROUP_MEMBER)
+        .datas(null).build());
+    mConstrutContact.add(new ConstrutContact.Builder()
+        .type(ContactType.TYPE_GROUP_RADIO)
+        .build());
+    mConstrutContact.add(new ConstrutContact.Builder()
+        .type(ContactType.TYPE_GROUP_VALUE)
+        .title("清空历史记录").build());
+    mConstrutContact.add(new ConstrutContact.Builder()
+        .type(ContactType.TYPE_GROUP_VALUE)
+        .title("昵称").build());
+    mContactAdapter.notifyDataSetChanged();
   }
 
   /**
@@ -72,7 +90,6 @@ public class GroupDetailActivity extends BaseActivity
     Intent intent = new Intent(activity, GroupDetailActivity.class);
     activity.startActivity(intent);
   }
-
 
   public void setUpToolbar() {
     mToolbar.setTitle("");

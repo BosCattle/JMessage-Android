@@ -2,8 +2,8 @@ package tech.jiangtao.support.kit.userdata;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
 import tech.jiangtao.support.kit.callback.GroupCreateCallBack;
-import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateCallBackEvent;
 import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateParam;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
@@ -32,7 +32,7 @@ public class SimpleCGroup {
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN)
-  public void recievedGroupInfo(GroupCreateCallBackEvent event){
+  public void recievedGroupInfo(GroupCreateCallBack event){
     if (event!=null){
       mCallBack.createSuccess();
     }else {

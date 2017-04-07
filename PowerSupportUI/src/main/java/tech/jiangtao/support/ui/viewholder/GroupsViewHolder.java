@@ -1,7 +1,6 @@
 package tech.jiangtao.support.ui.viewholder;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -12,7 +11,6 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
-import tech.jiangtao.support.ui.activity.GroupCreateActivity;
 import tech.jiangtao.support.ui.model.group.Groups;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 
@@ -26,13 +24,12 @@ import tech.jiangtao.support.ui.pattern.ConstrutContact;
  **/
 public class GroupsViewHolder extends tech.jiangtao.support.ui.adapter.ContactViewHolder {
 
-  @BindView(R2.id.group_member_avatar) CircleImageView mGroupMemberAvatar;
-  @BindView(R2.id.group_member_name) TextView mGroupMemberName;
-  @BindView(R2.id.group_member_checkbox) AppCompatCheckBox mGroupMemberCheckbox;
+  @BindView(R2.id.group_avatar) CircleImageView mGroupMemberAvatar;
+  @BindView(R2.id.group_name) TextView mGroupMemberName;
   private Context mContext;
 
   public GroupsViewHolder(Context context, ViewGroup parent) {
-    super(context, parent, R.layout.list_item_group_member);
+    super(context, parent, R.layout.list_item_group);
     ButterKnife.bind(this, itemView);
     mContext = context;
   }
@@ -45,11 +42,5 @@ public class GroupsViewHolder extends tech.jiangtao.support.ui.adapter.ContactVi
         .centerCrop()
         .into(mGroupMemberAvatar);
     mGroupMemberName.setText(groups.roomName);
-    mGroupMemberCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-      if (isChecked)
-        GroupCreateActivity.mChoicedFriends.add(l.mFriends);
-      else
-        GroupCreateActivity.mChoicedFriends.remove(l.mFriends);
-    });
   }
 }
