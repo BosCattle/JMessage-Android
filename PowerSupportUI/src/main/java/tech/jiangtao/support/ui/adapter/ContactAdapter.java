@@ -35,13 +35,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
   private EasyViewHolder.OnItemClickListener mOnItemClickListener;
   private EasyViewHolder.OnItemLongClickListener mOnItemLongClickListener;
 
-  public ContactAdapter(Context context,List<ConstrutContact> datas){
+  public ContactAdapter(Context context, List<ConstrutContact> datas) {
     mContext = context;
     mDatas = datas;
   }
 
   private void bindListener(ContactViewHolder viewholder) {
-    if (viewholder!=null){
+    if (viewholder != null) {
       viewholder.setOnItemClickListener(mOnItemClickListener);
       viewholder.setOnItemLongClickListener(mOnItemLongClickListener);
     }
@@ -49,33 +49,33 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
 
   @Override public ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     ContactViewHolder viewHolder = null;
-    switch (viewType){
+    switch (viewType) {
       case 0:
-        viewHolder = new ContactHeadViewHolder(mContext,parent);
+        viewHolder = new ContactHeadViewHolder(mContext, parent);
         break;
       case 1:
-        viewHolder = new ContactsViewHolder(mContext,parent);
+        viewHolder = new ContactsViewHolder(mContext, parent);
         break;
       case 2:
-        viewHolder = new ContactCellViewHolder(mContext,parent);
+        viewHolder = new ContactCellViewHolder(mContext, parent);
         break;
       case 3:
-        viewHolder = new GroupMemberViewHolder(mContext,parent);
+        viewHolder = new GroupMemberViewHolder(mContext, parent);
         break;
       case 4:
-      viewHolder = new GroupChoiceMemberViewHolder(mContext,parent);
+        viewHolder = new GroupChoiceMemberViewHolder(mContext, parent);
         break;
       case 6:
-        viewHolder = new GroupNameViewHolder(mContext,parent);
+        viewHolder = new GroupNameViewHolder(mContext, parent);
         break;
       case 7:
-        viewHolder = new GroupDetailMemberViewHolder(mContext,parent);
+        viewHolder = new GroupDetailMemberViewHolder(mContext, parent);
         break;
       case 8:
-        viewHolder = new GroupDetailValueViewHolder(mContext,parent);
+        viewHolder = new GroupDetailValueViewHolder(mContext, parent);
         break;
       case 9:
-        viewHolder = new GroupDetailRadioViewHolder(mContext,parent);
+        viewHolder = new GroupDetailRadioViewHolder(mContext, parent);
         break;
     }
     bindListener(viewHolder);
@@ -83,7 +83,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
   }
 
   @Override public void onBindViewHolder(ContactViewHolder holder, int position) {
-    holder.bindTo(position,mDatas.get(position));
+    holder.bindTo(position, mDatas.get(position));
   }
 
   @Override public int getItemCount() {
@@ -92,25 +92,25 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
 
   @Override public int getItemViewType(int position) {
     int type = 0;
-    if (mDatas.get(position).mType== ContactType.TYPE_GROUP){
+    if (mDatas.get(position).mType == ContactType.TYPE_GROUP) {
       type = 0;
-    }else if (mDatas.get(position).mType== ContactType.TYPE_NORMAL){
+    } else if (mDatas.get(position).mType == ContactType.TYPE_NORMAL) {
       type = 1;
-    }else if (mDatas.get(position).mType== ContactType.TYPE_LETTER){
+    } else if (mDatas.get(position).mType == ContactType.TYPE_LETTER) {
       type = 2;
-    }else if (mDatas.get(position).mType==ContactType.TYPE_MEMBER_CHOICE){
+    } else if (mDatas.get(position).mType == ContactType.TYPE_MEMBER_CHOICE) {
       type = 3;
-    }else if (mDatas.get(position).mType==ContactType.TYPE_CHOICE_MEMBER_CHOICE){
+    } else if (mDatas.get(position).mType == ContactType.TYPE_CHOICE_MEMBER_CHOICE) {
       type = 4;
-    }else if (mDatas.get(position).mType==ContactType.TYPE_GROUP_DETAIL){
+    } else if (mDatas.get(position).mType == ContactType.TYPE_GROUP_DETAIL) {
       type = 5;
-    }else if (mDatas.get(position).mType==ContactType.TYPE_GROUP_DETAIL_HEAD){
+    } else if (mDatas.get(position).mType == ContactType.TYPE_GROUP_DETAIL_HEAD) {
       type = 6;
-    }else if (mDatas.get(position).mType==ContactType.TYPE_GROUP_MEMBER){
+    } else if (mDatas.get(position).mType == ContactType.TYPE_GROUP_MEMBER) {
       type = 7;
-    }else if (mDatas.get(position).mType==ContactType.TYPE_GROUP_VALUE){
+    } else if (mDatas.get(position).mType == ContactType.TYPE_GROUP_VALUE) {
       type = 8;
-    }else if (mDatas.get(position).mType==ContactType.TYPE_GROUP_RADIO){
+    } else if (mDatas.get(position).mType == ContactType.TYPE_GROUP_RADIO) {
       type = 9;
     }
     return type;
@@ -119,8 +119,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
   public void setOnClickListener(final EasyViewHolder.OnItemClickListener listener) {
     this.mOnItemClickListener = new DebouncedOnClickListener() {
       @Override public boolean onDebouncedClick(View v, int position) {
-        if (listener!=null){
-          listener.onItemClick(position,v);
+        if (listener != null) {
+          listener.onItemClick(position, v);
         }
         return true;
       }
@@ -130,15 +130,15 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
   public void setOnLongClickListener(final EasyViewHolder.OnItemLongClickListener listener) {
     this.mOnItemLongClickListener = new DebouncedOnLongClickListener() {
       @Override public boolean onDebouncedClick(View v, int position) {
-        if (listener!=null){
-          listener.onItemLongClick(position,v);
+        if (listener != null) {
+          listener.onItemLongClick(position, v);
         }
         return true;
       }
     };
   }
 
-  public  void clear(){
+  public void clear() {
     mDatas.clear();
     this.notifyDataSetChanged();
   }

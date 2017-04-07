@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.*;
+import tech.jiangtao.support.ui.model.User;
 import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 
@@ -31,7 +32,7 @@ public class GroupDetailMemberViewHolder
   @BindView(R2.id.group_detail_arrow) ImageView mGroupDetailArrow;
   private Context mContext;
   private BaseEasyAdapter mBaseEasyAdapter;
-  private ArrayList<Friends> mFriends;
+  private ArrayList<User> mFriends;
 
   public GroupDetailMemberViewHolder(Context context, ViewGroup parent) {
     super(context, parent, R.layout.list_item_group_detail_member);
@@ -48,8 +49,8 @@ public class GroupDetailMemberViewHolder
   @Override public void bindTo(int position, ConstrutContact l) {
     if (l.mDatas!=null) {
       for (Object object : l.mDatas) {
-        Friends friend = (Friends) object;
-        mFriends.add(friend);
+        User user = (User) object;
+        mFriends.add(user);
       }
       mBaseEasyAdapter.clear();
       mBaseEasyAdapter.addAll(mFriends);

@@ -13,5 +13,5 @@
   <string name="group_cancel">取消</string>
   <string name="group_create_alert">请输入群名</string>
   <string name="group_name_check_alert">请正确输入群名</string>
-
+  <string name="delete">删 除</string>
 </resources>

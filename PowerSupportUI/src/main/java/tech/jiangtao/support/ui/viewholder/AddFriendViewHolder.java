@@ -11,7 +11,6 @@ import tech.jiangtao.support.kit.eventbus.QueryUserResult;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
-import tech.jiangtao.support.ui.model.User;
 
 /**
  * Class: AddFriendViewHolder </br>

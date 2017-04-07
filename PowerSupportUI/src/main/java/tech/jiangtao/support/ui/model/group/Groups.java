@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import java.security.Timestamp;
 import java.util.List;
-import tech.jiangtao.support.ui.model.User;
 
 /**
  * Class: Groups </br>

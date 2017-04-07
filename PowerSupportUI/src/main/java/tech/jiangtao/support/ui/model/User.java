@@ -13,30 +13,30 @@ import android.os.Parcelable;
  **/
 
 public class User implements Parcelable {
-  public String username;
-  public String name;
-  public String jid;
-  public String email;
+  public String userId;
+  public int onlineStatus;
+  public String nickName;
+  public String avatar;
+
+  public User() {
+  }
 
   @Override public int describeContents() {
     return 0;
   }
 
   @Override public void writeToParcel(Parcel dest, int flags) {
-    dest.writeString(this.username);
-    dest.writeString(this.name);
-    dest.writeString(this.jid);
-    dest.writeString(this.email);
-  }
-
-  public User() {
+    dest.writeString(this.userId);
+    dest.writeInt(this.onlineStatus);
+    dest.writeString(this.nickName);
+    dest.writeString(this.avatar);
   }
 
   protected User(Parcel in) {
-    this.username = in.readString();
-    this.name = in.readString();
-    this.jid = in.readString();
-    this.email = in.readString();
+    this.userId = in.readString();
+    this.onlineStatus = in.readInt();
+    this.nickName = in.readString();
+    this.avatar = in.readString();
   }
 
   public static final Creator<User> CREATOR = new Creator<User>() {
