@@ -7,4 +7,7 @@
     android:layout_height="60dp"
     android:contentDescription=""
     tools:ignore="ContentDescription"
+    android:foreground="?attr/selectableItemBackground"
+    android:layout_centerVertical="true"
+    android:layout_gravity="center"
     />

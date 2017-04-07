@@ -129,9 +129,6 @@ public class GroupListActivity extends BaseActivity
   }
 
   @Override public void onItemClick(int position, View view) {
-    Friends mFriends = new Friends();
-    mFriends.userId = mGroups.get(position).node;
-    mFriends.nickName = mGroups.get(position).roomName;
-    GroupChatActivity.startChat(this, mFriends);
+    GroupChatActivity.startChat(this, mGroups.get(position));
   }
 }

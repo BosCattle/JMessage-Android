@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +19,8 @@ import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
+import tech.jiangtao.support.ui.model.User;
+import tech.jiangtao.support.ui.model.group.Groups;
 import tech.jiangtao.support.ui.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
@@ -33,17 +36,22 @@ import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
 public class GroupDetailActivity extends BaseActivity
     implements EasyViewHolder.OnItemClickListener {
 
+  public static final String TAG = GroupDetailActivity.class.getSimpleName();
+  public static final String GROUP="group";
   @BindView(R2.id.tv_toolbar) TextView mTvToolbar;
   @BindView(R2.id.toolbar) Toolbar mToolbar;
   @BindView(R2.id.group_detail_recycle) RecyclerView mGroupDetailRecycle;
   @BindView(R2.id.delete_group_button) AppCompatButton mDeleteGroupButton;
   private ContactAdapter mContactAdapter;
   private ArrayList<ConstrutContact> mConstrutContact;
+  private Groups mGroups;
+  private List<User> mUsers = new ArrayList<>();
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_group_detail);
     ButterKnife.bind(this);
+    mGroups = getIntent().getParcelableExtra(GROUP);
     setUpToolbar();
     setUpAdapter();
     updateGroupData();
@@ -53,7 +61,7 @@ public class GroupDetailActivity extends BaseActivity
     mConstrutContact.clear();
     mConstrutContact.add(new ConstrutContact.Builder()
             .type(ContactType.TYPE_GROUP_DETAIL_HEAD)
-            .title("群名").build());
+            .title(mGroups.roomName).build());
     mConstrutContact.add(new ConstrutContact.Builder()
         .type(ContactType.TYPE_GROUP_MEMBER)
         .datas(null).build());
@@ -65,7 +73,7 @@ public class GroupDetailActivity extends BaseActivity
         .title("清空历史记录").build());
     mConstrutContact.add(new ConstrutContact.Builder()
         .type(ContactType.TYPE_GROUP_VALUE)
-        .title("昵称").build());
+        .title("昵称").subtitle(mGroups.creator!=null?mGroups.creator:"").build());
     mContactAdapter.notifyDataSetChanged();
   }
 
@@ -86,8 +94,9 @@ public class GroupDetailActivity extends BaseActivity
     return false;
   }
 
-  public static void startGroupDetail(Activity activity) {
+  public static void startGroupDetail(Activity activity,Groups groups) {
     Intent intent = new Intent(activity, GroupDetailActivity.class);
+    intent.putExtra(GroupDetailActivity.GROUP,groups);
     activity.startActivity(intent);
   }
 

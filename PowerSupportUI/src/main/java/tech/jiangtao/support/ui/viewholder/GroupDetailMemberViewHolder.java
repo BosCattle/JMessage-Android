@@ -3,6 +3,7 @@ package tech.jiangtao.support.ui.viewholder;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import butterknife.BindView;
@@ -11,9 +12,9 @@ import java.util.ArrayList;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.*;
+import tech.jiangtao.support.ui.model.User;
 import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
-
 
 /**
  * Class: GroupDetailMemberViewHolder </br>
@@ -31,7 +32,7 @@ public class GroupDetailMemberViewHolder
   @BindView(R2.id.group_detail_arrow) ImageView mGroupDetailArrow;
   private Context mContext;
   private BaseEasyAdapter mBaseEasyAdapter;
-  private ArrayList<Friends> mFriends;
+  private ArrayList<User> mFriends;
 
   public GroupDetailMemberViewHolder(Context context, ViewGroup parent) {
     super(context, parent, R.layout.list_item_group_detail_member);
@@ -39,20 +40,33 @@ public class GroupDetailMemberViewHolder
     mContext = context;
     mBaseEasyAdapter = new BaseEasyAdapter(mContext);
     mBaseEasyAdapter.viewHolderFactory(new BaseEasyViewHolderFactory(mContext));
-    mBaseEasyAdapter.bind(Friends.class, GroupGridViewHolder.class);
+    mBaseEasyAdapter.bind(User.class, GroupGridViewHolder.class);
     mGroupDetailMember.setLayoutManager(new GridLayoutManager(mContext, 4));
     mGroupDetailMember.setAdapter(mBaseEasyAdapter);
     mFriends = new ArrayList<>();
+    mBaseEasyAdapter.addAll(mFriends);
   }
 
   @Override public void bindTo(int position, ConstrutContact l) {
-    if (l.mDatas!=null) {
+    if (l.mDatas == null || position == l.mDatas.size() - 1) {
+      User user = new User();
+      user.avatar = mContext.getResources().getResourceName(R.mipmap.ic_group_add_member);
+      mFriends.add(user);
+      mBaseEasyAdapter.addAll(mFriends);
+    }
+    if (l.mDatas != null) {
       for (Object object : l.mDatas) {
-        Friends friend = (Friends) object;
-        mFriends.add(friend);
+        User user = (User) object;
+        mFriends.add(user);
       }
       mBaseEasyAdapter.clear();
       mBaseEasyAdapter.addAll(mFriends);
     }
+    mBaseEasyAdapter.notifyDataSetChanged();
+    mBaseEasyAdapter.setOnClickListener((position1, view) -> {
+      if (position1 == mFriends.size() - 1) {
+
+      }
+    });
   }
 }

@@ -17,16 +17,20 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import tech.jiangtao.support.kit.callback.QueryUserCallBack;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.eventbus.AddRosterEvent;
-import tech.jiangtao.support.kit.eventbus.QueryUser;
-import tech.jiangtao.support.kit.eventbus.QueryUserResult;
 import tech.jiangtao.support.kit.userdata.SimpleUserQuery;
+import tech.jiangtao.support.kit.util.ErrorAction;
+import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
 import tech.jiangtao.support.ui.adapter.BaseEasyViewHolderFactory;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
+import tech.jiangtao.support.ui.api.ApiService;
+import tech.jiangtao.support.ui.api.service.UserServiceApi;
+import tech.jiangtao.support.ui.model.User;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
 import tech.jiangtao.support.ui.viewholder.AddFriendViewHolder;
 import work.wanghao.simplehud.SimpleHUD;
@@ -41,12 +45,12 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  * Update: 10/12/2016 9:58 PM </br>
  **/
 public class AddFriendFragment extends BaseFragment
-    implements EasyViewHolder.OnItemClickListener, QueryUserCallBack,SearchView.OnQueryTextListener {
+    implements EasyViewHolder.OnItemClickListener,SearchView.OnQueryTextListener {
 
   @BindView(R2.id.friend_edit) SearchView mSearchView;
   @BindView(R2.id.friend_list) RecyclerView mFriendContaner;
   private BaseEasyAdapter mBaseEasyAdapter;
-  private ArrayList<QueryUserResult> mList = new ArrayList<>();
+  private ArrayList<User> mList = new ArrayList<>();
   private SimpleUserQuery mQuery;
 
   public static AddFriendFragment newInstance() {
@@ -90,7 +94,7 @@ public class AddFriendFragment extends BaseFragment
     mBaseEasyAdapter = new BaseEasyAdapter(getContext());
     mBaseEasyAdapter.viewHolderFactory(new BaseEasyViewHolderFactory(getContext()));
     mBaseEasyAdapter.setOnClickListener(this);
-    mBaseEasyAdapter.bind(QueryUserResult.class, AddFriendViewHolder.class);
+    mBaseEasyAdapter.bind(User.class, AddFriendViewHolder.class);
     mFriendContaner.addItemDecoration(RecyclerViewUtils.buildItemDecoration(getContext()));
     mFriendContaner.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -107,38 +111,43 @@ public class AddFriendFragment extends BaseFragment
         .negativeButton("取消", Dialog::dismiss)
         .positiveButton("确认", dialog1 -> {
           HermesEventBus.getDefault()
-              .post(new AddRosterEvent(mList.get(position).getJid(),
-                  mList.get(position).getNickName()));
+              .post(new AddRosterEvent(mList.get(position).userId,
+                  mList.get(position).nickName));
           dialog1.dismiss();
         })
-        .title("确认添加" + mList.get(position).getNickName() + "为好友吗?")
+        .title("确认添加" + mList.get(position).nickName+ "为好友吗?")
         .negativeTextColor(Color.WHITE)
         .positiveTextColor(Color.WHITE)
         .builder();
     dialog.showDialog();
   }
 
-  @Override public void querySuccess(QueryUserResult result) {
-    SimpleHUD.dismiss();
-    SimpleHUD.showSuccessMessage(getContext(),"查询成功");
-    mBaseEasyAdapter.clear();
-    mList.clear();
-    mList.add(result);
-    mBaseEasyAdapter.add(result);
-    mBaseEasyAdapter.notifyDataSetChanged();
-    mQuery.destroy();
-  }
-
-  @Override public void queryFail(String errorReason) {
-    SimpleHUD.dismiss();
-    SimpleHUD.showErrorMessage(getContext(), errorReason);
-    mQuery.destroy();
-  }
-
   @Override public boolean onQueryTextSubmit(String query) {
+    UserServiceApi mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
     if (query!=null&&query != ""&&query.trim()!="") {
-      mQuery = new SimpleUserQuery();
-      mQuery.startQuery(new QueryUser(query), this);
+//      mQuery = new SimpleUserQuery();
+//      mQuery.startQuery(new QueryUser(query), this);
+      mUserServiceApi.getQueryUser(query)
+              .subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(list -> {{
+                //TODO 查找出来的用户列表
+                SimpleHUD.dismiss();
+                SimpleHUD.showSuccessMessage(getContext(),"查询成功");
+                mBaseEasyAdapter.clear();
+                mList.clear();
+                mList.addAll(list);
+                mBaseEasyAdapter.addAll(list);
+                mBaseEasyAdapter.notifyDataSetChanged();
+                mQuery.destroy();
+              }
+              }, new ErrorAction() {
+                @Override public void call(Throwable throwable) {
+                  super.call(throwable);
+                  LogUtils.d(TAG, throwable.getLocalizedMessage());
+                }
+              });
+
       SimpleHUD.showLoadingMessage(getContext(),"正在查询",false);
     }
     return false;

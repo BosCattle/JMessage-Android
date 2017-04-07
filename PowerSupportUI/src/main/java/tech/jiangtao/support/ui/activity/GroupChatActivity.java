@@ -19,13 +19,14 @@ import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.fragment.ChatFragment;
 import tech.jiangtao.support.ui.fragment.GroupChatFragment;
 import tech.jiangtao.support.ui.model.group.Friends;
+import tech.jiangtao.support.ui.model.group.Groups;
 
 public class GroupChatActivity extends BaseActivity {
 
   public static final String TAG = GroupChatActivity.class.getSimpleName();
   @BindView(R2.id.tv_toolbar) TextView mTvToolbar;
   @BindView(R2.id.toolbar) Toolbar mToolbar;
-  private Friends mFriends;
+  private Groups mGroups;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -39,7 +40,7 @@ public class GroupChatActivity extends BaseActivity {
   }
 
   private void init() {
-    mFriends = getIntent().getParcelableExtra(GroupChatFragment.USER_FRIEND);
+    mGroups = getIntent().getParcelableExtra(GroupChatFragment.USER_FRIEND);
     buildFragment();
     setUpToolbar();
   }
@@ -49,7 +50,7 @@ public class GroupChatActivity extends BaseActivity {
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
     GroupChatFragment fragment = GroupChatFragment.newInstance();
     Bundle bundle = new Bundle();
-    bundle.putParcelable(GroupChatFragment.USER_FRIEND, mFriends);
+    bundle.putParcelable(GroupChatFragment.USER_FRIEND, mGroups);
     fragment.setArguments(bundle);
     fragmentTransaction.add(R.id.chat_func_detail, fragment);
     fragmentTransaction.commit();
@@ -57,16 +58,16 @@ public class GroupChatActivity extends BaseActivity {
 
   public void setUpToolbar() {
     mToolbar.setTitle("");
-    mTvToolbar.setText(mFriends != null && mFriends.nickName != null ? mFriends.nickName : "");
+    mTvToolbar.setText(mGroups != null && mGroups.roomName != null ? mGroups.roomName : "");
     setSupportActionBar(mToolbar);
     mToolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
     mToolbar.setNavigationOnClickListener(
         v -> ActivityCompat.finishAfterTransition(GroupChatActivity.this));
   }
 
-  public static void startChat(Activity activity, Friends friends) {
+  public static void startChat(Activity activity, Groups groups) {
     Intent intent = new Intent(activity, GroupChatActivity.class);
-    intent.putExtra(GroupChatFragment.USER_FRIEND, friends);
+    intent.putExtra(GroupChatFragment.USER_FRIEND, groups);
     activity.startActivity(intent);
   }
 
@@ -78,7 +79,7 @@ public class GroupChatActivity extends BaseActivity {
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == R.id.menu_group_detail) {
-      GroupDetailActivity.startGroupDetail(GroupChatActivity.this);
+      GroupDetailActivity.startGroupDetail(GroupChatActivity.this,mGroups);
     }
     return super.onOptionsItemSelected(item);
   }

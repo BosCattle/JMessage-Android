@@ -8,6 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
+import tech.jiangtao.support.ui.model.User;
 import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.model.group.Groups;
 
@@ -34,7 +35,14 @@ public interface UserServiceApi {
     @GET("group/joined")
     Observable<List<Groups>> getOwnGroup(@Query("uid") String uid);
     /**
-     * 获取我加入的所有群组
+     * 查找用户
+     * @param nickname
+     * @return
+     */
+    @GET("user/queryAccount")
+    Observable<List<User>> getQueryUser(@Query("nickname") String nickname);
+    /**
+     * 查找群组
      * @param roomName
      * @return
      */

@@ -773,7 +773,8 @@ public class SupportService extends Service
     });
   }
 
-//  @Subscribe(threadMode = ThreadMode.MAIN) public void doInvite(InviteParam param) {
+//  TODO
+// @Subscribe(threadMode = ThreadMode.MAIN) public void doInvite(InviteParam param) {
 //    if(param.choice)
 //      mMultiUserChatManager.getMultiUserChat("");
 //      else
@@ -807,8 +808,11 @@ public class SupportService extends Service
       String reason, String password, Message message) {
     // 这里是收到群邀请请求
     try {
+      // 加入房间
       LogUtils.e(TAG,"收到"+inviter+"的邀请。"+inviter+"邀请你加入"+room.getRoom());
       room.join(inviter);
+      // 拒绝请求
+      mMultiUserChatManager.decline(room.getRoom(),inviter,reason);
     } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
       e.printStackTrace();
     }

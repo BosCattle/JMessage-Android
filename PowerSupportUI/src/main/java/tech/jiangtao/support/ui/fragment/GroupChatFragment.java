@@ -73,6 +73,7 @@ import tech.jiangtao.support.ui.api.service.UpLoadServiceApi;
 import tech.jiangtao.support.ui.model.ChatExtraModel;
 import tech.jiangtao.support.ui.model.Message;
 import tech.jiangtao.support.ui.model.group.Friends;
+import tech.jiangtao.support.ui.model.group.Groups;
 import tech.jiangtao.support.ui.model.type.MessageType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
 import tech.jiangtao.support.ui.utils.CommonUtils;
@@ -125,7 +126,7 @@ public class GroupChatFragment extends BaseFragment
   private LinearLayoutManager mLinearLayoutManager;
   private String mUserJid;
   private int mPage = 1;
-  private Friends mFriends;
+  private Groups mGroup;
   private Friends mOwn;
   private InputMethodManager mInputMethodManager;
 
@@ -203,7 +204,7 @@ public class GroupChatFragment extends BaseFragment
         if (messageRealmse.get(i).getMessageType().equals(MessageExtensionType.TEXT.toString())) {
           message1.type = FileType.TYPE_TEXT;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
-              .avatar(mFriends != null ? mFriends.avatar : null)
+              .avatar(mGroup != null ? mGroup.avatar : null)
               .message(message1)
               .build());
         } else if (messageRealmse.get(i)
@@ -237,7 +238,7 @@ public class GroupChatFragment extends BaseFragment
         if (messageRealmse.get(i).getMessageType().equals(MessageExtensionType.TEXT.toString())) {
           message1.paramContent = messageRealmse.get(i).getTextMessage();
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-              .avatar(mFriends.avatar)
+              .avatar(mGroup.avatar)
               .message(message1)
               .build());
         } else if (messageRealmse.get(i)
@@ -246,7 +247,7 @@ public class GroupChatFragment extends BaseFragment
           message1.fimePath = CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(),
               messageRealmse.get(i).getTextMessage());
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
-              .avatar(mFriends.avatar)
+              .avatar(mGroup.avatar)
               .message(message1)
               .build());
         } else if (messageRealmse.get(i)
@@ -255,7 +256,7 @@ public class GroupChatFragment extends BaseFragment
           message1.fimePath = CommonUtils.getUrl(MessageExtensionType.AUDIO.toString(),
               messageRealmse.get(i).getTextMessage());
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
-              .avatar(mFriends.avatar)
+              .avatar(mGroup.avatar)
               .message(message1)
               .build());
         }
@@ -272,7 +273,7 @@ public class GroupChatFragment extends BaseFragment
 
   private void init() {
     mOwn = getArguments().getParcelable(USER_OWN);
-    mFriends = getArguments().getParcelable(USER_FRIEND);
+    mGroup = getArguments().getParcelable(USER_FRIEND);
     final AppPreferences appPreferences = new AppPreferences(getContext());
     try {
       mUserJid = appPreferences.getString("userJid");
@@ -351,22 +352,22 @@ public class GroupChatFragment extends BaseFragment
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveLastMessage message) {
     LogUtils.d("----------->", "onMessage: " + message);
-    if (StringSplitUtil.splitDivider(message.userJID).equals(mFriends.userId)
-        || StringSplitUtil.splitDivider(message.ownJid).equals(mFriends.userId)) {
+    if (StringSplitUtil.splitDivider(message.userJID).equals(mGroup.groupUid)
+        || StringSplitUtil.splitDivider(message.ownJid).equals(mGroup.groupUid)) {
       if (message.messageAuthor == MessageAuthor.FRIEND) {
         Message message1 = new Message();
         message1.paramContent = message.message;
         if (message.messageType == MessageExtensionType.TEXT) {
           message1.paramContent = message.message;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-              .avatar(mFriends.avatar)
+              .avatar(mGroup.avatar)
               .message(message1)
               .build());
         } else if (message.messageType == MessageExtensionType.IMAGE) {
           message1.fimePath =
               CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(), message.message);
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
-              .avatar(mFriends.avatar)
+              .avatar(mGroup.avatar)
               .message(message1)
               .build());
           LogUtils.d(TAG, "onMessage: " + message1);
@@ -374,7 +375,7 @@ public class GroupChatFragment extends BaseFragment
           message1.fimePath =
               CommonUtils.getUrl(MessageExtensionType.AUDIO.toString(), message.message);
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
-              .avatar(mFriends.avatar)
+              .avatar(mGroup.avatar)
               .message(message1)
               .build());
           LogUtils.d(TAG, "onMessage: " + message1);
@@ -418,10 +419,10 @@ public class GroupChatFragment extends BaseFragment
     Message message1 = new Message();
     message1.paramContent = realm.getTextMessage();
     LogUtils.d(TAG, "addMessageToAdapter: " + realm.getMainJID());
-    LogUtils.d(TAG, "addMessageToAdapter-----: " + mFriends.userId);
-    if (mFriends != null && realm.getMainJID().equals(mFriends.userId)) {
+    LogUtils.d(TAG, "addMessageToAdapter-----: " + mGroup.groupUid);
+    if (mGroup != null && realm.getMainJID().equals(mGroup.groupUid)) {
       mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-          .avatar(mFriends != null ? mFriends.userId : null)
+          .avatar(mGroup != null ? mGroup.groupUid : null)
           .message(message1)
           .build());
     } else {
@@ -490,7 +491,7 @@ public class GroupChatFragment extends BaseFragment
    * 发送消息到对方，并且添加到本地
    */
   public void sendMyFriendMessage(String message, MessageExtensionType type) {
-    TextMessage message1 = new TextMessage(mFriends.userId, message);
+    TextMessage message1 = new TextMessage(mGroup.groupUid, message);
     message1.messageType = type;
     HermesEventBus.getDefault().post(message1);
     //将消息更新到本地
