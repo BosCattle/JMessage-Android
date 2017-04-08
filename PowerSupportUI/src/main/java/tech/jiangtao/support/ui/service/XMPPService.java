@@ -250,20 +250,18 @@ public class XMPPService extends Service {
     public void showNotification(String name, String info) {
         Notification.Builder builder = new Notification.Builder(this);
         Intent intent = new Intent(this, ChatFragment.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            builder.setContentIntent(
-                    PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT))
-                    .setContentTitle(name)
-                    .setContentText(info)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setWhen(System.currentTimeMillis())
-                    .setPriority(Notification.PRIORITY_HIGH)
-                    .setDefaults(Notification.DEFAULT_VIBRATE);
-            Notification notification = builder.build();
-            notification.flags = Notification.FLAG_ONGOING_EVENT;
-            notification.defaults = Notification.DEFAULT_SOUND;
-            startForeground(110, notification);
-        }
+      builder.setContentIntent(
+              PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT))
+              .setContentTitle(name)
+              .setContentText(info)
+              .setSmallIcon(R.mipmap.ic_launcher)
+              .setWhen(System.currentTimeMillis())
+              .setPriority(Notification.PRIORITY_HIGH)
+              .setDefaults(Notification.DEFAULT_VIBRATE);
+      Notification notification = builder.build();
+      notification.flags = Notification.FLAG_ONGOING_EVENT;
+      notification.defaults = Notification.DEFAULT_SOUND;
+      startForeground(110, notification);
     }
 
     @Override
@@ -283,23 +281,21 @@ public class XMPPService extends Service {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Notification.Builder builder = new Notification.Builder(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            builder.setContentIntent(
-                    PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT))
-                    .setContentTitle(name)
-                    .setContentText(info)
-                    .setSmallIcon(tech.jiangtao.support.kit.R.mipmap.ic_launcher)
-                    .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
-                            tech.jiangtao.support.kit.R.mipmap.ic_launcher))
-                    .setWhen(System.currentTimeMillis())
-                    .setPriority(Notification.PRIORITY_HIGH)
-                    .setDefaults(Notification.DEFAULT_VIBRATE);
-            Notification notification = builder.build();
-            notification.flags = Notification.FLAG_AUTO_CANCEL;
-            notification.defaults = Notification.DEFAULT_SOUND;
-            mNotificationManager.notify(0, notification);
-            mWakelock.release();
-        }
+      builder.setContentIntent(
+              PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT))
+              .setContentTitle(name)
+              .setContentText(info)
+              .setSmallIcon(tech.jiangtao.support.kit.R.mipmap.ic_launcher)
+              .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
+                      tech.jiangtao.support.kit.R.mipmap.ic_launcher))
+              .setWhen(System.currentTimeMillis())
+              .setPriority(Notification.PRIORITY_HIGH)
+              .setDefaults(Notification.DEFAULT_VIBRATE);
+      Notification notification = builder.build();
+      notification.flags = Notification.FLAG_AUTO_CANCEL;
+      notification.defaults = Notification.DEFAULT_SOUND;
+      mNotificationManager.notify(0, notification);
+      mWakelock.release();
     }
 
     /**
@@ -396,15 +392,10 @@ public class XMPPService extends Service {
     }
 
     private void startForegroundCompat() {
-        if (Build.VERSION.SDK_INT < 18) {
-            // api 18（4.3）
-            startForeground(NOTIFICATION_ID, new Notification());
-        } else {
 
-            // api 18的时候，google管严了
-            // 先把自己做成一个前台服务，提供合法的参数
-            startService(new Intent(this, InnerService.class));
-            startForeground(NOTIFICATION_ID, fadeNotification(this));
-        }
+      // api 18的时候，google管严了
+      // 先把自己做成一个前台服务，提供合法的参数
+      startService(new Intent(this, InnerService.class));
+      startForeground(NOTIFICATION_ID, fadeNotification(this));
     }
 }

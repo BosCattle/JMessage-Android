@@ -1,6 +1,5 @@
 <resources>
   <string name="app_name">统一通信</string>
-  <string name="text_login">登 录</string>
   <string name="text_exit">注 销</string>
   <string name="hint_dialog_input">用户名</string>
   <string name="hint_dialog_email">工作邮箱</string>
@@ -9,7 +8,6 @@
   <string name="profile_email_pro">温馨提示:邮箱格式必须正确</string>
   <string name="profile_phone_pro">温馨提示:电话格式必须正确</string>
   <string name="profile_min_length">用户名不能为空</string>
-  <string name="profile_uploading">正在上传...</string>
   <string name="profile_sex">性别</string>
   <string name="profile_sure">确定</string>
   <string name="profile_loading">正在获取数据...</string>
@@ -39,7 +37,6 @@
   </string-array>
 
   <!-- TODO: Remove or change this placeholder text -->
-  <string name="hello_blank_fragment">Hello blank fragment</string>
   <string name="mini_practise">立即体验</string>
   <string name="login_input_username">请输入用户名</string>
   <string name="login_password">请输入密码</string>
