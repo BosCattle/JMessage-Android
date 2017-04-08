@@ -29,7 +29,7 @@
         android:layout_centerVertical="true"
         android:background="@drawable/shape_sendbutton_bg_selector"
         android:padding="@dimen/divider_default_height"
-        android:text="同 意" />
+        android:text="@string/friend_acture" />
 
     <TextView
         android:id="@+id/new_friend_refused"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_sendbutton_bg_selector"
         android:padding="@dimen/divider_default_height"
-        android:text="拒 绝"
+        android:text="@string/friend_reject"
         android:layout_marginRight="5dp"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/new_friend_agree" />

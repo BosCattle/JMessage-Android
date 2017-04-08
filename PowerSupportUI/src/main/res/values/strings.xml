@@ -14,4 +14,15 @@
   <string name="group_create_alert">请输入群名</string>
   <string name="group_name_check_alert">请正确输入群名</string>
   <string name="delete">删 除</string>
+  <string name="item_send">发送</string>
+  <string name="group_input_name">请输入群名</string>
+  <string name="group_query">查找群</string>
+  <string name="news_friends">新朋友</string>
+  <string name="chat_send">发送</string>
+  <string name="friends_add">添加好友</string>
+  <string name="func_image">图 片</string>
+  <string name="message_voice">消息免打扰</string>
+  <string name="message_history">清除聊天记录</string>
+  <string name="friend_acture">同 意</string>
+  <string name="friend_reject">拒 绝</string>
 </resources>

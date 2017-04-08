@@ -45,7 +45,6 @@
       />
 
   <TextView
-      android:singleLine="true"
       android:maxLines="1"
       android:paddingTop="4dp"
       android:id="@+id/session_message"

@@ -85,7 +85,7 @@ public class AudioManager {
     release();
     if (mCurrentFilePath!=null){
       File file = new File(mCurrentFilePath);
-      file.delete();
+      file.deleteOnExit();
     }
   }
 

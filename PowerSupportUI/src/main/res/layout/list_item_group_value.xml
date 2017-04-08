@@ -8,9 +8,9 @@
 
   <TextView
       android:id="@+id/group_item_title"
-      android:textSize="16dp"
+      android:textSize="16sp"
       android:textColor="@color/black"
-      android:text="清除聊天记录"
+      android:text="@string/message_history"
       android:padding="@dimen/activity_horizontal_margin"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"

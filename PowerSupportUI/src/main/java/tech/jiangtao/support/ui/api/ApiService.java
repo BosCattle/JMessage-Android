@@ -55,9 +55,7 @@ public class ApiService {
               new HttpLoggingInterceptor();
           httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
           builder.addInterceptor(httpLoggingInterceptor);
-
           builder.retryOnConnectionFailure(true);
-
           sOkHttpClient = builder.build();
         }
       }

@@ -40,4 +40,17 @@
 
   <!-- TODO: Remove or change this placeholder text -->
   <string name="hello_blank_fragment">Hello blank fragment</string>
+  <string name="mini_practise">立即体验</string>
+  <string name="login_input_username">请输入用户名</string>
+  <string name="login_password">请输入密码</string>
+  <string name="login_start">登 录</string>
+  <string name="register_input_account">请输入账号</string>
+  <string name="register_input_password">请输入密码</string>
+  <string name="register_sure_password">请确认密码</string>
+  <string name="register_start">注 册</string>
+  <string name="menu_friend_add">添加好友</string>
+  <string name="menu_group_create">创建群</string>
+  <string name="menu_query_group">查找群</string>
+  <string name="phone_voice">免费电话</string>
+  <string name="meeting_moive">视频会议</string>
 </resources>

@@ -65,6 +65,7 @@ android {
     abortOnError false
     ignoreWarnings true
     showAll true
+    disable 'RestrictedApi'
   }
 
   signingConfigs {

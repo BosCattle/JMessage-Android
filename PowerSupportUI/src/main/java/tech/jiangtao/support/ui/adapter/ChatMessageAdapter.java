@@ -96,10 +96,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatBaseViewHolder>
     public boolean clear(){
         mConstructMessage.clear();
         this.notifyDataSetChanged();
-        if (mConstructMessage.size()==0){
-            return true;
-        }
-        return false;
+      return mConstructMessage.size() == 0;
     }
 
     public boolean addAll(List<ConstructMessage> messages){

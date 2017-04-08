@@ -16,7 +16,7 @@
       android:padding="@dimen/divider_default_height"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="新朋友"
+      android:text="@string/news_friends"
       />
 
   <android.support.v7.widget.RecyclerView

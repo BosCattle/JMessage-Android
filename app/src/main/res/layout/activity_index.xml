@@ -39,7 +39,7 @@
           android:background="@drawable/selector_driver_orders_begin"
           android:paddingLeft="48dp"
           android:paddingRight="48dp"
-          android:text="立即体验"
+          android:text="@string/mini_practise"
           android:textColor="#ffffff"
           android:textSize="16sp"
           />
