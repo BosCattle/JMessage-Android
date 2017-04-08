@@ -57,7 +57,7 @@ public class ChatImageMineViewHolder extends ChatBaseViewHolder {
 
         mItemChatImage.setOnClickListener(v -> {
             ImageDialogManager manager = new ImageDialogManager(mContext, constructMessage.mMessage.fimePath);
-            manager.showDiaog();
+            manager.showDialog();
         });
     }
 }

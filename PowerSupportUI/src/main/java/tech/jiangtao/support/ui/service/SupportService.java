@@ -848,7 +848,7 @@ public class SupportService extends Service
 
   }
 
-  class SupportServiceConnection implements ServiceConnection {
+  private class SupportServiceConnection implements ServiceConnection {
 
     @Override public void onServiceConnected(ComponentName name, IBinder service) {
       LogUtils.d(TAG, "onServiceConnected: supportService连接成功");
@@ -862,7 +862,7 @@ public class SupportService extends Service
     }
   }
 
-  class SupportBinder extends SupportAIDLConnection.Stub {
+  private class SupportBinder extends SupportAIDLConnection.Stub {
 
     @Override public String getServiceName() throws RemoteException {
       return "SupportService连接";

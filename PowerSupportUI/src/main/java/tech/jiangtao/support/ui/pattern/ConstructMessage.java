@@ -4,9 +4,13 @@ import tech.jiangtao.support.ui.model.Message;
 import tech.jiangtao.support.ui.model.type.MessageType;
 
 /**
- * Created by jiang on 2016/11/14.
- * 构建消息信息
- */
+ * Class: ConstructMessage </br>
+ * Description: 构建消息信息 </br>
+ * Creator: kevin </br>
+ * Email: jiangtao103cp@gmail.com </br>
+ * Date: 09/04/2017 1:59 AM</br>
+ * Update: 09/04/2017 1:59 AM </br>
+ **/
 
 public class ConstructMessage  {
     public String mAvatar;

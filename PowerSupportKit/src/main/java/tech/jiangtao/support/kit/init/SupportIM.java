@@ -13,7 +13,7 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  * Update: 01/12/2016 11:15 PM </br>
  * 初始化数据，全局保存
  **/
-
+// TODO: 09/04/2017 有点流氓，后期升级
 public class SupportIM {
 
   public static String mDomain;

@@ -1,1 +1,1 @@
-include ':app', ':PowerSupportKit', ':PowerSupportUI', ':SupportWebRTC', ':PowerSupportSip'
+include ':app', ':PowerSupportKit', ':PowerSupportUI', ':SupportWebRTC'

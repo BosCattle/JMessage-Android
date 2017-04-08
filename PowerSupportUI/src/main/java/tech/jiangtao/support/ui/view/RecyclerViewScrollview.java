@@ -1,14 +1,20 @@
 package tech.jiangtao.support.ui.view;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.widget.ScrollView;
 
 /**
- * Created by jiang on 2017/1/9.
- */
+ * Class: RecyclerViewScrollview </br>
+ * Description: 使用该类可以解决{@link RecyclerView}滑动冲突 </br>
+ * Creator: kevin </br>
+ * Email: jiangtao103cp@gmail.com </br>
+ * Date: 09/04/2017 1:50 AM</br>
+ * Update: 09/04/2017 1:50 AM </br>
+ **/
 
 public class RecyclerViewScrollview extends ScrollView {
 
