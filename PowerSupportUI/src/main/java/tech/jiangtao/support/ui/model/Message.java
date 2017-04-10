@@ -7,9 +7,13 @@ import tech.jiangtao.support.kit.archive.type.FileType;
 import tech.jiangtao.support.ui.model.type.MessageFlag;
 
 /**
- * Created by jiang on 2016/11/12.
- * 用于service与fragment交互的model
- */
+ * Class: Message </br>
+ * Description: 用于service与fragment交互的model </br>
+ * Creator: kevin </br>
+ * Email: jiangtao103cp@gmail.com </br>
+ * Date: 09/04/2017 2:01 AM</br>
+ * Update: 09/04/2017 2:01 AM </br>
+ **/
 
 public class Message implements Parcelable {
 

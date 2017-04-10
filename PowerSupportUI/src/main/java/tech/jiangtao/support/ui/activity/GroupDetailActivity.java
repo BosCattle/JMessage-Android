@@ -64,6 +64,7 @@ public class GroupDetailActivity extends BaseActivity
             .title(mGroups.roomName).build());
     mConstrutContact.add(new ConstrutContact.Builder()
         .type(ContactType.TYPE_GROUP_MEMBER)
+        .title(mGroups.node)
         .datas(null).build());
     mConstrutContact.add(new ConstrutContact.Builder()
         .type(ContactType.TYPE_GROUP_RADIO)

@@ -1,9 +1,7 @@
 package tech.jiangtao.support.kit.util;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 import java.io.BufferedInputStream;
@@ -79,10 +77,7 @@ public class FileUtil {
    */
   public static boolean isExternalStorageWritable() {
     String state = Environment.getExternalStorageState();
-    if (Environment.MEDIA_MOUNTED.equals(state)) {
-      return true;
-    }
-    return false;
+    return Environment.MEDIA_MOUNTED.equals(state);
   }
 
   /**
@@ -91,11 +86,8 @@ public class FileUtil {
    */
   public static boolean isExternalStorageReadable() {
     String state = Environment.getExternalStorageState();
-    if (Environment.MEDIA_MOUNTED.equals(state) ||
-        Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-      return true;
-    }
-    return false;
+    return Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(
+        state);
   }
 
   /**
@@ -145,8 +137,10 @@ public class FileUtil {
     File file = new File(new File(name), "/audio");
     if (!file.exists()) {
       Log.e("log:", "creating Directory");
-      boolean dic = file.mkdirs();
-      Log.e("log:", "Directory create finish");
+      boolean isSuccess = file.mkdirs();
+      if (isSuccess){
+        Log.e("log:", "Directory create finish");
+      }
     }
     return file.getAbsolutePath();
   }

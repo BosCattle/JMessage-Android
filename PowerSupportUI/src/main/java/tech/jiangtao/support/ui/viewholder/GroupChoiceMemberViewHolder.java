@@ -46,13 +46,11 @@ public class GroupChoiceMemberViewHolder extends tech.jiangtao.support.ui.adapte
         .centerCrop()
         .into(mGroupMemberAvatar);
     mGroupMemberName.setText(((Friends)(l.mObject)).nickName);
-    mGroupMemberCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-      @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked)
-          GroupCreateActivity.mChoicedFriends.add(l.mObject);
-        else
-          GroupCreateActivity.mChoicedFriends.remove(l.mObject);
-      }
+    mGroupMemberCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+      if (isChecked)
+        GroupCreateActivity.mChoicedFriends.add(l.mObject);
+      else
+        GroupCreateActivity.mChoicedFriends.remove(l.mObject);
     });
   }
 }

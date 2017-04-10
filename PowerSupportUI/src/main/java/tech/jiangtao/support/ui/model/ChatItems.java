@@ -4,8 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by kevin on 13/11/2016.
- */
+ * Class: ChatItems </br>
+ * Description:  </br>
+ * Creator: kevin </br>
+ * Email: jiangtao103cp@gmail.com </br>
+ * Date: 09/04/2017 2:00 AM</br>
+ * Update: 09/04/2017 2:00 AM </br>
+ **/
 
 public class ChatItems implements Parcelable {
   public String avatar;

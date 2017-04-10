@@ -18,7 +18,7 @@
     <TextView
         android:id="@+id/chat_func_extra_text"
         android:layout_gravity="center"
-        android:text="图 片"
+        android:text="@string/func_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

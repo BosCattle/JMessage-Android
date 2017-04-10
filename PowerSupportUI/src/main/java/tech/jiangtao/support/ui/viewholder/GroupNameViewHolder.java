@@ -40,5 +40,7 @@ public class GroupNameViewHolder extends tech.jiangtao.support.ui.adapter.Contac
 
   @Override public void bindTo(int position, ConstrutContact l) {
     mItemsGroupName.setText(l.mTitle);
+    mItemsGroupAvatar.setImageResource(R.mipmap.ic_mipmap_default_image);
+    mItemsGroupTab.setText("群介绍...");
   }
 }

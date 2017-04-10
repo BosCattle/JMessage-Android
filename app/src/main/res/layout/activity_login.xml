@@ -2,7 +2,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.china.epower.chat.ui.activity.LoginActivity"
@@ -40,7 +39,7 @@
         android:id="@+id/login_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入用户名"
+        android:hint="@string/login_input_username"
         android:inputType="text"
         android:padding="@dimen/activity_horizontal_margin"
         />
@@ -49,7 +48,7 @@
         android:id="@+id/login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入密码"
+        android:hint="@string/login_password"
         android:inputType="textPassword"
         android:padding="@dimen/activity_horizontal_margin"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
@@ -64,7 +63,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_below="@id/login_edittext_container"
-      android:text="登 录"
+      android:text="@string/login_start"
       android:textSize="18sp"
       android:textColor="@color/white"
       />
@@ -75,7 +74,6 @@
       android:layout_height="wrap_content"
       >
   <com.kevin.library.widget.DashedLine
-      android:id="@+id/dash_line"
       android:layout_marginTop="@dimen/activity_horizontal_margin"
       android:layout_marginLeft="@dimen/activity_horizontal_margin"
       android:layout_marginRight="@dimen/activity_horizontal_margin"

@@ -19,6 +19,7 @@ import tech.jiangtao.support.kit.init.SupportIM;
  * 发送语音文件，图片，文件等操作
  * 利用后台线程
  */
+@Deprecated
 public class FileTransferService extends IntentService{
 
   public static final String TAG = FileTransferService.class.getSimpleName();

@@ -13,16 +13,16 @@ import tech.jiangtao.support.ui.model.type.ListDataType;
  **/
 
 public class ConstructListData {
-    private ListDataType mType;
-    private int mTag;
-    private String mImage;
-    private String mUsername;
-    private String mNickname;
-    private int mArrowIcon;
-    private String mTitle;
-    private String mSubtitle;
+  private ListDataType mType;
+  private int mTag;
+  private String mImage;
+  private String mUsername;
+  private String mNickname;
+  private int mArrowIcon;
+  private String mTitle;
+  private String mSubtitle;
 
-  public static class Builder{
+  public static class Builder {
     public ListDataType type;
     public int tag;
     public String image;
@@ -32,7 +32,7 @@ public class ConstructListData {
     public String title;
     public String subtitle;
 
-    public ConstructListData build(){
+    public ConstructListData build() {
       ConstructListData data = new ConstructListData();
       data.mImage = image;
       data.mType = type;
@@ -45,42 +45,42 @@ public class ConstructListData {
       return data;
     }
 
-    public Builder type(ListDataType type1){
+    public Builder type(ListDataType type1) {
       type = type1;
       return this;
     }
 
-    public Builder tag(int tag){
+    public Builder tag(int tag) {
       this.tag = tag;
       return this;
     }
 
-    public Builder image(String image1){
+    public Builder image(String image1) {
       image = image1;
       return this;
     }
 
-    public Builder username(String username1){
+    public Builder username(String username1) {
       username = username1;
       return this;
     }
 
-    public Builder nickname(String nickname){
+    public Builder nickname(String nickname) {
       this.nickname = nickname;
       return this;
     }
 
-    public Builder arrowIcon(@DrawableRes int icon){
+    public Builder arrowIcon(@DrawableRes int icon) {
       this.arrowIcon = icon;
       return this;
     }
 
-    public Builder title(String title){
+    public Builder title(String title) {
       this.title = title;
       return this;
     }
 
-    public Builder subtitle(String subtitle){
+    public Builder subtitle(String subtitle) {
       this.subtitle = subtitle;
       return this;
     }

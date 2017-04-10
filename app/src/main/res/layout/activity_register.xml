@@ -2,7 +2,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.china.epower.chat.ui.activity.RegisterActivity"
@@ -38,7 +37,7 @@
         android:id="@+id/register_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入账号"
+        android:hint="@string/register_input_account"
         android:inputType="text"
         android:padding="@dimen/activity_horizontal_margin"
         />
@@ -47,7 +46,7 @@
         android:id="@+id/register_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入密码"
+        android:hint="@string/register_input_password"
         android:inputType="textPassword"
         android:padding="@dimen/activity_horizontal_margin"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
@@ -57,7 +56,7 @@
         android:id="@+id/register_retry_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请确认密码"
+        android:hint="@string/register_sure_password"
         android:inputType="textPassword"
         android:padding="@dimen/activity_horizontal_margin"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
@@ -72,7 +71,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_below="@id/login_edittext_container"
-      android:text="注 册"
+      android:text="@string/register_start"
       android:textSize="18sp"
       android:textColor="@color/white"
       />

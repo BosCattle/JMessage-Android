@@ -3,6 +3,7 @@ package tech.jiangtao.support.ui.view;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -19,7 +20,7 @@ import tech.jiangtao.support.ui.R;
  * Update: 24/12/2016 11:58 AM </br>
  **/
 
-public class AudioRecordButton extends Button{
+public class AudioRecordButton extends AppCompatButton{
 
   private static final int MOVE_DISTANCE_Y = 50;
   private static final int STATE_NORMAL = 0X01;
@@ -89,14 +90,14 @@ public class AudioRecordButton extends Button{
     int y = (int) event.getY();
     switch (action) {
       case MotionEvent.ACTION_DOWN:
-        changeState(STATE_RECORDING);
+        changeState(AudioRecordButton.STATE_RECORDING);
         break;
       case MotionEvent.ACTION_MOVE:
         if (isRecording) {
           if (wantToCancel(x, y)) {
-            changeState(STATE_CANCEL);
+            changeState(AudioRecordButton.STATE_CANCEL);
           } else {
-            changeState(STATE_RECORDING);
+            changeState(AudioRecordButton.STATE_RECORDING);
           }
         }
         break;

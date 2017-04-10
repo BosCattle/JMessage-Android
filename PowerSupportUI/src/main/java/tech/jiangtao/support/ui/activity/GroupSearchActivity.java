@@ -110,6 +110,7 @@ public class GroupSearchActivity extends BaseActivity implements
             public void onItemClick(int position, View view) {
                 Groups groups = mGroups.get(position);
                 //TODO 申请入群
+
             }
         });
         groupList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(this));

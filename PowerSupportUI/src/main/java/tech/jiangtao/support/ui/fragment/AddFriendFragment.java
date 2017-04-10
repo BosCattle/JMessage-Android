@@ -44,6 +44,7 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  * Date: 10/12/2016 9:58 PM</br>
  * Update: 10/12/2016 9:58 PM </br>
  **/
+// TODO: 09/04/2017 FindBug
 public class AddFriendFragment extends BaseFragment
         implements EasyViewHolder.OnItemClickListener, SearchView.OnQueryTextListener {
 

@@ -103,11 +103,7 @@ public class IndexActivity extends BaseActivity implements ViewPager.OnPageChang
           public void onGlobalLayout() {
             mButtonHeight = mBtnSure.getHeight();
             mBtnSure.setTranslationY(CommonUtils.dpToPx(36) + mBtnSure.getHeight());
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-              mBtnSure.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            } else {
-              mBtnSure.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            }
+            mBtnSure.getViewTreeObserver().removeOnGlobalLayoutListener(this);
           }
         });
     mBtnSure.setOnClickListener(v -> Observable.create(subscriber -> {

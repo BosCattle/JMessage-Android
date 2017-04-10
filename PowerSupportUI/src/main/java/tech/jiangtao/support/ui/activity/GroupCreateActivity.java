@@ -78,11 +78,10 @@ public class GroupCreateActivity extends BaseActivity
     try {
       name = mAppPreferences.getString("userJid");
       //TODO 待测试
-      name = StringSplitUtil.splitPrefix(name);
+      name = StringSplitUtil.splitDivider(name);
     } catch (ItemNotFoundException e) {
       e.printStackTrace();
     }
-    name = "vurtex@dc-a4b8eb92-xmpp.jiangtao.tech.";
     LogUtils.d(TAG, name);
     mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
     setUpToolbar();
@@ -167,12 +166,12 @@ public class GroupCreateActivity extends BaseActivity
               SimpleHUD.showLoadingMessage(this, "正在创建群", true);
               try {
                 mSimpleCGroup.startCreateGroup(
-                    new GroupCreateParam(input + "", mAppPreferences.getString("userJid"),
+                    new GroupCreateParam(input + "", StringSplitUtil.splitDivider(mAppPreferences.getString("userJid")),
                         new ArrayList<String>() {
                         }), this);
               } catch (ItemNotFoundException e) {
-                mSimpleCGroup.destory();
                 e.printStackTrace();
+                mSimpleCGroup.destory();
               }
             } else {
               SimpleHUD.showErrorMessage(this, (String) getText(R.string.group_name_check_alert));

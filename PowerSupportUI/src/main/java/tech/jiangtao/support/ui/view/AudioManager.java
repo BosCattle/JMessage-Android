@@ -17,9 +17,8 @@ import tech.jiangtao.support.kit.util.FileUtil;
 public class AudioManager {
 
   private MediaRecorder mMediaRecorder;
-  private String mSaveFileDictionary;
   private String mCurrentFilePath;
-  private static AudioManager mInstance;
+  private static AudioManager mInstance ;
   private AudioStateListener mAudioStateListener;
   private boolean isPrepared;
 
@@ -42,7 +41,6 @@ public class AudioManager {
 
   public void prepareAudio(){
     isPrepared = false;
-    mSaveFileDictionary = FileUtil.createAudioDic();
     if (mMediaRecorder==null) {
       mMediaRecorder = new MediaRecorder();
     }
@@ -85,7 +83,7 @@ public class AudioManager {
     release();
     if (mCurrentFilePath!=null){
       File file = new File(mCurrentFilePath);
-      file.delete();
+      file.deleteOnExit();
     }
   }
 

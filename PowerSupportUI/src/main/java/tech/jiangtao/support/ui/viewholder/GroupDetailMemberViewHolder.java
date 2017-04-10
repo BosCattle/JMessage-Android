@@ -1,5 +1,6 @@
 package tech.jiangtao.support.ui.viewholder;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,9 +12,9 @@ import butterknife.ButterKnife;
 import java.util.ArrayList;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
+import tech.jiangtao.support.ui.activity.InviteFriendsActivity;
 import tech.jiangtao.support.ui.adapter.*;
 import tech.jiangtao.support.ui.model.User;
-import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 
 /**
@@ -65,7 +66,8 @@ public class GroupDetailMemberViewHolder
     mBaseEasyAdapter.notifyDataSetChanged();
     mBaseEasyAdapter.setOnClickListener((position1, view) -> {
       if (position1 == mFriends.size() - 1) {
-
+        // 进入列表，选择用户进群
+        InviteFriendsActivity.startInviteFriends((Activity) mContext,l.mTitle);
       }
     });
   }

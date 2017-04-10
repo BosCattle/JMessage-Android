@@ -2,12 +2,11 @@
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="8dp"
     android:minHeight="60dp"
     android:minWidth="60dp"
-    tools:src="@mipmap/ex_childrien_a"
-    android:id="@+id/chat_express">
+    android:id="@+id/chat_express"
+    >
 
 </ImageView>

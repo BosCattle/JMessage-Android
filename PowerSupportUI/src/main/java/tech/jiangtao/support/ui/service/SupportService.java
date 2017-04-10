@@ -47,6 +47,7 @@ import org.jivesoftware.smackx.xdata.packet.DataForm;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import rx.Observable;
@@ -62,6 +63,7 @@ import tech.jiangtao.support.kit.eventbus.AddRosterEvent;
 import tech.jiangtao.support.kit.eventbus.ContactEvent;
 import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
 import tech.jiangtao.support.kit.eventbus.FriendRequest;
+import tech.jiangtao.support.kit.eventbus.InvitedFriendToGroup;
 import tech.jiangtao.support.kit.eventbus.LocalVCardEvent;
 import tech.jiangtao.support.kit.eventbus.LoginCallbackEvent;
 import tech.jiangtao.support.kit.eventbus.LoginParam;
@@ -78,6 +80,7 @@ import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateCallBackEvent;
 import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateParam;
+import tech.jiangtao.support.kit.eventbus.muc.model.InviteParam;
 import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.ErrorAction;
@@ -92,7 +95,7 @@ import static xiaofei.library.hermes.Hermes.getContext;
 
 public class SupportService extends Service
     implements ChatManagerListener, ConnectionListener, RosterListener, InvitationListener,
-    InvitationRejectionListener,SubjectUpdatedListener {
+    InvitationRejectionListener, SubjectUpdatedListener {
 
   private static final String TAG = SupportService.class.getSimpleName();
   private XMPPTCPConnection mXMPPConnection;
@@ -768,29 +771,45 @@ public class SupportService extends Service
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
         super.call(throwable);
-        HermesEventBus.getDefault().post(new GroupCreateCallBackEvent(throwable.getMessage()));
+        HermesEventBus.getDefault().post(new GroupCreateCallBackEvent(null));
       }
     });
   }
 
-//  TODO
-// @Subscribe(threadMode = ThreadMode.MAIN) public void doInvite(InviteParam param) {
-//    if(param.choice)
-//      mMultiUserChatManager.getMultiUserChat("");
-//      else
-//    mMultiUserChatManager.decline();
-//  }
+  // TODO: 2017/4/7  同意，拒绝群邀请
+  @Subscribe(threadMode = ThreadMode.MAIN) public void doInvite(InviteParam param) {
+    if (param.choice) {
+      mMultiUserChatManager.getMultiUserChat("");
+    } else {
+      //mMultiUserChatManager.decline();
+    }
+  }
 
   // 邀请群成员
-  @Subscribe(threadMode = ThreadMode.MAIN) public void inviteMucMember(String mucJid,
-      String userJid, String reason) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void inviteMucMember(InvitedFriendToGroup invited) {
+    String mucJid = invited.mucJid;
+    List<String> userIds = invited.getUserId();
+    String reason = invited.reason;
     MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(mucJid);
-    Message message = new Message();
-    try {
-      multiUserChat.invite(message, userJid, reason);
-    } catch (SmackException.NotConnectedException e) {
-      e.printStackTrace();
-    }
+    Observable.create((Observable.OnSubscribe<String>) subscriber -> {
+      try {
+        for (String s: userIds) {
+          multiUserChat.invite(s,null);
+        }
+        subscriber.onNext("");
+      } catch (SmackException.NotConnectedException e) {
+        e.printStackTrace();
+        subscriber.onError(e);
+      }
+    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
+          // 发送邀请成功
+      LogUtils.d(TAG,"发送群邀请请求成功");
+    }, new ErrorAction() {
+      @Override public void call(Throwable throwable) {
+        super.call(throwable);
+        LogUtils.d(TAG,throwable.getMessage());
+      }
+    });
   }
 
   // 更新群信息
@@ -803,16 +822,15 @@ public class SupportService extends Service
     }
   }
 
-
   @Override public void invitationReceived(XMPPConnection conn, MultiUserChat room, String inviter,
       String reason, String password, Message message) {
     // 这里是收到群邀请请求
     try {
       // 加入房间
-      LogUtils.e(TAG,"收到"+inviter+"的邀请。"+inviter+"邀请你加入"+room.getRoom());
+      LogUtils.e(TAG, "收到" + inviter + "的邀请。" + inviter + "邀请你加入" + room.getRoom());
       room.join(inviter);
       // 拒绝请求
-      mMultiUserChatManager.decline(room.getRoom(),inviter,reason);
+      mMultiUserChatManager.decline(room.getRoom(), inviter, reason);
     } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
       e.printStackTrace();
     }
@@ -828,7 +846,7 @@ public class SupportService extends Service
 
   }
 
-  class SupportServiceConnection implements ServiceConnection {
+  private class SupportServiceConnection implements ServiceConnection {
 
     @Override public void onServiceConnected(ComponentName name, IBinder service) {
       LogUtils.d(TAG, "onServiceConnected: supportService连接成功");
@@ -842,7 +860,7 @@ public class SupportService extends Service
     }
   }
 
-  class SupportBinder extends SupportAIDLConnection.Stub {
+  private class SupportBinder extends SupportAIDLConnection.Stub {
 
     @Override public String getServiceName() throws RemoteException {
       return "SupportService连接";
