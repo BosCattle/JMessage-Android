@@ -11,11 +11,11 @@ import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import tech.jiangtao.support.kit.eventbus.FriendRequest;
 import tech.jiangtao.support.kit.eventbus.RecieveFriend;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
+import tech.jiangtao.support.ui.model.group.InvitedInfo;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -27,9 +27,9 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  * Update: 08/01/2017 6:13 PM </br>
  **/
 
-public class NewFriendViewHolder extends EasyViewHolder<FriendRequest> {
+public class NewFriendViewHolder extends EasyViewHolder<InvitedInfo> {
   @BindView(R2.id.new_friend_avatar) ImageView mNewFriendAvatar;
-  @BindView(R2.id.new_friend_nickname) TextView mNewFriendNickname;
+  @BindView(R2.id.tv_messageInfo) TextView mNewFriendNickname;
   @BindView(R2.id.new_friend_agree) TextView mNewFriendAgree;
   @BindView(R2.id.new_friend_refused) TextView mNewFriendRefused;
   private Context mContext;
@@ -40,14 +40,17 @@ public class NewFriendViewHolder extends EasyViewHolder<FriendRequest> {
     mContext = context;
   }
 
-  @Override public void bindTo(int position, FriendRequest request) {
+
+  @Override
+  public void bindTo(int position, InvitedInfo info) {
     Glide.with(mContext)
-        .load(request.avatar != null ? Uri.parse(request.avatar) : null)
-        .centerCrop()
-        .error(R.mipmap.ic_chat_default)
-        .placeholder(R.mipmap.ic_chat_default)
-        .into(mNewFriendAvatar);
-    mNewFriendNickname.setText(request.username);
+            .load(info.avatar != null ? Uri.parse(info.avatar) : null)
+            .centerCrop()
+            .error(R.mipmap.ic_chat_default)
+            .placeholder(R.mipmap.ic_chat_default)
+            .into(mNewFriendAvatar);
+    mNewFriendNickname.setText(info.inviteType.equals("FRIEND")?info.nickName+"请求添加您为好友。":info.nickName+"邀请你进入**群");
+      //TODO 缺少邀请要加入的群名
     mNewFriendAgree.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         HermesEventBus.getDefault().post(new RecieveFriend(true));

@@ -7,19 +7,26 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.TextView;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import net.grandcentrix.tray.AppPreferences;
+import net.grandcentrix.tray.core.ItemNotFoundException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.eventbus.FriendRequest;
+import tech.jiangtao.support.kit.util.ErrorAction;
+import tech.jiangtao.support.kit.util.LogUtils;
+import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
 import tech.jiangtao.support.ui.adapter.BaseEasyViewHolderFactory;
+import tech.jiangtao.support.ui.api.ApiService;
+import tech.jiangtao.support.ui.api.service.UserServiceApi;
+import tech.jiangtao.support.ui.model.group.InvitedInfo;
 import tech.jiangtao.support.ui.viewholder.NewFriendViewHolder;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
@@ -31,10 +38,10 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  * Date: 08/01/2017 2:42 PM</br>
  * Update: 08/01/2017 2:42 PM </br>
  **/
-@Deprecated
-public class NewFriendActivity extends BaseActivity {
+public class AllInvitedActivity extends BaseActivity {
 
     public static final String NEW_FLAG = "add_friend";
+    private static final String TAG =AllInvitedActivity.class.getName() ;
     @BindView(R2.id.tv_toolbar)
     TextView mTvToolbar;
     @BindView(R2.id.toolbar)
@@ -44,7 +51,8 @@ public class NewFriendActivity extends BaseActivity {
     @BindView(R2.id.new_friend_page)
     RecyclerView mNewFriendPage;
     private BaseEasyAdapter mBaseEasyAdapter;
-
+    private UserServiceApi mUserServiceApi;
+    private AppPreferences mAppPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,12 +63,34 @@ public class NewFriendActivity extends BaseActivity {
         }
         setUpToolbar();
         setUpAdapter();
+        mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
+        mAppPreferences=new AppPreferences(this);
+        String userId= null;
+        try {
+            userId = mAppPreferences.getString("userJid");
+        } catch (ItemNotFoundException e) {
+            e.printStackTrace();
+        }
+        mUserServiceApi.getAllInvite(StringSplitUtil.splitDivider(userId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(list -> {
+                    for (InvitedInfo info : list) {
+                        mBaseEasyAdapter.add(info);
+                    }
+                    mBaseEasyAdapter.notifyDataSetChanged();
+                }, new ErrorAction() {
+                    @Override public void call(Throwable throwable) {
+                        super.call(throwable);
+                        LogUtils.d(TAG, throwable.getLocalizedMessage());
+                    }
+                });
     }
 
     private void setUpAdapter() {
         mBaseEasyAdapter = new BaseEasyAdapter(this);
         mBaseEasyAdapter.viewHolderFactory(new BaseEasyViewHolderFactory(this));
-        mBaseEasyAdapter.bind(FriendRequest.class, NewFriendViewHolder.class);
+        mBaseEasyAdapter.bind(InvitedInfo.class, NewFriendViewHolder.class);
         mNewFriendPage.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mNewFriendPage.setAdapter(mBaseEasyAdapter);
         FriendRequest request = getIntent().getParcelableExtra(NEW_FLAG);
@@ -77,7 +107,7 @@ public class NewFriendActivity extends BaseActivity {
             setSupportActionBar(mToolbar);
             mToolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
             mToolbar.setNavigationOnClickListener(
-                    v -> ActivityCompat.finishAfterTransition(NewFriendActivity.this));
+                    v -> ActivityCompat.finishAfterTransition(AllInvitedActivity.this));
         }
     }
 
@@ -86,15 +116,8 @@ public class NewFriendActivity extends BaseActivity {
         return false;
     }
 
-    public static void startNewFriend(Context context) {
-        Intent intent = new Intent(context, NewFriendActivity.class);
+    public static void startAllInviteInfo(Context context) {
+        Intent intent = new Intent(context, AllInvitedActivity.class);
         context.startActivity(intent);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onFriendRequest(FriendRequest request) {
-        Log.d("----------", "onFriendRequest: " + request.username + "    " + request.fullUserJid);
-        mBaseEasyAdapter.add(request);
-        mBaseEasyAdapter.notifyDataSetChanged();
     }
 }

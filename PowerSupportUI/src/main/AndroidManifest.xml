@@ -73,6 +73,10 @@
         android:name=".activity.NewFriendActivity"
         android:theme="@style/AppTheme.NoActionBar">
     </activity>
+    <activity
+        android:name=".activity.AllInvitedActivity"
+        android:theme="@style/AppTheme.NoActionBar">
+    </activity>
     <!--群组列表页-->
     <activity
         android:name=".activity.GroupListActivity"

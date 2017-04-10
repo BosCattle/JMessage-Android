@@ -19,14 +19,13 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.widget.RemoteViews;
 
-import io.realm.Realm;
-import io.realm.RealmResults;
-
-import java.util.UUID;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.UUID;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.callback.DisconnectCallBack;
@@ -42,8 +41,8 @@ import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.SupportAIDLConnection;
+import tech.jiangtao.support.ui.activity.AllInvitedActivity;
 import tech.jiangtao.support.ui.activity.ChatActivity;
-import tech.jiangtao.support.ui.activity.NewFriendActivity;
 import tech.jiangtao.support.ui.fragment.ChatFragment;
 import tech.jiangtao.support.ui.reciever.TickBroadcastReceiver;
 import tech.jiangtao.support.ui.utils.ServiceUtils;
@@ -193,8 +192,8 @@ public class XMPPService extends Service {
   @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN) @Subscribe(threadMode = ThreadMode.MAIN)
   public void addFriendsNotification(FriendRequest request) {
     mWakelock.acquire();
-    Intent i = new Intent(this, NewFriendActivity.class);
-    i.putExtra(NewFriendActivity.NEW_FLAG, request);
+    Intent i = new Intent(this, AllInvitedActivity.class);
+    i.putExtra(AllInvitedActivity.NEW_FLAG, request);
     showOnesNotification(request.username, "有一个添加好友请求", i);
     mWakelock.release();
   }

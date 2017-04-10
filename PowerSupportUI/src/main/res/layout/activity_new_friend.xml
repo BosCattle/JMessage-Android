@@ -5,7 +5,7 @@
     android:id="@+id/activity_new_friend"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tech.jiangtao.support.ui.activity.NewFriendActivity"
+    tools:context="tech.jiangtao.support.ui.activity.AllInvitedActivity"
     >
   <include layout="@layout/include_header"
       android:id="@+id/header"/>
