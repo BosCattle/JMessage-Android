@@ -76,9 +76,8 @@ public class GroupCreateActivity extends BaseActivity
     mAppPreferences = new AppPreferences(this);
     String name = null;
     try {
-      name = mAppPreferences.getString("userJid");
-      //TODO 待测试
-      name = StringSplitUtil.splitDivider(name);
+      name = StringSplitUtil.splitDivider(mAppPreferences.getString("userJid"));
+//      StringSplitUtil.splitPrefix(StringSplitUtil.splitDivider(mAppPreferences.getString("userJid")))="vurtex"
     } catch (ItemNotFoundException e) {
       e.printStackTrace();
     }
@@ -90,7 +89,6 @@ public class GroupCreateActivity extends BaseActivity
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(list -> {
-          //TODO 这里解析JSON
           for (Friends friends : list) {
             ConstrutContact build = new ConstrutContact.Builder().build();
             build.mType = ContactType.TYPE_CHOICE_MEMBER_CHOICE;
@@ -159,7 +157,6 @@ public class GroupCreateActivity extends BaseActivity
             dialog.dismiss();
             if (mChoicedFriends != null && input.length() <= 11)
             {
-              //TODO 收集选择的成员
               int size = mChoicedFriends.size();
               LogUtils.d(TAG, size + "");
               //执行创建群动作

@@ -133,7 +133,7 @@ public class AddFriendFragment extends BaseFragment
         if (query != null && query != "" && query.trim() != "") {
 //      mQuery = new SimpleUserQuery();
 //      mQuery.startQuery(new QueryUser(query), this);
-            mUserServiceApi.getQueryUser(query)
+            mUserServiceApi.getQueryAccount(query)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(list -> {

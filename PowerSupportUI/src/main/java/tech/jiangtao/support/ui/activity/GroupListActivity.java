@@ -13,13 +13,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import java.util.ArrayList;
-import java.util.List;
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
-import rx.Scheduler;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.util.ErrorAction;
@@ -30,7 +31,6 @@ import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.api.ApiService;
 import tech.jiangtao.support.ui.api.service.UserServiceApi;
-import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.model.group.GroupData;
 import tech.jiangtao.support.ui.model.group.Groups;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
@@ -73,9 +73,7 @@ public class GroupListActivity extends BaseActivity
     mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
     String name = null;
     try {
-      name = mAppPreferences.getString("userJid");
-      //TODO 待测试
-      name = StringSplitUtil.splitDivider(name);
+      name = StringSplitUtil.splitDivider(mAppPreferences.getString("userJid"));
     } catch (ItemNotFoundException e) {
       e.printStackTrace();
     }

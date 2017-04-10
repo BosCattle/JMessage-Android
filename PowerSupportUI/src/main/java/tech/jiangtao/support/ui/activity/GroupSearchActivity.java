@@ -149,7 +149,6 @@ public class GroupSearchActivity extends BaseActivity implements
         if (!StringUtils.isEmpty(roomName)) {
             ApiService.getInstance().createApiService(UserServiceApi.class).getQueryGroup(roomName).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()).subscribe(list -> {
-                //TODO 这里解析JSON
                 if (list != null) {
                     mGroups = list;
                 }

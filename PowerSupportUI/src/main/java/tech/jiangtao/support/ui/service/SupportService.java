@@ -102,7 +102,7 @@ public class SupportService extends Service
   private AccountManager mAccountManager;
   private Roster mRoster;
   private VCardManager mVCardManager;
-  private AppPreferences appPreferences;
+  private AppPreferences mAppPreferences;
   private SupportServiceConnection mSupportServiceConnection;
   private SupportBinder mSupportBinder;
   private Presence mFriendsPresence;
@@ -111,7 +111,7 @@ public class SupportService extends Service
 
   @Override public void onCreate() {
     super.onCreate();
-    appPreferences = new AppPreferences(this);
+    mAppPreferences = new AppPreferences(this);
     if (mSupportBinder == null) {
       mSupportBinder = new SupportBinder();
     }
@@ -192,10 +192,12 @@ public class SupportService extends Service
     if (message.type== Message.Type.groupchat){
       MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(message.userJID);
       try {
-        multiUserChat.createOrJoin("测试五");
+        multiUserChat.createOrJoin(StringSplitUtil.splitPrefix(StringSplitUtil.splitDivider(mAppPreferences.getString("userJid"))));
         multiUserChat.sendMessage(message.message);
       } catch (XMPPException.XMPPErrorException | SmackException e) {
         e.printStackTrace();
+      } catch (ItemNotFoundException e) {
+          e.printStackTrace();
       }
     }else if (message.type==Message.Type.chat) {
       Chat chat = ChatManager.getInstanceFor(mXMPPConnection).createChat(message.userJID);
@@ -309,8 +311,8 @@ public class SupportService extends Service
             LogUtils.d(TAG, "connect: 连接成功");
             mXMPPConnection = (XMPPTCPConnection) abstractXMPPConnection;
             try {
-              String username = appPreferences.getString("username");
-              String password = appPreferences.getString("password");
+              String username = mAppPreferences.getString("username");
+              String password = mAppPreferences.getString("password");
               LogUtils.d(TAG, username);
               LogUtils.d(TAG, password);
               if (username != null
@@ -348,9 +350,9 @@ public class SupportService extends Service
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
       LogUtils.d(TAG, "login: 登录成功");
       // 保存用户jid
-      appPreferences.put("userJid", mXMPPConnection.getUser());
-      appPreferences.put("username", username);
-      appPreferences.put("password", password);
+      mAppPreferences.put("userJid", mXMPPConnection.getUser());
+      mAppPreferences.put("username", username);
+      mAppPreferences.put("password", password);
       HermesEventBus.getDefault().postSticky(new LoginCallbackEvent("登录成功", null));
       LocalVCardEvent event = new LocalVCardEvent();
       event.setJid(StringSplitUtil.splitDivider(mXMPPConnection.getUser()));
@@ -804,7 +806,7 @@ public class SupportService extends Service
           LogUtils.d(TAG,affiliate.getNick());
         }
         if (!multiUserChat.isJoined()){
-          multiUserChat.join("测试五");
+          multiUserChat.join(StringSplitUtil.splitPrefix(StringSplitUtil.splitDivider(mAppPreferences.getString("userJid"))));
         }
         for (String s: userIds) {
           multiUserChat.invite(s,reason);
@@ -813,6 +815,8 @@ public class SupportService extends Service
       } catch (SmackException.NotConnectedException | SmackException.NoResponseException | XMPPException.XMPPErrorException e) {
         e.printStackTrace();
         subscriber.onError(e);
+      } catch (ItemNotFoundException e) {
+          e.printStackTrace();
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
           // 发送邀请成功
@@ -841,7 +845,7 @@ public class SupportService extends Service
     try {
       // 加入房间
       try {
-        String nickName = appPreferences.getString("userJid");
+        String nickName = mAppPreferences.getString("userJid");
         LogUtils.e(TAG, "收到" + inviter + "的邀请。" + inviter + "邀请你加入" + room.getRoom());
         room.join(nickName);
         for (String s:mMultiUserChatManager.getJoinedRooms()){

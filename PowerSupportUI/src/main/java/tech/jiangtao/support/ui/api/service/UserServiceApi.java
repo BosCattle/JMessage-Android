@@ -40,7 +40,7 @@ public interface UserServiceApi {
      * @return
      */
     @GET("user/queryAccount")
-    Observable<List<User>> getQueryUser(@Query("nickname") String nickname);
+    Observable<List<User>> getQueryAccount(@Query("nickname") String nickname);
     /**
      * 查找群组
      * @param roomName
@@ -48,6 +48,13 @@ public interface UserServiceApi {
      */
     @GET("group/search")
     Observable<List<Groups>> getQueryGroup(@Query("roomName") String roomName);
+    /**
+     * 查找群组
+     * @param userId
+     * @return
+     */
+    @GET("user/allInvite")
+    Observable<List<Groups>> getAllInvite(@Query("userId") String userId);
     //1 4 16 21 24 25 26
 
 }
