@@ -45,115 +45,122 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  * Update: 10/12/2016 9:58 PM </br>
  **/
 public class AddFriendFragment extends BaseFragment
-    implements EasyViewHolder.OnItemClickListener,SearchView.OnQueryTextListener {
+        implements EasyViewHolder.OnItemClickListener, SearchView.OnQueryTextListener {
 
-  @BindView(R2.id.friend_edit) SearchView mSearchView;
-  @BindView(R2.id.friend_list) RecyclerView mFriendContaner;
-  private BaseEasyAdapter mBaseEasyAdapter;
-  private ArrayList<User> mList = new ArrayList<>();
-  private SimpleUserQuery mQuery;
+    @BindView(R2.id.friend_edit)
+    SearchView mSearchView;
+    @BindView(R2.id.friend_list)
+    RecyclerView mFriendContaner;
+    private BaseEasyAdapter mBaseEasyAdapter;
+    private ArrayList<User> mList = new ArrayList<>();
+    private SimpleUserQuery mQuery;
 
-  public static AddFriendFragment newInstance() {
-    return new AddFriendFragment();
-  }
-
-  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    super.onCreateView(inflater, container, savedInstanceState);
-    setUpEditText();
-    setAdapter();
-    return getView();
-  }
-
-  private void setUpEditText() {
-    mSearchView.setIconifiedByDefault(false);
-    //为该SearchView组件设置事件监听器
-    mSearchView.setOnQueryTextListener(this);
-    //设置该SearchView显示搜索按钮
-    mSearchView.setSubmitButtonEnabled(false);
-    mSearchView.setIconified(false);
-    //设置该SearchView内默认显示的提示文本
-    mSearchView.setQueryHint("用户昵称");
-    if (mSearchView != null) {
-      try {        //--拿到字节码
-        Class<?> argClass = mSearchView.getClass();
-        //--指定某个私有属性,mSearchPlate是搜索框父布局的名字
-        Field ownField = argClass.getDeclaredField("mSearchPlate");
-        //--暴力反射,只有暴力反射才能拿到私有属性
-        ownField.setAccessible(true);
-        View mView = (View) ownField.get(mSearchView);
-        //--设置背景
-        mView.setBackgroundColor(Color.TRANSPARENT);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+    public static AddFriendFragment newInstance() {
+        return new AddFriendFragment();
     }
-  }
 
-  public void setAdapter() {
-    mBaseEasyAdapter = new BaseEasyAdapter(getContext());
-    mBaseEasyAdapter.viewHolderFactory(new BaseEasyViewHolderFactory(getContext()));
-    mBaseEasyAdapter.setOnClickListener(this);
-    mBaseEasyAdapter.bind(User.class, AddFriendViewHolder.class);
-    mFriendContaner.addItemDecoration(RecyclerViewUtils.buildItemDecoration(getContext()));
-    mFriendContaner.setLayoutManager(
-        new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-    mBaseEasyAdapter.addAll(mList);
-    mFriendContaner.setAdapter(mBaseEasyAdapter);
-  }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        setUpEditText();
+        setAdapter();
+        return getView();
+    }
 
-  @Override public int layout() {
-    return R.layout.fragment_add_friend;
-  }
+    private void setUpEditText() {
+        mSearchView.setIconifiedByDefault(false);
+        //为该SearchView组件设置事件监听器
+        mSearchView.setOnQueryTextListener(this);
+        //设置该SearchView显示搜索按钮
+        mSearchView.setSubmitButtonEnabled(false);
+        mSearchView.setIconified(false);
+        //设置该SearchView内默认显示的提示文本
+        mSearchView.setQueryHint("用户昵称");
+        if (mSearchView != null) {
+            try {        //--拿到字节码
+                Class<?> argClass = mSearchView.getClass();
+                //--指定某个私有属性,mSearchPlate是搜索框父布局的名字
+                Field ownField = argClass.getDeclaredField("mSearchPlate");
+                //--暴力反射,只有暴力反射才能拿到私有属性
+                ownField.setAccessible(true);
+                View mView = (View) ownField.get(mSearchView);
+                //--设置背景
+                mView.setBackgroundColor(Color.TRANSPARENT);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-  @Override public void onItemClick(int position, View view) {
-    final CleanDialog dialog = new CleanDialog.Builder(getContext()).iconFlag(IconFlag.OK)
-        .negativeButton("取消", Dialog::dismiss)
-        .positiveButton("确认", dialog1 -> {
-          HermesEventBus.getDefault()
-              .post(new AddRosterEvent(mList.get(position).userId,
-                  mList.get(position).nickName));
-          dialog1.dismiss();
-        })
-        .title("确认添加" + mList.get(position).nickName+ "为好友吗?")
-        .negativeTextColor(Color.WHITE)
-        .positiveTextColor(Color.WHITE)
-        .builder();
-    dialog.showDialog();
-  }
+    public void setAdapter() {
+        mBaseEasyAdapter = new BaseEasyAdapter(getContext());
+        mBaseEasyAdapter.viewHolderFactory(new BaseEasyViewHolderFactory(getContext()));
+        mBaseEasyAdapter.setOnClickListener(this);
+        mBaseEasyAdapter.bind(User.class, AddFriendViewHolder.class);
+        mFriendContaner.addItemDecoration(RecyclerViewUtils.buildItemDecoration(getContext()));
+        mFriendContaner.setLayoutManager(
+                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        mBaseEasyAdapter.addAll(mList);
+        mFriendContaner.setAdapter(mBaseEasyAdapter);
+    }
 
-  @Override public boolean onQueryTextSubmit(String query) {
-    UserServiceApi mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
-    if (query!=null&&query != ""&&query.trim()!="") {
+    @Override
+    public int layout() {
+        return R.layout.fragment_add_friend;
+    }
+
+    @Override
+    public void onItemClick(int position, View view) {
+        final CleanDialog dialog = new CleanDialog.Builder(getContext()).iconFlag(IconFlag.OK)
+                .negativeButton("取消", Dialog::dismiss)
+                .positiveButton("确认", dialog1 -> {
+                    HermesEventBus.getDefault()
+                            .post(new AddRosterEvent(mList.get(position).userId,
+                                    mList.get(position).nickName));
+                    dialog1.dismiss();
+                })
+                .title("确认添加" + mList.get(position).nickName + "为好友吗?")
+                .negativeTextColor(Color.WHITE)
+                .positiveTextColor(Color.WHITE)
+                .builder();
+        dialog.showDialog();
+    }
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        UserServiceApi mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
+        if (query != null && query != "" && query.trim() != "") {
 //      mQuery = new SimpleUserQuery();
 //      mQuery.startQuery(new QueryUser(query), this);
-      mUserServiceApi.getQueryUser(query)
-              .subscribeOn(Schedulers.io())
-              .observeOn(AndroidSchedulers.mainThread())
-              .subscribe(list -> {{
-                //TODO 查找出来的用户列表
-                SimpleHUD.dismiss();
-                SimpleHUD.showSuccessMessage(getContext(),"查询成功");
-                mBaseEasyAdapter.clear();
-                mList.clear();
-                mList.addAll(list);
-                mBaseEasyAdapter.addAll(list);
-                mBaseEasyAdapter.notifyDataSetChanged();
-                mQuery.destroy();
-              }
-              }, new ErrorAction() {
-                @Override public void call(Throwable throwable) {
-                  super.call(throwable);
-                  LogUtils.d(TAG, throwable.getLocalizedMessage());
-                }
-              });
+            mUserServiceApi.getQueryUser(query)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(list -> {
+                        {
+                            //TODO 查找出来的用户列表
+                            SimpleHUD.dismiss();
+                            mBaseEasyAdapter.clear();
+                            mList.clear();
+                            mList.addAll(list);
+                            mBaseEasyAdapter.addAll(list);
+                            mBaseEasyAdapter.notifyDataSetChanged();
+                            mQuery.destroy();
+                        }
+                    }, new ErrorAction() {
+                        @Override
+                        public void call(Throwable throwable) {
+                            super.call(throwable);
+                            LogUtils.d(TAG, throwable.getLocalizedMessage());
+                        }
+                    });
 
-      SimpleHUD.showLoadingMessage(getContext(),"正在查询",false);
+            SimpleHUD.showLoadingMessage(getContext(), "正在查询", false);
+        }
+        return false;
     }
-    return false;
-  }
 
-  @Override public boolean onQueryTextChange(String newText) {
-    return false;
-  }
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
 }
