@@ -155,6 +155,7 @@ public class SupportService extends Service
 
   @Override public void chatCreated(Chat chat, boolean createdLocally) {
     chat.addMessageListener((chat1, message) -> {
+      LogUtils.e(TAG,message.getBody());
       DefaultExtensionElement messageExtension =
           (DefaultExtensionElement) message.getExtension("message:extension");
       if (message.getBody() != null) {
@@ -193,12 +194,12 @@ public class SupportService extends Service
     if (message.type == Message.Type.groupchat) {
       MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(message.userJID);
       try {
-        multiUserChat.createOrJoin(StringSplitUtil.splitPrefix(StringSplitUtil.splitDivider(mAppPreferences.getString("userJid"))));
+        if (!multiUserChat.isJoined()) {
+          multiUserChat.createOrJoin(StringSplitUtil.splitPrefix(StringSplitUtil.splitDivider(mAppPreferences.getString("userJid"))));
+        }
         multiUserChat.sendMessage(message.message);
-      } catch (XMPPException.XMPPErrorException | SmackException e) {
+      } catch (XMPPException.XMPPErrorException | SmackException | ItemNotFoundException e) {
         e.printStackTrace();
-      } catch (ItemNotFoundException e) {
-          e.printStackTrace();
       }
     } else if (message.type == Message.Type.chat) {
       Chat chat = ChatManager.getInstanceFor(mXMPPConnection).createChat(message.userJID);
