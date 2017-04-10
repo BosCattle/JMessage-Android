@@ -6,6 +6,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import tech.jiangtao.support.kit.callback.GroupCreateCallBack;
 import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateCallBackEvent;
 import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateParam;
+import tech.jiangtao.support.kit.eventbus.muc.model.GroupRequest;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -30,6 +31,16 @@ public class SimpleCGroup {
   public void startCreateGroup(GroupCreateParam param,GroupCreateCallBack callback){
     mCallBack  = callback;
     HermesEventBus.getDefault().post(param);
+  }
+
+  /**
+   * 入群
+   * @param groupId
+   * @param nickname
+   */
+  public void startGroupRequest(String groupId,String nickname){
+    GroupRequest request = new GroupRequest(groupId,nickname);
+    HermesEventBus.getDefault().post(request);
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN)

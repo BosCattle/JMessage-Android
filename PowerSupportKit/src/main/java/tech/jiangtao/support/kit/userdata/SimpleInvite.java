@@ -24,6 +24,9 @@ public class SimpleInvite {
     HermesEventBus.getDefault().post(param);
   }
 
+
+
+
   public  void destory(){
     HermesEventBus.getDefault().unregister(this);
   }
