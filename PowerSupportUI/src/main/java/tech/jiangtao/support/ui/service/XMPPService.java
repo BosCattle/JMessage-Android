@@ -341,7 +341,7 @@ public class XMPPService extends Service {
   }
 
   //防锁屏后系统休眠
-  private static class InnerService extends Service {
+  public static class InnerService extends Service {
 
     @Override public void onCreate() {
       super.onCreate();
@@ -359,7 +359,7 @@ public class XMPPService extends Service {
     }
   }
 
-  private static Notification fadeNotification(Context context) {
+  public static Notification fadeNotification(Context context) {
     Notification notification = new Notification();
     // 随便给一个icon，反正不会显示，只是假装自己是合法的Notification而已
     notification.icon = R.drawable.abc_ab_share_pack_mtrl_alpha;

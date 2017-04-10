@@ -16,7 +16,7 @@ import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
  **/
 
 public class TextMessage implements Parcelable {
-  private Message.Type type;
+  public Message.Type type;
   public String userJID;
   public String message;
   // 消息类型，包括图片，语音，文字等等。

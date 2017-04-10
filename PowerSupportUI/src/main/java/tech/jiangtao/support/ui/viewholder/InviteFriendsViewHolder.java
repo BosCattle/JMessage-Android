@@ -48,12 +48,12 @@ public class InviteFriendsViewHolder extends EasyViewHolder<Friends> {
           .into(mFriendMemberAvatar);
       mFriendMemberName.setText(friends.nickName);
     }
-    mFriendMemberCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-      @Override public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-        if (checked){
-          InviteFriendsActivity.mFriends.add(friends);
-        }else {
-          InviteFriendsActivity.mFriends.remove(friends);
+    mFriendMemberCheckbox.setOnCheckedChangeListener((compoundButton, checked) -> {
+      if (friends != null) {
+        if (checked) {
+          InviteFriendsActivity.mFriends.add(friends.userId);
+        } else {
+          InviteFriendsActivity.mFriends.remove(friends.userId);
         }
       }
     });

@@ -101,8 +101,8 @@ public class GroupChatFragment extends BaseFragment
     View.OnLongClickListener, AudioRecordButton.onAudioFinishRecordListener,
     SwipeRefreshLayout.OnRefreshListener, View.OnFocusChangeListener {
 
-  public static final String USER_OWN="own";
-  public static final String USER_FRIEND="friend";
+  public static final String USER_OWN = "own";
+  public static final String USER_FRIEND = "friend";
 
   @BindView(R2.id.recycler) RecyclerView mRecycler;
   @BindView(R2.id.swift_refresh) SwipeRefreshLayout mSwiftRefresh;
@@ -184,7 +184,6 @@ public class GroupChatFragment extends BaseFragment
     mBaseEasyAdapter.notifyDataSetChanged();
   }
 
-
   /**
    * 根据条件更新
    */
@@ -214,8 +213,7 @@ public class GroupChatFragment extends BaseFragment
               messageRealmse.get(i).getTextMessage());
           message1.type = FileType.TYPE_IMAGE;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
-              .avatar(mOwn != null && mOwn.avatar != null
-                  ? mOwn.avatar : null)
+              .avatar(mOwn != null && mOwn.avatar != null ? mOwn.avatar : null)
               .message(message1)
               .build());
         } else if (messageRealmse.get(i)
@@ -226,8 +224,7 @@ public class GroupChatFragment extends BaseFragment
           message1.time = 10;
           message1.type = FileType.TYPE_AUDIO;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
-              .avatar(mOwn != null && mOwn.avatar != null
-                  ? mOwn.avatar : null)
+              .avatar(mOwn != null && mOwn.avatar != null ? mOwn.avatar : null)
               .message(message1)
               .build());
         }
@@ -288,7 +285,6 @@ public class GroupChatFragment extends BaseFragment
     setAdapter();
     setExtraAdapter();
   }
-
 
   private void setUpBQMM() {
     mBQMM = BQMM.getInstance();
@@ -394,8 +390,7 @@ public class GroupChatFragment extends BaseFragment
               CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(), message.message);
           message2.type = FileType.TYPE_IMAGE;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
-              .avatar(mOwn != null && mOwn.avatar != null
-                  ? mOwn.avatar : null)
+              .avatar(mOwn != null && mOwn.avatar != null ? mOwn.avatar : null)
               .message(message2)
               .build());
         } else if (message.messageType == MessageExtensionType.AUDIO) {
@@ -404,8 +399,7 @@ public class GroupChatFragment extends BaseFragment
           message2.time = 10;
           message2.type = FileType.TYPE_AUDIO;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
-              .avatar(mOwn != null && mOwn.avatar != null
-                  ? mOwn.avatar : null)
+              .avatar(mOwn != null && mOwn.avatar != null ? mOwn.avatar : null)
               .message(message2)
               .build());
         }
@@ -491,7 +485,9 @@ public class GroupChatFragment extends BaseFragment
    * 发送消息到对方，并且添加到本地
    */
   public void sendMyFriendMessage(String message, MessageExtensionType type) {
-    TextMessage message1 = new TextMessage(mGroup.groupUid, message);
+    TextMessage message1 =
+        new TextMessage(org.jivesoftware.smack.packet.Message.Type.groupchat, mGroup.node, message,
+            type);
     message1.messageType = type;
     HermesEventBus.getDefault().post(message1);
     //将消息更新到本地

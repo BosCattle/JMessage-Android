@@ -17,10 +17,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
 import java.util.List;
+import net.grandcentrix.tray.AppPreferences;
+import net.grandcentrix.tray.core.ItemNotFoundException;
 import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.util.ErrorAction;
+import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
@@ -52,6 +55,7 @@ public class GroupListActivity extends BaseActivity
   @BindView(R2.id.group_swift_refresh) SwipeRefreshLayout mGroupSwiftRefresh;
   private BaseEasyAdapter mBaseEasyAdapter;
   private UserServiceApi mUserServiceApi;
+  private AppPreferences mAppPreferences;
   private List<Groups> mGroups = new ArrayList<>();
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +69,17 @@ public class GroupListActivity extends BaseActivity
   }
 
   private void loadGroupData() {
+    mAppPreferences = new AppPreferences(this);
     mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
-    mUserServiceApi.getOwnGroup(null).observeOn(AndroidSchedulers.mainThread()).subscribeOn(
+    String name = null;
+    try {
+      name = mAppPreferences.getString("userJid");
+      //TODO 待测试
+      name = StringSplitUtil.splitDivider(name);
+    } catch (ItemNotFoundException e) {
+      e.printStackTrace();
+    }
+    mUserServiceApi.getOwnGroup(name).observeOn(AndroidSchedulers.mainThread()).subscribeOn(
         Schedulers.io()).subscribe(list -> {
       if (list!=null){
         mGroups = list;

@@ -61,7 +61,7 @@ public class InviteFriendsActivity extends BaseActivity {
   @BindView(R2.id.invite_group_recycle) RecyclerView mInviteGroupRecycle;
   private BaseEasyAdapter mBaseEasyAdapter;
   // TODO: 2017/4/7 泄漏
-  public static List<Friends> mFriends = new ArrayList<>();
+  public static List<String> mFriends = new ArrayList<>();
   private SimpleGroupInvited mSimpleGroupInvited;
   private String mucJid;
 
@@ -142,14 +142,13 @@ public class InviteFriendsActivity extends BaseActivity {
       // 发送邀请请求
       ArrayList<String> userjid = new ArrayList<>();
       if (mFriends.size() != 0) {
-        for (Friends friend : mFriends) {
-          userjid.add(friend.userId);
+        for (String friend : mFriends) {
+          userjid.add(friend);
         }
         String reason = "妈的智障";
         InvitedFriendToGroup ift = new InvitedFriendToGroup(mucJid, userjid, reason);
         HermesEventBus.getDefault().post(ift);
       }
-      //mSimpleGroupInvited.startPost(ift);
     }
     return super.onOptionsItemSelected(item);
   }
