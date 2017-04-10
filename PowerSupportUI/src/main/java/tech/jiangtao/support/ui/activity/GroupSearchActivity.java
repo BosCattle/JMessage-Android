@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -13,6 +14,9 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tech.jiangtao.support.kit.userdata.SimpleCGroup;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.StringUtils;
 import tech.jiangtao.support.ui.R;
@@ -34,8 +39,6 @@ import tech.jiangtao.support.ui.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
 import work.wanghao.simplehud.SimpleHUD;
-
-import static xiaofei.library.hermes.Hermes.getContext;
 
 /**
  * Class: GroupCreateActivity </br>
@@ -108,9 +111,17 @@ public class GroupSearchActivity extends BaseActivity implements
         mContactAdapter.setOnClickListener(new EasyViewHolder.OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view) {
-                Groups groups = mGroups.get(position);
-                //TODO 申请入群
-
+                new MaterialDialog.Builder(GroupSearchActivity.this).title("提醒：")
+                        .positiveText(R.string.group_yes).negativeText(R.string.group_cancel)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                Groups groups = mGroups.get(position);
+                                SimpleCGroup mSimpleCGroup =new SimpleCGroup();
+                                mSimpleCGroup.startGroupRequest(groups.groupUid,groups.roomName);
+                            }
+                        })
+                        .show();
             }
         });
         groupList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(this));
@@ -149,9 +160,11 @@ public class GroupSearchActivity extends BaseActivity implements
         if (!StringUtils.isEmpty(roomName)) {
             ApiService.getInstance().createApiService(UserServiceApi.class).getQueryGroup(roomName).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()).subscribe(list -> {
+                SimpleHUD.dismiss();
                 if (list != null) {
                     mGroups = list;
                 }
+                mConstrutContact.clear();
                 for (Groups mGroups : list) {
                     ConstrutContact build = new ConstrutContact.Builder().build();
                     build.mType = ContactType.TYPE_GROUP_LIST;
@@ -166,7 +179,7 @@ public class GroupSearchActivity extends BaseActivity implements
                     SimpleHUD.showErrorMessage(GroupSearchActivity.this, throwable.getLocalizedMessage());
                 }
             });
-            SimpleHUD.showLoadingMessage(getContext(), "正在查询", false);
+            SimpleHUD.showLoadingMessage(GroupSearchActivity.this, "正在查询", false);
         }
         return false;
     }

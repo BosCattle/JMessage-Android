@@ -53,7 +53,7 @@ public interface UserServiceApi {
      * @param userId
      * @return
      */
-    @GET("user/allInvite")
+    @POST("user/allInvite")
     Observable<List<Groups>> getAllInvite(@Query("userId") String userId);
     //1 4 16 21 24 25 26
 

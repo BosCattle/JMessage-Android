@@ -80,6 +80,7 @@ import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateCallBackEvent;
 import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateParam;
+import tech.jiangtao.support.kit.eventbus.muc.model.GroupRequestParam;
 import tech.jiangtao.support.kit.eventbus.muc.model.InviteParam;
 import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.realm.VCardRealm;
@@ -189,7 +190,7 @@ public class SupportService extends Service
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void sendMessage(TextMessage message) {
-    if (message.type== Message.Type.groupchat){
+    if (message.type == Message.Type.groupchat) {
       MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(message.userJID);
       try {
         multiUserChat.createOrJoin(StringSplitUtil.splitPrefix(StringSplitUtil.splitDivider(mAppPreferences.getString("userJid"))));
@@ -199,7 +200,7 @@ public class SupportService extends Service
       } catch (ItemNotFoundException e) {
           e.printStackTrace();
       }
-    }else if (message.type==Message.Type.chat) {
+    } else if (message.type == Message.Type.chat) {
       Chat chat = ChatManager.getInstanceFor(mXMPPConnection).createChat(message.userJID);
       Observable.create((Observable.OnSubscribe<Message>) subscriber -> {
         try {
@@ -219,7 +220,8 @@ public class SupportService extends Service
       }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
         LogUtils.d(TAG, "sendMessage: 发送成功");
         //缓存消息
-        DefaultExtensionElement messageExtension = (DefaultExtensionElement) s.getExtension("message:extension");
+        DefaultExtensionElement messageExtension =
+            (DefaultExtensionElement) s.getExtension("message:extension");
         LogUtils.d(TAG, "sendMessage: 打印出别人的jid为:" + s.getTo());
         String userJid = null;
         final AppPreferences appPreferences = new AppPreferences(getContext());
@@ -229,24 +231,30 @@ public class SupportService extends Service
           e.printStackTrace();
         }
         if (s.getBody() != null) {
-          if (messageExtension == null || messageExtension.getValue("type") == null || messageExtension.getValue("type").equals(MessageExtensionType.TEXT.toString())) {
+          if (messageExtension == null
+              || messageExtension.getValue("type") == null
+              || messageExtension.getValue("type").equals(MessageExtensionType.TEXT.toString())) {
             HermesEventBus.getDefault()
-                .post(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(), chat.getThreadID(), s.getBody(), MessageExtensionType.TEXT, false,
+                .post(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
+                    chat.getThreadID(), s.getBody(), MessageExtensionType.TEXT, false,
                     MessageAuthor.OWN));
           }
           if (messageExtension.getValue("type").equals(MessageExtensionType.IMAGE.toString())) {
             HermesEventBus.getDefault()
-                .post(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(), chat.getThreadID(), s.getBody(), MessageExtensionType.IMAGE, false,
+                .post(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
+                    chat.getThreadID(), s.getBody(), MessageExtensionType.IMAGE, false,
                     MessageAuthor.OWN));
           }
           if (messageExtension.getValue("type").equals(MessageExtensionType.AUDIO.toString())) {
             HermesEventBus.getDefault()
-                .post(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(), chat.getThreadID(), s.getBody(), MessageExtensionType.AUDIO, false,
+                .post(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
+                    chat.getThreadID(), s.getBody(), MessageExtensionType.AUDIO, false,
                     MessageAuthor.OWN));
           }
           if (messageExtension.getValue("type").equals(MessageExtensionType.VIDEO.toString())) {
             HermesEventBus.getDefault()
-                .post(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(), chat.getThreadID(), s.getBody(), MessageExtensionType.VIDEO, false,
+                .post(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
+                    chat.getThreadID(), s.getBody(), MessageExtensionType.VIDEO, false,
                     MessageAuthor.OWN));
           }
         }
@@ -793,7 +801,8 @@ public class SupportService extends Service
   }
 
   // 邀请群成员
-  @Subscribe(threadMode = ThreadMode.MAIN) public void inviteMucMember(InvitedFriendToGroup invited) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void inviteMucMember(
+      InvitedFriendToGroup invited) {
     String mucJid = invited.mucJid;
     List<String> userIds = invited.getUserId();
     String reason = invited.reason;
@@ -801,15 +810,15 @@ public class SupportService extends Service
     Observable.create((Observable.OnSubscribe<String>) subscriber -> {
       try {
         List<Affiliate> affiliates = multiUserChat.getMembers();
-        for (Affiliate affiliate: affiliates){
-          LogUtils.d(TAG,affiliate.getJid());
-          LogUtils.d(TAG,affiliate.getNick());
+        for (Affiliate affiliate : affiliates) {
+          LogUtils.d(TAG, affiliate.getJid());
+          LogUtils.d(TAG, affiliate.getNick());
         }
         if (!multiUserChat.isJoined()){
           multiUserChat.join(StringSplitUtil.splitPrefix(StringSplitUtil.splitDivider(mAppPreferences.getString("userJid"))));
         }
-        for (String s: userIds) {
-          multiUserChat.invite(s,reason);
+        for (String s : userIds) {
+          multiUserChat.invite(s, reason);
         }
         subscriber.onNext("");
       } catch (SmackException.NotConnectedException | SmackException.NoResponseException | XMPPException.XMPPErrorException e) {
@@ -819,12 +828,12 @@ public class SupportService extends Service
           e.printStackTrace();
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
-          // 发送邀请成功
-      LogUtils.d(TAG,"发送群邀请请求成功");
+      // 发送邀请成功
+      LogUtils.d(TAG, "发送群邀请请求成功");
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
         super.call(throwable);
-        LogUtils.d(TAG,throwable.getMessage());
+        LogUtils.d(TAG, throwable.getMessage());
       }
     });
   }
@@ -848,8 +857,8 @@ public class SupportService extends Service
         String nickName = mAppPreferences.getString("userJid");
         LogUtils.e(TAG, "收到" + inviter + "的邀请。" + inviter + "邀请你加入" + room.getRoom());
         room.join(nickName);
-        for (String s:mMultiUserChatManager.getJoinedRooms()){
-          LogUtils.d(TAG, "想看看你是哪一路这么猖狂: "+s);
+        for (String s : mMultiUserChatManager.getJoinedRooms()) {
+          LogUtils.d(TAG, "想看看你是哪一路这么猖狂: " + s);
         }
       } catch (ItemNotFoundException e) {
         e.printStackTrace();
@@ -861,10 +870,30 @@ public class SupportService extends Service
     }
   }
 
+  /**
+   * 入群请求
+   * @param request
+   */
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void requestToGroup(GroupRequestParam request) {
+    String groupJid = request.groupJid;
+    String nickname = request.nickName;
+    Observable.create((Observable.OnSubscribe<Boolean>) subscriber -> {
+      MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(groupJid);
+      try {
+        subscriber.onNext(multiUserChat.createOrJoin(nickname));
+      } catch (XMPPException.XMPPErrorException | SmackException e) {
+        e.printStackTrace();
+        subscriber.onError(e);
+      }
+    }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(b -> {
+      LogUtils.d(TAG, "入群成功.....");
+    });
+  }
+
   @Override public void invitationDeclined(String invitee, String reason) {
     //发出的邀请被拒绝
-    LogUtils.d(TAG, "invitationDeclined: 你邀请"+invitee+"加入群被拒绝，原因是"+reason);
-
+    LogUtils.d(TAG, "invitationDeclined: 你邀请" + invitee + "加入群被拒绝，原因是" + reason);
   }
 
   // 群公告
