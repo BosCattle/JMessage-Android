@@ -29,7 +29,7 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class NewFriendViewHolder extends EasyViewHolder<InvitedInfo> {
   @BindView(R2.id.new_friend_avatar) ImageView mNewFriendAvatar;
-  @BindView(R2.id.tv_messageInfo) TextView mNewFriendNickname;
+  @BindView(R2.id.new_friend_nickname) TextView mNewFriendNickname;
   @BindView(R2.id.new_friend_agree) TextView mNewFriendAgree;
   @BindView(R2.id.new_friend_refused) TextView mNewFriendRefused;
   private Context mContext;
