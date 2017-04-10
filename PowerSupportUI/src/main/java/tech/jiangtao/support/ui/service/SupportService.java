@@ -475,6 +475,10 @@ public class SupportService extends Service
     });
   }
 
+  /**
+   * 接收到好友请求
+   * @param request
+   */
   @Subscribe(threadMode = ThreadMode.MAIN)
   public void onRecieveFriendRequest(RecieveFriend request) {
     if (request.agreeFriends) {
@@ -849,6 +853,7 @@ public class SupportService extends Service
     }
   }
 
+  // TODO: 10/04/2017 收到通知后
   @Override public void invitationReceived(XMPPConnection conn, MultiUserChat room, String inviter,
       String reason, String password, Message message) {
     // 这里是收到群邀请请求
