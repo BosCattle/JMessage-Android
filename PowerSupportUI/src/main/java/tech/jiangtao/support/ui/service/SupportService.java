@@ -8,9 +8,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
-
-import android.util.Log;
-import java.util.List;
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
 
@@ -42,7 +39,6 @@ import org.jivesoftware.smackx.muc.InvitationRejectionListener;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.jivesoftware.smackx.muc.MultiUserChatManager;
 import org.jivesoftware.smackx.muc.SubjectUpdatedListener;
-import org.jivesoftware.smackx.muc.packet.GroupChatInvitation;
 import org.jivesoftware.smackx.vcardtemp.VCardManager;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 import org.jivesoftware.smackx.xdata.Form;
@@ -51,10 +47,10 @@ import org.jivesoftware.smackx.xdata.packet.DataForm;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.archive.MessageArchiveIQProvider;
@@ -863,7 +859,7 @@ public class SupportService extends Service
 
   @Override public void invitationDeclined(String invitee, String reason) {
     //发出的邀请被拒绝
-    Log.d(TAG, "invitationDeclined: 你邀请"+invitee+"加入群被拒绝，原因是"+reason);
+    LogUtils.d(TAG, "invitationDeclined: 你邀请"+invitee+"加入群被拒绝，原因是"+reason);
 
   }
 

@@ -2,6 +2,7 @@ package tech.jiangtao.support.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,29 +35,31 @@ import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
 import work.wanghao.simplehud.SimpleHUD;
 
+import static xiaofei.library.hermes.Hermes.getContext;
+
 /**
  * Class: GroupCreateActivity </br>
  * Description: 查找群组 </br>
  * Creator: Vurtex </br>
  * Email: hongkeshu@gmail.com </br>
  * Date: 2017/3/28 下午3:41</br>
- * Update: 2017/3/28 下午3:41 </br>
+ * Update: 2017/4/10 下午12:41 </br>
  **/
-public class GroupSearchActivity extends BaseActivity implements SearchView.OnQueryTextListener {
+public class GroupSearchActivity extends BaseActivity implements
+        SearchView.OnQueryTextListener {
     @BindView(R2.id.tv_toolbar)
     TextView mTvToolbar;
     @BindView(R2.id.toolbar)
     Toolbar mToolbar;
     public static final String TAG = GroupSearchActivity.class.getSimpleName();
-    @BindView(R2.id.et_groupName)
-    EditText etGroupName;
-    @BindView(R2.id.btn_searchGroup)
-    Button btnSearchGroup;
     @BindView(R2.id.rv_groupList)
     RecyclerView groupList;
+    @BindView(R2.id.sv_groupSearch)
+    SearchView svGroupSearch;
     private ContactAdapter mContactAdapter;
     private List<ConstrutContact> mConstrutContact;
     private List<Groups> mGroups;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,32 +70,33 @@ public class GroupSearchActivity extends BaseActivity implements SearchView.OnQu
 
     public void init() {
         setUpToolbar();
+        setUpEditText();
         setUpAdapter();
-        btnSearchGroup.setOnClickListener(v -> {
-            String roomName = etGroupName.getText()+"";
-            if(!StringUtils.isEmpty(roomName))
-            ApiService.getInstance().createApiService(UserServiceApi.class).getQueryGroup(roomName).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()).subscribe(list -> {
-                //TODO 这里解析JSON
-                if (list!=null){
-                    mGroups = list;
-                }
-                for (Groups mGroups: list) {
-                    ConstrutContact build = new ConstrutContact.Builder().build();
-                    build.mType = ContactType.TYPE_GROUP_LIST;
-                    build.mObject=mGroups;
-                    mConstrutContact.add(build);
-                }
-                mContactAdapter.notifyDataSetChanged();
-            }, new ErrorAction() {
-                @Override public void call(Throwable throwable) {
-                    super.call(throwable);
-                    SimpleHUD.showErrorMessage(GroupSearchActivity.this,throwable.getLocalizedMessage());
-                }
-            });
-        });
     }
-
+    private void setUpEditText() {
+        svGroupSearch.setIconifiedByDefault(false);
+        //为该SearchView组件设置事件监听器
+        svGroupSearch.setOnQueryTextListener(this);
+        //设置该SearchView显示搜索按钮
+        svGroupSearch.setSubmitButtonEnabled(false);
+        svGroupSearch.setIconified(false);
+        //设置该SearchView内默认显示的提示文本
+        svGroupSearch.setQueryHint("用户昵称");
+        if (svGroupSearch != null) {
+            try {        //--拿到字节码
+                Class<?> argClass = svGroupSearch.getClass();
+                //--指定某个私有属性,mSearchPlate是搜索框父布局的名字
+                Field ownField = argClass.getDeclaredField("mSearchPlate");
+                //--暴力反射,只有暴力反射才能拿到私有属性
+                ownField.setAccessible(true);
+                View mView = (View) ownField.get(svGroupSearch);
+                //--设置背景
+                mView.setBackgroundColor(Color.TRANSPARENT);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
     /**
      * Method: setUpAdapter </br>
      * Description:  设置Adapter</br>
@@ -107,6 +110,7 @@ public class GroupSearchActivity extends BaseActivity implements SearchView.OnQu
             public void onItemClick(int position, View view) {
                 Groups groups = mGroups.get(position);
                 //TODO 申请入群
+
             }
         });
         groupList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(this));
@@ -141,6 +145,30 @@ public class GroupSearchActivity extends BaseActivity implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        String roomName = query;
+        if (!StringUtils.isEmpty(roomName)) {
+            ApiService.getInstance().createApiService(UserServiceApi.class).getQueryGroup(roomName).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe(list -> {
+                //TODO 这里解析JSON
+                if (list != null) {
+                    mGroups = list;
+                }
+                for (Groups mGroups : list) {
+                    ConstrutContact build = new ConstrutContact.Builder().build();
+                    build.mType = ContactType.TYPE_GROUP_LIST;
+                    build.mObject = mGroups;
+                    mConstrutContact.add(build);
+                }
+                mContactAdapter.notifyDataSetChanged();
+            }, new ErrorAction() {
+                @Override
+                public void call(Throwable throwable) {
+                    super.call(throwable);
+                    SimpleHUD.showErrorMessage(GroupSearchActivity.this, throwable.getLocalizedMessage());
+                }
+            });
+            SimpleHUD.showLoadingMessage(getContext(), "正在查询", false);
+        }
         return false;
     }
 

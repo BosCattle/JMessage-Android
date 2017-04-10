@@ -10,30 +10,18 @@
       layout="@layout/include_header"
       android:id="@+id/header"
       />
-  <LinearLayout
-      android:id="@+id/ll_searchLayout"
-      android:layout_below="@+id/header"
+  <android.support.v7.widget.SearchView
+      android:id="@+id/sv_groupSearch"
       android:layout_width="match_parent"
-      android:orientation="horizontal"
-      android:layout_height="wrap_content">
-    <EditText
-        android:id="@+id/et_groupName"
-        android:layout_width="0dp"
-        android:lines="1"
-        android:layout_height="wrap_content"
-        android:layout_weight="8"
-        android:hint="@string/group_input_name"/>
-    <Button
-        android:id="@+id/btn_searchGroup"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:text="@string/group_query"/>
-  </LinearLayout>
+      android:layout_below="@+id/header"
+      android:layout_height="wrap_content"
+      android:background="@null"
+      android:maxLines="1"
+      />
   <android.support.v7.widget.RecyclerView
       android:id="@+id/rv_groupList"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:layout_below="@+id/ll_searchLayout"
+      android:layout_below="@+id/sv_groupSearch"
       />
 </RelativeLayout>
