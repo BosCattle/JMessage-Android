@@ -111,7 +111,7 @@ public class GroupSearchActivity extends BaseActivity implements
         mContactAdapter.setOnClickListener(new EasyViewHolder.OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view) {
-                new MaterialDialog.Builder(GroupSearchActivity.this).title("提醒：")
+                new MaterialDialog.Builder(GroupSearchActivity.this).title("提醒：").content("确定要加入群组吗？")
                         .positiveText(R.string.group_yes).negativeText(R.string.group_cancel)
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override

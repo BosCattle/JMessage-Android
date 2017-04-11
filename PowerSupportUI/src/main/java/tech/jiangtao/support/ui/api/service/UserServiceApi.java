@@ -11,6 +11,7 @@ import rx.Observable;
 import tech.jiangtao.support.ui.model.User;
 import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.model.group.Groups;
+import tech.jiangtao.support.ui.model.group.InvitedInfo;
 
 /**
  * Created by Vurtex on 2017/3/29.
@@ -54,7 +55,7 @@ public interface UserServiceApi {
      * @return
      */
     @POST("user/allInvite")
-    Observable<List<Groups>> getAllInvite(@Query("userId") String userId);
+    Observable<List<InvitedInfo>> getAllInvite(@Query("userId") String userId);
     //1 4 16 21 24 25 26
 
 }

@@ -2,7 +2,6 @@ package tech.jiangtao.support.ui.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,27 +12,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.BindView;
+
 import com.kevin.library.widget.CleanDialog;
 import com.kevin.library.widget.SideBar;
 import com.kevin.library.widget.builder.IconFlag;
 import com.kevin.library.widget.builder.PositiveClickListener;
-import io.realm.Realm;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import butterknife.BindView;
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 import tech.jiangtao.support.kit.eventbus.ContactEvent;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
+import tech.jiangtao.support.ui.activity.AllInvitedActivity;
 import tech.jiangtao.support.ui.activity.ChatActivity;
 import tech.jiangtao.support.ui.activity.GroupListActivity;
-import tech.jiangtao.support.ui.activity.NewFriendActivity;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.model.type.ContactType;
@@ -207,7 +208,7 @@ public class ContactFragment extends BaseFragment
     if (position == 0) {
       GroupListActivity.startGroupList(getContext());
     } else if (position == 1) {
-      NewFriendActivity.startNewFriend(getContext());
+      AllInvitedActivity.startAllInviteInfo(getContext());
     } else {
       ChatActivity.startChat((Activity) getContext(), mConstrutContact.get(position).mVCardRealm);
     }
