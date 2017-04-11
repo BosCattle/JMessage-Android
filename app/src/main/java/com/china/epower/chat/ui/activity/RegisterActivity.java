@@ -9,9 +9,12 @@ import android.view.View;
 import butterknife.BindView;
 import butterknife.OnClick;
 import com.china.epower.chat.R;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.callback.RegisterCallBack;
 import tech.jiangtao.support.kit.eventbus.RegisterAccount;
-import tech.jiangtao.support.kit.userdata.SimpleRegister;
+import tech.jiangtao.support.kit.util.StringSplitUtil;
+import tech.jiangtao.support.ui.api.service.AccountServiceApi;
 import work.wanghao.simplehud.SimpleHUD;
 
 public class RegisterActivity extends BaseActivity {
@@ -20,7 +23,7 @@ public class RegisterActivity extends BaseActivity {
   @BindView(R.id.register_password) AppCompatEditText mRegisterPassword;
   @BindView(R.id.register_retry_password) AppCompatEditText mRegisterRetryPassword;
   @BindView(R.id.register_button) AppCompatButton mRegisterButton;
-  private SimpleRegister mSimpleRegister;
+  private AccountServiceApi mAccountServiceApi;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -28,48 +31,38 @@ public class RegisterActivity extends BaseActivity {
     setUpToolbar();
   }
 
-  public  void setUpToolbar(){
+  public void setUpToolbar() {
     getTitleTextView().setText("注 册");
   }
 
-  public void register(String username,String password){
+  public void register(String username, String password) {
     //注册
-    mSimpleRegister = new SimpleRegister();
-    SimpleHUD.showLoadingMessage(this,"正在注册",false);
-    mSimpleRegister.startRegister(new RegisterAccount(username, password), new RegisterCallBack() {
-      @Override public void success(RegisterAccount account) {
-        //注册成功
-        SimpleHUD.dismiss();
-        SimpleHUD.showSuccessMessage(RegisterActivity.this,"注册成功");
-        MainActivity.startMain(RegisterActivity.this);
-      }
-
-      @Override public void error(String reason) {
-        //注册失败
-        SimpleHUD.dismiss();
-        SimpleHUD.showErrorMessage(RegisterActivity.this,"注册失败");
-      }
-    });
+    mAccountServiceApi.createAccount(StringSplitUtil.userJid(username), username, password)
+        .observeOn(AndroidSchedulers.mainThread())
+        .doOnSubscribe(() -> SimpleHUD.showLoadingMessage(this, "正在注册", false))
+        .subscribeOn(Schedulers.io()).subscribe();
   }
 
-  @OnClick(R.id.register_button)
-  public void onClick(View v){
+  @OnClick(R.id.register_button) public void onClick(View v) {
     String username = mRegisterUsername.getText().toString();
     String password = mRegisterPassword.getText().toString();
     String retryPasswd = mRegisterRetryPassword.getText().toString();
-    if (username.equals("")){
-      SimpleHUD.showErrorMessage(RegisterActivity.this,"用户名不能为空");
+    if (username.equals("")) {
+      SimpleHUD.showErrorMessage(RegisterActivity.this, "用户名不能为空");
       return;
     }
-    if (password.equals("")){
-      SimpleHUD.showErrorMessage(RegisterActivity.this,"密码不能为空");
+    if (password.equals("")) {
+      SimpleHUD.showErrorMessage(RegisterActivity.this, "密码不能为空");
       return;
     }
-    if (!(retryPasswd.equals(password))){
-      SimpleHUD.showErrorMessage(RegisterActivity.this,"请确认密码输入是否正确");
+    if (password.length() < 6) {
+      SimpleHUD.showErrorMessage(RegisterActivity.this, "最低密码长度为六");
+    }
+    if (!(retryPasswd.equals(password))) {
+      SimpleHUD.showErrorMessage(RegisterActivity.this, "请确认两次密码是否一致");
       return;
     }
-    register(username,password);
+    register(username, password);
   }
 
   @Override protected boolean preSetupToolbar() {
