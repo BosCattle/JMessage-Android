@@ -22,36 +22,31 @@ import com.china.epower.chat.ui.adapter.EasyViewHolder;
 import com.china.epower.chat.ui.adapter.PersonalDataAdapter;
 import com.china.epower.chat.ui.pattern.ConstructListData;
 import com.china.epower.chat.utils.RecyclerViewUtils;
+import com.google.gson.Gson;
 import com.vincent.filepicker.Constant;
 import com.vincent.filepicker.activity.ImagePickActivity;
 import com.vincent.filepicker.filter.entity.ImageFile;
 
-import net.grandcentrix.tray.AppPreferences;
-import net.grandcentrix.tray.core.ItemNotFoundException;
-
 import java.io.File;
 import java.util.ArrayList;
 
-import io.realm.Realm;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
+import net.grandcentrix.tray.AppPreferences;
+import net.grandcentrix.tray.core.ItemNotFoundException;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.callback.VCardCallback;
-import tech.jiangtao.support.kit.eventbus.LocalVCardEvent;
-import tech.jiangtao.support.kit.realm.VCardRealm;
-import tech.jiangtao.support.kit.userdata.SimpleVCard;
-import tech.jiangtao.support.kit.util.StringSplitUtil;
+import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.ui.api.ApiService;
+import tech.jiangtao.support.ui.api.service.AccountServiceApi;
 import tech.jiangtao.support.ui.api.service.UpLoadServiceApi;
+import tech.jiangtao.support.ui.model.User;
 import work.wanghao.simplehud.SimpleHUD;
 
 import static com.vincent.filepicker.Constant.REQUEST_CODE_PICK_IMAGE;
 import static com.vincent.filepicker.activity.VideoPickActivity.IS_NEED_CAMERA;
-import static xiaofei.library.hermes.Hermes.getContext;
 
 /**
  * Class: PersonalDetailActivity </br>
@@ -64,7 +59,7 @@ import static xiaofei.library.hermes.Hermes.getContext;
  * vCard也许为空
  **/
 public class PersonalDetailActivity extends BaseActivity
-    implements EasyViewHolder.OnItemClickListener, VCardCallback {
+    implements EasyViewHolder.OnItemClickListener {
 
   public static final int TAG_IMAGE = 100;
   public static final int TAG_USERNAME = 200;
@@ -80,42 +75,19 @@ public class PersonalDetailActivity extends BaseActivity
   @BindView(R.id.recyclerview) RecyclerView mRecyclerview;
   private ArrayList<ConstructListData> mDatas;
   private PersonalDataAdapter mDataAdapter;
-  private VCardRealm mVCardRealm;
-  private SimpleVCard mSimpleVCard;
   private UpLoadServiceApi mUpLoadServiceApi;
-  private Realm mRealm;
-  private LocalVCardEvent mLocalVCardEvent = new LocalVCardEvent();
+  private AccountServiceApi mAccountServiceApi;
+  private User mUser;
+  private AppPreferences mAppPreferences;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_personal_detail);
+    mAccountServiceApi = ApiService.getInstance().createApiService(AccountServiceApi.class);
+    mUpLoadServiceApi = ApiService.getInstance().createApiService(UpLoadServiceApi.class);
     ButterKnife.bind(this);
-    getLocalVCardRealm();
     setUpToolbar();
     setAdapter();
-  }
-
-  private void getLocalVCardRealm() {
-    mSimpleVCard = new SimpleVCard();
-    mRealm = Realm.getDefaultInstance();
-    RealmQuery<VCardRealm> realmQuery = mRealm.where(VCardRealm.class);
-    final AppPreferences appPreferences = new AppPreferences(getContext());
-    try {
-      //测试1@dc-a4b8eb92-xmpp.jiangtao.tech./jiangtao,获取和更新VcARD
-      mLocalVCardEvent.setJid(StringSplitUtil.splitDivider(appPreferences.getString("userJid")));
-      Log.d(TAG, "getLocalVCardRealm: " + appPreferences.getString("userJid"));
-      RealmResults<VCardRealm> realmResult = realmQuery.equalTo("jid",
-          StringSplitUtil.splitDivider(appPreferences.getString("userJid"))).findAll();
-      if (realmResult.size() != 0) {
-        mVCardRealm = realmResult.first();
-        mLocalVCardEvent.setNickName(mVCardRealm.getNickName());
-        mLocalVCardEvent.setAvatar(mVCardRealm.getAvatar());
-      } else {
-        mSimpleVCard.startUpdate(mLocalVCardEvent, this);
-      }
-    } catch (ItemNotFoundException e) {
-      e.printStackTrace();
-    }
   }
 
   @Override protected boolean preSetupToolbar() {
@@ -172,60 +144,57 @@ public class PersonalDetailActivity extends BaseActivity
   }
 
   public ArrayList<ConstructListData> buildData() {
+    mAppPreferences = new AppPreferences(this);
+    try {
+      Gson gson = new Gson();
+      mUser = gson.fromJson(mAppPreferences.getString(SupportIM.USER), User.class);
+      mAppPreferences.getString(SupportIM.USER);
+    } catch (ItemNotFoundException e) {
+      e.printStackTrace();
+    }
     mDatas.clear();
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_IMAGE)
         .tag(TAG_IMAGE)
-        .image((mVCardRealm != null && mVCardRealm.getAvatar() != null) ? mVCardRealm.getAvatar()
-            : null)
+        .image((mUser != null && mUser.avatar != null) ? mUser.avatar : null)
         .title("头像")
         .build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
         .tag(TAG_USERNAME)
         .title("用户名")
-        .subtitle(
-            mVCardRealm != null && mVCardRealm.getNickName() != null ? mVCardRealm.getNickName()
-                : "")
+        .subtitle(mUser != null && mUser.nickName != null ? mUser.nickName : "用户名")
         .build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
         .tag(TAG_SEX)
         .title("性别")
-        .subtitle(
-            (mVCardRealm != null && mVCardRealm.getSex() != null) ? mVCardRealm.getSex() : "男")
+        .subtitle(mUser.sex ? "女" : "男")
         .build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
         .tag(TAG_SUBJECT)
         .title("部门")
-        .subtitle(
-            (mVCardRealm != null && mVCardRealm.getSubject() != null) ? mVCardRealm.getSubject()
-                : "")
+        .subtitle("部门")
         .build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
         .tag(TAG_POSITION)
         .title("职位")
-        .subtitle(
-            (mVCardRealm != null && mVCardRealm.getOffice() != null) ? mVCardRealm.getOffice() : "")
+        .subtitle("职位")
         .build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
         .tag(TAG_EMAIL)
         .title("邮箱")
-        .subtitle(
-            (mVCardRealm != null && mVCardRealm.getEmail() != null) ? mVCardRealm.getEmail() : "")
+        .subtitle("邮箱")
         .build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
         .tag(TAG_PHONE)
         .title("手机号")
-        .subtitle((mVCardRealm != null && mVCardRealm.getPhoneNumber() != null)
-            ? mVCardRealm.getPhoneNumber() : "")
+        .subtitle("手机号")
         .build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_TEXT)
         .tag(TAG_STYLE)
         .title("个性签名")
-        .subtitle(
-            (mVCardRealm != null && mVCardRealm.getSignature() != null) ? mVCardRealm.getSignature()
-                : "")
+        .subtitle(mUser.signature != null ? mUser.signature : "个性签名...")
         .build());
     return mDatas;
   }
@@ -246,14 +215,25 @@ public class PersonalDetailActivity extends BaseActivity
           } else if (input.length() == 0) {
             SimpleHUD.showErrorMessage(this, (String) getText(R.string.profile_min_length));
           } else {
-            if (mLocalVCardEvent != null) {
-              mLocalVCardEvent.setNickName(input.toString());
-              //发送请求
-              mSimpleVCard.startUpdate(mLocalVCardEvent, this);
-            }
+            mAccountServiceApi.updateAccount(mUser.uid, mUser.userId, input.toString(),
+                mUser.avatar, mUser.sex, mUser.signature)
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(() -> SimpleHUD.showLoadingMessage(this, "正在更新", false))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(user -> {
+                  SimpleHUD.dismiss();
+                  updateUsers(user);
+                });
           }
         })
         .show();
+  }
+
+  private void updateUsers(User user) {
+    Gson gson = new Gson();
+    mAppPreferences.put(SupportIM.USER, gson.toJson(user));
+    buildData();
+    mDataAdapter.notifyDataSetChanged();
   }
 
   public void showEmailDialog() {
@@ -262,13 +242,7 @@ public class PersonalDetailActivity extends BaseActivity
         .inputType(InputType.TYPE_CLASS_TEXT)
         .input(R.string.hint_dialog_email, R.string.hint_dialog_email, (dialog, input) -> {
           dialog.dismiss();
-          if (mLocalVCardEvent != null && input.toString().contains("@")) {
-            mLocalVCardEvent.setEmail(input.toString());
-            //发送通知
-            mSimpleVCard.startUpdate(mLocalVCardEvent, this);
-          } else {
-            SimpleHUD.showErrorMessage(this, (String) getText(R.string.profile_email_pro));
-          }
+          SimpleHUD.showInfoMessage(this, (String) getText(R.string.profile_email_pro));
         })
         .show();
   }
@@ -279,13 +253,7 @@ public class PersonalDetailActivity extends BaseActivity
         .inputType(InputType.TYPE_CLASS_TEXT)
         .input(R.string.hint_dialog_phone, R.string.hint_dialog_phone, (dialog, input) -> {
           dialog.dismiss();
-          if (mVCardRealm != null && input.length() == 11) {
-            mLocalVCardEvent.setPhoneNumber(input.toString());
-            //发送通知
-            mSimpleVCard.startUpdate(mLocalVCardEvent, this);
-          } else {
-            SimpleHUD.showErrorMessage(this, (String) getText(R.string.profile_phone_pro));
-          }
+          SimpleHUD.showInfoMessage(this, (String) getText(R.string.profile_email_pro));
         })
         .show();
   }
@@ -294,12 +262,15 @@ public class PersonalDetailActivity extends BaseActivity
     new MaterialDialog.Builder(this).title(R.string.profile_sex)
         .items(R.array.sex)
         .itemsCallbackSingleChoice(-1, (dialog, view, which, text) -> {
-          String[] list = getResources().getStringArray(R.array.sex);
-          if (mLocalVCardEvent != null) {
-            mLocalVCardEvent.setSex(list[which]);
-            //发送通知
-            mSimpleVCard.startUpdate(mLocalVCardEvent, this);
-          }
+          mAccountServiceApi.updateAccount(mUser.uid, mUser.userId, mUser.nickName, mUser.avatar,
+              which > 0, mUser.signature)
+              .subscribeOn(Schedulers.io())
+              .doOnSubscribe(() -> SimpleHUD.showLoadingMessage(this, "正在更新", false))
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(user -> {
+                SimpleHUD.dismiss();
+                updateUsers(user);
+              });
           return true;
         })
         .positiveText(R.string.profile_sure)
@@ -310,12 +281,8 @@ public class PersonalDetailActivity extends BaseActivity
     new MaterialDialog.Builder(this).title(R.string.profile_subject)
         .items(R.array.subject)
         .itemsCallbackSingleChoice(-1, (dialog, view, which, text) -> {
-          String[] list = getResources().getStringArray(R.array.subject);
-          if (mLocalVCardEvent != null) {
-            mLocalVCardEvent.setSubject(list[which]);
-            //发送通知
-            mSimpleVCard.startUpdate(mLocalVCardEvent, this);
-          }
+          dialog.dismiss();
+          SimpleHUD.showInfoMessage(this, (String) getText(R.string.profile_email_pro));
           return true;
         })
         .positiveText(R.string.profile_sure)
@@ -326,12 +293,8 @@ public class PersonalDetailActivity extends BaseActivity
     new MaterialDialog.Builder(this).title(R.string.profile_office)
         .items(R.array.office)
         .itemsCallbackSingleChoice(-1, (dialog, view, which, text) -> {
-          String[] list = getResources().getStringArray(R.array.office);
-          if (mLocalVCardEvent != null) {
-            mLocalVCardEvent.setOffice(list[which]);
-            //发送通知
-            mSimpleVCard.startUpdate(mLocalVCardEvent, this);
-          }
+          dialog.dismiss();
+          SimpleHUD.showInfoMessage(this, (String) getText(R.string.profile_email_pro));
           return true;
         })
         .positiveText(R.string.profile_sure)
@@ -359,17 +322,6 @@ public class PersonalDetailActivity extends BaseActivity
 
   @Override protected void onDestroy() {
     super.onDestroy();
-    mRealm.close();
-  }
-
-  @Override public void success(String success) {
-    SimpleHUD.showSuccessMessage(this, success);
-    buildData();
-    mDataAdapter.notifyDataSetChanged();
-  }
-
-  @Override public void error(String message) {
-    SimpleHUD.showErrorMessage(this, message);
   }
 
   /**
@@ -393,9 +345,6 @@ public class PersonalDetailActivity extends BaseActivity
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(filePath -> {
           Log.d(TAG, "uploadFile: " + filePath);
-          mLocalVCardEvent.setAvatar(
-              tech.jiangtao.support.ui.utils.CommonUtils.getUrl("avatar", filePath.filePath));
-          mSimpleVCard.startUpdate(mLocalVCardEvent, this);
         });
   }
 }

@@ -20,6 +20,7 @@ public class SupportIM {
   public static String mResource;
   public static String mHost;
   public static int mPort;
+  public static final String USER = "user";
   private static void initialize(Context context){
     Realm.init(context);
     HermesEventBus.getDefault().init(context);

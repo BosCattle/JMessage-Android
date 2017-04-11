@@ -22,14 +22,25 @@ import tech.jiangtao.support.ui.model.group.Groups;
 
 public interface AccountServiceApi {
 
-    /**
-     * 用户注册
-     * @param userId
-     * @return
-     */
-    @FormUrlEncoded
-    @POST("account/create")
-    Observable<List<User>> createAccount(@Field("userJid") String userId,@Field("nickName") String nickName,@Field("password") String password);
+  /**
+   * 用户注册
+   */
+  @FormUrlEncoded @POST("account/create") Observable<User> createAccount(
+      @Field("userJid") String userId, @Field("nickName") String nickName,
+      @Field("password") String password);
 
-
+  /**
+   * 资料更新
+   * @param uid
+   * @param userJid
+   * @param nickName
+   * @param avatar
+   * @param sex
+   * @param signature
+   * @return
+   */
+  @FormUrlEncoded @POST("account/update") Observable<User> updateAccount(@Field("uid") long uid,
+      @Field("userJid") String userJid, @Field("nickName") String nickName,
+      @Field("avatar") String avatar, @Field("sex") boolean sex,
+      @Field("signature") String signature);
 }

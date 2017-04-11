@@ -5,7 +5,7 @@
   <string name="hint_dialog_email">工作邮箱</string>
   <string name="hint_dialog_phone">手机号</string>
   <string name="profile_max_length">温馨提示:用户名最大长度为6位</string>
-  <string name="profile_email_pro">温馨提示:邮箱格式必须正确</string>
+  <string name="profile_email_pro">温馨提示:功能暂未开放</string>
   <string name="profile_phone_pro">温馨提示:电话格式必须正确</string>
   <string name="profile_min_length">用户名不能为空</string>
   <string name="profile_sex">性别</string>

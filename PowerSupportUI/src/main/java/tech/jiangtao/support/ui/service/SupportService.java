@@ -64,7 +64,6 @@ import tech.jiangtao.support.kit.eventbus.ContactEvent;
 import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
 import tech.jiangtao.support.kit.eventbus.FriendRequest;
 import tech.jiangtao.support.kit.eventbus.InvitedFriendToGroup;
-import tech.jiangtao.support.kit.eventbus.LocalVCardEvent;
 import tech.jiangtao.support.kit.eventbus.LoginCallbackEvent;
 import tech.jiangtao.support.kit.eventbus.LoginParam;
 import tech.jiangtao.support.kit.eventbus.NotificationConnection;
@@ -89,6 +88,8 @@ import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.PinYinUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.SupportAIDLConnection;
+import tech.jiangtao.support.ui.api.ApiService;
+import tech.jiangtao.support.ui.api.service.AccountServiceApi;
 import tech.jiangtao.support.ui.reciever.TickBroadcastReceiver;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
@@ -109,10 +110,12 @@ public class SupportService extends Service
   private Presence mFriendsPresence;
   private MultiUserChatManager mMultiUserChatManager;
   private ChatManager mChatManager;
+  private AccountServiceApi mAccountServiceApi;
 
   @Override public void onCreate() {
     super.onCreate();
     mAppPreferences = new AppPreferences(this);
+    mAccountServiceApi = ApiService.getInstance().createApiService(AccountServiceApi.class);
     if (mSupportBinder == null) {
       mSupportBinder = new SupportBinder();
     }
@@ -363,9 +366,6 @@ public class SupportService extends Service
       mAppPreferences.put("username", username);
       mAppPreferences.put("password", password);
       HermesEventBus.getDefault().postSticky(new LoginCallbackEvent("登录成功", null));
-      LocalVCardEvent event = new LocalVCardEvent();
-      event.setJid(StringSplitUtil.splitDivider(mXMPPConnection.getUser()));
-      addOrUpdateVCard(event);
       getRoster(new ContactEvent());
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
@@ -682,74 +682,6 @@ public class SupportService extends Service
         super.call(throwable);
         //发送添加好友请求失败
         LogUtils.d(TAG, "call: 添加好友请求失败");
-      }
-    });
-  }
-
-  //添加或者更新vCard;
-  @Subscribe(threadMode = ThreadMode.MAIN) public void addOrUpdateVCard(
-      LocalVCardEvent vCardRealm) {
-    mVCardManager = VCardManager.getInstanceFor(mXMPPConnection);
-    Observable.create((Observable.OnSubscribe<VCard>) subscriber -> {
-      try {
-        subscriber.onNext(mVCardManager.loadVCard(vCardRealm.getJid()));
-      } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
-        e.printStackTrace();
-        subscriber.onError(e);
-        connect(true);
-      }
-    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(vCard -> {
-      LogUtils.d(TAG, "addOrUpdateVCard: 打印出VCard为" + vCard.toXML());
-      LogUtils.d(TAG, "addOrUpdateVCard: 打印出头像为" + vCard.getField("avatar"));
-      vCard.setField("sex", vCardRealm.getSex());
-      vCard.setField("subject", vCardRealm.getSubject());
-      vCard.setField("office", vCardRealm.getOffice());
-      vCard.setField("voice", vCardRealm.getPhoneNumber());
-      vCard.setField("signature", vCardRealm.getSignature());
-      if (vCardRealm.getAvatar() != null && vCardRealm.getAvatar() != "") {
-        vCard.setField("avatar", vCardRealm.getAvatar());
-      }
-      vCard.setEmailWork(vCardRealm.getEmail());
-      if (vCardRealm.getNickName() != null && vCardRealm.getNickName() != "") {
-        vCard.setNickName(vCardRealm.getNickName());
-      } else {
-        vCard.setNickName(StringSplitUtil.splitPrefix(vCardRealm.getJid()));
-      }
-      Observable.create((Observable.OnSubscribe<String>) subscriber -> {
-        try {
-          mVCardManager.saveVCard(vCard);
-          subscriber.onNext(null);
-        } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
-          e.printStackTrace();
-          subscriber.onError(e);
-          if (e instanceof SmackException.NotConnectedException) connect(true);
-        }
-      }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
-        //保存VCard成功,发送给通知,保存到数据库
-        HermesEventBus.getDefault()
-            .post(new VCardRealm(StringSplitUtil.splitDivider(vCardRealm.getJid()),
-                (vCardRealm.getNickName() != null && vCardRealm.getNickName() != "")
-                    ? vCardRealm.getNickName() : vCard.getNickName(),
-                (vCardRealm.getAvatar() != null && vCardRealm.getAvatar() != "")
-                    ? vCardRealm.getAvatar() : vCard.getField("avatar"),
-                PinYinUtils.getPinyinFirstLetter(
-                    (vCardRealm.getNickName() != null && vCardRealm.getNickName() != "")
-                        ? vCardRealm.getNickName() : vCard.getNickName()), PinYinUtils.ccs2Pinyin(
-                (vCardRealm.getNickName() != null && vCardRealm.getNickName() != "")
-                    ? vCardRealm.getNickName() : vCard.getNickName()), true));
-        HermesEventBus.getDefault().post(new OwnVCardRealm("更新成功", null));
-      }, new ErrorAction() {
-        @Override public void call(Throwable throwable) {
-          super.call(throwable);
-          //保存VCard失败,发送给通知
-          HermesEventBus.getDefault().post(new OwnVCardRealm(null, "更新失败1" + throwable));
-        }
-      });
-    }, new ErrorAction() {
-      @Override public void call(Throwable throwable) {
-        super.call(throwable);
-        //获取VCard失败，发送给通知
-        HermesEventBus.getDefault().post(new OwnVCardRealm(null, "更新失败2" + throwable));
       }
     });
   }

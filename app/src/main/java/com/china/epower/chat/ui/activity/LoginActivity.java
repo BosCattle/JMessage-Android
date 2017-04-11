@@ -33,7 +33,7 @@ import static java.lang.System.exit;
  * 登录的功能拿到服务去做，登录成功，在服务器中跳转到主页面
  * 保存用户信息到数据库中
  **/
-public class LoginActivity extends BaseActivity implements LoginCallBack {
+public class LoginActivity extends BaseActivity {
 
   @BindView(R.id.tv_toolbar) TextView mTvToolbar;
   @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -82,25 +82,25 @@ public class LoginActivity extends BaseActivity implements LoginCallBack {
         SimpleHUD.showLoadingMessage(LoginActivity.this, (String) getText(R.string.profile_loading),
             false);
         mSimpleLogin.startLogin(new LoginParam(mLoginUsername.getText().toString(),
-            mLoginPassword.getText().toString()), this);
+            mLoginPassword.getText().toString()), new LoginCallBack() {
+          @Override public void connectSuccess() {
+            SimpleHUD.dismiss();
+            SimpleHUD.showSuccessMessage(LoginActivity.this,
+                (String) getText(R.string.connect_success), () -> {
+                  MainActivity.startMain(LoginActivity.this);
+                });
+          }
+
+          @Override public void connectionFailed(String e) {
+            SimpleHUD.dismiss();
+            SimpleHUD.showErrorMessage(LoginActivity.this, getText(R.string.connect_fail) + e);
+          }
+        });
         break;
       case R.id.register:
         RegisterActivity.startRegister(LoginActivity.this);
         break;
     }
-  }
-
-  @Override
-  public void connectSuccess() {
-    SimpleHUD.dismiss();
-    SimpleHUD.showSuccessMessage(this, (String) getText(R.string.connect_success), () -> {
-      MainActivity.startMain(LoginActivity.this);
-    });
-  }
-
-  @Override public void connectionFailed(String e) {
-    SimpleHUD.dismiss();
-    SimpleHUD.showErrorMessage(this, getText(R.string.connect_fail) + e);
   }
 
   public static void startLogin(Activity activity) {
@@ -109,8 +109,7 @@ public class LoginActivity extends BaseActivity implements LoginCallBack {
     activity.finish();
   }
 
-  @Override
-  public void onBackPressed() {
+  @Override public void onBackPressed() {
     super.onBackPressed();
     exit(0);
   }

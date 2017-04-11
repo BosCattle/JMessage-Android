@@ -12,13 +12,9 @@ import android.os.Parcelable;
  * Update: 13/11/2016 3:35 PM </br>
  **/
 
-public class User implements Parcelable {
-  public String userId;
-  public String nickName;
-  public String avatar;
+public class User extends Account implements Parcelable {
   public String relative;
   public String inviteType;
-
   public User() {
   }
 
@@ -27,17 +23,13 @@ public class User implements Parcelable {
   }
 
   @Override public void writeToParcel(Parcel dest, int flags) {
-    dest.writeString(this.userId);
-    dest.writeString(this.nickName);
-    dest.writeString(this.avatar);
+    super.writeToParcel(dest, flags);
     dest.writeString(this.relative);
     dest.writeString(this.inviteType);
   }
 
   protected User(Parcel in) {
-    this.userId = in.readString();
-    this.nickName = in.readString();
-    this.avatar = in.readString();
+    super(in);
     this.relative = in.readString();
     this.inviteType = in.readString();
   }
