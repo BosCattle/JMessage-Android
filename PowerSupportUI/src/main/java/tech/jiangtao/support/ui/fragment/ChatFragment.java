@@ -36,6 +36,7 @@ import com.vincent.filepicker.activity.NormalFilePickActivity;
 import com.vincent.filepicker.activity.VideoPickActivity;
 import com.vincent.filepicker.filter.entity.ImageFile;
 
+import java.lang.reflect.Type;
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
 
@@ -562,7 +563,7 @@ public class ChatFragment extends BaseFragment
    * 发送消息到对方，并且添加到本地
    */
   public void sendMyFriendMessage(String message, MessageExtensionType type) {
-    TextMessage message1 = new TextMessage(mVCardRealm.getJid(), message);
+    TextMessage message1 = new TextMessage(org.jivesoftware.smack.packet.Message.Type.chat,mVCardRealm.getJid(), message,type);
     message1.messageType = type;
     HermesEventBus.getDefault().post(message1);
     //将消息更新到本地

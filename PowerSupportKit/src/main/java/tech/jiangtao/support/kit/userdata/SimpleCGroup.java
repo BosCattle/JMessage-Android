@@ -49,10 +49,12 @@ public class SimpleCGroup {
 
   @Subscribe(threadMode = ThreadMode.MAIN)
   public void recievedGroupInfo(GroupCreateCallBackEvent event){
-    if (event.message!=null){
-      mCallBack.createSuccess();
-    }else {
-      mCallBack.createFailed("发生错误");
+    if (mCallBack!=null) {
+      if (event.message != null) {
+        mCallBack.createSuccess();
+      } else {
+        mCallBack.createFailed("发生错误");
+      }
     }
   }
 

@@ -2,18 +2,15 @@ package tech.jiangtao.support.ui.model.group;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import tech.jiangtao.support.ui.model.User;
 
 /**
  * Created by Vurtex on 2017/3/29.
  * 好友基类
  */
 
-public class Friends implements Parcelable {
-    public String userId;
+public class Friends extends User implements Parcelable {
     public int onlineStatus;
-    public String nickName;
-    public String avatar;
-
 
     @Override
     public int describeContents() {

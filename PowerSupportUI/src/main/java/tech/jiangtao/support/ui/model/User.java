@@ -17,21 +17,21 @@ public class User implements Parcelable {
   public String nickName;
   public String avatar;
   public String relative;
+  public String inviteType;
 
   public User() {
   }
 
-  @Override
-  public int describeContents() {
+  @Override public int describeContents() {
     return 0;
   }
 
-  @Override
-  public void writeToParcel(Parcel dest, int flags) {
+  @Override public void writeToParcel(Parcel dest, int flags) {
     dest.writeString(this.userId);
     dest.writeString(this.nickName);
     dest.writeString(this.avatar);
     dest.writeString(this.relative);
+    dest.writeString(this.inviteType);
   }
 
   protected User(Parcel in) {
@@ -39,16 +39,15 @@ public class User implements Parcelable {
     this.nickName = in.readString();
     this.avatar = in.readString();
     this.relative = in.readString();
+    this.inviteType = in.readString();
   }
 
   public static final Creator<User> CREATOR = new Creator<User>() {
-    @Override
-    public User createFromParcel(Parcel source) {
+    @Override public User createFromParcel(Parcel source) {
       return new User(source);
     }
 
-    @Override
-    public User[] newArray(int size) {
+    @Override public User[] newArray(int size) {
       return new User[size];
     }
   };
