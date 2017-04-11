@@ -33,7 +33,7 @@ import static java.lang.System.exit;
  * 登录的功能拿到服务去做，登录成功，在服务器中跳转到主页面
  * 保存用户信息到数据库中
  **/
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements LoginCallBack{
 
   @BindView(R.id.tv_toolbar) TextView mTvToolbar;
   @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -82,20 +82,7 @@ public class LoginActivity extends BaseActivity {
         SimpleHUD.showLoadingMessage(LoginActivity.this, (String) getText(R.string.profile_loading),
             false);
         mSimpleLogin.startLogin(new LoginParam(mLoginUsername.getText().toString(),
-            mLoginPassword.getText().toString()), new LoginCallBack() {
-          @Override public void connectSuccess() {
-            SimpleHUD.dismiss();
-            SimpleHUD.showSuccessMessage(LoginActivity.this,
-                (String) getText(R.string.connect_success), () -> {
-                  MainActivity.startMain(LoginActivity.this);
-                });
-          }
-
-          @Override public void connectionFailed(String e) {
-            SimpleHUD.dismiss();
-            SimpleHUD.showErrorMessage(LoginActivity.this, getText(R.string.connect_fail) + e);
-          }
-        });
+            mLoginPassword.getText().toString()), this);
         break;
       case R.id.register:
         RegisterActivity.startRegister(LoginActivity.this);
@@ -112,5 +99,18 @@ public class LoginActivity extends BaseActivity {
   @Override public void onBackPressed() {
     super.onBackPressed();
     exit(0);
+  }
+
+  @Override public void connectSuccess() {
+    SimpleHUD.dismiss();
+    SimpleHUD.showSuccessMessage(LoginActivity.this,
+        (String) getText(R.string.connect_success), () -> {
+          MainActivity.startMain(LoginActivity.this);
+        });
+  }
+
+  @Override public void connectionFailed(String e) {
+    SimpleHUD.dismiss();
+    SimpleHUD.showErrorMessage(LoginActivity.this, getText(R.string.connect_fail) + e);
   }
 }
