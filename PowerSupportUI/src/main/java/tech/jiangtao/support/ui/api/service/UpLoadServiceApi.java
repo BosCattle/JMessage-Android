@@ -22,17 +22,14 @@ import tech.jiangtao.support.ui.model.type.TransportType;
 public interface UpLoadServiceApi {
 
   /**
-   * 单个文件传输
+   * 单个文件上传
    */
-  @Multipart @POST("file/single") Observable<FilePath> uploadSingle(@Part MultipartBody.Part file,
+  @Multipart @POST("file/upload") Observable<FilePath> upload(@Part MultipartBody.Part file,
       @Part("type") RequestBody type);
 
   /**
-   *
-   * @param file
-   * @param type
-   * @return
+   * 多个文件上传
    */
-  @Multipart @POST("file/list") Observable<FilePath> upload(@Part MultipartBody.Part file,
-      @Part("type") RequestBody type);
+  @Multipart @POST("file/uploadMultipleFile") Observable<FilePath> uploadMulti(
+      @Part MultipartBody.Part[] files, @Part("types") String[] types);
 }

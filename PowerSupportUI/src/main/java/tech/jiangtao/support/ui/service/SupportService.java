@@ -67,7 +67,6 @@ import tech.jiangtao.support.kit.eventbus.InvitedFriendToGroup;
 import tech.jiangtao.support.kit.eventbus.LoginCallbackEvent;
 import tech.jiangtao.support.kit.eventbus.LoginParam;
 import tech.jiangtao.support.kit.eventbus.NotificationConnection;
-import tech.jiangtao.support.kit.eventbus.OwnVCardRealm;
 import tech.jiangtao.support.kit.eventbus.QueryUser;
 import tech.jiangtao.support.kit.eventbus.QueryUserResult;
 import tech.jiangtao.support.kit.eventbus.RecieveFriend;

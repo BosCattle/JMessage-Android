@@ -80,6 +80,7 @@ import tech.jiangtao.support.ui.api.service.UpLoadServiceApi;
 import tech.jiangtao.support.ui.model.ChatExtraModel;
 import tech.jiangtao.support.ui.model.Message;
 import tech.jiangtao.support.ui.model.type.MessageType;
+import tech.jiangtao.support.ui.model.type.TransportType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
 import tech.jiangtao.support.ui.utils.CommonUtils;
 import tech.jiangtao.support.ui.view.AudioManager;
@@ -634,10 +635,10 @@ public class ChatFragment extends BaseFragment
           LogUtils.d(TAG, "uploadFile: " + filePath);
           //发送消息添加到本地，然后发送拓展消息到对方
           if (type.equals(MessageExtensionType.IMAGE.toString())) {
-            sendMyFriendMessage(filePath.filePath, MessageExtensionType.IMAGE);
+            sendMyFriendMessage(filePath.resourceId, MessageExtensionType.IMAGE);
           }
           if (type.equals(MessageExtensionType.AUDIO.toString())) {
-            sendMyFriendMessage(filePath.filePath, MessageExtensionType.AUDIO);
+            sendMyFriendMessage(filePath.resourceId, MessageExtensionType.AUDIO);
           }
         }, new ErrorAction() {
           @Override public void call(Throwable throwable) {

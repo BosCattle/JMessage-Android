@@ -27,7 +27,7 @@ public class PowerApp extends Application {
     super.onCreate();
     SimpleHUD.backgroundHexColor = "#FF4081";
     SupportUI.initialize(this, "dc-a4b8eb92-xmpp.jiangtao.tech.", UUID.randomUUID().toString(),
-        "192.168.3.4", 5222, "6e7ea2251ca5479d875916785c4418f1",
-        "026eb8a2cb7b4ab18135a6a0454fd698", "http://192.168.3.4:9090/tigase/");
+        "192.168.43.164", 5222, "6e7ea2251ca5479d875916785c4418f1",
+        "026eb8a2cb7b4ab18135a6a0454fd698", "http://192.168.43.164:9090/tigase/");
   }
 }

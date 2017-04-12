@@ -22,6 +22,7 @@ import com.china.epower.chat.ui.adapter.EasyViewHolder;
 import com.china.epower.chat.ui.adapter.PersonalDataAdapter;
 import com.china.epower.chat.ui.pattern.ConstructListData;
 import com.china.epower.chat.utils.RecyclerViewUtils;
+import com.china.epower.chat.utils.ResourceAddress;
 import com.google.gson.Gson;
 import com.vincent.filepicker.Constant;
 import com.vincent.filepicker.activity.ImagePickActivity;
@@ -39,10 +40,12 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.callback.VCardCallback;
 import tech.jiangtao.support.kit.init.SupportIM;
+import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.ui.api.ApiService;
 import tech.jiangtao.support.ui.api.service.AccountServiceApi;
 import tech.jiangtao.support.ui.api.service.UpLoadServiceApi;
 import tech.jiangtao.support.ui.model.User;
+import tech.jiangtao.support.ui.model.type.TransportType;
 import work.wanghao.simplehud.SimpleHUD;
 
 import static com.vincent.filepicker.Constant.REQUEST_CODE_PICK_IMAGE;
@@ -156,7 +159,8 @@ public class PersonalDetailActivity extends BaseActivity
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_IMAGE)
         .tag(TAG_IMAGE)
-        .image((mUser != null && mUser.avatar != null) ? mUser.avatar : null)
+        .image((mUser != null && mUser.avatar != null) ? ResourceAddress.url(mUser.avatar,
+            TransportType.AVATAR) : null)
         .title("头像")
         .build());
     mDatas.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
@@ -332,19 +336,36 @@ public class PersonalDetailActivity extends BaseActivity
     if (mUpLoadServiceApi == null) {
       mUpLoadServiceApi = ApiService.getInstance().createApiService(UpLoadServiceApi.class);
     }
-    // use the FileUtils to get the actual file by uri
     File file = new File(path);
-    // create RequestBody instance from file
     RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-    // MultipartBody.Part is used to send also the actual file name
     MultipartBody.Part body =
         MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-    RequestBody typeBody = RequestBody.create(MediaType.parse("multipart/form-data"), type);
+    RequestBody typeBody = RequestBody.create(MediaType.parse("multipart/form-data"),type);
     mUpLoadServiceApi.upload(body, typeBody)
         .subscribeOn(Schedulers.io())
+        .doOnSubscribe(() -> SimpleHUD.showLoadingMessage(this, "正在上传", false))
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(filePath -> {
-          Log.d(TAG, "uploadFile: " + filePath);
+          mAccountServiceApi.updateAccount(mUser.uid, mUser.userId, mUser.nickName,
+              filePath.resourceId, mUser.sex, mUser.signature)
+              .subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(user -> {
+                SimpleHUD.dismiss();
+                updateUsers(user);
+              }, new ErrorAction() {
+                @Override public void call(Throwable throwable) {
+                  super.call(throwable);
+                  SimpleHUD.dismiss();
+                  SimpleHUD.showErrorMessage(PersonalDetailActivity.this,throwable.getMessage());
+                }
+              });
+        }, new ErrorAction() {
+          @Override public void call(Throwable throwable) {
+            super.call(throwable);
+            SimpleHUD.dismiss();
+            SimpleHUD.showErrorMessage(PersonalDetailActivity.this,throwable.getMessage());
+          }
         });
   }
 }
