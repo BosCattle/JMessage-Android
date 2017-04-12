@@ -35,6 +35,8 @@ public interface UserServiceApi {
      */
     @GET("group/joined")
     Observable<List<Groups>> getOwnGroup(@Query("uid") String uid);
+
+
     /**
      * 查找用户
      * @param nickname
@@ -42,6 +44,8 @@ public interface UserServiceApi {
      */
     @GET("user/queryAccount")
     Observable<List<User>> getQueryAccount(@Query("nickname") String nickname);
+
+
     /**
      * 查找群组
      * @param roomName
@@ -49,6 +53,8 @@ public interface UserServiceApi {
      */
     @GET("group/search")
     Observable<List<Groups>> getQueryGroup(@Query("roomName") String roomName);
+
+
     /**
      * 查找群组
      * @param userId
@@ -56,6 +62,12 @@ public interface UserServiceApi {
      */
     @POST("user/allInvite")
     Observable<List<InvitedInfo>> getAllInvite(@Query("userId") String userId);
-    //1 4 16 21 24 25 26
 
+    /**
+     * 获取自己的信息
+     * @param userId
+     * @return
+     */
+    @POST("user/queryUser")
+    Observable<User> selfAccount(@Field("userId") String userId);
 }

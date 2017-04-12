@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
+import com.google.gson.Gson;
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
 
@@ -89,6 +90,7 @@ import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.SupportAIDLConnection;
 import tech.jiangtao.support.ui.api.ApiService;
 import tech.jiangtao.support.ui.api.service.AccountServiceApi;
+import tech.jiangtao.support.ui.api.service.UserServiceApi;
 import tech.jiangtao.support.ui.reciever.TickBroadcastReceiver;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
@@ -110,6 +112,7 @@ public class SupportService extends Service
   private MultiUserChatManager mMultiUserChatManager;
   private ChatManager mChatManager;
   private AccountServiceApi mAccountServiceApi;
+  private UserServiceApi mUserServiceApi;
 
   @Override public void onCreate() {
     super.onCreate();
@@ -157,7 +160,7 @@ public class SupportService extends Service
 
   @Override public void chatCreated(Chat chat, boolean createdLocally) {
     chat.addMessageListener((chat1, message) -> {
-      LogUtils.e(TAG,message.getBody());
+      LogUtils.e(TAG, message.getBody());
       DefaultExtensionElement messageExtension =
           (DefaultExtensionElement) message.getExtension("message:extension");
       if (message.getBody() != null) {
@@ -197,7 +200,8 @@ public class SupportService extends Service
       MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(message.userJID);
       try {
         if (!multiUserChat.isJoined()) {
-          multiUserChat.createOrJoin(StringSplitUtil.splitPrefix(StringSplitUtil.splitDivider(mAppPreferences.getString("userJid"))));
+          multiUserChat.createOrJoin(StringSplitUtil.splitPrefix(
+              StringSplitUtil.splitDivider(mAppPreferences.getString("userJid"))));
         }
         multiUserChat.sendMessage(message.message);
       } catch (XMPPException.XMPPErrorException | SmackException | ItemNotFoundException e) {
@@ -274,7 +278,7 @@ public class SupportService extends Service
     login(param.username, param.password);
   }
 
-  public void sendMessageArchive(String jid, String time) {
+  @Deprecated public void sendMessageArchive(String jid, String time) {
     MessageArchiveRequestIQ iq = new MessageArchiveRequestIQ(null);
     iq.setJid(jid);
     iq.setTime(time);
@@ -288,7 +292,7 @@ public class SupportService extends Service
     }
   }
 
-  public void requestAllMessageArchive(String time) {
+  @Deprecated public void requestAllMessageArchive(String time) {
     MessageArchiveRequestIQ iq = new MessageArchiveRequestIQ(null);
     if (time == null || time.equals("")) {
       iq.setTime("2017-01-01T00:00:00Z");
@@ -360,11 +364,27 @@ public class SupportService extends Service
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
       LogUtils.d(TAG, "login: 登录成功");
-      // 保存用户jid
-      mAppPreferences.put("userJid", mXMPPConnection.getUser());
-      mAppPreferences.put("username", username);
-      mAppPreferences.put("password", password);
-      HermesEventBus.getDefault().postSticky(new LoginCallbackEvent("登录成功", null));
+      // 保存用户jid,获取用户数据，保存到mAppPreferences
+      mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
+      mUserServiceApi.selfAccount(StringSplitUtil.userJid(username))
+          .subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(user -> {
+            mAppPreferences.put(SupportIM.USER_ID, user.userId);
+            mAppPreferences.put(SupportIM.USER_NAME, user.nickName);
+            mAppPreferences.put("password", password);
+            Gson gson = new Gson();
+            String value = gson.toJson(user);
+            mAppPreferences.put(SupportIM.USER, value);
+            HermesEventBus.getDefault().postSticky(new LoginCallbackEvent("登录成功", null));
+          }, new ErrorAction() {
+            @Override public void call(Throwable throwable) {
+              super.call(throwable);
+              LogUtils.d(TAG, "call: 登录失败" + throwable);
+              HermesEventBus.getDefault()
+                  .post(new LoginCallbackEvent(null, throwable.getMessage()));
+            }
+          });
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
         super.call(throwable);
@@ -475,10 +495,9 @@ public class SupportService extends Service
 
   /**
    * 接收到好友请求
-   * @param request
    */
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onRecieveFriendRequest(RecieveFriend request) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onRecieveFriendRequest(
+      RecieveFriend request) {
     if (request.agreeFriends) {
       // 这部分代码是同意添加好友请求
       Presence newp = new Presence(Presence.Type.subscribed);
@@ -541,7 +560,8 @@ public class SupportService extends Service
    * 注册账户
    * account {@link RegisterAccount}
    */
-  @Subscribe(threadMode = ThreadMode.MAIN) public void createAccount(RegisterAccount account) {
+  @Deprecated @Subscribe(threadMode = ThreadMode.MAIN) public void createAccount(
+      RegisterAccount account) {
     mAccountManager = AccountManager.getInstance(mXMPPConnection);
     Observable.create(subscriber -> {
       try {
@@ -567,7 +587,7 @@ public class SupportService extends Service
     });
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN) public void queryUser(QueryUser user) {
+  @Deprecated @Subscribe(threadMode = ThreadMode.MAIN) public void queryUser(QueryUser user) {
     mVCardManager = VCardManager.getInstanceFor(mXMPPConnection);
     Observable.create((Observable.OnSubscribe<VCard>) subscriber -> {
       try {
@@ -597,7 +617,8 @@ public class SupportService extends Service
    *
    * @param user {@link RosterEntryBus}
    */
-  @Subscribe(threadMode = ThreadMode.MAIN) public void deleteFriends(RosterEntryBus user) {
+  @Deprecated @Subscribe(threadMode = ThreadMode.MAIN) public void deleteFriends(
+      RosterEntryBus user) {
     mRoster = Roster.getInstanceFor(mXMPPConnection);
     RosterEntry entry = mRoster.getEntry(user.jid);
     Observable.create((Observable.OnSubscribe<RosterEntry>) subscriber -> {
@@ -713,8 +734,9 @@ public class SupportService extends Service
           LogUtils.d(TAG, affiliate.getJid());
           LogUtils.d(TAG, affiliate.getNick());
         }
-        if (!multiUserChat.isJoined()){
-          multiUserChat.join(StringSplitUtil.splitPrefix(StringSplitUtil.splitDivider(mAppPreferences.getString("userJid"))));
+        if (!multiUserChat.isJoined()) {
+          multiUserChat.join(StringSplitUtil.splitPrefix(
+              StringSplitUtil.splitDivider(mAppPreferences.getString("userJid"))));
         }
         for (String s : userIds) {
           multiUserChat.invite(s, reason);
@@ -724,7 +746,7 @@ public class SupportService extends Service
         e.printStackTrace();
         subscriber.onError(e);
       } catch (ItemNotFoundException e) {
-          e.printStackTrace();
+        e.printStackTrace();
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
       // 发送邀请成功
@@ -772,10 +794,8 @@ public class SupportService extends Service
 
   /**
    * 入群请求
-   * @param request
    */
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void requestToGroup(GroupRequestParam request) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void requestToGroup(GroupRequestParam request) {
     String groupJid = request.groupJid;
     String nickname = request.nickName;
     Observable.create((Observable.OnSubscribe<Boolean>) subscriber -> {

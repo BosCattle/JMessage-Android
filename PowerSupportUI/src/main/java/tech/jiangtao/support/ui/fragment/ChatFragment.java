@@ -23,6 +23,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.google.gson.Gson;
 import com.melink.bqmmsdk.bean.Emoji;
 import com.melink.bqmmsdk.sdk.BQMM;
 import com.melink.bqmmsdk.sdk.IBqmmSendMessageListener;
@@ -62,6 +63,7 @@ import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
+import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
@@ -76,8 +78,10 @@ import tech.jiangtao.support.ui.adapter.ChatMessageAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.api.ApiService;
 import tech.jiangtao.support.ui.api.service.UpLoadServiceApi;
+import tech.jiangtao.support.ui.api.service.UserServiceApi;
 import tech.jiangtao.support.ui.model.ChatExtraModel;
 import tech.jiangtao.support.ui.model.Message;
+import tech.jiangtao.support.ui.model.User;
 import tech.jiangtao.support.ui.model.type.MessageType;
 import tech.jiangtao.support.ui.model.type.TransportType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
@@ -133,6 +137,9 @@ public class ChatFragment extends BaseFragment
   private int mPage = 1;
   private RealmResults<MessageRealm> mMessageRealm;
   private InputMethodManager mInputMethodManager;
+  private UserServiceApi mUserServiceApi;
+  private AppPreferences mAppPreferences;
+  private User mSelfUser;
 
   public static ChatFragment newInstance() {
     return new ChatFragment();
@@ -141,7 +148,6 @@ public class ChatFragment extends BaseFragment
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     super.onCreateView(inflater, container, savedInstanceState);
-    mRealm = Realm.getDefaultInstance();
     init();
     ButterKnife.bind(this, getView());
     return getView();
@@ -296,6 +302,16 @@ public class ChatFragment extends BaseFragment
   }
 
   private void init() {
+    mRealm = Realm.getDefaultInstance();
+    mAppPreferences = new AppPreferences(getContext());
+    // 获取自己的信息
+    try {
+      String userGson = mAppPreferences.getString(SupportIM.USER);
+      mSelfUser = new Gson().fromJson(userGson,User.class);
+    } catch (ItemNotFoundException e) {
+      e.printStackTrace();
+    }
+    mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
     mUpLoadServiceApi = ApiService.getInstance().createApiService(UpLoadServiceApi.class);
     mInputMethodManager =
         (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

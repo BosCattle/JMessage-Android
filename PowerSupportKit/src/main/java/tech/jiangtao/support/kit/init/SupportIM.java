@@ -21,6 +21,8 @@ public class SupportIM {
   public static String mHost;
   public static int mPort;
   public static final String USER = "user";
+  public static final String USER_ID = "userId";
+  public static final String USER_NAME = "nickName";
   private static void initialize(Context context){
     Realm.init(context);
     HermesEventBus.getDefault().init(context);

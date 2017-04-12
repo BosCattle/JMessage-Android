@@ -8,11 +8,13 @@ import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.kevin.library.widget.CleanDialog;
 import com.kevin.library.widget.SideBar;
 import com.kevin.library.widget.builder.IconFlag;
@@ -26,9 +28,15 @@ import butterknife.BindView;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import net.grandcentrix.tray.AppPreferences;
+import net.grandcentrix.tray.core.ItemNotFoundException;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.eventbus.ContactEvent;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
+import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
+import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
@@ -37,6 +45,9 @@ import tech.jiangtao.support.ui.activity.ChatActivity;
 import tech.jiangtao.support.ui.activity.GroupListActivity;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
+import tech.jiangtao.support.ui.api.ApiService;
+import tech.jiangtao.support.ui.api.service.UserServiceApi;
+import tech.jiangtao.support.ui.model.User;
 import tech.jiangtao.support.ui.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
@@ -63,6 +74,9 @@ public class ContactFragment extends BaseFragment
   private List<ConstrutContact> mConstrutContact;
   private Realm mRealm;
   private RealmResults<ContactRealm> mVCardRealmRealmResults;
+  private AppPreferences mAppPreferences;
+  private User mSelfUser;
+  private UserServiceApi mUserServiceApi;
 
   public static ContactFragment newInstance() {
     return new ContactFragment();
@@ -71,10 +85,33 @@ public class ContactFragment extends BaseFragment
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     super.onCreateView(inflater, container, savedInstanceState);
+    init();
     setRefresh();
     setAdapter();
     //getContact();
     return getView();
+  }
+
+  private void init() {
+    mAppPreferences = new AppPreferences(getContext());
+    // 获取自己的信息
+    try {
+      String userGson = mAppPreferences.getString(SupportIM.USER);
+      mSelfUser = new Gson().fromJson(userGson,User.class);
+    } catch (ItemNotFoundException e) {
+      e.printStackTrace();
+    }
+    mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
+    mUserServiceApi.queryUserList(mSelfUser.userId).subscribeOn(Schedulers.io()).observeOn(
+        AndroidSchedulers.mainThread()).subscribe(friends -> {
+        // 填充好友信息到界面-->将数据放到数据库
+    }, new ErrorAction() {
+      @Override public void call(Throwable throwable) {
+        super.call(throwable);
+        Log.d(TAG, "call: "+throwable.getMessage());
+        // 从数据库中取数据，放到界面上
+      }
+    });
   }
 
   private void setRefresh() {
