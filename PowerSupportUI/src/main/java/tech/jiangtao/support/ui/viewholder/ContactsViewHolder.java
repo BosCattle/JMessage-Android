@@ -40,19 +40,22 @@ public class ContactsViewHolder extends ContactViewHolder {
     ButterKnife.bind(this, itemView);
   }
 
-  @RequiresApi(api = Build.VERSION_CODES.KITKAT) @Override public void bindTo(int position, ConstrutContact l) {
+  @RequiresApi(api = Build.VERSION_CODES.KITKAT) @Override
+  public void bindTo(int position, ConstrutContact l) {
     if (l != null) {
       LogUtils.d("---ContactsViewHolder:",
-          (l.mVCardRealm != null && l.mVCardRealm.getAvatar() != null) ? l.mVCardRealm.getAvatar()
-              : "null");
+          (l.mContactRealm != null && l.mContactRealm.getAvatar() != null)
+              ? l.mContactRealm.getAvatar() : "null");
       Glide.with(mContext)
-          .load(l.mVCardRealm.getAvatar() != null ? Uri.parse(l.mVCardRealm.getAvatar()) : null)
+          .load(l.mContactRealm.getAvatar() != null ? Uri.parse(l.mContactRealm.getAvatar()) : null)
           .centerCrop()
           .error(R.mipmap.ic_chat_default)
           .placeholder(R.mipmap.ic_chat_default)
           .into(mItemChat);
       mItemChatUsername.setText(
-          l.mVCardRealm.getNickName() == null || Objects.equals(l.mVCardRealm.getNickName(), "") ? StringSplitUtil.splitPrefix(l.mVCardRealm.getJid()) : l.mVCardRealm.getNickName());
+          l.mContactRealm.getNickName() == null || Objects.equals(l.mContactRealm.getNickName(), "")
+              ? StringSplitUtil.splitPrefix(l.mContactRealm.getUserId())
+              : l.mContactRealm.getNickName());
     }
   }
 }

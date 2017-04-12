@@ -15,7 +15,9 @@ import butterknife.ButterKnife;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ChatBaseViewHolder;
+import tech.jiangtao.support.ui.model.type.TransportType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
+import tech.jiangtao.support.ui.utils.ResourceAddress;
 import tech.jiangtao.support.ui.view.ImageDialogManager;
 
 /**

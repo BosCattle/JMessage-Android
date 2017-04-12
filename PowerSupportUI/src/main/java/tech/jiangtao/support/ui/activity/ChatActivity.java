@@ -10,7 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import tech.jiangtao.support.kit.realm.VCardRealm;
+import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.fragment.ChatFragment;
@@ -18,10 +18,10 @@ import tech.jiangtao.support.ui.fragment.ChatFragment;
 public class ChatActivity extends BaseActivity {
 
   public static final String TAG = ChatActivity.class.getSimpleName();
-  public static final String VCARD = "vCard";
+  public static final String VCARD = "contact";
   @BindView(R2.id.tv_toolbar) TextView mTvToolbar;
   @BindView(R2.id.toolbar) Toolbar mToolbar;
-  private VCardRealm mVCardRealm;
+  private ContactRealm mContactRealm;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -35,7 +35,7 @@ public class ChatActivity extends BaseActivity {
   }
 
   private void init() {
-    mVCardRealm = getIntent().getParcelableExtra(VCARD);
+    mContactRealm = getIntent().getParcelableExtra(VCARD);
     buildFragment();
     setUpToolbar();
   }
@@ -45,7 +45,7 @@ public class ChatActivity extends BaseActivity {
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
     ChatFragment fragment = ChatFragment.newInstance();
     Bundle bundle = new Bundle();
-    bundle.putParcelable(VCARD, mVCardRealm);
+    bundle.putParcelable(VCARD, mContactRealm);
     fragment.setArguments(bundle);
     fragmentTransaction.add(R.id.chat_func_detail, fragment);
     fragmentTransaction.commit();
@@ -53,16 +53,18 @@ public class ChatActivity extends BaseActivity {
 
   public void setUpToolbar() {
     mToolbar.setTitle("");
-    mTvToolbar.setText(mVCardRealm!=null&&mVCardRealm.getNickName() != null ? mVCardRealm.getNickName() : "");
+    mTvToolbar.setText(
+        mContactRealm != null && mContactRealm.getNickName() != null ? mContactRealm.getNickName()
+            : "");
     setSupportActionBar(mToolbar);
     mToolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
     mToolbar.setNavigationOnClickListener(
         v -> ActivityCompat.finishAfterTransition(ChatActivity.this));
   }
 
-  public static void startChat(Activity activity, VCardRealm jid) {
+  public static void startChat(Activity activity, ContactRealm mContactRealm) {
     Intent intent = new Intent(activity, ChatActivity.class);
-    intent.putExtra(VCARD, jid);
+    intent.putExtra(VCARD, mContactRealm);
     activity.startActivity(intent);
   }
 }

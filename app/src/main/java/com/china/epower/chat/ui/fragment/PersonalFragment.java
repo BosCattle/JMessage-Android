@@ -20,7 +20,7 @@ import com.china.epower.chat.ui.adapter.PersonalDataAdapter;
 import com.china.epower.chat.ui.pattern.ConstructListData;
 import com.china.epower.chat.utils.RecyclerViewUtils;
 
-import com.china.epower.chat.utils.ResourceAddress;
+import tech.jiangtao.support.ui.utils.ResourceAddress;
 import com.google.gson.Gson;
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
@@ -28,12 +28,8 @@ import net.grandcentrix.tray.core.ItemNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.Realm;
-import io.realm.RealmResults;
 import tech.jiangtao.support.kit.callback.DisconnectCallBack;
 import tech.jiangtao.support.kit.init.SupportIM;
-import tech.jiangtao.support.kit.realm.VCardRealm;
-import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.fragment.BaseFragment;
 import tech.jiangtao.support.ui.model.User;
 import tech.jiangtao.support.ui.model.type.TransportType;
@@ -78,7 +74,7 @@ public class PersonalFragment extends BaseFragment implements EasyViewHolder.OnI
     mAppPreferences = new AppPreferences(getContext());
     try {
       Gson gson = new Gson();
-      mUser = gson.fromJson(mAppPreferences.getString(SupportIM.USER),User.class);
+      mUser = gson.fromJson(mAppPreferences.getString(SupportIM.USER), User.class);
       mAppPreferences.getString(SupportIM.USER);
     } catch (ItemNotFoundException e) {
       e.printStackTrace();
@@ -109,10 +105,9 @@ public class PersonalFragment extends BaseFragment implements EasyViewHolder.OnI
     mData.add(new ConstructListData.Builder().type(ListDataType.TAG_SHADOW).build());
     mData.add(new ConstructListData.Builder().type(ListDataType.TAG_HEAD)
         .tag(TAG_HEAD)
-        .image(
-            mUser != null && mUser.avatar != null ? ResourceAddress.url(mUser.avatar, TransportType.AVATAR) : null)
-        .username(mUser.nickName != null ? mUser.nickName
-            : "用户名")
+        .image(mUser != null && mUser.avatar != null ? ResourceAddress.url(mUser.avatar,
+            TransportType.AVATAR) : null)
+        .username(mUser.nickName != null ? mUser.nickName : "用户名")
         .nickname("个性签名...")
         .arrowIcon(R.mipmap.ic_arrow)
         .build());
@@ -157,8 +152,7 @@ public class PersonalFragment extends BaseFragment implements EasyViewHolder.OnI
   @OnClick(R.id.login_button) public void onClick(View v) {
     XMPPService.disConnect(() -> LoginActivity.startLogin(getActivity()));
     XMPPService.disConnect(new DisconnectCallBack() {
-      @Override
-      public void disconnectFinish() {
+      @Override public void disconnectFinish() {
 
       }
     });

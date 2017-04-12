@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,8 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.kevin.library.widget.CleanDialog;
 import com.kevin.library.widget.builder.IconFlag;
-import com.kevin.library.widget.builder.NegativeClickListener;
-import com.kevin.library.widget.builder.PositiveClickListener;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -37,9 +34,9 @@ import java.util.List;
 
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
+import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
-import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
@@ -133,10 +130,10 @@ public class ChatListFragment extends BaseFragment
         frameImage(false);
         SessionRealm messageRealm = it.next();
         //这儿需要查一下MessageRealm和VCardRealm;
-        RealmResults<VCardRealm> vCardRealms = realm.where(VCardRealm.class)
-            .equalTo("jid", StringSplitUtil.splitDivider(messageRealm.getVcard_id()))
+        RealmResults<ContactRealm> vCardRealms = realm.where(ContactRealm.class)
+            .equalTo("userId", StringSplitUtil.splitDivider(messageRealm.getVcard_id()))
             .findAll();
-        VCardRealm vCardRealm = new VCardRealm();
+        ContactRealm vCardRealm = new ContactRealm();
         if (vCardRealms.size() != 0) {
           vCardRealm = vCardRealms.first();
         }
@@ -192,10 +189,10 @@ public class ChatListFragment extends BaseFragment
           frameImage(false);
           SessionRealm messageRealm = iterator.next();
           //这儿需要查一下MessageRealm和VCardRealm;
-          RealmResults<VCardRealm> vCardRealms = realm.where(VCardRealm.class)
+          RealmResults<ContactRealm> vCardRealms = realm.where(ContactRealm.class)
               .equalTo("jid", StringSplitUtil.splitDivider(messageRealm.getVcard_id()))
               .findAll();
-          VCardRealm vCardRealm = new VCardRealm();
+          ContactRealm vCardRealm = new ContactRealm();
           if (vCardRealms.size() != 0) {
             vCardRealm = vCardRealms.first();
           }
@@ -255,10 +252,10 @@ public class ChatListFragment extends BaseFragment
     //获得每一项的用户信息,
     LogUtils.d(TAG, "onItemClick: 点击了第" + position + "项");
     SessionListMessage messageRealm = mSessionMessage.get(position);
-    RealmResults<VCardRealm> vCardRealms = mRealm.where(VCardRealm.class)
+    RealmResults<ContactRealm> vCardRealms = mRealm.where(ContactRealm.class)
         .equalTo("jid", StringSplitUtil.splitDivider(messageRealm.userJid))
         .findAll();
-    VCardRealm vCardRealm = new VCardRealm();
+    ContactRealm vCardRealm = new ContactRealm();
     if (vCardRealms.size() != 0) {
       vCardRealm = vCardRealms.first();
     }

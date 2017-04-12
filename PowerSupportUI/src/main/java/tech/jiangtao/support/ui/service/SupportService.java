@@ -81,7 +81,7 @@ import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateParam;
 import tech.jiangtao.support.kit.eventbus.muc.model.GroupRequestParam;
 import tech.jiangtao.support.kit.eventbus.muc.model.InviteParam;
 import tech.jiangtao.support.kit.init.SupportIM;
-import tech.jiangtao.support.kit.realm.VCardRealm;
+import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.PinYinUtils;
@@ -365,7 +365,6 @@ public class SupportService extends Service
       mAppPreferences.put("username", username);
       mAppPreferences.put("password", password);
       HermesEventBus.getDefault().postSticky(new LoginCallbackEvent("登录成功", null));
-      getRoster(new ContactEvent());
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
         super.call(throwable);
@@ -566,42 +565,6 @@ public class SupportService extends Service
         HermesEventBus.getDefault().post(new RegisterResult(null, throwable.getMessage()));
       }
     });
-  }
-
-  //获取网络通讯录
-  @Subscribe(threadMode = ThreadMode.MAIN) public void getRoster(ContactEvent event) {
-    mRoster = Roster.getInstanceFor(mXMPPConnection);
-    mVCardManager = VCardManager.getInstanceFor(mXMPPConnection);
-    Collection<RosterEntry> entries = mRoster.getEntries();
-    LogUtils.d(TAG, "getContact:获取到我的好友数量" + entries.size());
-    Set<RosterEntry> set = new HashSet<>();
-    set.addAll(entries);
-    for (RosterEntry en : set) {
-      LogUtils.d(TAG, "updateContact: " + en.getUser());
-      Observable.create((Observable.OnSubscribe<VCard>) subscriber -> {
-        try {
-          subscriber.onNext(mVCardManager.loadVCard(en.getUser()));
-        } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
-          e.printStackTrace();
-          subscriber.onError(e);
-          if (e instanceof SmackException.NotConnectedException) connect(true);
-        }
-      }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(vCard -> {
-        //更新本地数据库
-        LogUtils.d(TAG, "getRoster: vcard" + vCard.getField("avatar"));
-        LogUtils.d(TAG, "getRoster: 打印出各自的jid" + vCard.getFrom());
-        LogUtils.d(TAG, "getRoster: " + en.getName());
-        HermesEventBus.getDefault()
-            .post(new VCardRealm(StringSplitUtil.splitDivider(vCard.getFrom()), en.getName(),
-                vCard.getField("avatar"), PinYinUtils.getPinyinFirstLetter(en.getName()),
-                PinYinUtils.ccs2Pinyin(en.getName()), true));
-      }, new ErrorAction() {
-        @Override public void call(Throwable throwable) {
-          super.call(throwable);
-          LogUtils.d(TAG, "call:获取通讯录发生错误 " + throwable.toString());
-        }
-      });
-    }
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void queryUser(QueryUser user) {

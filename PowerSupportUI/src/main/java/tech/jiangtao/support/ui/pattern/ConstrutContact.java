@@ -4,7 +4,7 @@ import android.support.annotation.DrawableRes;
 
 import java.util.List;
 
-import tech.jiangtao.support.kit.realm.VCardRealm;
+import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.ui.model.type.ContactType;
 
 /**
@@ -21,28 +21,28 @@ public class ConstrutContact {
   public ContactType mType;
   public @DrawableRes int mId;
   public String mTitle;
-  public VCardRealm mVCardRealm;
   public Object mObject;
   public List<Object> mDatas;
   public String mSubtitle;
+  public ContactRealm mContactRealm;
 
   public static class Builder {
     public ContactType type;
     public @DrawableRes int id;
     public String title;
-    public VCardRealm vCardRealm;
     public Object object;
     public List<Object> datas;
     public String subtitle;
+    public ContactRealm contactRealm;
     public ConstrutContact build(){
       ConstrutContact contact = new ConstrutContact();
       contact.mType = type;
       contact.mId = id;
       contact.mTitle = title;
-      contact.mVCardRealm = vCardRealm;
       contact.mObject = object;
       contact.mDatas = datas;
       contact.mSubtitle = subtitle;
+      contact.mContactRealm = contactRealm;
       return contact;
     }
 
@@ -61,10 +61,6 @@ public class ConstrutContact {
       return this;
     }
 
-    public Builder vCardRealm(VCardRealm realm){
-      this.vCardRealm = realm;
-      return this;
-    }
 
     public Builder object(Object object){
       this.object = object;
@@ -78,6 +74,11 @@ public class ConstrutContact {
 
     public Builder subtitle(String title){
       this.subtitle = title;
+      return this;
+    }
+
+    public Builder contactRealm(ContactRealm contactRealm){
+      this.contactRealm = contactRealm;
       return this;
     }
 

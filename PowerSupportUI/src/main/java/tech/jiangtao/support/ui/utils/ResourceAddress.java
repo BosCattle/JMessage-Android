@@ -1,4 +1,4 @@
-package com.china.epower.chat.utils;
+package tech.jiangtao.support.ui.utils;
 
 import tech.jiangtao.support.ui.BuildConfig;
 import tech.jiangtao.support.ui.model.type.TransportType;

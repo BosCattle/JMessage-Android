@@ -14,8 +14,8 @@ android {
     versionCode 1
     versionName "1.0"
     resValue "string", "tray__authority", "${applicationId}.tray"
-    buildConfigField("String", "RESOURCE_ADDRESS", "\"http://192.168.3.4:9090/resource/\"")
-    buildConfigField("String", "API_ADDRESS", "\"http://192.168.3.4:9090/tigase/\"")
+    buildConfigField("String", "RESOURCE_ADDRESS", "\"http://192.168.43.164:9090/resource/\"")
+    buildConfigField("String", "API_ADDRESS", "\"http://192.168.43.164:9090/tigase/\"")
   }
   buildTypes {
     release {

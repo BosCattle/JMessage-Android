@@ -4,7 +4,6 @@ package tech.jiangtao.support.kit.realm;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-// TODO: 03/01/2017 会话结构表 
 public class SessionRealm extends RealmObject {
 
     @PrimaryKey

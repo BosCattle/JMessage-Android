@@ -40,84 +40,77 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  **/
 public class AllInvitedActivity extends BaseActivity {
 
-    public static final String NEW_FLAG = "add_friend";
-    private static final String TAG =AllInvitedActivity.class.getName() ;
-    @BindView(R2.id.tv_toolbar)
-    TextView mTvToolbar;
-    @BindView(R2.id.toolbar)
-    Toolbar mToolbar;
-    @BindView(R2.id.new_friend_notice)
-    TextView mNewFriendNotice;
-    @BindView(R2.id.new_friend_page)
-    RecyclerView mNewFriendPage;
-    private BaseEasyAdapter mBaseEasyAdapter;
-    private UserServiceApi mUserServiceApi;
-    private AppPreferences mAppPreferences;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_friend);
-        ButterKnife.bind(this);
-        if (!HermesEventBus.getDefault().isRegistered(this)) {
-            HermesEventBus.getDefault().register(this);
-        }
-        setUpToolbar();
-        setUpAdapter();
-        mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
-        mAppPreferences=new AppPreferences(this);
-        String userId= null;
-        try {
-            userId = mAppPreferences.getString("userJid");
-        } catch (ItemNotFoundException e) {
-            e.printStackTrace();
-        }
-        mUserServiceApi.getAllInvite(StringSplitUtil.splitDivider(userId))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(list -> {
-                    for (InvitedInfo info : list) {
-                        mBaseEasyAdapter.add(info);
-                    }
-                    mBaseEasyAdapter.notifyDataSetChanged();
-                }, new ErrorAction() {
-                    @Override public void call(Throwable throwable) {
-                        super.call(throwable);
-                        LogUtils.d(TAG, throwable.getLocalizedMessage());
-                    }
-                });
-    }
+  public static final String NEW_FLAG = "add_friend";
+  private static final String TAG = AllInvitedActivity.class.getName();
+  @BindView(R2.id.tv_toolbar) TextView mTvToolbar;
+  @BindView(R2.id.toolbar) Toolbar mToolbar;
+  @BindView(R2.id.new_friend_notice) TextView mNewFriendNotice;
+  @BindView(R2.id.new_friend_page) RecyclerView mNewFriendPage;
+  private BaseEasyAdapter mBaseEasyAdapter;
+  private UserServiceApi mUserServiceApi;
+  private AppPreferences mAppPreferences;
 
-    private void setUpAdapter() {
-        mBaseEasyAdapter = new BaseEasyAdapter(this);
-        mBaseEasyAdapter.viewHolderFactory(new BaseEasyViewHolderFactory(this));
-        mBaseEasyAdapter.bind(InvitedInfo.class, NewFriendViewHolder.class);
-        mNewFriendPage.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mNewFriendPage.setAdapter(mBaseEasyAdapter);
-        FriendRequest request = getIntent().getParcelableExtra(NEW_FLAG);
-        if (request != null) {
-            mBaseEasyAdapter.add(request);
-        }
-        mBaseEasyAdapter.notifyDataSetChanged();
+  @Override protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_new_friend);
+    ButterKnife.bind(this);
+    setUpToolbar();
+    setUpAdapter();
+    mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
+    mAppPreferences = new AppPreferences(this);
+    String userId = null;
+    try {
+      userId = mAppPreferences.getString("userJid");
+    } catch (ItemNotFoundException e) {
+      e.printStackTrace();
     }
+    mUserServiceApi.getAllInvite(StringSplitUtil.splitDivider(userId))
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(list -> {
+          for (InvitedInfo info : list) {
+            mBaseEasyAdapter.add(info);
+          }
+          mBaseEasyAdapter.notifyDataSetChanged();
+        }, new ErrorAction() {
+          @Override public void call(Throwable throwable) {
+            super.call(throwable);
+            LogUtils.d(TAG, throwable.getLocalizedMessage());
+          }
+        });
+  }
 
-    public void setUpToolbar() {
-        if (mToolbar != null) {
-            mToolbar.setTitle("");
-            mTvToolbar.setText("新朋友");
-            setSupportActionBar(mToolbar);
-            mToolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
-            mToolbar.setNavigationOnClickListener(
-                    v -> ActivityCompat.finishAfterTransition(AllInvitedActivity.this));
-        }
+  private void setUpAdapter() {
+    mBaseEasyAdapter = new BaseEasyAdapter(this);
+    mBaseEasyAdapter.viewHolderFactory(new BaseEasyViewHolderFactory(this));
+    mBaseEasyAdapter.bind(InvitedInfo.class, NewFriendViewHolder.class);
+    mNewFriendPage.setLayoutManager(
+        new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    mNewFriendPage.setAdapter(mBaseEasyAdapter);
+    FriendRequest request = getIntent().getParcelableExtra(NEW_FLAG);
+    if (request != null) {
+      mBaseEasyAdapter.add(request);
     }
+    mBaseEasyAdapter.notifyDataSetChanged();
+  }
 
-    @Override
-    protected boolean preSetupToolbar() {
-        return false;
+  public void setUpToolbar() {
+    if (mToolbar != null) {
+      mToolbar.setTitle("");
+      mTvToolbar.setText("新朋友");
+      setSupportActionBar(mToolbar);
+      mToolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
+      mToolbar.setNavigationOnClickListener(
+          v -> ActivityCompat.finishAfterTransition(AllInvitedActivity.this));
     }
+  }
 
-    public static void startAllInviteInfo(Context context) {
-        Intent intent = new Intent(context, AllInvitedActivity.class);
-        context.startActivity(intent);
-    }
+  @Override protected boolean preSetupToolbar() {
+    return false;
+  }
+
+  public static void startAllInviteInfo(Context context) {
+    Intent intent = new Intent(context, AllInvitedActivity.class);
+    context.startActivity(intent);
+  }
 }

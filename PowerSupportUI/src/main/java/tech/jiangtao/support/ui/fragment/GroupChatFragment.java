@@ -75,9 +75,7 @@ import tech.jiangtao.support.ui.model.Message;
 import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.model.group.Groups;
 import tech.jiangtao.support.ui.model.type.MessageType;
-import tech.jiangtao.support.ui.model.type.TransportType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
-import tech.jiangtao.support.ui.utils.CommonUtils;
 import tech.jiangtao.support.ui.view.AudioManager;
 import tech.jiangtao.support.ui.view.AudioRecordButton;
 import tech.jiangtao.support.ui.viewholder.ExtraFuncViewHolder;
@@ -210,8 +208,7 @@ public class GroupChatFragment extends BaseFragment
         } else if (messageRealmse.get(i)
             .getMessageType()
             .equals(MessageExtensionType.IMAGE.toString())) {
-          message1.fimePath = CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(),
-              messageRealmse.get(i).getTextMessage());
+          message1.fimePath = messageRealmse.get(i).getTextMessage();
           message1.type = FileType.TYPE_IMAGE;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
               .avatar(mOwn != null && mOwn.avatar != null ? mOwn.avatar : null)
@@ -220,8 +217,7 @@ public class GroupChatFragment extends BaseFragment
         } else if (messageRealmse.get(i)
             .getMessageType()
             .equals(MessageExtensionType.AUDIO.toString())) {
-          message1.fimePath = CommonUtils.getUrl(MessageExtensionType.AUDIO.toString(),
-              messageRealmse.get(i).getTextMessage());
+          message1.fimePath = messageRealmse.get(i).getTextMessage();
           message1.time = 10;
           message1.type = FileType.TYPE_AUDIO;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
@@ -242,8 +238,7 @@ public class GroupChatFragment extends BaseFragment
         } else if (messageRealmse.get(i)
             .getMessageType()
             .equals(MessageExtensionType.IMAGE.toString())) {
-          message1.fimePath = CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(),
-              messageRealmse.get(i).getTextMessage());
+          message1.fimePath = messageRealmse.get(i).getTextMessage();
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
               .avatar(mGroup.avatar)
               .message(message1)
@@ -251,8 +246,7 @@ public class GroupChatFragment extends BaseFragment
         } else if (messageRealmse.get(i)
             .getMessageType()
             .equals(MessageExtensionType.AUDIO.toString())) {
-          message1.fimePath = CommonUtils.getUrl(MessageExtensionType.AUDIO.toString(),
-              messageRealmse.get(i).getTextMessage());
+          message1.fimePath = messageRealmse.get(i).getTextMessage();
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
               .avatar(mGroup.avatar)
               .message(message1)
@@ -361,16 +355,14 @@ public class GroupChatFragment extends BaseFragment
               .message(message1)
               .build());
         } else if (message.messageType == MessageExtensionType.IMAGE) {
-          message1.fimePath =
-              CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(), message.message);
+          message1.fimePath = message.message;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
               .avatar(mGroup.avatar)
               .message(message1)
               .build());
           LogUtils.d(TAG, "onMessage: " + message1);
         } else if (message.messageType == MessageExtensionType.AUDIO) {
-          message1.fimePath =
-              CommonUtils.getUrl(MessageExtensionType.AUDIO.toString(), message.message);
+          message1.fimePath = message.message;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
               .avatar(mGroup.avatar)
               .message(message1)
@@ -387,16 +379,14 @@ public class GroupChatFragment extends BaseFragment
               .message(message2)
               .build());
         } else if (message.messageType == MessageExtensionType.IMAGE) {
-          message2.fimePath =
-              CommonUtils.getUrl(MessageExtensionType.IMAGE.toString(), message.message);
+          message2.fimePath = message.message;
           message2.type = FileType.TYPE_IMAGE;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
               .avatar(mOwn != null && mOwn.avatar != null ? mOwn.avatar : null)
               .message(message2)
               .build());
         } else if (message.messageType == MessageExtensionType.AUDIO) {
-          message2.fimePath =
-              CommonUtils.getUrl(MessageExtensionType.AUDIO.toString(), message.message);
+          message2.fimePath = message.message;
           message2.time = 10;
           message2.type = FileType.TYPE_AUDIO;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)

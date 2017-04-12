@@ -15,6 +15,8 @@ import android.os.Parcelable;
 public class User extends Account implements Parcelable {
   public String relative;
   public String inviteType;
+  public Integer onlineStatus;
+
   public User() {
   }
 
@@ -26,12 +28,14 @@ public class User extends Account implements Parcelable {
     super.writeToParcel(dest, flags);
     dest.writeString(this.relative);
     dest.writeString(this.inviteType);
+    dest.writeValue(this.onlineStatus);
   }
 
   protected User(Parcel in) {
     super(in);
     this.relative = in.readString();
     this.inviteType = in.readString();
+    this.onlineStatus = (Integer) in.readValue(Integer.class.getClassLoader());
   }
 
   public static final Creator<User> CREATOR = new Creator<User>() {

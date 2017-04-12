@@ -34,9 +34,9 @@ import tech.jiangtao.support.kit.eventbus.FriendRequest;
 import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
+import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
-import tech.jiangtao.support.kit.realm.VCardRealm;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
@@ -153,7 +153,7 @@ public class XMPPService extends Service {
               message.thread, message.message, message.messageType, false, message.messageAuthor));
       //查询VCard
       Intent intent = null;
-      RealmResults<VCardRealm> results = mRealm.where(VCardRealm.class)
+      RealmResults<ContactRealm> results = mRealm.where(ContactRealm.class)
           .equalTo("jid", StringSplitUtil.splitDivider(message.userJID))
           .findAll();
       if (results.size() != 0) {
@@ -196,40 +196,6 @@ public class XMPPService extends Service {
     i.putExtra(AllInvitedActivity.NEW_FLAG, request);
     showOnesNotification(request.username, "有一个添加好友请求", i);
     mWakelock.release();
-  }
-
-  @Subscribe(threadMode = ThreadMode.MAIN) public void onVCardRealmMessage(VCardRealm realmObject) {
-    if (mRealm == null || mRealm.isClosed()) {
-      mRealm = Realm.getDefaultInstance();
-    }
-    mRealm.executeTransactionAsync(realm -> {
-      RealmResults<VCardRealm> result = realm.where(VCardRealm.class)
-          .equalTo("jid", StringSplitUtil.splitDivider(realmObject.getJid()))
-          .findAll();
-      if (result.size() != 0) {
-        VCardRealm realmUpdate = result.first();
-        realmUpdate.setNickName(realmObject.getNickName());
-        realmUpdate.setSex(realmObject.getSex());
-        realmUpdate.setSubject(realmObject.getSubject());
-        realmUpdate.setOffice(realmObject.getOffice());
-        realmUpdate.setEmail(realmObject.getEmail());
-        realmUpdate.setPhoneNumber(realmObject.getPhoneNumber());
-        realmUpdate.setSignature(realmObject.getSignature());
-        realmUpdate.setAvatar(realmObject.getAvatar());
-        if (realmUpdate.getNickName() != null) {
-          realmUpdate.setAllPinYin(realmObject.getAllPinYin());
-          realmUpdate.setFirstLetter(realmObject.getFirstLetter());
-        }
-        realmUpdate.setFriend(true);
-        LogUtils.d(TAG, "onVCardRealmMessage:更新数据 " + realmUpdate.toString());
-      } else {
-        LogUtils.d(TAG, "onVCardRealmMessage: " + realmObject.toString());
-        realm.copyToRealm(realmObject);
-      }
-    }, () -> {
-      LogUtils.d(TAG, "onSuccess: 执行成功");
-      //发送消息更新，应该也可以不用发送消息
-    }, error -> LogUtils.d(TAG, "onError: 通讯录后台执行错误，错误信息" + error.getMessage()));
   }
 
   /**
@@ -289,8 +255,8 @@ public class XMPPService extends Service {
   @Subscribe(threadMode = ThreadMode.MAIN) public void messageAchieve(
       DeleteVCardRealm deleteVCardRealm) {
     mRealm.executeTransactionAsync(realm -> {
-      RealmResults<VCardRealm> results =
-          realm.where(VCardRealm.class).equalTo("jid", deleteVCardRealm.jid).findAll();
+      RealmResults<ContactRealm> results =
+          realm.where(ContactRealm.class).equalTo("userId", deleteVCardRealm.jid).findAll();
       if (results.size() != 0) {
         results.deleteAllFromRealm();
       }

@@ -28,7 +28,7 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import tech.jiangtao.support.kit.eventbus.ContactEvent;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
-import tech.jiangtao.support.kit.realm.VCardRealm;
+import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
@@ -62,7 +62,7 @@ public class ContactFragment extends BaseFragment
   private ContactAdapter mBaseEasyAdapter;
   private List<ConstrutContact> mConstrutContact;
   private Realm mRealm;
-  private RealmResults<VCardRealm> mVCardRealmRealmResults;
+  private RealmResults<ContactRealm> mVCardRealmRealmResults;
 
   public static ContactFragment newInstance() {
     return new ContactFragment();
@@ -73,7 +73,7 @@ public class ContactFragment extends BaseFragment
     super.onCreateView(inflater, container, savedInstanceState);
     setRefresh();
     setAdapter();
-    getContact();
+    //getContact();
     return getView();
   }
 
@@ -112,32 +112,32 @@ public class ContactFragment extends BaseFragment
       mRealm = Realm.getDefaultInstance();
     }
     mRealm.executeTransaction(realm -> {
-      RealmQuery<VCardRealm> realmQuery = realm.where(VCardRealm.class);
+      RealmQuery<ContactRealm> realmQuery = realm.where(ContactRealm.class);
       mVCardRealmRealmResults = realmQuery.equalTo("friend", true).findAllSorted("firstLetter");
       buildHeadView();
       LogUtils.d(TAG, "getContact: 打印出好友的数量:" + mVCardRealmRealmResults.size());
       for (int i = 0; i < mVCardRealmRealmResults.size(); i++) {
         if (mVCardRealmRealmResults != null
             && mVCardRealmRealmResults.get(i) != null
-            && mVCardRealmRealmResults.get(i).getFirstLetter() != null) {
+            && mVCardRealmRealmResults.get(i).getNickName() != null) {
           if (i == 0) {
             mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
-                .title(mVCardRealmRealmResults.get(i).getFirstLetter())
+                .title(mVCardRealmRealmResults.get(i).getNickName())
                 .build());
           }
           if (i > 0) {
-            if (mVCardRealmRealmResults.get(i - 1).getFirstLetter() != null
+            if (mVCardRealmRealmResults.get(i - 1).getNickName() != null
                 && !(mVCardRealmRealmResults.get(i - 1)
-                .getFirstLetter()
-                .equals(mVCardRealmRealmResults.get(i).getFirstLetter()))) {
+                .getNickName()
+                .equals(mVCardRealmRealmResults.get(i).getNickName()))) {
               mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
-                  .title(mVCardRealmRealmResults.get(i).getFirstLetter())
+                  .title(mVCardRealmRealmResults.get(i).getNickName())
                   .build());
             }
           }
         }
         mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL)
-            .vCardRealm(mVCardRealmRealmResults.get(i))
+            .object(mVCardRealmRealmResults.get(i))
             .build());
       }
       mBaseEasyAdapter.notifyDataSetChanged();
@@ -145,25 +145,25 @@ public class ContactFragment extends BaseFragment
         mConstrutContact.clear();
         buildHeadView();
         for (int i = 0; i < mVCardRealmRealmResults.size(); i++) {
-          if (mVCardRealmRealmResults.get(i).getFirstLetter() != null) {
+          if (mVCardRealmRealmResults.get(i).getNickName() != null) {
             if (i == 0) {
               mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
-                  .title(mVCardRealmRealmResults.get(i).getFirstLetter())
+                  .title(mVCardRealmRealmResults.get(i).getNickName())
                   .build());
             }
             if (i > 0) {
-              if (mVCardRealmRealmResults.get(i - 1).getFirstLetter() != null
+              if (mVCardRealmRealmResults.get(i - 1).getNickName() != null
                   && !mVCardRealmRealmResults.get(i - 1)
-                  .getFirstLetter()
-                  .equals(mVCardRealmRealmResults.get(i).getFirstLetter())) {
+                  .getNickName()
+                  .equals(mVCardRealmRealmResults.get(i).getNickName())) {
                 mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
-                    .title(mVCardRealmRealmResults.get(i).getFirstLetter())
+                    .title(mVCardRealmRealmResults.get(i).getNickName())
                     .build());
               }
             }
           }
           mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL)
-              .vCardRealm(mVCardRealmRealmResults.get(i))
+              .object(mVCardRealmRealmResults.get(i))
               .build());
         }
         mBaseEasyAdapter.notifyDataSetChanged();
@@ -189,7 +189,7 @@ public class ContactFragment extends BaseFragment
 
   @Override public void onDestroyView() {
     super.onDestroyView();
-    mRealm.close();
+    //mRealm.close();
   }
 
   public void buildHeadView() {
@@ -210,7 +210,8 @@ public class ContactFragment extends BaseFragment
     } else if (position == 1) {
       AllInvitedActivity.startAllInviteInfo(getContext());
     } else {
-      ChatActivity.startChat((Activity) getContext(), mConstrutContact.get(position).mVCardRealm);
+      ChatActivity.startChat((Activity) getContext(),
+          (ContactRealm) mConstrutContact.get(position).mObject);
     }
   }
 
@@ -222,8 +223,8 @@ public class ContactFragment extends BaseFragment
     LogUtils.d(TAG, "onItemLongClick: ");
     ConstrutContact construtContact = mConstrutContact.get(position);
     if (position >= 2) {
-      deleteFriends(construtContact.mVCardRealm.getJid(),
-          construtContact.mVCardRealm.getNickName());
+      deleteFriends(((ContactRealm)(construtContact.mObject)).getUserId(),
+          ((ContactRealm) (construtContact.mObject)).getNickName());
     }
     return false;
   }
@@ -231,12 +232,10 @@ public class ContactFragment extends BaseFragment
   public void deleteFriends(String userjid, String username) {
     final CleanDialog dialog = new CleanDialog.Builder(getContext()).iconFlag(IconFlag.WARN)
         .negativeButton("取消", Dialog::dismiss)
-        .positiveButton("删除", new PositiveClickListener() {
-          @Override public void onPositiveClickListener(CleanDialog dialog1) {
-            //删除用户,远程删除用户，成功后，从会话中列表中，删除用户
-            HermesEventBus.getDefault().post(new RosterEntryBus(userjid));
-            dialog1.dismiss();
-          }
+        .positiveButton("删除", dialog1 -> {
+          //删除用户,远程删除用户，成功后，从会话中列表中，删除用户
+          HermesEventBus.getDefault().post(new RosterEntryBus(userjid));
+          dialog1.dismiss();
         })
         .title("确认删除好友" + username + "吗?")
         .negativeTextColor(Color.WHITE)
