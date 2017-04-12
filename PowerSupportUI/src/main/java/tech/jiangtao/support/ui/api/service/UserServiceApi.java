@@ -8,6 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
+import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.ui.model.User;
 import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.model.group.Groups;
@@ -26,7 +27,7 @@ public interface UserServiceApi {
      */
     @FormUrlEncoded
     @POST("user/queryUserList")
-    Observable<List<Friends>> queryUserList(@Field("userId") String userId);
+    Observable<List<ContactRealm>> queryUserList(@Field("userId") String userId);
 
     /**
      * 获取我加入的所有群组

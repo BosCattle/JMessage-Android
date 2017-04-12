@@ -18,7 +18,6 @@ import com.google.gson.Gson;
 import com.kevin.library.widget.CleanDialog;
 import com.kevin.library.widget.SideBar;
 import com.kevin.library.widget.builder.IconFlag;
-import com.kevin.library.widget.builder.PositiveClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +31,6 @@ import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import tech.jiangtao.support.kit.eventbus.ContactEvent;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
@@ -63,7 +61,7 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  **/
 public class ContactFragment extends BaseFragment
     implements EasyViewHolder.OnItemClickListener, EasyViewHolder.OnItemLongClickListener,
-    EasyViewHolder.OnItemLeftScrollListener,SwipeRefreshLayout.OnRefreshListener {
+    EasyViewHolder.OnItemLeftScrollListener, SwipeRefreshLayout.OnRefreshListener {
 
   @BindView(R2.id.contact_list) RecyclerView mContactList;
   @BindView(R2.id.sidebar) SideBar mSideBar;
@@ -85,31 +83,53 @@ public class ContactFragment extends BaseFragment
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     super.onCreateView(inflater, container, savedInstanceState);
-    init();
     setRefresh();
     setAdapter();
-    //getContact();
+    pullDatas();
     return getView();
   }
 
-  private void init() {
+  private void pullDatas() {
     mAppPreferences = new AppPreferences(getContext());
+    if (mRealm == null || mRealm.isClosed()) {
+      mRealm = Realm.getDefaultInstance();
+    }
     // 获取自己的信息
     try {
       String userGson = mAppPreferences.getString(SupportIM.USER);
-      mSelfUser = new Gson().fromJson(userGson,User.class);
+      mSelfUser = new Gson().fromJson(userGson, User.class);
     } catch (ItemNotFoundException e) {
       e.printStackTrace();
     }
     mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
-    mUserServiceApi.queryUserList(mSelfUser.userId).subscribeOn(Schedulers.io()).observeOn(
-        AndroidSchedulers.mainThread()).subscribe(friends -> {
-        // 填充好友信息到界面-->将数据放到数据库
-    }, new ErrorAction() {
-      @Override public void call(Throwable throwable) {
-        super.call(throwable);
-        Log.d(TAG, "call: "+throwable.getMessage());
-        // 从数据库中取数据，放到界面上
+    mUserServiceApi.queryUserList(mSelfUser.userId)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(messageRealm -> {
+          // 1. 填充好友信息到界面
+          buildHeadView();
+          for (ContactRealm realm : messageRealm) {
+            mConstrutContact.add(
+                new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL).object(realm).build());
+          }
+          mBaseEasyAdapter.notifyDataSetChanged();
+          buildSideBar();
+          // -->将数据放到数据库
+          writeToRealm(messageRealm);
+        }, new ErrorAction() {
+          @Override public void call(Throwable throwable) {
+            super.call(throwable);
+            Log.d(TAG, "call: " + throwable.getMessage());
+            // 从数据库中取数据，放到界面上
+            getContact();
+          }
+        });
+  }
+
+  public void writeToRealm(List<ContactRealm> contactRealms) {
+    mRealm.executeTransaction(new Realm.Transaction() {
+      @Override public void execute(Realm realm) {
+        realm.copyToRealmOrUpdate(contactRealms);
       }
     });
   }
@@ -137,7 +157,6 @@ public class ContactFragment extends BaseFragment
     mContactList.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     mContactList.setAdapter(mBaseEasyAdapter);
-    HermesEventBus.getDefault().post(new ContactEvent());
   }
 
   @Override public void onResume() {
@@ -145,12 +164,10 @@ public class ContactFragment extends BaseFragment
   }
 
   private void getContact() {
-    if (mRealm == null || mRealm.isClosed()) {
-      mRealm = Realm.getDefaultInstance();
-    }
     mRealm.executeTransaction(realm -> {
       RealmQuery<ContactRealm> realmQuery = realm.where(ContactRealm.class);
-      mVCardRealmRealmResults = realmQuery.equalTo("friend", true).findAllSorted("firstLetter");
+      // 查询,根据nickName进行排序
+      mVCardRealmRealmResults = realmQuery.findAll().sort("nickName");
       buildHeadView();
       LogUtils.d(TAG, "getContact: 打印出好友的数量:" + mVCardRealmRealmResults.size());
       for (int i = 0; i < mVCardRealmRealmResults.size(); i++) {
@@ -260,13 +277,13 @@ public class ContactFragment extends BaseFragment
     LogUtils.d(TAG, "onItemLongClick: ");
     ConstrutContact construtContact = mConstrutContact.get(position);
     if (position >= 2) {
-      deleteFriends(((ContactRealm)(construtContact.mObject)).getUserId(),
+      deleteFriends(((ContactRealm) (construtContact.mObject)).getUserId(),
           ((ContactRealm) (construtContact.mObject)).getNickName());
     }
     return false;
   }
 
-  public void deleteFriends(String userjid, String username) {
+  @Deprecated public void deleteFriends(String userjid, String username) {
     final CleanDialog dialog = new CleanDialog.Builder(getContext()).iconFlag(IconFlag.WARN)
         .negativeButton("取消", Dialog::dismiss)
         .positiveButton("删除", dialog1 -> {
@@ -290,6 +307,6 @@ public class ContactFragment extends BaseFragment
       @Override public void run() {
         mSwipeRefreshLayout.setRefreshing(false);
       }
-    },3000);
+    }, 3000);
   }
 }

@@ -2,6 +2,7 @@ package tech.jiangtao.support.kit.init;
 
 import android.content.Context;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -23,6 +24,8 @@ public class SupportIM {
   public static final String USER = "user";
   public static final String USER_ID = "userId";
   public static final String USER_NAME = "nickName";
+
+  // TODO: 12/04/2017 realm版本升级配置
   private static void initialize(Context context){
     Realm.init(context);
     HermesEventBus.getDefault().init(context);
