@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
+import tech.jiangtao.support.kit.util.PinYinUtils;
 
 /**
  * Class: ContactRealm </br>
@@ -26,6 +27,15 @@ import io.realm.annotations.RealmClass;
   public String relative;
   public String inviteType;
   public Integer onlineStatus;
+  public String pinYin;
+
+  public String getPinYin() {
+    return pinYin;
+  }
+
+  public void setPinYin(String pinYin) {
+    this.pinYin = PinYinUtils.ccs2Pinyin(pinYin);
+  }
 
   public int getUid() {
     return uid;
@@ -107,6 +117,9 @@ import io.realm.annotations.RealmClass;
     this.onlineStatus = onlineStatus;
   }
 
+  public ContactRealm() {
+  }
+
   @Override public int describeContents() {
     return 0;
   }
@@ -122,9 +135,7 @@ import io.realm.annotations.RealmClass;
     dest.writeString(this.relative);
     dest.writeString(this.inviteType);
     dest.writeValue(this.onlineStatus);
-  }
-
-  public ContactRealm() {
+    dest.writeString(this.pinYin);
   }
 
   protected ContactRealm(Parcel in) {
@@ -138,6 +149,7 @@ import io.realm.annotations.RealmClass;
     this.relative = in.readString();
     this.inviteType = in.readString();
     this.onlineStatus = (Integer) in.readValue(Integer.class.getClassLoader());
+    this.pinYin = in.readString();
   }
 
   public static final Creator<ContactRealm> CREATOR = new Creator<ContactRealm>() {

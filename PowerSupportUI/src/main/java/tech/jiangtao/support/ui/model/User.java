@@ -15,7 +15,7 @@ import android.os.Parcelable;
 public class User extends Account implements Parcelable {
   public String relative;
   public String inviteType;
-  public Integer onlineStatus;
+  public int onlineStatus;
 
   public User() {
   }

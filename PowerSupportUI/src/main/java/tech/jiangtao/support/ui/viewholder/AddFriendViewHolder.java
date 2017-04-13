@@ -13,6 +13,8 @@ import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.model.User;
+import tech.jiangtao.support.ui.model.type.TransportType;
+import tech.jiangtao.support.ui.utils.ResourceAddress;
 
 /**
  * Class: AddFriendViewHolder </br>
@@ -27,7 +29,6 @@ public class AddFriendViewHolder extends EasyViewHolder<User> {
   @BindView(R2.id.add_friend_img) ImageView mAddFriendImg;
   @BindView(R2.id.add_friend_username) TextView mAddFriendUsername;
   @BindView(R2.id.add_friend_email) TextView mAddFriendEmail;
-  @BindView(R2.id.add_friend_submit) TextView mAddFriendSubmit;
 
   private Context mContext;
 
@@ -40,16 +41,13 @@ public class AddFriendViewHolder extends EasyViewHolder<User> {
   @Override public void bindTo(int position, User user) {
     if (user != null) {
       Glide.with(mContext)
-          .load(user.avatar)
+          .load(ResourceAddress.url(user.avatar, TransportType.AVATAR))
           .centerCrop()
           .placeholder(R.mipmap.ic_chat_default)
           .crossFade()
           .into(mAddFriendImg);
       mAddFriendUsername.setText(user.nickName);
-      mAddFriendSubmit.setOnClickListener(v -> {
-        //跳转页面
-
-      });
+      mAddFriendEmail.setText(user.signature);
     }
   }
 }

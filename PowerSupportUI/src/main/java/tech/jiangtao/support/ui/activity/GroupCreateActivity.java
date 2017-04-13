@@ -27,6 +27,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.callback.GroupCreateCallBack;
 import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateParam;
+import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.userdata.SimpleCGroup;
 import tech.jiangtao.support.kit.util.ErrorAction;
@@ -77,7 +78,7 @@ public class GroupCreateActivity extends BaseActivity
     mAppPreferences = new AppPreferences(this);
     String name = null;
     try {
-      name = StringSplitUtil.splitDivider(mAppPreferences.getString("userJid"));
+      name = StringSplitUtil.splitDivider(mAppPreferences.getString(SupportIM.USER_ID));
 //      StringSplitUtil.splitPrefix(StringSplitUtil.splitDivider(mAppPreferences.getString("userJid")))="vurtex"
     } catch (ItemNotFoundException e) {
       e.printStackTrace();
@@ -90,7 +91,7 @@ public class GroupCreateActivity extends BaseActivity
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(list -> {
-          for (ContactRealm friends : list) {
+          for (Friends friends : list) {
             ConstrutContact build = new ConstrutContact.Builder().build();
             build.mType = ContactType.TYPE_CHOICE_MEMBER_CHOICE;
             build.mObject = friends;

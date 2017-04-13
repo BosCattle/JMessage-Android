@@ -21,6 +21,7 @@ import com.kevin.library.widget.builder.IconFlag;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -34,6 +35,7 @@ import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
+import tech.jiangtao.support.kit.util.ContactComparator;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.PinYinUtils;
@@ -85,7 +87,8 @@ public class ContactFragment extends BaseFragment
       Bundle savedInstanceState) {
     super.onCreateView(inflater, container, savedInstanceState);
     setRefresh();
-    setAdapter();
+    buildSideBar();
+    setAdapter() ;
     return getView();
   }
 
@@ -102,14 +105,17 @@ public class ContactFragment extends BaseFragment
       e.printStackTrace();
     }
     mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
-    mUserServiceApi.queryUserList(mSelfUser.userId)
+    mUserServiceApi.queryUserFriends(mSelfUser.userId)
         .subscribeOn(Schedulers.io())
-        .doOnSubscribe(()-> SimpleHUD.showLoadingMessage(getContext(),"正在加载...",false))
+        .doOnSubscribe(() -> SimpleHUD.showLoadingMessage(getContext(), "正在加载...", false))
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(messageRealm -> {
           // 1. 填充好友信息到界面
           SimpleHUD.dismiss();
+          mConstrutContact.clear();
+          mBaseEasyAdapter.clear();
           buildHeadView();
+          Collections.sort(messageRealm, new ContactComparator());
           for (int i = 0; i < messageRealm.size(); i++) {
             if (messageRealm.get(i) != null && messageRealm.get(i).getNickName() != null) {
               if (i == 0) {
@@ -134,7 +140,6 @@ public class ContactFragment extends BaseFragment
                 .build());
           }
           mBaseEasyAdapter.notifyDataSetChanged();
-          buildSideBar();
           // -->将数据放到数据库
           writeToRealm(messageRealm);
         }, new ErrorAction() {
@@ -149,11 +154,7 @@ public class ContactFragment extends BaseFragment
   }
 
   public void writeToRealm(List<ContactRealm> contactRealms) {
-    mRealm.executeTransaction(new Realm.Transaction() {
-      @Override public void execute(Realm realm) {
-        realm.copyToRealmOrUpdate(contactRealms);
-      }
-    });
+    mRealm.executeTransaction(realm -> realm.copyToRealmOrUpdate(contactRealms));
   }
 
   private void setRefresh() {
@@ -188,39 +189,18 @@ public class ContactFragment extends BaseFragment
 
   private void getContact() {
     mRealm.executeTransaction(realm -> {
+      mConstrutContact.clear();
+      mBaseEasyAdapter.clear();
+      buildHeadView();
       RealmQuery<ContactRealm> realmQuery = realm.where(ContactRealm.class);
       // 查询,根据nickName进行排序
-      RealmResults<ContactRealm> contactRealms = realmQuery.findAll().sort("nickName");
-      buildHeadView();
-      for (int i = 0; i < contactRealms.size(); i++) {
-        if (contactRealms.get(i) != null && contactRealms.get(i).getNickName() != null) {
-          if (i == 0) {
-            mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
-                .title(PinYinUtils.getPinyinFirstLetter(
-                    PinYinUtils.ccs2Pinyin(contactRealms.get(i).getNickName())))
-                .build());
-          }
-          if (i > 0) {
-            if (contactRealms.get(i - 1).getNickName() != null
-                && !(PinYinUtils.getPinyinFirstLetter(contactRealms.get(i - 1).getNickName())
-                .equals(PinYinUtils.getPinyinFirstLetter(contactRealms.get(i).getNickName())))) {
-              mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
-                  .title(PinYinUtils.getPinyinFirstLetter(
-                      PinYinUtils.ccs2Pinyin(contactRealms.get(i).getNickName())))
-                  .build());
-            }
-          }
-        }
-        mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL)
-            .contactRealm(contactRealms.get(i))
-            .build());
-      }
-      mBaseEasyAdapter.notifyDataSetChanged();
-      contactRealms.addChangeListener(element -> {
-        mConstrutContact.clear();
-        buildHeadView();
-        for (int i = 0; i < contactRealms.size(); i++) {
-          if (contactRealms.get(i).getNickName() != null) {
+      RealmResults<ContactRealm> contactRealms = realmQuery.findAllSorted(SupportIM.PINYIN);
+      if (contactRealms.size() != 0) {
+        //Collections.sort(contactRealms, new ContactComparator());
+        for (int i = 0; i < contactRealms.size(); i++)
+        {
+          if (contactRealms.get(i) != null && contactRealms.get(i).getNickName() != null)
+          {
             if (i == 0) {
               mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
                   .title(PinYinUtils.getPinyinFirstLetter(
@@ -229,8 +209,8 @@ public class ContactFragment extends BaseFragment
             }
             if (i > 0) {
               if (contactRealms.get(i - 1).getNickName() != null
-                  && !PinYinUtils.getPinyinFirstLetter(contactRealms.get(i - 1).getNickName())
-                  .equals(PinYinUtils.getPinyinFirstLetter(contactRealms.get(i).getNickName()))) {
+                  && !(PinYinUtils.getPinyinFirstLetter(contactRealms.get(i - 1).getNickName())
+                  .equals(PinYinUtils.getPinyinFirstLetter(contactRealms.get(i).getNickName())))) {
                 mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
                     .title(PinYinUtils.getPinyinFirstLetter(
                         PinYinUtils.ccs2Pinyin(contactRealms.get(i).getNickName())))
@@ -242,10 +222,9 @@ public class ContactFragment extends BaseFragment
               .contactRealm(contactRealms.get(i))
               .build());
         }
-        mBaseEasyAdapter.notifyDataSetChanged();
-      });
+      }
+      mBaseEasyAdapter.notifyDataSetChanged();
     });
-    buildSideBar();
   }
 
   public void buildSideBar() {
@@ -298,8 +277,8 @@ public class ContactFragment extends BaseFragment
     LogUtils.d(TAG, "onItemLongClick: ");
     ConstrutContact construtContact = mConstrutContact.get(position);
     if (position >= 2) {
-      deleteFriends(((ContactRealm) (construtContact.mObject)).getUserId(),
-          ((ContactRealm) (construtContact.mObject)).getNickName());
+      deleteFriends((construtContact.mContactRealm).getUserId(),
+          (construtContact.mContactRealm).getNickName());
     }
     return false;
   }

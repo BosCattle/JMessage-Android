@@ -1,6 +1,8 @@
 package tech.jiangtao.support.ui.utils;
 
+import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.ui.BuildConfig;
+import tech.jiangtao.support.ui.SupportUI;
 import tech.jiangtao.support.ui.model.type.TransportType;
 
 /**
@@ -19,15 +21,15 @@ public class ResourceAddress {
       return null;
     }
     if (type == TransportType.AVATAR) {
-      return BuildConfig.RESOURCE_ADDRESS + "avatar/" + resourceId;
+      return SupportIM.RESOURCE_ADDRESS + "avatar/" + resourceId;
     } else if (type == TransportType.IMAGE) {
-      return BuildConfig.RESOURCE_ADDRESS + "image/" + resourceId;
+      return SupportIM.RESOURCE_ADDRESS + "image/" + resourceId;
     } else if (type == TransportType.AUDIO) {
-      return BuildConfig.RESOURCE_ADDRESS + "audio/" + resourceId;
+      return SupportIM.RESOURCE_ADDRESS + "audio/" + resourceId;
     } else if (type == TransportType.VIDEO) {
-      return BuildConfig.RESOURCE_ADDRESS + "video/" + resourceId;
+      return SupportIM.RESOURCE_ADDRESS + "video/" + resourceId;
     } else if (type == TransportType.FILE) {
-      return BuildConfig.RESOURCE_ADDRESS + "file/" + resourceId;
+      return SupportIM.RESOURCE_ADDRESS + "file/" + resourceId;
     }
     return null;
   }

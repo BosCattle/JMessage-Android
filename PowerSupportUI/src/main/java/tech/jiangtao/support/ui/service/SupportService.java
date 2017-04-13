@@ -63,6 +63,7 @@ import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.AddRosterEvent;
 import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
 import tech.jiangtao.support.kit.eventbus.FriendRequest;
+import tech.jiangtao.support.kit.eventbus.InviteFriend;
 import tech.jiangtao.support.kit.eventbus.InvitedFriendToGroup;
 import tech.jiangtao.support.kit.eventbus.LoginCallbackEvent;
 import tech.jiangtao.support.kit.eventbus.LoginParam;
@@ -90,6 +91,10 @@ import tech.jiangtao.support.ui.SupportAIDLConnection;
 import tech.jiangtao.support.ui.api.ApiService;
 import tech.jiangtao.support.ui.api.service.AccountServiceApi;
 import tech.jiangtao.support.ui.api.service.UserServiceApi;
+import tech.jiangtao.support.ui.model.Account;
+import tech.jiangtao.support.ui.model.User;
+import tech.jiangtao.support.ui.model.group.Groups;
+import tech.jiangtao.support.ui.model.group.InvitedInfo;
 import tech.jiangtao.support.ui.reciever.TickBroadcastReceiver;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
@@ -462,10 +467,10 @@ public class SupportService extends Service
       String to = mFriendsPresence.getTo();//接收方
       if (mFriendsPresence.getType().equals(Presence.Type.subscribe)) {
         // 收到好友请求,现在的代码是自动自动接受好友请求
-        LogUtils.d(TAG, "addFriend: 接受到好友请求");
         HermesEventBus.getDefault()
-            .post(new FriendRequest(mFriendsPresence.getFrom(),
-                StringSplitUtil.splitPrefix(mFriendsPresence.getFrom()), ""));
+            .post(new FriendRequest(StringSplitUtil.splitDivider(from),
+                StringSplitUtil.splitPrefix(from), null));
+        LogUtils.d(TAG, "addFriend: 接受到好友请求");
       } else if (mFriendsPresence.getType().equals(Presence.Type.unsubscribe)) {
         // 不同意添加好友
         LogUtils.d(TAG, "addFriend: 对方不同意好友请求");

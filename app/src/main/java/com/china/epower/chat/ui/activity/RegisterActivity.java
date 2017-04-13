@@ -38,13 +38,11 @@ public class RegisterActivity extends BaseActivity {
   @BindView(R.id.register_retry_password) AppCompatEditText mRegisterRetryPassword;
   @BindView(R.id.register_button) AppCompatButton mRegisterButton;
   private AccountServiceApi mAccountServiceApi;
-  private AppPreferences mAppPreferences;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_register);
     setUpToolbar();
-    mAppPreferences = new AppPreferences(this);
   }
 
   public void setUpToolbar() {
@@ -60,9 +58,6 @@ public class RegisterActivity extends BaseActivity {
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(user -> {
           SimpleHUD.dismiss();
-          // TODO: 11/04/2017  注册成功后需要在service中获取一次数据并且保存
-          Gson gson = new Gson();
-          mAppPreferences.put(SupportIM.USER, gson.toJson(user));
           LoginActivity.startLogin(this);
         }, new ErrorAction() {
           @Override public void call(Throwable throwable) {

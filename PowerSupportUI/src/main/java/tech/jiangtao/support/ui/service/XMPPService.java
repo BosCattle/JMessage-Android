@@ -45,6 +45,7 @@ import tech.jiangtao.support.ui.SupportAIDLConnection;
 import tech.jiangtao.support.ui.activity.AllInvitedActivity;
 import tech.jiangtao.support.ui.activity.ChatActivity;
 import tech.jiangtao.support.ui.fragment.ChatFragment;
+import tech.jiangtao.support.ui.model.group.InvitedInfo;
 import tech.jiangtao.support.ui.reciever.TickBroadcastReceiver;
 import tech.jiangtao.support.ui.utils.ServiceUtils;
 import xiaofei.library.hermeseventbus.HermesEventBus;
@@ -180,7 +181,7 @@ public class XMPPService extends Service {
     mWakelock.acquire();
     Intent i = new Intent(this, AllInvitedActivity.class);
     i.putExtra(AllInvitedActivity.NEW_FLAG, request);
-    showOnesNotification(request.username, "有一个添加好友请求", i);
+    showOnesNotification(request.username, request.username+"请求添加你为好友.", i);
     mWakelock.release();
   }
 

@@ -23,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
@@ -73,7 +74,7 @@ public class GroupListActivity extends BaseActivity
     mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
     String name = null;
     try {
-      name = StringSplitUtil.splitDivider(mAppPreferences.getString("userJid"));
+      name = StringSplitUtil.splitDivider(mAppPreferences.getString(SupportIM.USER_ID));
     } catch (ItemNotFoundException e) {
       e.printStackTrace();
     }

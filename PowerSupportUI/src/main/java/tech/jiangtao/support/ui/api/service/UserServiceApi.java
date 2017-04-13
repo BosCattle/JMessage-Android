@@ -27,7 +27,14 @@ public interface UserServiceApi {
      */
     @FormUrlEncoded
     @POST("user/queryUserList")
-    Observable<List<ContactRealm>> queryUserList(@Field("userId") String userId);
+    Observable<List<Friends>> queryUserList(@Field("userId") String userId);
+
+    /**
+     * 和上边一样
+     */
+    @FormUrlEncoded
+    @POST("user/queryUserList")
+    Observable<List<ContactRealm>> queryUserFriends(@Field("userId") String userId);
 
     /**
      * 获取我加入的所有群组

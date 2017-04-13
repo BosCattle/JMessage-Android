@@ -44,7 +44,6 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  * Date: 10/12/2016 9:58 PM</br>
  * Update: 10/12/2016 9:58 PM </br>
  **/
-// TODO: 09/04/2017 FindBug
 public class AddFriendFragment extends BaseFragment
     implements EasyViewHolder.OnItemClickListener, SearchView.OnQueryTextListener {
 
@@ -52,7 +51,6 @@ public class AddFriendFragment extends BaseFragment
   @BindView(R2.id.friend_list) RecyclerView mFriendContaner;
   private BaseEasyAdapter mBaseEasyAdapter;
   private ArrayList<User> mList = new ArrayList<>();
-  private SimpleUserQuery mQuery;
 
   public static AddFriendFragment newInstance() {
     return new AddFriendFragment();
@@ -126,23 +124,18 @@ public class AddFriendFragment extends BaseFragment
     UserServiceApi mUserServiceApi =
         ApiService.getInstance().createApiService(UserServiceApi.class);
     if (query != null && query != "" && query.trim() != "") {
-      //      mQuery = new SimpleUserQuery();
-      //      mQuery.startQuery(new QueryUser(query), this);
       mUserServiceApi.getQueryAccount(query)
           .subscribeOn(Schedulers.io())
           .doOnSubscribe(()->SimpleHUD.showLoadingMessage(getContext(), "正在查询", false))
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe(list -> {
             {
-              //TODO 查找出来的用户列表
               SimpleHUD.dismiss();
               mBaseEasyAdapter.clear();
               mList.clear();
               mList.addAll(list);
               mBaseEasyAdapter.addAll(list);
               mBaseEasyAdapter.notifyDataSetChanged();
-              mQuery.destroy();
-              SimpleHUD.dismiss();
             }
           }, new ErrorAction() {
             @Override public void call(Throwable throwable) {

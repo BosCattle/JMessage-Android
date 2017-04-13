@@ -37,16 +37,4 @@
       android:layout_marginLeft="8dp"
       />
 
-  <TextView
-      android:id="@+id/add_friend_submit"
-      android:textColor="@color/white"
-      android:background="@drawable/shapr_add_friend"
-      android:text="@string/friends_add"
-      android:layout_marginRight="16dp"
-      android:layout_centerVertical="true"
-      android:layout_alignParentRight="true"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      />
-
 </RelativeLayout>

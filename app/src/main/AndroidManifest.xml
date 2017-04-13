@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.china.epower.chat"
-    android:versionName="1.1"
+    android:versionName="1.1.1"
     android:versionCode="1">
 
   <uses-sdk tools:overrideLibrary="work.wanghao.simplehud,com.kevin.library"/>

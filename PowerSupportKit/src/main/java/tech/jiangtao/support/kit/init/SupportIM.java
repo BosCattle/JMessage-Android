@@ -21,6 +21,8 @@ public class SupportIM {
   public static String mResource;
   public static String mHost;
   public static int mPort;
+  public static String RESOURCE_ADDRESS;
+  public static String API_ADDRESS;
   public static final String USER = "user";
   public static final String USER_ID = "userId";
   public static final String USER_NAME = "nickName";
@@ -31,6 +33,7 @@ public class SupportIM {
   public static final String RECEIVER = "receiver";
   public static final String SENDERFRIENDID = "senderFriendId";
   public static final String MESSAGE_ID = "id";
+  public static final String PINYIN = "pinYin";
 
   // TODO: 12/04/2017 realm版本升级配置
   private static void initialize(Context context){
@@ -53,8 +56,10 @@ public class SupportIM {
     mHost = host;
   }
 
-  public static void initialize(Context context,String serviceName,String resource,String host,int port){
+  public static void initialize(Context context,String serviceName,String resource,String host,int port,String resourceAddress,String apiAddress){
     initialize(context,serviceName,resource,host);
+    RESOURCE_ADDRESS = resourceAddress;
+    API_ADDRESS = apiAddress;
     mPort = port;
   }
 }

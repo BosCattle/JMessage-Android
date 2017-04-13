@@ -28,6 +28,11 @@ public class StringSplitUtil {
     return jid;
   }
 
+  /**
+   * 用户名
+   * @param jidResource
+   * @return
+   */
   public static String splitPrefix(String jidResource) {
     String jid;
     if (jidResource != null && jidResource.contains("@")) {

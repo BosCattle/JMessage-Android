@@ -16,6 +16,8 @@ import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.model.group.InvitedInfo;
+import tech.jiangtao.support.ui.model.type.TransportType;
+import tech.jiangtao.support.ui.utils.ResourceAddress;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -36,27 +38,24 @@ public class NewFriendViewHolder extends EasyViewHolder<InvitedInfo> {
 
   public NewFriendViewHolder(Context context, ViewGroup parent) {
     super(context, parent, R.layout.list_item_new_friend);
-    ButterKnife.bind(this,itemView);
+    ButterKnife.bind(this, itemView);
     mContext = context;
   }
 
-
-  @Override
-  public void bindTo(int position, InvitedInfo info) {
+  @Override public void bindTo(int position, InvitedInfo info) {
     Glide.with(mContext)
-            .load(info.avatar != null ? Uri.parse(info.avatar) : null)
-            .centerCrop()
-            .error(R.mipmap.ic_chat_default)
-            .placeholder(R.mipmap.ic_chat_default)
-            .into(mNewFriendAvatar);
-    mNewFriendNickname.setText(info.inviteType.equals("FRIEND")?info.nickName+"请求添加您为好友。":info.nickName+"邀请你进入**群");
-      //TODO 缺少邀请要加入的群名
-    mNewFriendAgree.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        HermesEventBus.getDefault().post(new RecieveFriend(true));
-        mNewFriendAgree.setText("成功");
-        mNewFriendAgree.setEnabled(false);
-      }
+        .load(info.account.avatar != null ? ResourceAddress.url(info.account.avatar,
+            TransportType.AVATAR) : null)
+        .centerCrop()
+        .error(R.mipmap.ic_chat_default)
+        .placeholder(R.mipmap.ic_chat_default)
+        .into(mNewFriendAvatar);
+    mNewFriendNickname.setText(info.account.nickName + "请求添加您为好友。");
+    //TODO 缺少邀请要加入的群名
+    mNewFriendAgree.setOnClickListener(v -> {
+      HermesEventBus.getDefault().post(new RecieveFriend(true));
+      mNewFriendAgree.setText("成功");
+      mNewFriendAgree.setEnabled(false);
     });
     mNewFriendRefused.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
