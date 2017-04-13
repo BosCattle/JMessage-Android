@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.china.epower.chat"
-    android:versionName="1.1.1"
+    android:versionName="1.1.2"
     android:versionCode="1">
 
   <uses-sdk tools:overrideLibrary="work.wanghao.simplehud,com.kevin.library"/>
@@ -29,6 +29,16 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
       tools:ignore="AllowBackup">
+
+    <provider android:name="android.support.v4.content.FileProvider"
+        android:authorities="provider_paths"
+        android:exported="false"
+        android:grantUriPermissions="true">
+
+      <meta-data
+          android:name="android.support.FILE_PROVIDER_PATHS"
+          android:resource="@xml/provider_paths"/>
+    </provider>
 
     <meta-data
         android:name="PGYER_APPID"
