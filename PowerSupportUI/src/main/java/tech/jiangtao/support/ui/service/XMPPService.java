@@ -34,6 +34,7 @@ import tech.jiangtao.support.kit.eventbus.FriendRequest;
 import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
+import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
@@ -97,47 +98,32 @@ public class XMPPService extends Service {
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onRecieveMessage(RecieveMessage message) {
     //先保存会话表，然后保存到消息记录表
-    // TODO: 2017/1/5 此处已经把我绕晕了,保存数据库有问题
     if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
     mRealm.executeTransactionAsync(realm -> {
       RealmResults<SessionRealm> result = null;
-      if (message.messageAuthor == MessageAuthor.FRIEND) {
-        result = realm.where(SessionRealm.class)
-            .equalTo("user_from", StringSplitUtil.splitDivider(message.userJID))
-            .equalTo("user_to", StringSplitUtil.splitDivider(message.ownJid))
-            .findAll();
-      } else {
-        result = realm.where(SessionRealm.class)
-            .equalTo("user_from", StringSplitUtil.splitDivider(message.ownJid))
-            .equalTo("user_to", StringSplitUtil.splitDivider(message.userJID))
-            .findAll();
-      }
+      result = realm.where(SessionRealm.class)
+          .equalTo(SupportIM.SENDERFRIENDID, StringSplitUtil.splitDivider(message.userJID))
+          .findAll();
+      // 保存到SessionRealm
       SessionRealm sessionRealm;
       if (result.size() != 0) {
         sessionRealm = result.first();
-        sessionRealm.setMessage_id(message.id);
+        sessionRealm.setMessageId(message.id);
         sessionRealm.setUnReadCount(sessionRealm.getUnReadCount() + 1);
       } else {
         sessionRealm = new SessionRealm();
-        sessionRealm.setSession_id(UUID.randomUUID().toString());
-        if (message.messageAuthor == MessageAuthor.FRIEND) {
-          sessionRealm.setUser_from(StringSplitUtil.splitDivider(message.userJID));
-          sessionRealm.setUser_to(StringSplitUtil.splitDivider(message.ownJid));
-          sessionRealm.setVcard_id(StringSplitUtil.splitDivider(message.userJID));
-        } else {
-          sessionRealm.setUser_from(StringSplitUtil.splitDivider(message.ownJid));
-          sessionRealm.setUser_to(StringSplitUtil.splitDivider(message.userJID));
-          sessionRealm.setVcard_id(StringSplitUtil.splitDivider(message.ownJid));
-        }
-        sessionRealm.setMessage_id(message.id);
+        sessionRealm.setSessionId(UUID.randomUUID().toString());
+        sessionRealm.setSenderFriendId(StringSplitUtil.splitDivider(message.userJID));
+        sessionRealm.setMessageId(message.id);
         sessionRealm.setUnReadCount(1);
       }
+      // ---> 保存到消息表
       MessageRealm messageRealm = new MessageRealm();
       messageRealm.setId(message.id);
-      messageRealm.setMainJID(StringSplitUtil.splitDivider(message.userJID));
-      messageRealm.setWithJID(StringSplitUtil.splitDivider(message.ownJid));
+      messageRealm.setSender(StringSplitUtil.splitDivider(message.userJID));
+      messageRealm.setReceiver(StringSplitUtil.splitDivider(message.ownJid));
       messageRealm.setTextMessage(message.message);
       messageRealm.setTime(null);
       messageRealm.setThread(message.thread);
@@ -154,11 +140,11 @@ public class XMPPService extends Service {
       //查询VCard
       Intent intent = null;
       RealmResults<ContactRealm> results = mRealm.where(ContactRealm.class)
-          .equalTo("jid", StringSplitUtil.splitDivider(message.userJID))
+          .equalTo("userId", StringSplitUtil.splitDivider(message.userJID))
           .findAll();
       if (results.size() != 0) {
         intent = new Intent(XMPPService.this, ChatActivity.class);
-        intent.putExtra(ChatActivity.VCARD, results.first());
+        intent.putExtra(SupportIM.VCARD, results.first());
       }
       LogUtils.d(TAG, "当前应用是否处于前台"
           + ServiceUtils.isApplicationBroughtToBackground(this.getApplicationContext())
@@ -252,7 +238,7 @@ public class XMPPService extends Service {
   /**
    * 删除用户，并且删除该用户的聊天用户
    */
-  @Subscribe(threadMode = ThreadMode.MAIN) public void messageAchieve(
+  @Deprecated @Subscribe(threadMode = ThreadMode.MAIN) public void messageAchieve(
       DeleteVCardRealm deleteVCardRealm) {
     mRealm.executeTransactionAsync(realm -> {
       RealmResults<ContactRealm> results =
@@ -279,7 +265,6 @@ public class XMPPService extends Service {
       callBack.disconnectFinish();
     });
   }
-
 
   /**
    * 保证连接的代码

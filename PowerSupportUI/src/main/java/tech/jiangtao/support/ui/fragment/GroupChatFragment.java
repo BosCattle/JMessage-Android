@@ -194,7 +194,7 @@ public class GroupChatFragment extends BaseFragment
         i < (messageRealmse.size() - (20 * (page - 1))); i++) {
       LogUtils.d(TAG, "updateItems: 打印出当前的i值:" + i);
       LogUtils.d(TAG, "updateItems: 打印出当前的page值:" + page);
-      if (StringSplitUtil.splitDivider(messageRealmse.get(i).getMainJID())
+      if (StringSplitUtil.splitDivider(messageRealmse.get(i).getSender())
           .equals(StringSplitUtil.splitDivider(userJid))) {
         //自己的消息
         Message message1 = new Message();
@@ -403,9 +403,9 @@ public class GroupChatFragment extends BaseFragment
   public void addMessageToAdapter(MessageRealm realm) {
     Message message1 = new Message();
     message1.paramContent = realm.getTextMessage();
-    LogUtils.d(TAG, "addMessageToAdapter: " + realm.getMainJID());
+    LogUtils.d(TAG, "addMessageToAdapter: " + realm.getSender());
     LogUtils.d(TAG, "addMessageToAdapter-----: " + mGroup.groupUid);
-    if (mGroup != null && realm.getMainJID().equals(mGroup.groupUid)) {
+    if (mGroup != null && realm.getSender().equals(mGroup.groupUid)) {
       mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
           .avatar(mGroup != null ? mGroup.groupUid : null)
           .message(message1)

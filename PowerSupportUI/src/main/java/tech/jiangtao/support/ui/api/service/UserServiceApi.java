@@ -70,5 +70,6 @@ public interface UserServiceApi {
      * @return
      */
     @POST("user/queryUser")
+    @FormUrlEncoded
     Observable<User> selfAccount(@Field("userId") String userId);
 }

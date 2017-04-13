@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import java.io.File;
 
 import butterknife.BindView;
@@ -27,7 +28,7 @@ import tech.jiangtao.support.ui.view.ImageDialogManager;
  **/
 
 public class ChatImageOtherViewHolder extends ChatBaseViewHolder {
-  @BindView(R2.id.item_chat_avatar) ImageView mItemChatAvatar;
+  @BindView(R2.id.item_chat_avatar_mine_circle) CircleImageView mItemChatAvatar;
   @BindView(R2.id.item_chat_img) ImageView mItemChatImg;
   private Context mContext;
 

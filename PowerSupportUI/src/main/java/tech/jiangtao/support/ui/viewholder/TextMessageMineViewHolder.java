@@ -5,41 +5,42 @@ import android.net.Uri;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 import com.bumptech.glide.Glide;
-
+import de.hdodenhof.circleimageview.CircleImageView;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ChatBaseViewHolder;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
 
 /**
- * Created by jiang on 2016/11/14.
- * 文字消息
- * note: 自己发送的
- */
+ * Class: TextMessageMineViewHolder </br>
+ * Description: 自己发送的文字消息 </br>
+ * Creator: kevin </br>
+ * Email: jiangtao103cp@gmail.com </br>
+ * Date: 13/04/2017 1:51 PM</br>
+ * Update: 13/04/2017 1:51 PM </br>
+ **/
 
 public class TextMessageMineViewHolder extends ChatBaseViewHolder {
-  @BindView(R2.id.item_chat_avatar) ImageView mItemChatAvatar;
+  @BindView(R2.id.item_chat_avatar_w) CircleImageView mItemChatAvatarW;
   @BindView(R2.id.item_chat_message) TextView mItemChatMessage;
   private Context mContext;
 
   public TextMessageMineViewHolder(Context context, ViewGroup parent) {
     super(context, parent, R.layout.list_item_message_mine);
-    ButterKnife.bind(this, itemView);
     mContext = context;
+    ButterKnife.bind(this,itemView);
   }
 
   @Override public void bindTo(int position, ConstructMessage constructMessage) {
     Glide.with(mContext)
-        .load(Uri.parse(constructMessage.mAvatar!=null?constructMessage.mAvatar:""))
+        .load(Uri.parse(constructMessage.mAvatar != null ? constructMessage.mAvatar : ""))
         .centerCrop()
         .error(R.mipmap.ic_chat_default)
         .placeholder(R.mipmap.ic_chat_default)
-        .into(mItemChatAvatar);
+        .into(mItemChatAvatarW);
     mItemChatMessage.setText(constructMessage.mMessage.paramContent);
   }
 }

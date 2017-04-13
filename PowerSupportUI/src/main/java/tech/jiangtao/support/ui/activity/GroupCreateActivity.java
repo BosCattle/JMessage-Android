@@ -27,6 +27,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.callback.GroupCreateCallBack;
 import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateParam;
+import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.userdata.SimpleCGroup;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
@@ -89,7 +90,7 @@ public class GroupCreateActivity extends BaseActivity
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(list -> {
-          for (Friends friends : list) {
+          for (ContactRealm friends : list) {
             ConstrutContact build = new ConstrutContact.Builder().build();
             build.mType = ContactType.TYPE_CHOICE_MEMBER_CHOICE;
             build.mObject = friends;

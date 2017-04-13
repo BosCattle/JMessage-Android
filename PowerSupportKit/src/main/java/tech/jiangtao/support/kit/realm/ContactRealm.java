@@ -3,6 +3,8 @@ package tech.jiangtao.support.kit.realm;
 import android.os.Parcel;
 import android.os.Parcelable;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
 /**
  * Class: ContactRealm </br>
@@ -12,10 +14,9 @@ import io.realm.RealmObject;
  * Date: 12/04/2017 3:40 PM</br>
  * Update: 12/04/2017 3:40 PM </br>
  **/
+@RealmClass public class ContactRealm extends RealmObject implements Parcelable {
 
-public class ContactRealm extends RealmObject implements Parcelable {
-
-  public int uid;
+  @PrimaryKey public int uid;
   public int nid;
   public String userId;
   public String nickName;

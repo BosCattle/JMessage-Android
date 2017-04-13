@@ -29,7 +29,7 @@ public class SimpleLogin {
 
     public void startLogin(LoginParam param,LoginCallBack callBack){
         mLoginCallBack = callBack;
-        HermesEventBus.getDefault().post(param);
+        HermesEventBus.getDefault().postSticky(param);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

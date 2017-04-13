@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import tech.jiangtao.support.kit.init.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
@@ -18,7 +19,6 @@ import tech.jiangtao.support.ui.fragment.ChatFragment;
 public class ChatActivity extends BaseActivity {
 
   public static final String TAG = ChatActivity.class.getSimpleName();
-  public static final String VCARD = "contact";
   @BindView(R2.id.tv_toolbar) TextView mTvToolbar;
   @BindView(R2.id.toolbar) Toolbar mToolbar;
   private ContactRealm mContactRealm;
@@ -35,7 +35,7 @@ public class ChatActivity extends BaseActivity {
   }
 
   private void init() {
-    mContactRealm = getIntent().getParcelableExtra(VCARD);
+    mContactRealm = getIntent().getParcelableExtra(SupportIM.VCARD);
     buildFragment();
     setUpToolbar();
   }
@@ -45,7 +45,7 @@ public class ChatActivity extends BaseActivity {
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
     ChatFragment fragment = ChatFragment.newInstance();
     Bundle bundle = new Bundle();
-    bundle.putParcelable(VCARD, mContactRealm);
+    bundle.putParcelable(SupportIM.VCARD, mContactRealm);
     fragment.setArguments(bundle);
     fragmentTransaction.add(R.id.chat_func_detail, fragment);
     fragmentTransaction.commit();
@@ -64,7 +64,7 @@ public class ChatActivity extends BaseActivity {
 
   public static void startChat(Activity activity, ContactRealm mContactRealm) {
     Intent intent = new Intent(activity, ChatActivity.class);
-    intent.putExtra(VCARD, mContactRealm);
+    intent.putExtra(SupportIM.VCARD, mContactRealm);
     activity.startActivity(intent);
   }
 }

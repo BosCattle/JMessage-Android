@@ -44,13 +44,14 @@ public class IndexActivity extends BaseActivity implements ViewPager.OnPageChang
   private int preDotPosition = 0;//点的上一个位置
   private int mButtonHeight;
   private RxPermissions mRxPermissions;
-  private AppPreferences appPreferences = new AppPreferences(getContext());
+  private AppPreferences appPreferences ;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
         WindowManager.LayoutParams.FLAG_FULLSCREEN);
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_index);
+    appPreferences = new AppPreferences(getContext());
     ButterKnife.bind(this);
     initialize();
   }
@@ -189,11 +190,9 @@ public class IndexActivity extends BaseActivity implements ViewPager.OnPageChang
   class ViewAdapter extends PagerAdapter {
 
     private List<View> mList;
-    private Context mContext;
 
     public ViewAdapter(List<View> list, Context context) {
       mList = list;
-      mContext = context;
     }
 
     @Override public int getCount() {

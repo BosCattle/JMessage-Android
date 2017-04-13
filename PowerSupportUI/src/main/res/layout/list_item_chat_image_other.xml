@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/item_chat_avatar"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/item_chat_avatar_mine_circle"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_margin="8dp"
-        tools:src="@mipmap/ic_chat_default" />
+        tools:src="@mipmap/ic_chat_default"
+        />
 
     <ImageView
         android:maxWidth="150dp"
@@ -21,7 +22,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/item_chat_avatar"
+        android:layout_toRightOf="@+id/item_chat_avatar_mine_circle"
         android:background="@mipmap/ic_chat_message_other"
         android:paddingBottom="8dp"
         android:paddingLeft="@dimen/divider_normal_height"

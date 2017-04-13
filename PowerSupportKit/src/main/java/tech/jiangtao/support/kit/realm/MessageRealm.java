@@ -1,5 +1,7 @@
 package tech.jiangtao.support.kit.realm;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import java.sql.Date;
@@ -17,26 +19,25 @@ import java.sql.Date;
  * 1969-07-21T02:56:15Z
  **/
 
-public class MessageRealm extends RealmObject {
+public class MessageRealm extends RealmObject implements Parcelable {
 
   @PrimaryKey
   public String id;
   // message_from
-  public String mainJID;
+  public String sender;
   // message_to
-  public String withJID;
+  public String receiver;
   // 消息内容
   public String textMessage;
-  // TODO: 03/01/2017 暂时保留时间戳，备用
+  // 暂时保留时间戳，备用
   public java.util.Date time;
-  // // TODO: 03/01/2017 暂时保留，thread_id
+  // 暂时保留，thread_id
   public String thread;
   // 具体到聊天类型
   public String type;
   // 消息类型
   public String messageType;
-  // 消息状态
-  // TODO: 03/01/2017 true: 表示已读，false:表示未读
+  // 消息状态 true: 表示已读，false:表示未读
   public boolean messageStatus;
 
   public String getId() {
@@ -47,20 +48,20 @@ public class MessageRealm extends RealmObject {
     this.id = id;
   }
 
-  public String getMainJID() {
-    return mainJID;
+  public String getSender() {
+    return sender;
   }
 
-  public void setMainJID(String mainJID) {
-    this.mainJID = mainJID;
+  public void setSender(String sender) {
+    this.sender = sender;
   }
 
-  public String getWithJID() {
-    return withJID;
+  public String getReceiver() {
+    return receiver;
   }
 
-  public void setWithJID(String withJID) {
-    this.withJID = withJID;
+  public void setReceiver(String receiver) {
+    this.receiver = receiver;
   }
 
   public String getTextMessage() {
@@ -110,4 +111,46 @@ public class MessageRealm extends RealmObject {
   public void setMessageStatus(boolean messageStatus) {
     this.messageStatus = messageStatus;
   }
+
+  @Override public int describeContents() {
+    return 0;
+  }
+
+  @Override public void writeToParcel(Parcel dest, int flags) {
+    dest.writeString(this.id);
+    dest.writeString(this.sender);
+    dest.writeString(this.receiver);
+    dest.writeString(this.textMessage);
+    dest.writeLong(this.time != null ? this.time.getTime() : -1);
+    dest.writeString(this.thread);
+    dest.writeString(this.type);
+    dest.writeString(this.messageType);
+    dest.writeByte(this.messageStatus ? (byte) 1 : (byte) 0);
+  }
+
+  public MessageRealm() {
+  }
+
+  protected MessageRealm(Parcel in) {
+    this.id = in.readString();
+    this.sender = in.readString();
+    this.receiver = in.readString();
+    this.textMessage = in.readString();
+    long tmpTime = in.readLong();
+    this.time = tmpTime == -1 ? null : new java.util.Date(tmpTime);
+    this.thread = in.readString();
+    this.type = in.readString();
+    this.messageType = in.readString();
+    this.messageStatus = in.readByte() != 0;
+  }
+
+  public static final Creator<MessageRealm> CREATOR = new Creator<MessageRealm>() {
+    @Override public MessageRealm createFromParcel(Parcel source) {
+      return new MessageRealm(source);
+    }
+
+    @Override public MessageRealm[] newArray(int size) {
+      return new MessageRealm[size];
+    }
+  };
 }

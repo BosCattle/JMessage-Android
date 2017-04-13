@@ -232,7 +232,7 @@ public class SupportService extends Service
         String userJid = null;
         final AppPreferences appPreferences = new AppPreferences(getContext());
         try {
-          userJid = StringSplitUtil.splitDivider(appPreferences.getString("userJid"));
+          userJid = StringSplitUtil.splitDivider(appPreferences.getString(SupportIM.USER_ID));
         } catch (ItemNotFoundException e) {
           e.printStackTrace();
         }
@@ -325,8 +325,8 @@ public class SupportService extends Service
             LogUtils.d(TAG, "connect: 连接成功");
             mXMPPConnection = (XMPPTCPConnection) abstractXMPPConnection;
             try {
-              String username = mAppPreferences.getString("username");
-              String password = mAppPreferences.getString("password");
+              String username = mAppPreferences.getString(SupportIM.USER_REAL_NAME);
+              String password = mAppPreferences.getString(SupportIM.USER_PASSWORD);
               LogUtils.d(TAG, username);
               LogUtils.d(TAG, password);
               if (username != null
@@ -371,7 +371,8 @@ public class SupportService extends Service
           .subscribe(user -> {
             mAppPreferences.put(SupportIM.USER_ID, user.userId);
             mAppPreferences.put(SupportIM.USER_NAME, user.nickName);
-            mAppPreferences.put("password", password);
+            mAppPreferences.put(SupportIM.USER_REAL_NAME, username);
+            mAppPreferences.put(SupportIM.USER_PASSWORD, password);
             Gson gson = new Gson();
             String value = gson.toJson(user);
             mAppPreferences.put(SupportIM.USER, value);
@@ -381,7 +382,7 @@ public class SupportService extends Service
               super.call(throwable);
               LogUtils.d(TAG, "call: 登录失败" + throwable);
               HermesEventBus.getDefault()
-                  .post(new LoginCallbackEvent(null, throwable.getMessage()));
+                  .postSticky(new LoginCallbackEvent(null, throwable.getMessage()));
             }
           });
     }, new ErrorAction() {

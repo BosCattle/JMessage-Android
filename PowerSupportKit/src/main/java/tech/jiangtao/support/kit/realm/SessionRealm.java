@@ -1,69 +1,45 @@
 package tech.jiangtao.support.kit.realm;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class SessionRealm extends RealmObject {
+public class SessionRealm extends RealmObject implements Parcelable {
 
+    // 回话id
     @PrimaryKey
-    public String session_id;
-    public String user_from;
-    public String user_to;
-    public String vcard_id;
-    public String message_id;
+    public String sessionId;
+    //  回话对方id
+    public String senderFriendId;
+    // 消息id
+    public String messageId;
+    // 未读条数
     public int unReadCount;
 
-    public SessionRealm(){}
-
-    public SessionRealm(String session_id, String user_from, String user_to, String vcard_id,
-        String message_id, int unReadCount) {
-        this.session_id = session_id;
-        this.user_from = user_from;
-        this.user_to = user_to;
-        this.vcard_id = vcard_id;
-        this.message_id = message_id;
-        this.unReadCount = unReadCount;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public String getSession_id() {
-        return session_id;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
-    public void setSession_id(String session_id) {
-        this.session_id = session_id;
+    public String getSenderFriendId() {
+        return senderFriendId;
     }
 
-    public String getUser_from() {
-        return user_from;
+    public void setSenderFriendId(String senderFriendId) {
+        this.senderFriendId = senderFriendId;
     }
 
-    public void setUser_from(String user_from) {
-        this.user_from = user_from;
+    public String getMessageId() {
+        return messageId;
     }
 
-    public String getUser_to() {
-        return user_to;
-    }
-
-    public void setUser_to(String user_to) {
-        this.user_to = user_to;
-    }
-
-    public String getVcard_id() {
-        return vcard_id;
-    }
-
-    public void setVcard_id(String vcard_id) {
-        this.vcard_id = vcard_id;
-    }
-
-    public String getMessage_id() {
-        return message_id;
-    }
-
-    public void setMessage_id(String message_id) {
-        this.message_id = message_id;
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 
     public int getUnReadCount() {
@@ -73,4 +49,35 @@ public class SessionRealm extends RealmObject {
     public void setUnReadCount(int unReadCount) {
         this.unReadCount = unReadCount;
     }
+
+    @Override public int describeContents() {
+        return 0;
+    }
+
+    @Override public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.sessionId);
+        dest.writeString(this.senderFriendId);
+        dest.writeString(this.messageId);
+        dest.writeInt(this.unReadCount);
+    }
+
+    public SessionRealm() {
+    }
+
+    protected SessionRealm(Parcel in) {
+        this.sessionId = in.readString();
+        this.senderFriendId = in.readString();
+        this.messageId = in.readString();
+        this.unReadCount = in.readInt();
+    }
+
+    public static final Creator<SessionRealm> CREATOR = new Creator<SessionRealm>() {
+        @Override public SessionRealm createFromParcel(Parcel source) {
+            return new SessionRealm(source);
+        }
+
+        @Override public SessionRealm[] newArray(int size) {
+            return new SessionRealm[size];
+        }
+    };
 }

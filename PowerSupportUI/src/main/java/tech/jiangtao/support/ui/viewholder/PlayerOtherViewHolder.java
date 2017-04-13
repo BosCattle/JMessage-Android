@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 
 import com.bumptech.glide.Glide;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ChatBaseViewHolder;
@@ -33,7 +34,7 @@ import tech.jiangtao.support.ui.view.MediaManager;
 
 public class PlayerOtherViewHolder extends ChatBaseViewHolder {
 
-  @BindView(R2.id.item_chat_avatar) ImageView mItemChatAvatar;
+  @BindView(R2.id.item_chat_avatar_play_other) CircleImageView mItemChatAvatar;
   @BindView(R2.id.view_player_style) View mViewPlayerStyle;
   @BindView(R2.id.view_player_container) FrameLayout mViewPlayerContainer;
   @BindView(R2.id.item_chat_message) TextView mItemChatMessage;

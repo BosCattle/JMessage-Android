@@ -24,6 +24,13 @@ public class SupportIM {
   public static final String USER = "user";
   public static final String USER_ID = "userId";
   public static final String USER_NAME = "nickName";
+  public static final String USER_REAL_NAME = "username";
+  public static final String USER_PASSWORD = "password";
+  public static final String VCARD = "contact";
+  public static final String SENDER = "sender";
+  public static final String RECEIVER = "receiver";
+  public static final String SENDERFRIENDID = "senderFriendId";
+  public static final String MESSAGE_ID = "id";
 
   // TODO: 12/04/2017 realm版本升级配置
   private static void initialize(Context context){

@@ -18,7 +18,9 @@ import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ContactViewHolder;
+import tech.jiangtao.support.ui.model.type.TransportType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
+import tech.jiangtao.support.ui.utils.ResourceAddress;
 
 /**
  * Class: ContactsViewHolder </br>
@@ -41,21 +43,21 @@ public class ContactsViewHolder extends ContactViewHolder {
   }
 
   @RequiresApi(api = Build.VERSION_CODES.KITKAT) @Override
-  public void bindTo(int position, ConstrutContact l) {
-    if (l != null) {
+  public void bindTo(int position, ConstrutContact contact) {
+    if (contact != null && contact.mContactRealm != null) {
       LogUtils.d("---ContactsViewHolder:",
-          (l.mContactRealm != null && l.mContactRealm.getAvatar() != null)
-              ? l.mContactRealm.getAvatar() : "null");
+          (contact.mContactRealm.getAvatar() != null) ? ResourceAddress.url(
+              contact.mContactRealm.getAvatar(), TransportType.AVATAR) : "null");
       Glide.with(mContext)
-          .load(l.mContactRealm.getAvatar() != null ? Uri.parse(l.mContactRealm.getAvatar()) : null)
+          .load(contact.mContactRealm.getAvatar() != null ? Uri.parse(
+              ResourceAddress.url(contact.mContactRealm.getAvatar(), TransportType.AVATAR)) : null)
           .centerCrop()
           .error(R.mipmap.ic_chat_default)
           .placeholder(R.mipmap.ic_chat_default)
           .into(mItemChat);
-      mItemChatUsername.setText(
-          l.mContactRealm.getNickName() == null || Objects.equals(l.mContactRealm.getNickName(), "")
-              ? StringSplitUtil.splitPrefix(l.mContactRealm.getUserId())
-              : l.mContactRealm.getNickName());
+      mItemChatUsername.setText(contact.mContactRealm.getNickName() == null || Objects.equals(
+          contact.mContactRealm.getNickName(), "") ? StringSplitUtil.splitPrefix(
+          contact.mContactRealm.getUserId()) : contact.mContactRealm.getNickName());
     }
   }
 }

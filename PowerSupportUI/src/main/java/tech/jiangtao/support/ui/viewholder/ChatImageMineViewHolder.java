@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import java.io.File;
 
 import butterknife.BindView;
@@ -30,36 +31,34 @@ import tech.jiangtao.support.ui.view.ImageDialogManager;
  **/
 
 public class ChatImageMineViewHolder extends ChatBaseViewHolder {
-    @BindView(R2.id.item_chat_avatar)
-    ImageView mItemChatAvatar;
-    @BindView(R2.id.item_chat_message)
-    ImageView mItemChatImage;
-    private Context mContext;
+  @BindView(R2.id.item_chat_avatar_circle) CircleImageView mItemChatAvatar;
+  @BindView(R2.id.item_chat_message) ImageView mItemChatImage;
+  private Context mContext;
 
-    public ChatImageMineViewHolder(Context context, ViewGroup parent) {
-        super(context, parent, R.layout.list_item_chat_image_mine);
-        ButterKnife.bind(this, itemView);
-        mContext = context;
-    }
+  public ChatImageMineViewHolder(Context context, ViewGroup parent) {
+    super(context, parent, R.layout.list_item_chat_image_mine);
+    ButterKnife.bind(this, itemView);
+    mContext = context;
+  }
 
-    @Override
-    public void bindTo(int position, ConstructMessage constructMessage) {
-        Glide.with(mContext)
-                .load(Uri.parse(constructMessage.mAvatar!=null?constructMessage.mAvatar:""))
-                .centerCrop()
-                .error(R.mipmap.ic_chat_default)
-                .placeholder(R.mipmap.ic_chat_default)
-                .into(mItemChatAvatar);
+  @Override public void bindTo(int position, ConstructMessage constructMessage) {
+    Glide.with(mContext)
+        .load(Uri.parse(constructMessage.mAvatar != null ? constructMessage.mAvatar : ""))
+        .centerCrop()
+        .error(R.mipmap.ic_chat_default)
+        .placeholder(R.mipmap.ic_chat_default)
+        .into(mItemChatAvatar);
 
-        Glide.with(mContext)
-                .load(Uri.parse(constructMessage.mMessage.fimePath))
-                .error(R.mipmap.ic_mipmap_default_image)
-                .placeholder(R.mipmap.ic_mipmap_default_image)
-                .into(mItemChatImage);
+    Glide.with(mContext)
+        .load(Uri.parse(constructMessage.mMessage.fimePath))
+        .error(R.mipmap.ic_mipmap_default_image)
+        .placeholder(R.mipmap.ic_mipmap_default_image)
+        .into(mItemChatImage);
 
-        mItemChatImage.setOnClickListener(v -> {
-            ImageDialogManager manager = new ImageDialogManager(mContext, constructMessage.mMessage.fimePath);
-            manager.showDialog();
-        });
-    }
+    mItemChatImage.setOnClickListener(v -> {
+      ImageDialogManager manager =
+          new ImageDialogManager(mContext, constructMessage.mMessage.fimePath);
+      manager.showDialog();
+    });
+  }
 }

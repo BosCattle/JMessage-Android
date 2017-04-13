@@ -52,7 +52,8 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_below="@+id/header"
-      android:layout_alignParentStart="true" />
+      android:layout_alignParentStart="true"
+      android:layout_marginBottom="64dp"/>
 
     <com.roughike.bottombar.BottomBar
       app:bb_inActiveTabAlpha="0.6"
