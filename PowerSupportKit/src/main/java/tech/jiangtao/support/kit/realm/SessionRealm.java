@@ -17,6 +17,8 @@ public class SessionRealm extends RealmObject implements Parcelable {
     public String messageId;
     // 未读条数
     public int unReadCount;
+    // 消息类型，单聊---群聊
+    public boolean messageType;
 
     public String getSessionId() {
         return sessionId;

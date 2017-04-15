@@ -22,9 +22,9 @@ import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 public class RecieveMessage implements Parcelable {
   public String id;
   public Message.Type type;
-  //user from
+  //消息发送者
   public String userJID;
-  // user to
+  // 消息接受者
   public String ownJid;
   public Date date;
   public String thread;
