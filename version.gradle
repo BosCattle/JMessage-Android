@@ -21,7 +21,7 @@ ext {
                  simpleHudVersion                  : '0.1.2',
                  bottombarVersion                  : '2.0.2',
                  viewcollectionVersion             : 'V0.0.5',
-                 pgyersdkVersion                   : '2.2',
+                 pgyersdkVersion                   : '2.5.6',
                  materialDialogsVersion            : '0.9.4.1',
                  multiTypeFilePickerVersion        : '1.0.1',
                  smackVersion                      : '4.1.9',

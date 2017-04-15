@@ -20,7 +20,6 @@ import butterknife.BindView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.eventbus.AddRosterEvent;
-import tech.jiangtao.support.kit.userdata.SimpleUserQuery;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.ui.R;

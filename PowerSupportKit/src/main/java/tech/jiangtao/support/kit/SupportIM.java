@@ -1,4 +1,4 @@
-package tech.jiangtao.support.kit.init;
+package tech.jiangtao.support.kit;
 
 import android.content.Context;
 import io.realm.Realm;

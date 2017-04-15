@@ -17,9 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import tech.jiangtao.support.kit.eventbus.FriendRequest;
-import tech.jiangtao.support.kit.eventbus.InviteFriend;
-import tech.jiangtao.support.kit.init.SupportIM;
+import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
@@ -35,7 +33,6 @@ import tech.jiangtao.support.ui.model.group.Groups;
 import tech.jiangtao.support.ui.model.group.InvitedInfo;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
 import tech.jiangtao.support.ui.viewholder.NewFriendViewHolder;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
  * Class: NewFriendActivity </br>

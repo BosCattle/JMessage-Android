@@ -2,17 +2,14 @@ package tech.jiangtao.support.kit.service;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.content.Context;
 import android.util.Log;
 import java.io.File;
 import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smackx.filetransfer.FileTransferListener;
 import org.jivesoftware.smackx.filetransfer.FileTransferManager;
 import org.jivesoftware.smackx.filetransfer.FileTransferNegotiator;
-import org.jivesoftware.smackx.filetransfer.FileTransferRequest;
 import org.jivesoftware.smackx.filetransfer.OutgoingFileTransfer;
 
-import tech.jiangtao.support.kit.init.SupportIM;
+import tech.jiangtao.support.kit.SupportIM;
 
 /**
  * 不用启动单独的线程来执行耗时的任务

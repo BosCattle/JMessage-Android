@@ -1,7 +1,7 @@
 package tech.jiangtao.support.kit.util;
 
 import java.util.Objects;
-import tech.jiangtao.support.kit.init.SupportIM;
+import tech.jiangtao.support.kit.SupportIM;
 
 /**
  * Class: StringSplitUtil </br>

@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.jiangtao.support.kit.callback.DisconnectCallBack;
-import tech.jiangtao.support.kit.init.SupportIM;
+import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.ui.fragment.BaseFragment;
 import tech.jiangtao.support.ui.model.User;
 import tech.jiangtao.support.ui.model.type.TransportType;

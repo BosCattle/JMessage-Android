@@ -12,6 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.china.epower.chat.R;
 import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.feedback.PgyFeedbackShakeManager;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -29,6 +30,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     setupToolbar();
   }
 
+  @Override protected void onResume() {
+    super.onResume();
+    // 自定义摇一摇的灵敏度，默认为950，数值越小灵敏度越高。
+    PgyFeedbackShakeManager.setShakingThreshold(1000);
+    // 以对话框的形式弹出
+    PgyFeedbackShakeManager.register(this);
+  }
 
   protected void setupToolbar() {
     if (mToolbar != null && preSetupToolbar()) {
@@ -63,5 +71,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
   @Override protected void onPause() {
     super.onPause();
+    PgyFeedbackShakeManager.unregister();
   }
 }

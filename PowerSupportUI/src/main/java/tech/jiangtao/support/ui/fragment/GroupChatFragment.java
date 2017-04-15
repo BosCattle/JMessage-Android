@@ -53,6 +53,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.archive.type.FileType;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
@@ -268,7 +269,7 @@ public class GroupChatFragment extends BaseFragment
     mGroup = getArguments().getParcelable(USER_FRIEND);
     final AppPreferences appPreferences = new AppPreferences(getContext());
     try {
-      mUserJid = appPreferences.getString("userJid");
+      mUserJid = appPreferences.getString(SupportIM.USER_ID);
     } catch (ItemNotFoundException e) {
       e.printStackTrace();
     }

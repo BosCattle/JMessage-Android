@@ -47,9 +47,7 @@ import org.jivesoftware.smackx.xdata.packet.DataForm;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -63,7 +61,6 @@ import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.AddRosterEvent;
 import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
 import tech.jiangtao.support.kit.eventbus.FriendRequest;
-import tech.jiangtao.support.kit.eventbus.InviteFriend;
 import tech.jiangtao.support.kit.eventbus.InvitedFriendToGroup;
 import tech.jiangtao.support.kit.eventbus.LoginCallbackEvent;
 import tech.jiangtao.support.kit.eventbus.LoginParam;
@@ -81,20 +78,14 @@ import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateCallBackEvent;
 import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateParam;
 import tech.jiangtao.support.kit.eventbus.muc.model.GroupRequestParam;
 import tech.jiangtao.support.kit.eventbus.muc.model.InviteParam;
-import tech.jiangtao.support.kit.init.SupportIM;
-import tech.jiangtao.support.kit.realm.ContactRealm;
+import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
-import tech.jiangtao.support.kit.util.PinYinUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.SupportAIDLConnection;
 import tech.jiangtao.support.ui.api.ApiService;
 import tech.jiangtao.support.ui.api.service.AccountServiceApi;
 import tech.jiangtao.support.ui.api.service.UserServiceApi;
-import tech.jiangtao.support.ui.model.Account;
-import tech.jiangtao.support.ui.model.User;
-import tech.jiangtao.support.ui.model.group.Groups;
-import tech.jiangtao.support.ui.model.group.InvitedInfo;
 import tech.jiangtao.support.ui.reciever.TickBroadcastReceiver;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
@@ -176,19 +167,19 @@ public class SupportService extends Service
                   message.getTo(), chat1.getThreadID(), message.getBody(),
                   MessageExtensionType.TEXT, false, MessageAuthor.FRIEND));
         }
-        if (messageExtension.getValue("type").equals(MessageExtensionType.IMAGE.toString())) {
+       else if (messageExtension.getValue("type").equals(MessageExtensionType.IMAGE.toString())) {
           HermesEventBus.getDefault()
               .post(new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
                   message.getTo(), chat1.getThreadID(), message.getBody(),
                   MessageExtensionType.IMAGE, false, MessageAuthor.FRIEND));
         }
-        if (messageExtension.getValue("type").equals(MessageExtensionType.AUDIO.toString())) {
+       else if (messageExtension.getValue("type").equals(MessageExtensionType.AUDIO.toString())) {
           HermesEventBus.getDefault()
               .post(new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
                   message.getTo(), chat1.getThreadID(), message.getBody(),
                   MessageExtensionType.AUDIO, false, MessageAuthor.FRIEND));
         }
-        if (messageExtension.getValue("type").equals(MessageExtensionType.VIDEO.toString())) {
+       else if (messageExtension.getValue("type").equals(MessageExtensionType.VIDEO.toString())) {
           HermesEventBus.getDefault()
               .post(new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
                   message.getTo(), chat1.getThreadID(), message.getBody(),

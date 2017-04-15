@@ -5,7 +5,7 @@ import android.content.Intent;
 import com.melink.bqmmsdk.sdk.BQMM;
 import java.util.Properties;
 import java.util.UUID;
-import tech.jiangtao.support.kit.init.SupportIM;
+import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.ui.service.SupportService;
 import tech.jiangtao.support.ui.service.XMPPService;
 import tech.jiangtao.support.ui.utils.PropertyUtils;
@@ -37,8 +37,8 @@ public class SupportUI {
     String resource = UUID.randomUUID().toString();
     //---------------------------------------配置中心--------------------------------
     //------------------------------------------------------------------------------
-    initialize(context, SERVICE_NAME, resource, HOST, Integer.parseInt(PORT),
-        RESOURCE_ADDRESS, API_ADDRESS);
+    initialize(context, SERVICE_NAME, resource, HOST2, Integer.parseInt(PORT),
+        RESOURCE_ADDRESS2, API_ADDRESS2);
     BQMM.getInstance().initConfig(context, MM_APPID, MM_AppSecret);
   }
 

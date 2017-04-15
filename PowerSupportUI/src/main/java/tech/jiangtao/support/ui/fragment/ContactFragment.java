@@ -33,7 +33,7 @@ import net.grandcentrix.tray.core.ItemNotFoundException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
-import tech.jiangtao.support.kit.init.SupportIM;
+import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.util.ContactComparator;
 import tech.jiangtao.support.kit.util.ErrorAction;

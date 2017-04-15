@@ -7,9 +7,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
-import tech.jiangtao.support.kit.init.SupportIM;
-import tech.jiangtao.support.ui.BuildConfig;
-import tech.jiangtao.support.ui.SupportUI;
+import tech.jiangtao.support.kit.SupportIM;
 
 /**
  * Class: ApiService </br>

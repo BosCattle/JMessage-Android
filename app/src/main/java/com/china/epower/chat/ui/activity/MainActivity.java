@@ -144,7 +144,7 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
   }
 
   public void updateCheck() {
-    PgyUpdateManager.register(this, new UpdateManagerListener() {
+    PgyUpdateManager.register(this,"provider_paths", new UpdateManagerListener() {
 
       @Override public void onUpdateAvailable(final String result) {
 

@@ -7,9 +7,7 @@ import android.view.WindowManager;
 
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
-import tech.jiangtao.support.kit.init.SupportIM;
-
-import static xiaofei.library.hermes.Hermes.getContext;
+import tech.jiangtao.support.kit.SupportIM;
 
 public class LauncherActivity extends AppCompatActivity {
 

@@ -10,7 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import tech.jiangtao.support.kit.init.SupportIM;
+import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
