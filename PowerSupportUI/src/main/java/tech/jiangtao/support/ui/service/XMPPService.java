@@ -27,7 +27,7 @@ import java.util.UUID;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
-import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
+import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.callback.DisconnectCallBack;
 import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
 import tech.jiangtao.support.kit.eventbus.FriendRequest;
@@ -150,21 +150,21 @@ public class XMPPService extends Service {
           + ServiceUtils.isApplicationBroughtToBackground(this.getApplicationContext())
           + "");
       if (message.messageAuthor == MessageAuthor.FRIEND && intent != null) {
-        if (message.messageType == MessageExtensionType.TEXT) {
+        if (message.messageType == DataExtensionType.TEXT) {
           showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), message.message,
               intent);
           LogUtils.d(TAG, "显示通知");
           //保存到本地数据库
         }
-        if (message.messageType == MessageExtensionType.IMAGE) {
+        if (message.messageType == DataExtensionType.IMAGE) {
           showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[图片]", intent);
           //保存到本地数据库
         }
-        if (message.messageType == MessageExtensionType.AUDIO) {
+        if (message.messageType == DataExtensionType.AUDIO) {
           showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[音频]", intent);
           //保存到本地数据库
         }
-        if (message.messageType == MessageExtensionType.VIDEO) {
+        if (message.messageType == DataExtensionType.VIDEO) {
           showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[视频]", intent);
           //保存到本地数据库
         }

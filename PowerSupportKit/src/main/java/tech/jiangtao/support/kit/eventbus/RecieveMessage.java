@@ -7,6 +7,7 @@ import java.util.Date;
 import org.jivesoftware.smack.packet.Message;
 
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
+import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 
 /**
@@ -28,12 +29,14 @@ public class RecieveMessage implements Parcelable {
   public Date date;
   public String thread;
   public String message;
-  // 消息类型，包括图片，语音，文字等等。
-  public MessageExtensionType messageType;
+  // 数据类型，包括图片，语音，文字等等。
+  public DataExtensionType messageType;
+  public MessageExtensionType messageExtensionType;
   public boolean readStatus;
   public MessageAuthor messageAuthor;
 
-  public RecieveMessage(Message.Type type, String userJID, String message ,MessageExtensionType fileType) {
+  public RecieveMessage(Message.Type type, String userJID, String message,
+      DataExtensionType fileType) {
     this.type = type;
     this.userJID = userJID;
     this.message = message;
@@ -41,7 +44,7 @@ public class RecieveMessage implements Parcelable {
   }
 
   public RecieveMessage(String id, Message.Type type, String userJID, String ownJid, String message,
-      MessageExtensionType messageType, boolean readStatus) {
+      DataExtensionType messageType, boolean readStatus) {
     this.id = id;
     this.type = type;
     this.userJID = userJID;
@@ -52,7 +55,7 @@ public class RecieveMessage implements Parcelable {
   }
 
   public RecieveMessage(String id, Message.Type type, String userJID, String ownJid, String thread,
-      String message, MessageExtensionType messageType, boolean readStatus) {
+      String message, DataExtensionType messageType, boolean readStatus) {
     this.id = id;
     this.type = type;
     this.userJID = userJID;
@@ -64,7 +67,7 @@ public class RecieveMessage implements Parcelable {
   }
 
   public RecieveMessage(String id, Message.Type type, String userJID, String ownJid, Date date,
-      String thread, String message, MessageExtensionType messageType, boolean readStatus) {
+      String thread, String message, DataExtensionType messageType, boolean readStatus) {
     this.id = id;
     this.type = type;
     this.userJID = userJID;
@@ -77,7 +80,7 @@ public class RecieveMessage implements Parcelable {
   }
 
   public RecieveMessage(String id, Message.Type type, String userJID, String ownJid, String thread,
-      String message, MessageExtensionType messageType, boolean readStatus,
+      String message, DataExtensionType messageType, boolean readStatus,
       MessageAuthor messageAuthor) {
     this.id = id;
     this.type = type;
@@ -88,6 +91,21 @@ public class RecieveMessage implements Parcelable {
     this.messageType = messageType;
     this.readStatus = readStatus;
     this.messageAuthor = messageAuthor;
+  }
+
+  public RecieveMessage(String id, Message.Type type, String userJID, String ownJid, String thread,
+      String message, DataExtensionType messageType, MessageExtensionType messageExtensionType,
+      boolean readStatus, MessageAuthor messageAuthor) {
+    this.id = id;
+    this.type = type;
+    this.userJID = userJID;
+    this.ownJid = ownJid;
+    this.thread = thread;
+    this.message = message;
+    this.messageType = messageType;
+    this.readStatus = readStatus;
+    this.messageAuthor = messageAuthor;
+    this.messageExtensionType = messageExtensionType;
   }
 
   public RecieveMessage() {
@@ -106,6 +124,7 @@ public class RecieveMessage implements Parcelable {
     dest.writeString(this.thread);
     dest.writeString(this.message);
     dest.writeInt(this.messageType == null ? -1 : this.messageType.ordinal());
+    dest.writeInt(this.messageExtensionType == null ? -1 : this.messageExtensionType.ordinal());
     dest.writeByte(this.readStatus ? (byte) 1 : (byte) 0);
     dest.writeInt(this.messageAuthor == null ? -1 : this.messageAuthor.ordinal());
   }
@@ -121,7 +140,10 @@ public class RecieveMessage implements Parcelable {
     this.thread = in.readString();
     this.message = in.readString();
     int tmpMessageType = in.readInt();
-    this.messageType = tmpMessageType == -1 ? null : MessageExtensionType.values()[tmpMessageType];
+    this.messageType = tmpMessageType == -1 ? null : DataExtensionType.values()[tmpMessageType];
+    int tmpMessageExtensionType = in.readInt();
+    this.messageExtensionType = tmpMessageExtensionType == -1 ? null
+        : MessageExtensionType.values()[tmpMessageExtensionType];
     this.readStatus = in.readByte() != 0;
     int tmpMessageAuthor = in.readInt();
     this.messageAuthor = tmpMessageAuthor == -1 ? null : MessageAuthor.values()[tmpMessageAuthor];

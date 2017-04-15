@@ -2,7 +2,7 @@ package tech.jiangtao.support.ui.pattern;
 
 import java.util.Date;
 import org.jivesoftware.smack.packet.Message;
-import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
+import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 
 public class SessionListMessage {
   public String sessionId;
@@ -13,7 +13,7 @@ public class SessionListMessage {
   public String unReadMessage;
   public int unReadMessageCount;
   public Message.Type type;
-  public MessageExtensionType messageType;
+  public DataExtensionType messageType;
 
   public static class Builder{
     public String sessionId;
@@ -24,7 +24,7 @@ public class SessionListMessage {
     public String unReadMessage;
     public int unReadMessageCount;
     public Message.Type type;
-    public MessageExtensionType messageType;
+    public DataExtensionType messageType;
 
     public SessionListMessage build(){
       SessionListMessage message = new SessionListMessage();
@@ -75,7 +75,7 @@ public class SessionListMessage {
       return this;
     }
 
-    public Builder messageType(MessageExtensionType messageType){
+    public Builder messageType(DataExtensionType messageType){
       this.messageType = messageType;
       return this;
     }

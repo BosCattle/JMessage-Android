@@ -57,6 +57,7 @@ import tech.jiangtao.support.kit.archive.MessageArchiveRequestIQ;
 import tech.jiangtao.support.kit.archive.MessageArchiveStanzaFilter;
 import tech.jiangtao.support.kit.archive.MessageArchiveStanzaListener;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
+import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.AddRosterEvent;
 import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
@@ -96,6 +97,14 @@ public class SupportService extends Service
     InvitationRejectionListener, SubjectUpdatedListener {
 
   private static final String TAG = SupportService.class.getSimpleName();
+  private static final String MESSAGE_SENDER = "message-sender";
+  private static final String SENDER_EXTENSION = "sender:extension";
+  private static final String SENDERVALUE = "value";
+  private static final String DATA_TYPE = "data_type";
+  private static final String DATA_EXTENSION = "data:extension";
+  private static final String TYPE = "type";
+  private static final String MESSAGE_TYPE = "message_type";
+  private static final String MESSAGE_EXTENSION = "message:extension";
   private XMPPTCPConnection mXMPPConnection;
   private AccountManager mAccountManager;
   private Roster mRoster;
@@ -156,34 +165,60 @@ public class SupportService extends Service
   @Override public void chatCreated(Chat chat, boolean createdLocally) {
     chat.addMessageListener((chat1, message) -> {
       LogUtils.e(TAG, message.getBody());
+
+      // ------------------------------解析消息类型拓展-----------------------------
       DefaultExtensionElement messageExtension =
-          (DefaultExtensionElement) message.getExtension("message:extension");
+          (DefaultExtensionElement) message.getExtension(MESSAGE_EXTENSION);
+      MessageExtensionType messageExtensionType = MessageExtensionType.CHAT;
+      if (messageExtension.getValue(TYPE).equals(MessageExtensionType.CHAT.toString())) {
+        messageExtensionType = MessageExtensionType.CHAT;
+      } else if (messageExtension.getValue(TYPE)
+          .equals(MessageExtensionType.GROUP_CHAT.toString())) {
+        messageExtensionType = MessageExtensionType.GROUP_CHAT;
+      }
+
+      // ------------------------------解析数据类型拓展-----------------------------
+      DefaultExtensionElement dataExtension =
+          (DefaultExtensionElement) message.getExtension(DATA_EXTENSION);
+
       if (message.getBody() != null) {
-        if (messageExtension == null
-            || messageExtension.getValue("type") == null
-            || messageExtension.getValue("type").equals(MessageExtensionType.TEXT.toString())) {
-          HermesEventBus.getDefault()
-              .post(new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
-                  message.getTo(), chat1.getThreadID(), message.getBody(),
-                  MessageExtensionType.TEXT, false, MessageAuthor.FRIEND));
-        }
-       else if (messageExtension.getValue("type").equals(MessageExtensionType.IMAGE.toString())) {
-          HermesEventBus.getDefault()
-              .post(new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
-                  message.getTo(), chat1.getThreadID(), message.getBody(),
-                  MessageExtensionType.IMAGE, false, MessageAuthor.FRIEND));
-        }
-       else if (messageExtension.getValue("type").equals(MessageExtensionType.AUDIO.toString())) {
-          HermesEventBus.getDefault()
-              .post(new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
-                  message.getTo(), chat1.getThreadID(), message.getBody(),
-                  MessageExtensionType.AUDIO, false, MessageAuthor.FRIEND));
-        }
-       else if (messageExtension.getValue("type").equals(MessageExtensionType.VIDEO.toString())) {
-          HermesEventBus.getDefault()
-              .post(new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
-                  message.getTo(), chat1.getThreadID(), message.getBody(),
-                  MessageExtensionType.VIDEO, false, MessageAuthor.FRIEND));
+        if (messageExtensionType.equals(MessageExtensionType.CHAT)) {
+          if (dataExtension == null
+              || dataExtension.getValue(TYPE) == null
+              || dataExtension.getValue(TYPE).equals(DataExtensionType.TEXT.toString())) {
+            HermesEventBus.getDefault()
+                .post(
+                    new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
+                        message.getTo(), chat1.getThreadID(), message.getBody(),
+                        DataExtensionType.TEXT, messageExtensionType, false, MessageAuthor.FRIEND));
+          } else if (dataExtension.getValue(TYPE).equals(DataExtensionType.IMAGE.toString())) {
+            HermesEventBus.getDefault()
+                .post(
+                    new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
+                        message.getTo(), chat1.getThreadID(), message.getBody(),
+                        DataExtensionType.IMAGE, messageExtensionType, false,
+                        MessageAuthor.FRIEND));
+          } else if (dataExtension.getValue(TYPE).equals(DataExtensionType.AUDIO.toString())) {
+            HermesEventBus.getDefault()
+                .post(
+                    new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
+                        message.getTo(), chat1.getThreadID(), message.getBody(),
+                        DataExtensionType.AUDIO, messageExtensionType, false,
+                        MessageAuthor.FRIEND));
+          } else if (dataExtension.getValue(TYPE).equals(DataExtensionType.VIDEO.toString())) {
+            HermesEventBus.getDefault()
+                .post(
+                    new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
+                        message.getTo(), chat1.getThreadID(), message.getBody(),
+                        DataExtensionType.VIDEO, messageExtensionType, false,
+                        MessageAuthor.FRIEND));
+          }
+        } else if (messageExtensionType.equals(MessageExtensionType.GROUP_CHAT)) {
+          DefaultExtensionElement senderExtensionElement =
+              (DefaultExtensionElement) message.getExtension(SENDER_EXTENSION);
+          // 什么人在群组里发了信息
+          String sender = senderExtensionElement.getValue(SENDERVALUE);
+
         }
       }
       //发送消息到守护服务，先保存会话到另外一个会话表，然后保存消息到历史消息表
@@ -196,7 +231,7 @@ public class SupportService extends Service
       try {
         if (!multiUserChat.isJoined()) {
           multiUserChat.createOrJoin(StringSplitUtil.splitPrefix(
-              StringSplitUtil.splitDivider(mAppPreferences.getString("userJid"))));
+              StringSplitUtil.splitDivider(mAppPreferences.getString(SupportIM.USER_ID))));
         }
         multiUserChat.sendMessage(message.message);
       } catch (XMPPException.XMPPErrorException | SmackException | ItemNotFoundException e) {
@@ -208,10 +243,16 @@ public class SupportService extends Service
         try {
           Message message1 = new Message();
           message1.setBody(message.message);
-          DefaultExtensionElement extensionElement =
-              new DefaultExtensionElement("message_type", "message:extension");
-          extensionElement.setValue("type", message.messageType.toString());
-          message1.addExtension(extensionElement);
+          // ----------------------------------------数据类型拓展--------------------------------
+          DefaultExtensionElement dataExtensionElement =
+              new DefaultExtensionElement(DATA_TYPE, DATA_EXTENSION);
+          dataExtensionElement.setValue(TYPE, message.messageType.toString());
+          message1.addExtension(dataExtensionElement);
+          // ----------------------------------------消息类型拓展---------------------------------
+          DefaultExtensionElement messageExtensionElement =
+              new DefaultExtensionElement(MESSAGE_TYPE, MESSAGE_EXTENSION);
+          messageExtensionElement.setValue(TYPE, message.messageExtensionType.toString());
+          message1.addExtension(messageExtensionElement);
           chat.sendMessage(message1);
           subscriber.onNext(message1);
         } catch (SmackException.NotConnectedException e) {
@@ -223,7 +264,7 @@ public class SupportService extends Service
         LogUtils.d(TAG, "sendMessage: 发送成功");
         //缓存消息
         DefaultExtensionElement messageExtension =
-            (DefaultExtensionElement) s.getExtension("message:extension");
+            (DefaultExtensionElement) s.getExtension(MESSAGE_EXTENSION);
         LogUtils.d(TAG, "sendMessage: 打印出别人的jid为:" + s.getTo());
         String userJid = null;
         final AppPreferences appPreferences = new AppPreferences(getContext());
@@ -234,29 +275,29 @@ public class SupportService extends Service
         }
         if (s.getBody() != null) {
           if (messageExtension == null
-              || messageExtension.getValue("type") == null
-              || messageExtension.getValue("type").equals(MessageExtensionType.TEXT.toString())) {
+              || messageExtension.getValue(TYPE) == null
+              || messageExtension.getValue(TYPE).equals(DataExtensionType.TEXT.toString())) {
             HermesEventBus.getDefault()
                 .post(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
-                    chat.getThreadID(), s.getBody(), MessageExtensionType.TEXT, false,
+                    chat.getThreadID(), s.getBody(), DataExtensionType.TEXT, false,
                     MessageAuthor.OWN));
           }
-          if (messageExtension.getValue("type").equals(MessageExtensionType.IMAGE.toString())) {
+          if (messageExtension.getValue(TYPE).equals(DataExtensionType.IMAGE.toString())) {
             HermesEventBus.getDefault()
                 .post(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
-                    chat.getThreadID(), s.getBody(), MessageExtensionType.IMAGE, false,
+                    chat.getThreadID(), s.getBody(), DataExtensionType.IMAGE, false,
                     MessageAuthor.OWN));
           }
-          if (messageExtension.getValue("type").equals(MessageExtensionType.AUDIO.toString())) {
+          if (messageExtension.getValue(TYPE).equals(DataExtensionType.AUDIO.toString())) {
             HermesEventBus.getDefault()
                 .post(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
-                    chat.getThreadID(), s.getBody(), MessageExtensionType.AUDIO, false,
+                    chat.getThreadID(), s.getBody(), DataExtensionType.AUDIO, false,
                     MessageAuthor.OWN));
           }
-          if (messageExtension.getValue("type").equals(MessageExtensionType.VIDEO.toString())) {
+          if (messageExtension.getValue(TYPE).equals(DataExtensionType.VIDEO.toString())) {
             HermesEventBus.getDefault()
                 .post(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
-                    chat.getThreadID(), s.getBody(), MessageExtensionType.VIDEO, false,
+                    chat.getThreadID(), s.getBody(), DataExtensionType.VIDEO, false,
                     MessageAuthor.OWN));
           }
         }

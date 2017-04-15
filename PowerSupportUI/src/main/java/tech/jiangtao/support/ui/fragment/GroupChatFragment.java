@@ -56,7 +56,7 @@ import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.archive.type.FileType;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
-import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
+import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.realm.MessageRealm;
@@ -200,7 +200,7 @@ public class GroupChatFragment extends BaseFragment
         //自己的消息
         Message message1 = new Message();
         message1.paramContent = messageRealmse.get(i).getTextMessage();
-        if (messageRealmse.get(i).getMessageType().equals(MessageExtensionType.TEXT.toString())) {
+        if (messageRealmse.get(i).getMessageType().equals(DataExtensionType.TEXT.toString())) {
           message1.type = FileType.TYPE_TEXT;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
               .avatar(mGroup != null ? mGroup.avatar : null)
@@ -208,7 +208,7 @@ public class GroupChatFragment extends BaseFragment
               .build());
         } else if (messageRealmse.get(i)
             .getMessageType()
-            .equals(MessageExtensionType.IMAGE.toString())) {
+            .equals(DataExtensionType.IMAGE.toString())) {
           message1.fimePath = messageRealmse.get(i).getTextMessage();
           message1.type = FileType.TYPE_IMAGE;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
@@ -217,7 +217,7 @@ public class GroupChatFragment extends BaseFragment
               .build());
         } else if (messageRealmse.get(i)
             .getMessageType()
-            .equals(MessageExtensionType.AUDIO.toString())) {
+            .equals(DataExtensionType.AUDIO.toString())) {
           message1.fimePath = messageRealmse.get(i).getTextMessage();
           message1.time = 10;
           message1.type = FileType.TYPE_AUDIO;
@@ -230,7 +230,7 @@ public class GroupChatFragment extends BaseFragment
         //别人发送的消息
         Message message1 = new Message();
         message1.paramContent = messageRealmse.get(i).getTextMessage();
-        if (messageRealmse.get(i).getMessageType().equals(MessageExtensionType.TEXT.toString())) {
+        if (messageRealmse.get(i).getMessageType().equals(DataExtensionType.TEXT.toString())) {
           message1.paramContent = messageRealmse.get(i).getTextMessage();
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
               .avatar(mGroup.avatar)
@@ -238,7 +238,7 @@ public class GroupChatFragment extends BaseFragment
               .build());
         } else if (messageRealmse.get(i)
             .getMessageType()
-            .equals(MessageExtensionType.IMAGE.toString())) {
+            .equals(DataExtensionType.IMAGE.toString())) {
           message1.fimePath = messageRealmse.get(i).getTextMessage();
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
               .avatar(mGroup.avatar)
@@ -246,7 +246,7 @@ public class GroupChatFragment extends BaseFragment
               .build());
         } else if (messageRealmse.get(i)
             .getMessageType()
-            .equals(MessageExtensionType.AUDIO.toString())) {
+            .equals(DataExtensionType.AUDIO.toString())) {
           message1.fimePath = messageRealmse.get(i).getTextMessage();
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
               .avatar(mGroup.avatar)
@@ -349,20 +349,20 @@ public class GroupChatFragment extends BaseFragment
       if (message.messageAuthor == MessageAuthor.FRIEND) {
         Message message1 = new Message();
         message1.paramContent = message.message;
-        if (message.messageType == MessageExtensionType.TEXT) {
+        if (message.messageType == DataExtensionType.TEXT) {
           message1.paramContent = message.message;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
               .avatar(mGroup.avatar)
               .message(message1)
               .build());
-        } else if (message.messageType == MessageExtensionType.IMAGE) {
+        } else if (message.messageType == DataExtensionType.IMAGE) {
           message1.fimePath = message.message;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
               .avatar(mGroup.avatar)
               .message(message1)
               .build());
           LogUtils.d(TAG, "onMessage: " + message1);
-        } else if (message.messageType == MessageExtensionType.AUDIO) {
+        } else if (message.messageType == DataExtensionType.AUDIO) {
           message1.fimePath = message.message;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
               .avatar(mGroup.avatar)
@@ -373,20 +373,20 @@ public class GroupChatFragment extends BaseFragment
       } else if (message.messageAuthor == MessageAuthor.OWN) {
         Message message2 = new Message();
         message2.paramContent = message.message;
-        if (message.messageType == MessageExtensionType.TEXT) {
+        if (message.messageType == DataExtensionType.TEXT) {
           message2.type = FileType.TYPE_TEXT;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
               .avatar(mOwn != null ? mOwn.avatar : null)
               .message(message2)
               .build());
-        } else if (message.messageType == MessageExtensionType.IMAGE) {
+        } else if (message.messageType == DataExtensionType.IMAGE) {
           message2.fimePath = message.message;
           message2.type = FileType.TYPE_IMAGE;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
               .avatar(mOwn != null && mOwn.avatar != null ? mOwn.avatar : null)
               .message(message2)
               .build());
-        } else if (message.messageType == MessageExtensionType.AUDIO) {
+        } else if (message.messageType == DataExtensionType.AUDIO) {
           message2.fimePath = message.message;
           message2.time = 10;
           message2.type = FileType.TYPE_AUDIO;
@@ -449,7 +449,7 @@ public class GroupChatFragment extends BaseFragment
         mChatSendOther.setVisibility(View.VISIBLE);
       }
     } else if (i == R.id.chat_send_message) {
-      sendMyFriendMessage(mChatInput.getText().toString(), MessageExtensionType.TEXT);
+      sendMyFriendMessage(mChatInput.getText().toString(), DataExtensionType.TEXT);
     } else if (i == R.id.add_smile) {
       mChatSendOther.setVisibility(View.GONE);
       //切换键盘
@@ -476,7 +476,7 @@ public class GroupChatFragment extends BaseFragment
   /**
    * 发送消息到对方，并且添加到本地
    */
-  public void sendMyFriendMessage(String message, MessageExtensionType type) {
+  public void sendMyFriendMessage(String message, DataExtensionType type) {
     TextMessage message1 =
         new TextMessage(org.jivesoftware.smack.packet.Message.Type.groupchat, mGroup.node, message,
             type);
@@ -504,7 +504,7 @@ public class GroupChatFragment extends BaseFragment
     if (resultCode == RESULT_OK) {
       if (requestCode == Constant.REQUEST_CODE_PICK_IMAGE) {
         ArrayList<ImageFile> list = data.getParcelableArrayListExtra(Constant.RESULT_PICK_IMAGE);
-        uploadFile(list.get(0).getPath(), MessageExtensionType.IMAGE.toString());
+        uploadFile(list.get(0).getPath(), DataExtensionType.IMAGE.toString());
         mChatSendOther.setVisibility(View.GONE);
       } else if (requestCode == Constant.REQUEST_CODE_PICK_FILE) {
 
@@ -518,7 +518,7 @@ public class GroupChatFragment extends BaseFragment
 
   @Override public void onFinishRecord(float seconds, String filePath) {
     //构建本地发送消息，开启服务器发送消息到对方
-    uploadFile(filePath, MessageExtensionType.AUDIO.toString());
+    uploadFile(filePath, DataExtensionType.AUDIO.toString());
   }
 
   public void updateChatData() {
@@ -548,11 +548,11 @@ public class GroupChatFragment extends BaseFragment
         .subscribe(filePath -> {
           LogUtils.d(TAG, "uploadFile: " + filePath);
           //发送消息添加到本地，然后发送拓展消息到对方
-          if (type.equals(MessageExtensionType.IMAGE.toString())) {
-            sendMyFriendMessage(filePath.resourceId, MessageExtensionType.IMAGE);
+          if (type.equals(DataExtensionType.IMAGE.toString())) {
+            sendMyFriendMessage(filePath.resourceId, DataExtensionType.IMAGE);
           }
-          if (type.equals(MessageExtensionType.AUDIO.toString())) {
-            sendMyFriendMessage(filePath.resourceId, MessageExtensionType.AUDIO);
+          if (type.equals(DataExtensionType.AUDIO.toString())) {
+            sendMyFriendMessage(filePath.resourceId, DataExtensionType.AUDIO);
           }
         }, new ErrorAction() {
           @Override public void call(Throwable throwable) {

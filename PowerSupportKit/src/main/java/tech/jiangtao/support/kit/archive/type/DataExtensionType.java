@@ -5,22 +5,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Class: MessageExtensionType </br>
- * Description: 消息拓展，根据单聊来拓展群聊 </br>
- * Creator: kevin </br>
- * Email: jiangtao103cp@gmail.com </br>
- * Date: 15/04/2017 7:33 PM</br>
- * Update: 15/04/2017 7:33 PM </br>
- **/
-
-public enum MessageExtensionType {
-
-  CHAT("chat"),
-  GROUP_CHAT("groupChat");
+public enum DataExtensionType {
+  TEXT("text"),
+  IMAGE("image"),
+  AUDIO("audio"),
+  VIDEO("video");
   private final String mValue;
 
-  MessageExtensionType(String value) {
+  DataExtensionType(String value) {
     mValue = value;
   }
 

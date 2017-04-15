@@ -34,7 +34,7 @@ import butterknife.BindView;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
+import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
@@ -154,7 +154,7 @@ public class ChatListFragment extends BaseFragment
         RealmResults<MessageRealm> message = realm.where(MessageRealm.class)
             .equalTo(SupportIM.MESSAGE_ID, sessionRealms.getMessageId())
             .findAll();
-        if (message.first().getMessageType().equals(MessageExtensionType.TEXT.toString())) {
+        if (message.first().getMessageType().equals(DataExtensionType.TEXT.toString())) {
           mSessionMessage.add(
               new SessionListMessage.Builder().unReadMessageCount(sessionRealms.unReadCount)
                   .sessionId(sessionRealms.getSessionId())
@@ -164,7 +164,7 @@ public class ChatListFragment extends BaseFragment
                   .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
                   .build());
         }
-        if (message.first().getMessageType().equals(MessageExtensionType.IMAGE.toString())) {
+        if (message.first().getMessageType().equals(DataExtensionType.IMAGE.toString())) {
           mSessionMessage.add(
               new SessionListMessage.Builder().unReadMessageCount(sessionRealms.unReadCount)
                   .sessionId(sessionRealms.getSessionId())
@@ -174,7 +174,7 @@ public class ChatListFragment extends BaseFragment
                   .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
                   .build());
         }
-        if (message.first().getMessageType().equals(MessageExtensionType.AUDIO.toString())) {
+        if (message.first().getMessageType().equals(DataExtensionType.AUDIO.toString())) {
           mSessionMessage.add(
               new SessionListMessage.Builder().unReadMessageCount(sessionRealms.unReadCount)
                   .sessionId(sessionRealms.getSessionId())
@@ -184,7 +184,7 @@ public class ChatListFragment extends BaseFragment
                   .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
                   .build());
         }
-        if (message.first().getMessageType().equals(MessageExtensionType.VIDEO.toString())) {
+        if (message.first().getMessageType().equals(DataExtensionType.VIDEO.toString())) {
           mSessionMessage.add(
               new SessionListMessage.Builder().unReadMessageCount(sessionRealms.unReadCount)
                   .sessionId(sessionRealms.getSessionId())
@@ -213,7 +213,7 @@ public class ChatListFragment extends BaseFragment
           }
           RealmResults<MessageRealm> message =
               realm.where(MessageRealm.class).equalTo("id", sessionRealm.getMessageId()).findAll();
-          if (message.first().getMessageType().equals(MessageExtensionType.TEXT.toString())) {
+          if (message.first().getMessageType().equals(DataExtensionType.TEXT.toString())) {
             mSessionMessage.add(
                 new SessionListMessage.Builder().unReadMessageCount(sessionRealm.unReadCount)
                     .sessionId(sessionRealm.getSessionId())
@@ -223,7 +223,7 @@ public class ChatListFragment extends BaseFragment
                     .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
                     .build());
           }
-          if (message.first().getMessageType().equals(MessageExtensionType.IMAGE.toString())) {
+          if (message.first().getMessageType().equals(DataExtensionType.IMAGE.toString())) {
             mSessionMessage.add(
                 new SessionListMessage.Builder().unReadMessageCount(sessionRealm.unReadCount)
                     .sessionId(sessionRealm.getSessionId())
@@ -233,7 +233,7 @@ public class ChatListFragment extends BaseFragment
                     .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
                     .build());
           }
-          if (message.first().getMessageType().equals(MessageExtensionType.AUDIO.toString())) {
+          if (message.first().getMessageType().equals(DataExtensionType.AUDIO.toString())) {
             mSessionMessage.add(
                 new SessionListMessage.Builder().unReadMessageCount(sessionRealm.unReadCount)
                     .sessionId(sessionRealm.getSessionId())
@@ -243,7 +243,7 @@ public class ChatListFragment extends BaseFragment
                     .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
                     .build());
           }
-          if (message.first().getMessageType().equals(MessageExtensionType.VIDEO.toString())) {
+          if (message.first().getMessageType().equals(DataExtensionType.VIDEO.toString())) {
             mSessionMessage.add(
                 new SessionListMessage.Builder().unReadMessageCount(sessionRealm.unReadCount)
                     .sessionId(sessionRealm.getSessionId())
@@ -259,6 +259,7 @@ public class ChatListFragment extends BaseFragment
     });
   }
 
+  @Deprecated
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveMessage message) {
 
   }

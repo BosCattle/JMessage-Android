@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import java.util.Date;
 import org.jivesoftware.smack.packet.Message;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
-import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
+import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 
 /**
  * Class: RecieveMessage </br>
@@ -27,11 +27,11 @@ public class RecieveLastMessage  implements Parcelable {
   public String thread;
   public String message;
   // 消息类型，包括图片，语音，文字等等。
-  public MessageExtensionType messageType;
+  public DataExtensionType messageType;
   public boolean readStatus;
   public MessageAuthor messageAuthor;
 
-  public RecieveLastMessage(Message.Type type, String userJID, String message ,MessageExtensionType fileType) {
+  public RecieveLastMessage(Message.Type type, String userJID, String message ,DataExtensionType fileType) {
     this.type = type;
     this.userJID = userJID;
     this.message = message;
@@ -39,7 +39,7 @@ public class RecieveLastMessage  implements Parcelable {
   }
 
   public RecieveLastMessage(String id, Message.Type type, String userJID, String ownJid, String message,
-      MessageExtensionType messageType, boolean readStatus) {
+      DataExtensionType messageType, boolean readStatus) {
     this.id = id;
     this.type = type;
     this.userJID = userJID;
@@ -50,7 +50,7 @@ public class RecieveLastMessage  implements Parcelable {
   }
 
   public RecieveLastMessage(String id, Message.Type type, String userJID, String ownJid, String thread,
-      String message, MessageExtensionType messageType, boolean readStatus) {
+      String message, DataExtensionType messageType, boolean readStatus) {
     this.id = id;
     this.type = type;
     this.userJID = userJID;
@@ -62,7 +62,7 @@ public class RecieveLastMessage  implements Parcelable {
   }
 
   public RecieveLastMessage(String id, Message.Type type, String userJID, String ownJid, Date date,
-      String thread, String message, MessageExtensionType messageType, boolean readStatus) {
+      String thread, String message, DataExtensionType messageType, boolean readStatus) {
     this.id = id;
     this.type = type;
     this.userJID = userJID;
@@ -75,7 +75,7 @@ public class RecieveLastMessage  implements Parcelable {
   }
 
   public RecieveLastMessage(String id, Message.Type type, String userJID, String ownJid, String thread,
-      String message, MessageExtensionType messageType, boolean readStatus,
+      String message, DataExtensionType messageType, boolean readStatus,
       MessageAuthor messageAuthor) {
     this.id = id;
     this.type = type;
@@ -119,7 +119,7 @@ public class RecieveLastMessage  implements Parcelable {
     this.thread = in.readString();
     this.message = in.readString();
     int tmpMessageType = in.readInt();
-    this.messageType = tmpMessageType == -1 ? null : MessageExtensionType.values()[tmpMessageType];
+    this.messageType = tmpMessageType == -1 ? null : DataExtensionType.values()[tmpMessageType];
     this.readStatus = in.readByte() != 0;
     int tmpMessageAuthor = in.readInt();
     this.messageAuthor = tmpMessageAuthor == -1 ? null : MessageAuthor.values()[tmpMessageAuthor];

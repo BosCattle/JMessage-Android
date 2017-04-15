@@ -3,7 +3,7 @@ package tech.jiangtao.support.kit.eventbus;
 import android.os.Parcel;
 import android.os.Parcelable;
 import org.jivesoftware.smack.packet.Message;
-import tech.jiangtao.support.kit.archive.type.FileType;
+import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 
 /**
@@ -20,7 +20,8 @@ public class TextMessage implements Parcelable {
   public String userJID;
   public String message;
   // 消息类型，包括图片，语音，文字等等。
-  public MessageExtensionType messageType;
+  public DataExtensionType messageType;
+  public MessageExtensionType messageExtensionType;
 
   public TextMessage(String userJID, String message) {
     //this.type = type;
@@ -34,11 +35,19 @@ public class TextMessage implements Parcelable {
     this.message = message;
   }
 
-  public TextMessage(Message.Type type, String userJID, String message ,MessageExtensionType fileType) {
+  public TextMessage(Message.Type type, String userJID, String message ,DataExtensionType fileType) {
     this.type = type;
     this.userJID = userJID;
     this.message = message;
     this.messageType = fileType;
+  }
+
+  public TextMessage(Message.Type type, String userJID, String message ,DataExtensionType fileType,MessageExtensionType messageExtensionType) {
+    this.type = type;
+    this.userJID = userJID;
+    this.message = message;
+    this.messageType = fileType;
+    this.messageExtensionType = messageExtensionType;
   }
 
   @Override public int describeContents() {
@@ -50,6 +59,7 @@ public class TextMessage implements Parcelable {
     dest.writeString(this.userJID);
     dest.writeString(this.message);
     dest.writeInt(this.messageType == null ? -1 : this.messageType.ordinal());
+    dest.writeInt(this.messageExtensionType == null ? -1 : this.messageExtensionType.ordinal());
   }
 
   protected TextMessage(Parcel in) {
@@ -58,7 +68,10 @@ public class TextMessage implements Parcelable {
     this.userJID = in.readString();
     this.message = in.readString();
     int tmpMessageType = in.readInt();
-    this.messageType = tmpMessageType == -1 ? null : MessageExtensionType.values()[tmpMessageType];
+    this.messageType = tmpMessageType == -1 ? null : DataExtensionType.values()[tmpMessageType];
+    int tmpMessageExtensionType = in.readInt();
+    this.messageExtensionType = tmpMessageExtensionType == -1 ? null
+        : MessageExtensionType.values()[tmpMessageExtensionType];
   }
 
   public static final Creator<TextMessage> CREATOR = new Creator<TextMessage>() {
