@@ -10,6 +10,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
+import tech.jiangtao.support.ui.model.group.Group;
 import tech.jiangtao.support.ui.model.group.GroupData;
 
 /**
@@ -21,10 +22,11 @@ import tech.jiangtao.support.ui.model.group.GroupData;
  * Update: 14/01/2017 8:26 PM </br>
  **/
 
-public class GroupListViewHolder extends EasyViewHolder<GroupData> {
+public class GroupListViewHolder extends EasyViewHolder<Group> {
 
   @BindView(R2.id.group_avatar) CircleImageView mGroupAvatar;
   @BindView(R2.id.group_name) TextView mGroupName;
+  @BindView(R2.id.group_detail) TextView mGroupDetail;
   private Context mContext;
 
   public GroupListViewHolder(Context context, ViewGroup parent) {
@@ -33,13 +35,14 @@ public class GroupListViewHolder extends EasyViewHolder<GroupData> {
     mContext = context;
   }
 
-  @Override public void bindTo(int position, GroupData groupData) {
+  @Override public void bindTo(int position, Group groupData) {
     Glide.with(mContext)
-        .load(groupData.groupAvatar)
+        .load(groupData.avatar)
         .centerCrop()
         .placeholder(R.mipmap.ic_launcher)
         .crossFade()
         .into(mGroupAvatar);
-    mGroupName.setText(groupData.groupName);
+    mGroupName.setText(groupData.getName());
+    mGroupDetail.setText(groupData.getDescription());
   }
 }

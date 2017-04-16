@@ -41,7 +41,7 @@ public interface UserServiceApi {
      * @param uid
      * @return
      */
-    @GET("group/joined")
+    @GET("muc/joined")
     Observable<List<Groups>> getOwnGroup(@Query("uid") String uid);
 
 
@@ -59,7 +59,7 @@ public interface UserServiceApi {
      * @param roomName
      * @return
      */
-    @GET("group/search")
+    @GET("muc/search")
     Observable<List<Groups>> getQueryGroup(@Query("roomName") String roomName);
 
 

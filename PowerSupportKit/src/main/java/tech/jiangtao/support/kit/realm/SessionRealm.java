@@ -20,7 +20,15 @@ public class SessionRealm extends RealmObject implements Parcelable {
     // 消息类型，单聊---群聊
     public boolean messageType;
 
-    public String getSessionId() {
+  public boolean isMessageType() {
+    return messageType;
+  }
+
+  public void setMessageType(boolean messageType) {
+    this.messageType = messageType;
+  }
+
+  public String getSessionId() {
         return sessionId;
     }
 
@@ -52,34 +60,36 @@ public class SessionRealm extends RealmObject implements Parcelable {
         this.unReadCount = unReadCount;
     }
 
-    @Override public int describeContents() {
-        return 0;
+  public SessionRealm() {
     }
 
-    @Override public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.sessionId);
-        dest.writeString(this.senderFriendId);
-        dest.writeString(this.messageId);
-        dest.writeInt(this.unReadCount);
+  @Override public int describeContents() {
+    return 0;
+  }
+
+  @Override public void writeToParcel(Parcel dest, int flags) {
+    dest.writeString(this.sessionId);
+    dest.writeString(this.senderFriendId);
+    dest.writeString(this.messageId);
+    dest.writeInt(this.unReadCount);
+    dest.writeByte(this.messageType ? (byte) 1 : (byte) 0);
+  }
+
+  protected SessionRealm(Parcel in) {
+    this.sessionId = in.readString();
+    this.senderFriendId = in.readString();
+    this.messageId = in.readString();
+    this.unReadCount = in.readInt();
+    this.messageType = in.readByte() != 0;
+  }
+
+  public static final Creator<SessionRealm> CREATOR = new Creator<SessionRealm>() {
+    @Override public SessionRealm createFromParcel(Parcel source) {
+      return new SessionRealm(source);
     }
 
-    public SessionRealm() {
+    @Override public SessionRealm[] newArray(int size) {
+      return new SessionRealm[size];
     }
-
-    protected SessionRealm(Parcel in) {
-        this.sessionId = in.readString();
-        this.senderFriendId = in.readString();
-        this.messageId = in.readString();
-        this.unReadCount = in.readInt();
-    }
-
-    public static final Creator<SessionRealm> CREATOR = new Creator<SessionRealm>() {
-        @Override public SessionRealm createFromParcel(Parcel source) {
-            return new SessionRealm(source);
-        }
-
-        @Override public SessionRealm[] newArray(int size) {
-            return new SessionRealm[size];
-        }
-    };
+  };
 }

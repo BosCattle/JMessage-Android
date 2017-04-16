@@ -28,6 +28,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
+import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.callback.DisconnectCallBack;
 import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
 import tech.jiangtao.support.kit.eventbus.FriendRequest;
@@ -119,6 +120,9 @@ public class XMPPService extends Service {
         sessionRealm.setMessageId(message.id);
         sessionRealm.setUnReadCount(1);
       }
+      // 应该使用int值，后期会拓展推送消息
+      sessionRealm.setMessageType(
+          message.messageExtensionType.equals(MessageExtensionType.GROUP_CHAT));
       // ---> 保存到消息表
       MessageRealm messageRealm = new MessageRealm();
       messageRealm.setId(message.id);
@@ -136,7 +140,8 @@ public class XMPPService extends Service {
       LogUtils.d(TAG, "onSuccess: 保存消息成功");
       HermesEventBus.getDefault()
           .post(new RecieveLastMessage(message.id, message.type, message.userJID, message.ownJid,
-              message.thread, message.message, message.messageType, false, message.messageAuthor));
+              message.thread, message.message, message.messageType, message.messageExtensionType,
+              false, message.messageAuthor));
       //查询VCard
       Intent intent = null;
       RealmResults<ContactRealm> results = mRealm.where(ContactRealm.class)
@@ -180,7 +185,7 @@ public class XMPPService extends Service {
     mWakelock.acquire();
     Intent i = new Intent(this, AllInvitedActivity.class);
     i.putExtra(AllInvitedActivity.NEW_FLAG, request);
-    showOnesNotification(request.username, request.username+"请求添加你为好友.", i);
+    showOnesNotification(request.username, request.username + "请求添加你为好友.", i);
     mWakelock.release();
   }
 

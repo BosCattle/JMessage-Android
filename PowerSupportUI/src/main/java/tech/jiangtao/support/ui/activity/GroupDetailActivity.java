@@ -20,6 +20,7 @@ import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.model.User;
+import tech.jiangtao.support.ui.model.group.Group;
 import tech.jiangtao.support.ui.model.group.Groups;
 import tech.jiangtao.support.ui.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
@@ -95,7 +96,7 @@ public class GroupDetailActivity extends BaseActivity
     return false;
   }
 
-  public static void startGroupDetail(Activity activity,Groups groups) {
+  public static void startGroupDetail(Activity activity,Group groups) {
     Intent intent = new Intent(activity, GroupDetailActivity.class);
     intent.putExtra(GroupDetailActivity.GROUP,groups);
     activity.startActivity(intent);

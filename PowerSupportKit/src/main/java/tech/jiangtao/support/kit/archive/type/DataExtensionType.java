@@ -6,10 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum DataExtensionType {
-  TEXT("text"),
-  IMAGE("image"),
-  AUDIO("audio"),
-  VIDEO("video");
+  TEXT("text"), IMAGE("image"), AUDIO("audio"), VIDEO("video"), FILE("file");
   private final String mValue;
 
   DataExtensionType(String value) {

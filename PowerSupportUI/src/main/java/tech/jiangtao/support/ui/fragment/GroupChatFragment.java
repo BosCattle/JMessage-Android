@@ -57,6 +57,7 @@ import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.archive.type.FileType;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
+import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.realm.MessageRealm;
@@ -74,6 +75,7 @@ import tech.jiangtao.support.ui.api.service.UpLoadServiceApi;
 import tech.jiangtao.support.ui.model.ChatExtraModel;
 import tech.jiangtao.support.ui.model.Message;
 import tech.jiangtao.support.ui.model.group.Friends;
+import tech.jiangtao.support.ui.model.group.Group;
 import tech.jiangtao.support.ui.model.group.Groups;
 import tech.jiangtao.support.ui.model.type.MessageType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
@@ -101,8 +103,7 @@ public class GroupChatFragment extends BaseFragment
     View.OnLongClickListener, AudioRecordButton.onAudioFinishRecordListener,
     SwipeRefreshLayout.OnRefreshListener, View.OnFocusChangeListener {
 
-  public static final String USER_OWN = "own";
-  public static final String USER_FRIEND = "friend";
+  public static final String USER_FRIEND = "group";
 
   @BindView(R2.id.recycler) RecyclerView mRecycler;
   @BindView(R2.id.swift_refresh) SwipeRefreshLayout mSwiftRefresh;
@@ -126,7 +127,7 @@ public class GroupChatFragment extends BaseFragment
   private LinearLayoutManager mLinearLayoutManager;
   private String mUserJid;
   private int mPage = 1;
-  private Groups mGroup;
+  private Group mGroup;
   private Friends mOwn;
   private InputMethodManager mInputMethodManager;
 
@@ -265,7 +266,6 @@ public class GroupChatFragment extends BaseFragment
   }
 
   private void init() {
-    mOwn = getArguments().getParcelable(USER_OWN);
     mGroup = getArguments().getParcelable(USER_FRIEND);
     final AppPreferences appPreferences = new AppPreferences(getContext());
     try {
@@ -344,8 +344,8 @@ public class GroupChatFragment extends BaseFragment
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveLastMessage message) {
     LogUtils.d("----------->", "onMessage: " + message);
-    if (StringSplitUtil.splitDivider(message.userJID).equals(mGroup.groupUid)
-        || StringSplitUtil.splitDivider(message.ownJid).equals(mGroup.groupUid)) {
+    if (StringSplitUtil.splitDivider(message.userJID).equals(mGroup.getGroupId())
+        || StringSplitUtil.splitDivider(message.ownJid).equals(mGroup.getGroupId())) {
       if (message.messageAuthor == MessageAuthor.FRIEND) {
         Message message1 = new Message();
         message1.paramContent = message.message;
@@ -400,25 +400,6 @@ public class GroupChatFragment extends BaseFragment
     updateChatData();
   }
 
-  // TODO: 24/12/2016 添加类型
-  public void addMessageToAdapter(MessageRealm realm) {
-    Message message1 = new Message();
-    message1.paramContent = realm.getTextMessage();
-    LogUtils.d(TAG, "addMessageToAdapter: " + realm.getSender());
-    LogUtils.d(TAG, "addMessageToAdapter-----: " + mGroup.groupUid);
-    if (mGroup != null && realm.getSender().equals(mGroup.groupUid)) {
-      mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-          .avatar(mGroup != null ? mGroup.groupUid : null)
-          .message(message1)
-          .build());
-    } else {
-      mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
-          .avatar(mOwn != null ? mOwn.avatar : null)
-          .message(message1)
-          .build());
-    }
-    updateChatData();
-  }
 
   @Override public void onPause() {
     super.onPause();
@@ -478,10 +459,10 @@ public class GroupChatFragment extends BaseFragment
    */
   public void sendMyFriendMessage(String message, DataExtensionType type) {
     TextMessage message1 =
-        new TextMessage(org.jivesoftware.smack.packet.Message.Type.groupchat, mGroup.node, message,
-            type);
+        new TextMessage(org.jivesoftware.smack.packet.Message.Type.chat, mGroup.getGroupId(), message,
+            type, MessageExtensionType.GROUP_CHAT);
     message1.messageType = type;
-    HermesEventBus.getDefault().post(message1);
+    HermesEventBus.getDefault().postSticky(message1);
     //将消息更新到本地
     mChatInput.setText("");
   }

@@ -31,7 +31,9 @@ import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.api.ApiService;
+import tech.jiangtao.support.ui.api.service.GroupServiceApi;
 import tech.jiangtao.support.ui.api.service.UserServiceApi;
+import tech.jiangtao.support.ui.model.group.Group;
 import tech.jiangtao.support.ui.model.group.GroupData;
 import tech.jiangtao.support.ui.model.group.Groups;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
@@ -55,9 +57,9 @@ public class GroupListActivity extends BaseActivity
   @BindView(R2.id.group_list) RecyclerView mGroupList;
   @BindView(R2.id.group_swift_refresh) SwipeRefreshLayout mGroupSwiftRefresh;
   private BaseEasyAdapter mBaseEasyAdapter;
-  private UserServiceApi mUserServiceApi;
+  private GroupServiceApi mGroupServiceApi;
   private AppPreferences mAppPreferences;
-  private List<Groups> mGroups = new ArrayList<>();
+  private List<Group> mGroups = new ArrayList<>();
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -71,24 +73,17 @@ public class GroupListActivity extends BaseActivity
 
   private void loadGroupData() {
     mAppPreferences = new AppPreferences(this);
-    mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
+    mGroupServiceApi = ApiService.getInstance().createApiService(GroupServiceApi.class);
     String name = null;
     try {
       name = StringSplitUtil.splitDivider(mAppPreferences.getString(SupportIM.USER_ID));
     } catch (ItemNotFoundException e) {
       e.printStackTrace();
     }
-    mUserServiceApi.getOwnGroup(name).observeOn(AndroidSchedulers.mainThread()).subscribeOn(
+    mGroupServiceApi.groups(name).observeOn(AndroidSchedulers.mainThread()).subscribeOn(
         Schedulers.io()).subscribe(list -> {
-      if (list!=null){
-        mGroups = list;
-      }
-      for (int i = 0; i < list.size(); i++) {
-        GroupData data = new GroupData();
-        data.groupAvatar = "";
-        data.groupName = list.get(i).roomName;
-        mBaseEasyAdapter.add(data);
-      }
+      mGroups = list;
+      mBaseEasyAdapter.appendAll(list);
       mBaseEasyAdapter.notifyDataSetChanged();
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
@@ -100,7 +95,7 @@ public class GroupListActivity extends BaseActivity
 
   private void setUpAdapter() {
     mBaseEasyAdapter = new BaseEasyAdapter(this);
-    mBaseEasyAdapter.bind(GroupData.class, GroupListViewHolder.class);
+    mBaseEasyAdapter.bind(Group.class, GroupListViewHolder.class);
     mBaseEasyAdapter.setOnClickListener(this);
     mGroupList.setHasFixedSize(true);
     mGroupList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(this));

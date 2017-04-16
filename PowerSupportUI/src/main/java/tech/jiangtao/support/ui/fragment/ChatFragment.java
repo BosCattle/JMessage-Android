@@ -61,6 +61,7 @@ import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.archive.type.FileType;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
+import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.SupportIM;
@@ -524,7 +525,7 @@ public class ChatFragment extends BaseFragment
         mChatSendOther.setVisibility(View.VISIBLE);
       }
     } else if (i == R.id.chat_send_message) {
-      sendMyFriendMessage(mChatInput.getText().toString(), DataExtensionType.TEXT);
+      sendMyFriendMessage(mChatInput.getText().toString(), DataExtensionType.TEXT,MessageExtensionType.CHAT);
     } else if (i == R.id.add_smile) {
       mChatSendOther.setVisibility(View.GONE);
       //切换键盘
@@ -551,12 +552,12 @@ public class ChatFragment extends BaseFragment
   /**
    * 发送消息到对方，并且添加到本地
    */
-  public void sendMyFriendMessage(String message, DataExtensionType type) {
+  public void sendMyFriendMessage(String message, DataExtensionType type,MessageExtensionType messageExtensionType) {
     TextMessage message1 =
         new TextMessage(org.jivesoftware.smack.packet.Message.Type.chat, mContactRealm.getUserId(),
-            message, type);
+            message, type,messageExtensionType);
     message1.messageType = type;
-    HermesEventBus.getDefault().post(message1);
+    HermesEventBus.getDefault().postSticky(message1);
     //将消息更新到本地
     mChatInput.setText("");
   }
@@ -626,11 +627,15 @@ public class ChatFragment extends BaseFragment
           //发送消息添加到本地，然后发送拓展消息到对方
           if (type.equals(DataExtensionType.IMAGE.toString())) {
             sendMyFriendMessage(ResourceAddress.url(filePath.resourceId, TransportType.IMAGE),
-                DataExtensionType.IMAGE);
+                DataExtensionType.IMAGE,MessageExtensionType.CHAT);
           }
           if (type.equals(DataExtensionType.AUDIO.toString())) {
             sendMyFriendMessage(ResourceAddress.url(filePath.resourceId, TransportType.AUDIO),
-                DataExtensionType.AUDIO);
+                DataExtensionType.AUDIO,MessageExtensionType.CHAT);
+          }
+          if (type.equals(DataExtensionType.VIDEO.toString())) {
+            sendMyFriendMessage(ResourceAddress.url(filePath.resourceId, TransportType.AUDIO),
+                DataExtensionType.VIDEO,MessageExtensionType.CHAT);
           }
         }, new ErrorAction() {
           @Override public void call(Throwable throwable) {
