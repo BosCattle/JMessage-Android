@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.fragment.ChatFragment;
@@ -27,7 +28,7 @@ public class GroupChatActivity extends BaseActivity {
   public static final String TAG = GroupChatActivity.class.getSimpleName();
   @BindView(R2.id.tv_toolbar) TextView mTvToolbar;
   @BindView(R2.id.toolbar) Toolbar mToolbar;
-  private Group mGroups;
+  private GroupRealm mGroups;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -66,7 +67,7 @@ public class GroupChatActivity extends BaseActivity {
         v -> ActivityCompat.finishAfterTransition(GroupChatActivity.this));
   }
 
-  public static void startChat(Activity activity, Group group) {
+  public static void startChat(Activity activity, GroupRealm group) {
     Intent intent = new Intent(activity, GroupChatActivity.class);
     intent.putExtra(GroupChatFragment.USER_FRIEND, group);
     activity.startActivity(intent);

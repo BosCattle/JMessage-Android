@@ -104,9 +104,19 @@ public class XMPPService extends Service {
     }
     mRealm.executeTransactionAsync(realm -> {
       RealmResults<SessionRealm> result = null;
-      result = realm.where(SessionRealm.class)
-          .equalTo(SupportIM.SENDERFRIENDID, StringSplitUtil.splitDivider(message.userJID))
-          .findAll();
+      if (message.messageExtensionType.equals(MessageExtensionType.CHAT)) {
+        // 根据senderFriendId，发送者的userId是否可数据库中存储的userId相同
+        // 单聊是message.userJID
+        result = realm.where(SessionRealm.class)
+            .equalTo(SupportIM.SENDERFRIENDID, StringSplitUtil.splitDivider(message.userJID))
+            .findAll();
+      } else if (message.messageExtensionType.equals(MessageExtensionType.GROUP_CHAT)) {
+        // 根据senderFriendId，发送者的userId是否可数据库中存储的userId相同
+        // 群聊是message.groupId
+        result = realm.where(SessionRealm.class)
+            .equalTo(SupportIM.SENDERFRIENDID, StringSplitUtil.splitDivider(message.groupId))
+            .findAll();
+      }
       // 保存到SessionRealm
       SessionRealm sessionRealm;
       if (result.size() != 0) {
@@ -116,13 +126,18 @@ public class XMPPService extends Service {
       } else {
         sessionRealm = new SessionRealm();
         sessionRealm.setSessionId(UUID.randomUUID().toString());
-        sessionRealm.setSenderFriendId(StringSplitUtil.splitDivider(message.userJID));
         sessionRealm.setMessageId(message.id);
         sessionRealm.setUnReadCount(1);
       }
       // 应该使用int值，后期会拓展推送消息
-      sessionRealm.setMessageType(
-          message.messageExtensionType.equals(MessageExtensionType.GROUP_CHAT));
+      // 单聊为0，群聊为1
+      if (message.messageExtensionType.equals(MessageExtensionType.CHAT)) {
+        sessionRealm.setMessageType(0);
+        sessionRealm.setSenderFriendId(StringSplitUtil.splitDivider(message.userJID));
+      } else if (message.messageExtensionType.equals(MessageExtensionType.GROUP_CHAT)) {
+        sessionRealm.setMessageType(1);
+        sessionRealm.setSenderFriendId(StringSplitUtil.splitDivider(message.groupId));
+      }
       // ---> 保存到消息表
       MessageRealm messageRealm = new MessageRealm();
       messageRealm.setId(message.id);
@@ -134,6 +149,12 @@ public class XMPPService extends Service {
       messageRealm.setType(message.type.toString());
       messageRealm.setMessageType(message.messageType.toString());
       messageRealm.setMessageStatus(false);
+      if (message.messageExtensionType.equals(MessageExtensionType.CHAT)) {
+        messageRealm.setMessageExtensionType(0);
+      } else if (message.messageExtensionType.equals(MessageExtensionType.GROUP_CHAT)) {
+        messageRealm.setMessageExtensionType(1);
+        messageRealm.setGroupId(message.groupId);
+      }
       realm.copyToRealmOrUpdate(sessionRealm);
       realm.copyToRealm(messageRealm);
     }, () -> {

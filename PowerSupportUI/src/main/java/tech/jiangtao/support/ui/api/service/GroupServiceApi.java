@@ -5,8 +5,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import rx.Observable;
-import tech.jiangtao.support.ui.model.group.Group;
-import tech.jiangtao.support.ui.model.group.Groups;
+import tech.jiangtao.support.kit.realm.GroupRealm;
 
 /**
  * Class: GroupServiceApi </br>
@@ -21,5 +20,5 @@ public interface GroupServiceApi {
 
 
   @POST("group/groups")
-  @FormUrlEncoded Observable<List<Group>> groups(@Field("userId") String userId);
+  @FormUrlEncoded Observable<List<GroupRealm>> groups(@Field("userId") String userId);
 }

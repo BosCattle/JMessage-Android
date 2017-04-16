@@ -34,6 +34,7 @@ public class SupportIM {
   public static final String SENDERFRIENDID = "senderFriendId";
   public static final String MESSAGE_ID = "id";
   public static final String PINYIN = "pinYin";
+  public static final String GROUPID = "groupId";
 
   // TODO: 12/04/2017 realm版本升级配置
   private static void initialize(Context context){

@@ -18,13 +18,13 @@ public class SessionRealm extends RealmObject implements Parcelable {
     // 未读条数
     public int unReadCount;
     // 消息类型，单聊---群聊
-    public boolean messageType;
+    public int messageType;
 
-  public boolean isMessageType() {
+  public int getMessageType() {
     return messageType;
   }
 
-  public void setMessageType(boolean messageType) {
+  public void setMessageType(int messageType) {
     this.messageType = messageType;
   }
 
@@ -72,7 +72,7 @@ public class SessionRealm extends RealmObject implements Parcelable {
     dest.writeString(this.senderFriendId);
     dest.writeString(this.messageId);
     dest.writeInt(this.unReadCount);
-    dest.writeByte(this.messageType ? (byte) 1 : (byte) 0);
+    dest.writeInt(this.messageType);
   }
 
   protected SessionRealm(Parcel in) {
@@ -80,7 +80,7 @@ public class SessionRealm extends RealmObject implements Parcelable {
     this.senderFriendId = in.readString();
     this.messageId = in.readString();
     this.unReadCount = in.readInt();
-    this.messageType = in.readByte() != 0;
+    this.messageType = in.readInt();
   }
 
   public static final Creator<SessionRealm> CREATOR = new Creator<SessionRealm>() {

@@ -26,6 +26,7 @@ public class RecieveMessage implements Parcelable {
   public String userJID;
   // 消息接受者
   public String ownJid;
+  public String groupId;
   public Date date;
   public String thread;
   public String message;
@@ -95,7 +96,7 @@ public class RecieveMessage implements Parcelable {
 
   public RecieveMessage(String id, Message.Type type, String userJID, String ownJid, String thread,
       String message, DataExtensionType messageType, MessageExtensionType messageExtensionType,
-      boolean readStatus, MessageAuthor messageAuthor) {
+      boolean readStatus, MessageAuthor messageAuthor,String groupId) {
     this.id = id;
     this.type = type;
     this.userJID = userJID;
@@ -106,6 +107,7 @@ public class RecieveMessage implements Parcelable {
     this.readStatus = readStatus;
     this.messageAuthor = messageAuthor;
     this.messageExtensionType = messageExtensionType;
+    this.groupId = groupId;
   }
 
   public RecieveMessage() {
@@ -120,6 +122,7 @@ public class RecieveMessage implements Parcelable {
     dest.writeInt(this.type == null ? -1 : this.type.ordinal());
     dest.writeString(this.userJID);
     dest.writeString(this.ownJid);
+    dest.writeString(this.groupId);
     dest.writeLong(this.date != null ? this.date.getTime() : -1);
     dest.writeString(this.thread);
     dest.writeString(this.message);
@@ -135,6 +138,7 @@ public class RecieveMessage implements Parcelable {
     this.type = tmpType == -1 ? null : Message.Type.values()[tmpType];
     this.userJID = in.readString();
     this.ownJid = in.readString();
+    this.groupId = in.readString();
     long tmpDate = in.readLong();
     this.date = tmpDate == -1 ? null : new Date(tmpDate);
     this.thread = in.readString();

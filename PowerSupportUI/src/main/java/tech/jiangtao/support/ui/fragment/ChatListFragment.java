@@ -38,6 +38,7 @@ import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
+import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.kit.util.LogUtils;
@@ -73,6 +74,7 @@ public class ChatListFragment extends BaseFragment
   private List<SessionListMessage> mSessionMessage;
   private Realm mRealm;
   private RealmResults<SessionRealm> mSessionRealm;
+  private RealmResults<GroupRealm> mGroupRealm;
   private ContactItemCallback mContactItemCallback;
   private Drawable mDrawable;
   private AppPreferences mAppPreferences;
@@ -136,63 +138,116 @@ public class ChatListFragment extends BaseFragment
       } catch (ItemNotFoundException e) {
         e.printStackTrace();
       }
-      mSessionRealm =
-          realm.where(SessionRealm.class).notEqualTo(SupportIM.SENDERFRIENDID, userId).findAll();
+      mSessionRealm = realm.where(SessionRealm.class).findAll();
       Iterator<SessionRealm> it = mSessionRealm.iterator();
       LogUtils.d(TAG, "getChatList: 数量为" + mSessionRealm.size());
       while (it.hasNext()) {
         frameImage(false);
         SessionRealm sessionRealms = it.next();
-        RealmResults<ContactRealm> contactRealms = realm.where(ContactRealm.class)
-            .equalTo(SupportIM.USER_ID,
-                StringSplitUtil.splitDivider(sessionRealms.getSenderFriendId()))
-            .findAll();
-        ContactRealm contactRealm = new ContactRealm();
-        if (contactRealms.size() != 0) {
-          contactRealm = contactRealms.first();
+        // 单聊
+        if (sessionRealms.getMessageType() == 0) {
+          RealmResults<ContactRealm> contactRealms = realm.where(ContactRealm.class)
+              .equalTo(SupportIM.USER_ID,
+                  StringSplitUtil.splitDivider(sessionRealms.getSenderFriendId()))
+              .findAll();
+          ContactRealm contactRealm = new ContactRealm();
+          if (contactRealms.size() != 0) {
+            contactRealm = contactRealms.first();
+          }
+          RealmResults<MessageRealm> message = realm.where(MessageRealm.class)
+              .equalTo(SupportIM.MESSAGE_ID, sessionRealms.getMessageId())
+              .findAll();
+          if (message.first().getMessageType().equals(DataExtensionType.TEXT.toString())) {
+            mSessionMessage.add(
+                new SessionListMessage.Builder().unReadMessageCount(sessionRealms.unReadCount)
+                    .sessionId(sessionRealms.getSessionId())
+                    .userJid(sessionRealms.getSenderFriendId())
+                    .username(contactRealm.getNickName())
+                    .unReadMessage(message.first().textMessage)
+                    .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
+                    .build());
+          }
+          if (message.first().getMessageType().equals(DataExtensionType.IMAGE.toString())) {
+            mSessionMessage.add(
+                new SessionListMessage.Builder().unReadMessageCount(sessionRealms.unReadCount)
+                    .sessionId(sessionRealms.getSessionId())
+                    .userJid(sessionRealms.getSenderFriendId())
+                    .username(contactRealm.getNickName())
+                    .unReadMessage("图片")
+                    .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
+                    .build());
+          }
+          if (message.first().getMessageType().equals(DataExtensionType.AUDIO.toString())) {
+            mSessionMessage.add(
+                new SessionListMessage.Builder().unReadMessageCount(sessionRealms.unReadCount)
+                    .sessionId(sessionRealms.getSessionId())
+                    .userJid(sessionRealms.getSenderFriendId())
+                    .username(contactRealm.getNickName())
+                    .unReadMessage("语音")
+                    .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
+                    .build());
+          }
+          if (message.first().getMessageType().equals(DataExtensionType.VIDEO.toString())) {
+            mSessionMessage.add(
+                new SessionListMessage.Builder().unReadMessageCount(sessionRealms.unReadCount)
+                    .sessionId(sessionRealms.getSessionId())
+                    .userJid(sessionRealms.getSenderFriendId())
+                    .username(contactRealm.getNickName())
+                    .unReadMessage("视频")
+                    .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
+                    .build());
+          }
         }
-        RealmResults<MessageRealm> message = realm.where(MessageRealm.class)
-            .equalTo(SupportIM.MESSAGE_ID, sessionRealms.getMessageId())
-            .findAll();
-        if (message.first().getMessageType().equals(DataExtensionType.TEXT.toString())) {
-          mSessionMessage.add(
-              new SessionListMessage.Builder().unReadMessageCount(sessionRealms.unReadCount)
-                  .sessionId(sessionRealms.getSessionId())
-                  .userJid(sessionRealms.getSenderFriendId())
-                  .username(contactRealm.getNickName())
-                  .unReadMessage(message.first().textMessage)
-                  .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
-                  .build());
-        }
-        if (message.first().getMessageType().equals(DataExtensionType.IMAGE.toString())) {
-          mSessionMessage.add(
-              new SessionListMessage.Builder().unReadMessageCount(sessionRealms.unReadCount)
-                  .sessionId(sessionRealms.getSessionId())
-                  .userJid(sessionRealms.getSenderFriendId())
-                  .username(contactRealm.getNickName())
-                  .unReadMessage("图片")
-                  .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
-                  .build());
-        }
-        if (message.first().getMessageType().equals(DataExtensionType.AUDIO.toString())) {
-          mSessionMessage.add(
-              new SessionListMessage.Builder().unReadMessageCount(sessionRealms.unReadCount)
-                  .sessionId(sessionRealms.getSessionId())
-                  .userJid(sessionRealms.getSenderFriendId())
-                  .username(contactRealm.getNickName())
-                  .unReadMessage("语音")
-                  .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
-                  .build());
-        }
-        if (message.first().getMessageType().equals(DataExtensionType.VIDEO.toString())) {
-          mSessionMessage.add(
-              new SessionListMessage.Builder().unReadMessageCount(sessionRealms.unReadCount)
-                  .sessionId(sessionRealms.getSessionId())
-                  .userJid(sessionRealms.getSenderFriendId())
-                  .username(contactRealm.getNickName())
-                  .unReadMessage("视频")
-                  .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
-                  .build());
+        // 群聊
+        else if (sessionRealms.getMessageType() == 1) {
+          sessionRealms.getSenderFriendId();
+          mGroupRealm = realm.where(GroupRealm.class)
+              .equalTo(SupportIM.GROUPID, sessionRealms.getSenderFriendId())
+              .findAll();
+          RealmResults<MessageRealm> message = realm.where(MessageRealm.class)
+              .equalTo(SupportIM.MESSAGE_ID, sessionRealms.getMessageId())
+              .findAll();
+          GroupRealm groupRealm = mGroupRealm.first();
+          if (message.first().getMessageType().equals(DataExtensionType.TEXT.toString())) {
+            mSessionMessage.add(
+                new SessionListMessage.Builder().unReadMessageCount(sessionRealms.unReadCount)
+                    .sessionId(sessionRealms.getSessionId())
+                    .userJid(sessionRealms.getSenderFriendId())
+                    .username(groupRealm.getName())
+                    .unReadMessage(message.first().textMessage)
+                    .avatar(ResourceAddress.url(groupRealm.getAvatar(), TransportType.AVATAR))
+                    .build());
+          }
+          if (message.first().getMessageType().equals(DataExtensionType.IMAGE.toString())) {
+            mSessionMessage.add(
+                new SessionListMessage.Builder().unReadMessageCount(sessionRealms.unReadCount)
+                    .sessionId(sessionRealms.getSessionId())
+                    .userJid(sessionRealms.getSenderFriendId())
+                    .username(groupRealm.getName())
+                    .unReadMessage("图片")
+                    .avatar(ResourceAddress.url(groupRealm.getAvatar(), TransportType.AVATAR))
+                    .build());
+          }
+          if (message.first().getMessageType().equals(DataExtensionType.AUDIO.toString())) {
+            mSessionMessage.add(
+                new SessionListMessage.Builder().unReadMessageCount(sessionRealms.unReadCount)
+                    .sessionId(sessionRealms.getSessionId())
+                    .userJid(sessionRealms.getSenderFriendId())
+                    .username(groupRealm.getName())
+                    .unReadMessage("语音")
+                    .avatar(ResourceAddress.url(groupRealm.getAvatar(), TransportType.AVATAR))
+                    .build());
+          }
+          if (message.first().getMessageType().equals(DataExtensionType.VIDEO.toString())) {
+            mSessionMessage.add(
+                new SessionListMessage.Builder().unReadMessageCount(sessionRealms.unReadCount)
+                    .sessionId(sessionRealms.getSessionId())
+                    .userJid(sessionRealms.getSenderFriendId())
+                    .username(groupRealm.getName())
+                    .unReadMessage("视频")
+                    .avatar(ResourceAddress.url(groupRealm.getAvatar(), TransportType.AVATAR))
+                    .build());
+          }
         }
         mSessionAdapter.notifyDataSetChanged();
       }
@@ -203,55 +258,110 @@ public class ChatListFragment extends BaseFragment
         while (iterator.hasNext()) {
           frameImage(false);
           SessionRealm sessionRealm = iterator.next();
-          //这儿需要查一下MessageRealm和VCardRealm;
-          RealmResults<ContactRealm> contactRealms = realm.where(ContactRealm.class)
-              .equalTo("userId", StringSplitUtil.splitDivider(sessionRealm.getSenderFriendId()))
-              .findAll();
-          ContactRealm contactRealm = new ContactRealm();
-          if (contactRealms.size() != 0) {
-            contactRealm = contactRealms.first();
+          // 单聊
+          if (sessionRealm.getMessageType() == 0) {
+            //这儿需要查一下MessageRealm和VCardRealm;
+            RealmResults<ContactRealm> contactRealms = realm.where(ContactRealm.class)
+                .equalTo(SupportIM.USER_ID,
+                    StringSplitUtil.splitDivider(sessionRealm.getSenderFriendId()))
+                .findAll();
+            ContactRealm contactRealm = new ContactRealm();
+            if (contactRealms.size() != 0) {
+              contactRealm = contactRealms.first();
+            }
+            RealmResults<MessageRealm> message = realm.where(MessageRealm.class)
+                .equalTo(SupportIM.MESSAGE_ID, sessionRealm.getMessageId())
+                .findAll();
+            if (message.first().getMessageType().equals(DataExtensionType.TEXT.toString())) {
+              mSessionMessage.add(
+                  new SessionListMessage.Builder().unReadMessageCount(sessionRealm.unReadCount)
+                      .sessionId(sessionRealm.getSessionId())
+                      .userJid(sessionRealm.getSenderFriendId())
+                      .username(contactRealm.getNickName())
+                      .unReadMessage(message.first().textMessage)
+                      .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
+                      .build());
+            }
+            if (message.first().getMessageType().equals(DataExtensionType.IMAGE.toString())) {
+              mSessionMessage.add(
+                  new SessionListMessage.Builder().unReadMessageCount(sessionRealm.unReadCount)
+                      .sessionId(sessionRealm.getSessionId())
+                      .userJid(sessionRealm.getSenderFriendId())
+                      .username(contactRealm.getNickName())
+                      .unReadMessage("图片")
+                      .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
+                      .build());
+            }
+            if (message.first().getMessageType().equals(DataExtensionType.AUDIO.toString())) {
+              mSessionMessage.add(
+                  new SessionListMessage.Builder().unReadMessageCount(sessionRealm.unReadCount)
+                      .sessionId(sessionRealm.getSessionId())
+                      .userJid(sessionRealm.getSenderFriendId())
+                      .username(contactRealm.getNickName())
+                      .unReadMessage("语音")
+                      .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
+                      .build());
+            }
+            if (message.first().getMessageType().equals(DataExtensionType.VIDEO.toString())) {
+              mSessionMessage.add(
+                  new SessionListMessage.Builder().unReadMessageCount(sessionRealm.unReadCount)
+                      .sessionId(sessionRealm.getSessionId())
+                      .userJid(sessionRealm.getSenderFriendId())
+                      .username(contactRealm.getNickName())
+                      .unReadMessage("视频")
+                      .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
+                      .build());
+            }
           }
-          RealmResults<MessageRealm> message =
-              realm.where(MessageRealm.class).equalTo("id", sessionRealm.getMessageId()).findAll();
-          if (message.first().getMessageType().equals(DataExtensionType.TEXT.toString())) {
-            mSessionMessage.add(
-                new SessionListMessage.Builder().unReadMessageCount(sessionRealm.unReadCount)
-                    .sessionId(sessionRealm.getSessionId())
-                    .userJid(sessionRealm.getSenderFriendId())
-                    .username(contactRealm.getNickName())
-                    .unReadMessage(message.first().textMessage)
-                    .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
-                    .build());
-          }
-          if (message.first().getMessageType().equals(DataExtensionType.IMAGE.toString())) {
-            mSessionMessage.add(
-                new SessionListMessage.Builder().unReadMessageCount(sessionRealm.unReadCount)
-                    .sessionId(sessionRealm.getSessionId())
-                    .userJid(sessionRealm.getSenderFriendId())
-                    .username(contactRealm.getNickName())
-                    .unReadMessage("图片")
-                    .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
-                    .build());
-          }
-          if (message.first().getMessageType().equals(DataExtensionType.AUDIO.toString())) {
-            mSessionMessage.add(
-                new SessionListMessage.Builder().unReadMessageCount(sessionRealm.unReadCount)
-                    .sessionId(sessionRealm.getSessionId())
-                    .userJid(sessionRealm.getSenderFriendId())
-                    .username(contactRealm.getNickName())
-                    .unReadMessage("语音")
-                    .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
-                    .build());
-          }
-          if (message.first().getMessageType().equals(DataExtensionType.VIDEO.toString())) {
-            mSessionMessage.add(
-                new SessionListMessage.Builder().unReadMessageCount(sessionRealm.unReadCount)
-                    .sessionId(sessionRealm.getSessionId())
-                    .userJid(sessionRealm.getSenderFriendId())
-                    .username(contactRealm.getNickName())
-                    .unReadMessage("视频")
-                    .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
-                    .build());
+          // 群聊
+          else if (sessionRealm.getMessageType() == 1) {
+            mGroupRealm = realm.where(GroupRealm.class)
+                .equalTo(SupportIM.GROUPID, sessionRealm.getSenderFriendId())
+                .findAll();
+            RealmResults<MessageRealm> message = realm.where(MessageRealm.class)
+                .equalTo(SupportIM.MESSAGE_ID, sessionRealm.getMessageId())
+                .findAll();
+            GroupRealm groupRealm = mGroupRealm.first();
+            if (message.first().getMessageType().equals(DataExtensionType.TEXT.toString())) {
+              mSessionMessage.add(
+                  new SessionListMessage.Builder().unReadMessageCount(sessionRealm.unReadCount)
+                      .sessionId(sessionRealm.getSessionId())
+                      .userJid(sessionRealm.getSenderFriendId())
+                      .username(groupRealm.getName())
+                      .unReadMessage(message.first().textMessage)
+                      .avatar(ResourceAddress.url(groupRealm.getAvatar(), TransportType.AVATAR))
+                      .build());
+            }
+            if (message.first().getMessageType().equals(DataExtensionType.IMAGE.toString())) {
+              mSessionMessage.add(
+                  new SessionListMessage.Builder().unReadMessageCount(sessionRealm.unReadCount)
+                      .sessionId(sessionRealm.getSessionId())
+                      .userJid(sessionRealm.getSenderFriendId())
+                      .username(groupRealm.getName())
+                      .unReadMessage("图片")
+                      .avatar(ResourceAddress.url(groupRealm.getAvatar(), TransportType.AVATAR))
+                      .build());
+            }
+            if (message.first().getMessageType().equals(DataExtensionType.AUDIO.toString())) {
+              mSessionMessage.add(
+                  new SessionListMessage.Builder().unReadMessageCount(sessionRealm.unReadCount)
+                      .sessionId(sessionRealm.getSessionId())
+                      .userJid(sessionRealm.getSenderFriendId())
+                      .username(groupRealm.getName())
+                      .unReadMessage("语音")
+                      .avatar(ResourceAddress.url(groupRealm.getAvatar(), TransportType.AVATAR))
+                      .build());
+            }
+            if (message.first().getMessageType().equals(DataExtensionType.VIDEO.toString())) {
+              mSessionMessage.add(
+                  new SessionListMessage.Builder().unReadMessageCount(sessionRealm.unReadCount)
+                      .sessionId(sessionRealm.getSessionId())
+                      .userJid(sessionRealm.getSenderFriendId())
+                      .username(groupRealm.getName())
+                      .unReadMessage("视频")
+                      .avatar(ResourceAddress.url(groupRealm.getAvatar(), TransportType.AVATAR))
+                      .build());
+            }
           }
           mSessionAdapter.notifyDataSetChanged();
         }
@@ -259,8 +369,8 @@ public class ChatListFragment extends BaseFragment
     });
   }
 
-  @Deprecated
-  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveMessage message) {
+  @Deprecated @Subscribe(threadMode = ThreadMode.MAIN)
+  public void onMessage(RecieveMessage message) {
 
   }
 

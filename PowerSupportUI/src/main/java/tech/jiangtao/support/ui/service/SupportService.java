@@ -182,42 +182,30 @@ public class SupportService extends Service
           (DefaultExtensionElement) message.getExtension(DATA_EXTENSION);
 
       if (message.getBody() != null) {
+        DataExtensionType dataExtensionType = null;
         if (messageExtensionType.equals(MessageExtensionType.CHAT)) {
-          if (dataExtension == null
-              || dataExtension.getValue(TYPE) == null
-              || dataExtension.getValue(TYPE).equals(DataExtensionType.TEXT.toString())) {
-            HermesEventBus.getDefault()
-                .post(
-                    new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
-                        message.getTo(), chat1.getThreadID(), message.getBody(),
-                        DataExtensionType.TEXT, messageExtensionType, false, MessageAuthor.FRIEND));
-          } else if (dataExtension.getValue(TYPE).equals(DataExtensionType.IMAGE.toString())) {
-            HermesEventBus.getDefault()
-                .post(
-                    new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
-                        message.getTo(), chat1.getThreadID(), message.getBody(),
-                        DataExtensionType.IMAGE, messageExtensionType, false,
-                        MessageAuthor.FRIEND));
-          } else if (dataExtension.getValue(TYPE).equals(DataExtensionType.AUDIO.toString())) {
-            HermesEventBus.getDefault()
-                .post(
-                    new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
-                        message.getTo(), chat1.getThreadID(), message.getBody(),
-                        DataExtensionType.AUDIO, messageExtensionType, false,
-                        MessageAuthor.FRIEND));
-          } else if (dataExtension.getValue(TYPE).equals(DataExtensionType.VIDEO.toString())) {
-            HermesEventBus.getDefault()
-                .post(
-                    new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
-                        message.getTo(), chat1.getThreadID(), message.getBody(),
-                        DataExtensionType.VIDEO, messageExtensionType, false,
-                        MessageAuthor.FRIEND));
+          if (dataExtension.getValue(TYPE) == null) {
+            dataExtensionType = DataExtensionType.TEXT;
+          } else {
+            dataExtensionType = DataExtensionType.fromValue(dataExtension.getValue(TYPE));
           }
+          HermesEventBus.getDefault()
+              .post(new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
+                  message.getTo(), chat1.getThreadID(), message.getBody(), dataExtensionType,
+                  messageExtensionType, false, MessageAuthor.FRIEND, null));
         } else if (messageExtensionType.equals(MessageExtensionType.GROUP_CHAT)) {
           DefaultExtensionElement senderExtensionElement =
               (DefaultExtensionElement) message.getExtension(SENDER_EXTENSION);
           // 什么人在群组里发了信息
           String sender = senderExtensionElement.getValue(SENDERVALUE);
+          dataExtensionType = DataExtensionType.fromValue(dataExtension.getValue(TYPE));
+          if (dataExtensionType == null) {
+            dataExtensionType = DataExtensionType.TEXT;
+          }
+          HermesEventBus.getDefault()
+              .post(new RecieveMessage(message.getStanzaId(), message.getType(), sender,
+                  message.getTo(), chat1.getThreadID(), message.getBody(), dataExtensionType,
+                  messageExtensionType, false, MessageAuthor.FRIEND, message.getFrom()));
         }
       }
       //发送消息到守护服务，先保存会话到另外一个会话表，然后保存消息到历史消息表
@@ -291,10 +279,17 @@ public class SupportService extends Service
             dataType = DataExtensionType.VIDEO;
           }
           if (s.getBody() != null) {
-            HermesEventBus.getDefault()
-                .postSticky(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
-                    chat.getThreadID(), s.getBody(), dataType, messageExtensionType, false,
-                    MessageAuthor.OWN));
+            if (messageExtensionType.equals(MessageExtensionType.CHAT)) {
+              HermesEventBus.getDefault()
+                  .postSticky(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
+                      chat.getThreadID(), s.getBody(), dataType, messageExtensionType, false,
+                      MessageAuthor.OWN, null));
+            } else if (messageExtensionType.equals(MessageExtensionType.GROUP_CHAT)) {
+              HermesEventBus.getDefault()
+                  .postSticky(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
+                      chat.getThreadID(), s.getBody(), dataType, messageExtensionType, false,
+                      MessageAuthor.OWN, s.getTo()));
+            }
           }
         } catch (ItemNotFoundException e) {
           e.printStackTrace();

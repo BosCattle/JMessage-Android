@@ -9,10 +9,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
 
@@ -24,6 +27,7 @@ import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.SupportIM;
+import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
@@ -32,10 +36,6 @@ import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.api.ApiService;
 import tech.jiangtao.support.ui.api.service.GroupServiceApi;
-import tech.jiangtao.support.ui.api.service.UserServiceApi;
-import tech.jiangtao.support.ui.model.group.Group;
-import tech.jiangtao.support.ui.model.group.GroupData;
-import tech.jiangtao.support.ui.model.group.Groups;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
 import tech.jiangtao.support.ui.viewholder.GroupListViewHolder;
 import work.wanghao.simplehud.SimpleHUD;
@@ -59,7 +59,8 @@ public class GroupListActivity extends BaseActivity
   private BaseEasyAdapter mBaseEasyAdapter;
   private GroupServiceApi mGroupServiceApi;
   private AppPreferences mAppPreferences;
-  private List<Group> mGroups = new ArrayList<>();
+  private List<GroupRealm> mGroupRealms = new ArrayList<>();
+  private Realm mRealm;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -68,11 +69,25 @@ public class GroupListActivity extends BaseActivity
     setUpToolbar();
     setUpRefresh();
     setUpAdapter();
+    getLocalGroupData();
+  }
+
+  private void getLocalGroupData() {
+    mAppPreferences = new AppPreferences(this);
+    if (mRealm == null || mRealm.isClosed()) {
+      mRealm = Realm.getDefaultInstance();
+    }
+    mRealm.executeTransaction(realm -> {
+      RealmResults<GroupRealm> realmResult = realm.where(GroupRealm.class).findAll();
+      for (int i = 0; i < realmResult.size(); i++) {
+        mGroupRealms.add(realmResult.get(i));
+      }
+    });
+    mBaseEasyAdapter.notifyDataSetChanged();
     loadGroupData();
   }
 
   private void loadGroupData() {
-    mAppPreferences = new AppPreferences(this);
     mGroupServiceApi = ApiService.getInstance().createApiService(GroupServiceApi.class);
     String name = null;
     try {
@@ -80,22 +95,34 @@ public class GroupListActivity extends BaseActivity
     } catch (ItemNotFoundException e) {
       e.printStackTrace();
     }
-    mGroupServiceApi.groups(name).observeOn(AndroidSchedulers.mainThread()).subscribeOn(
-        Schedulers.io()).subscribe(list -> {
-      mGroups = list;
-      mBaseEasyAdapter.appendAll(list);
-      mBaseEasyAdapter.notifyDataSetChanged();
-    }, new ErrorAction() {
-      @Override public void call(Throwable throwable) {
-        super.call(throwable);
-        SimpleHUD.showErrorMessage(GroupListActivity.this,throwable.getLocalizedMessage());
-      }
-    });
+    mGroupServiceApi.groups(name)
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io())
+        .subscribe(list -> {
+          mBaseEasyAdapter.clear();
+          mGroupRealms.clear();
+          mGroupRealms.addAll(list);
+          mBaseEasyAdapter.appendAll(list);
+          mBaseEasyAdapter.notifyDataSetChanged();
+          writeGroupRealm(list);
+        }, new ErrorAction() {
+          @Override public void call(Throwable throwable) {
+            super.call(throwable);
+            SimpleHUD.showErrorMessage(GroupListActivity.this, throwable.getLocalizedMessage());
+          }
+        });
+  }
+
+  private void writeGroupRealm(List<GroupRealm> realms) {
+    if (mRealm == null || mRealm.isClosed()) {
+      mRealm = Realm.getDefaultInstance();
+    }
+    mRealm.executeTransactionAsync(realm -> realm.copyToRealmOrUpdate(realms));
   }
 
   private void setUpAdapter() {
     mBaseEasyAdapter = new BaseEasyAdapter(this);
-    mBaseEasyAdapter.bind(Group.class, GroupListViewHolder.class);
+    mBaseEasyAdapter.bind(GroupRealm.class, GroupListViewHolder.class);
     mBaseEasyAdapter.setOnClickListener(this);
     mGroupList.setHasFixedSize(true);
     mGroupList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(this));
@@ -136,6 +163,6 @@ public class GroupListActivity extends BaseActivity
   }
 
   @Override public void onItemClick(int position, View view) {
-    GroupChatActivity.startChat(this, mGroups.get(position));
+    GroupChatActivity.startChat(this, mGroupRealms.get(position));
   }
 }

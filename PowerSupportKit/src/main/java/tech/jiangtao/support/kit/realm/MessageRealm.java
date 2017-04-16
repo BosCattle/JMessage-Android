@@ -27,6 +27,8 @@ public class MessageRealm extends RealmObject implements Parcelable {
   public String sender;
   // message_to
   public String receiver;
+
+  public String groupId;
   // 消息内容
   public String textMessage;
   // 暂时保留时间戳，备用
@@ -39,6 +41,24 @@ public class MessageRealm extends RealmObject implements Parcelable {
   public String messageType;
   // 消息状态 true: 表示已读，false:表示未读
   public boolean messageStatus;
+  // 消息拓展类型，包含单聊，群聊，推送
+  public int messageExtensionType;
+
+  public int getMessageExtensionType() {
+    return messageExtensionType;
+  }
+
+  public void setMessageExtensionType(int messageExtensionType) {
+    this.messageExtensionType = messageExtensionType;
+  }
+
+  public String getGroupId() {
+    return groupId;
+  }
+
+  public void setGroupId(String groupId) {
+    this.groupId = groupId;
+  }
 
   public String getId() {
     return id;
@@ -112,6 +132,9 @@ public class MessageRealm extends RealmObject implements Parcelable {
     this.messageStatus = messageStatus;
   }
 
+  public MessageRealm() {
+  }
+
   @Override public int describeContents() {
     return 0;
   }
@@ -120,21 +143,21 @@ public class MessageRealm extends RealmObject implements Parcelable {
     dest.writeString(this.id);
     dest.writeString(this.sender);
     dest.writeString(this.receiver);
+    dest.writeString(this.groupId);
     dest.writeString(this.textMessage);
     dest.writeLong(this.time != null ? this.time.getTime() : -1);
     dest.writeString(this.thread);
     dest.writeString(this.type);
     dest.writeString(this.messageType);
     dest.writeByte(this.messageStatus ? (byte) 1 : (byte) 0);
-  }
-
-  public MessageRealm() {
+    dest.writeInt(this.messageExtensionType);
   }
 
   protected MessageRealm(Parcel in) {
     this.id = in.readString();
     this.sender = in.readString();
     this.receiver = in.readString();
+    this.groupId = in.readString();
     this.textMessage = in.readString();
     long tmpTime = in.readLong();
     this.time = tmpTime == -1 ? null : new java.util.Date(tmpTime);
@@ -142,6 +165,7 @@ public class MessageRealm extends RealmObject implements Parcelable {
     this.type = in.readString();
     this.messageType = in.readString();
     this.messageStatus = in.readByte() != 0;
+    this.messageExtensionType = in.readInt();
   }
 
   public static final Creator<MessageRealm> CREATOR = new Creator<MessageRealm>() {

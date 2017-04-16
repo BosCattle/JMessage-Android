@@ -60,6 +60,7 @@ import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
+import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
@@ -75,8 +76,6 @@ import tech.jiangtao.support.ui.api.service.UpLoadServiceApi;
 import tech.jiangtao.support.ui.model.ChatExtraModel;
 import tech.jiangtao.support.ui.model.Message;
 import tech.jiangtao.support.ui.model.group.Friends;
-import tech.jiangtao.support.ui.model.group.Group;
-import tech.jiangtao.support.ui.model.group.Groups;
 import tech.jiangtao.support.ui.model.type.MessageType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
 import tech.jiangtao.support.ui.view.AudioManager;
@@ -127,7 +126,7 @@ public class GroupChatFragment extends BaseFragment
   private LinearLayoutManager mLinearLayoutManager;
   private String mUserJid;
   private int mPage = 1;
-  private Group mGroup;
+  private GroupRealm mGroup;
   private Friends mOwn;
   private InputMethodManager mInputMethodManager;
 
@@ -204,7 +203,7 @@ public class GroupChatFragment extends BaseFragment
         if (messageRealmse.get(i).getMessageType().equals(DataExtensionType.TEXT.toString())) {
           message1.type = FileType.TYPE_TEXT;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
-              .avatar(mGroup != null ? mGroup.avatar : null)
+              .avatar(mGroup != null ? mGroup.getAvatar() : null)
               .message(message1)
               .build());
         } else if (messageRealmse.get(i)
@@ -234,7 +233,7 @@ public class GroupChatFragment extends BaseFragment
         if (messageRealmse.get(i).getMessageType().equals(DataExtensionType.TEXT.toString())) {
           message1.paramContent = messageRealmse.get(i).getTextMessage();
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-              .avatar(mGroup.avatar)
+              .avatar(mGroup.getAvatar())
               .message(message1)
               .build());
         } else if (messageRealmse.get(i)
@@ -242,7 +241,7 @@ public class GroupChatFragment extends BaseFragment
             .equals(DataExtensionType.IMAGE.toString())) {
           message1.fimePath = messageRealmse.get(i).getTextMessage();
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
-              .avatar(mGroup.avatar)
+              .avatar(mGroup.getAvatar())
               .message(message1)
               .build());
         } else if (messageRealmse.get(i)
@@ -250,7 +249,7 @@ public class GroupChatFragment extends BaseFragment
             .equals(DataExtensionType.AUDIO.toString())) {
           message1.fimePath = messageRealmse.get(i).getTextMessage();
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
-              .avatar(mGroup.avatar)
+              .avatar(mGroup.getAvatar())
               .message(message1)
               .build());
         }
@@ -352,20 +351,20 @@ public class GroupChatFragment extends BaseFragment
         if (message.messageType == DataExtensionType.TEXT) {
           message1.paramContent = message.message;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-              .avatar(mGroup.avatar)
+              .avatar(mGroup.getAvatar())
               .message(message1)
               .build());
         } else if (message.messageType == DataExtensionType.IMAGE) {
           message1.fimePath = message.message;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
-              .avatar(mGroup.avatar)
+              .avatar(mGroup.getAvatar())
               .message(message1)
               .build());
           LogUtils.d(TAG, "onMessage: " + message1);
         } else if (message.messageType == DataExtensionType.AUDIO) {
           message1.fimePath = message.message;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
-              .avatar(mGroup.avatar)
+              .avatar(mGroup.getAvatar())
               .message(message1)
               .build());
           LogUtils.d(TAG, "onMessage: " + message1);

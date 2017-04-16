@@ -7,6 +7,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import de.hdodenhof.circleimageview.CircleImageView;
+import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
@@ -22,7 +23,7 @@ import tech.jiangtao.support.ui.model.group.GroupData;
  * Update: 14/01/2017 8:26 PM </br>
  **/
 
-public class GroupListViewHolder extends EasyViewHolder<Group> {
+public class GroupListViewHolder extends EasyViewHolder<GroupRealm> {
 
   @BindView(R2.id.group_avatar) CircleImageView mGroupAvatar;
   @BindView(R2.id.group_name) TextView mGroupName;
@@ -35,9 +36,9 @@ public class GroupListViewHolder extends EasyViewHolder<Group> {
     mContext = context;
   }
 
-  @Override public void bindTo(int position, Group groupData) {
+  @Override public void bindTo(int position, GroupRealm groupData) {
     Glide.with(mContext)
-        .load(groupData.avatar)
+        .load(groupData.getAvatar())
         .centerCrop()
         .placeholder(R.mipmap.ic_launcher)
         .crossFade()

@@ -15,6 +15,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
@@ -96,7 +97,7 @@ public class GroupDetailActivity extends BaseActivity
     return false;
   }
 
-  public static void startGroupDetail(Activity activity,Group groups) {
+  public static void startGroupDetail(Activity activity,GroupRealm groups) {
     Intent intent = new Intent(activity, GroupDetailActivity.class);
     intent.putExtra(GroupDetailActivity.GROUP,groups);
     activity.startActivity(intent);
