@@ -60,7 +60,9 @@ android {
     preDexLibraries = false
     javaMaxHeapSize "4g"
   }
-
+  retrolambda {
+    jvmArgs '-noverify'
+  }
   compileOptions {
     sourceCompatibility rootProject.ext.android.javaVersion
     targetCompatibility rootProject.ext.android.javaVersion

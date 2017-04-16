@@ -196,9 +196,7 @@ public class ChatListFragment extends BaseFragment
                     .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
                     .build());
           }
-        }
-        // 群聊
-        else if (sessionRealms.getMessageType() == 1) {
+        } else if (sessionRealms.getMessageType() == 1) {
           sessionRealms.getSenderFriendId();
           mGroupRealm = realm.where(GroupRealm.class)
               .equalTo(SupportIM.GROUPID, sessionRealms.getSenderFriendId())
@@ -250,7 +248,8 @@ public class ChatListFragment extends BaseFragment
         }
         mSessionAdapter.notifyDataSetChanged();
       }
-      mSessionRealm.addChangeListener(element -> {
+      mSessionRealm.addChangeListener(element ->
+      {
         Iterator<SessionRealm> iterator = element.iterator();
         LogUtils.d(TAG, "getChatList: 会话数量" + element.size());
         mSessionMessage.clear();
@@ -258,7 +257,8 @@ public class ChatListFragment extends BaseFragment
           frameImage(false);
           SessionRealm sessionRealm = iterator.next();
           // 单聊
-          if (sessionRealm.getMessageType() == 0) {
+          if (sessionRealm.getMessageType() == 0)
+          {
             //这儿需要查一下MessageRealm和VCardRealm;
             RealmResults<ContactRealm> contactRealms = realm.where(ContactRealm.class)
                 .equalTo(SupportIM.USER_ID,
@@ -311,8 +311,8 @@ public class ChatListFragment extends BaseFragment
                       .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
                       .build());
             }
+            mSessionAdapter.notifyDataSetChanged();
           }
-          // 群聊
           else if (sessionRealm.getMessageType() == 1) {
             mGroupRealm = realm.where(GroupRealm.class)
                 .equalTo(SupportIM.GROUPID, sessionRealm.getSenderFriendId())
@@ -361,8 +361,8 @@ public class ChatListFragment extends BaseFragment
                       .avatar(ResourceAddress.url(groupRealm.getAvatar(), TransportType.AVATAR))
                       .build());
             }
+            mSessionAdapter.notifyDataSetChanged();
           }
-          mSessionAdapter.notifyDataSetChanged();
         }
       });
     });
