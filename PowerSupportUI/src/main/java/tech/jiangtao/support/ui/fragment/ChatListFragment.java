@@ -75,7 +75,6 @@ public class ChatListFragment extends BaseFragment
   private Realm mRealm;
   private RealmResults<SessionRealm> mSessionRealm;
   private RealmResults<GroupRealm> mGroupRealm;
-  private ContactItemCallback mContactItemCallback;
   private Drawable mDrawable;
   private AppPreferences mAppPreferences;
 
@@ -396,7 +395,7 @@ public class ChatListFragment extends BaseFragment
 
   @Override public void onAttach(Context context) {
     super.onAttach(context);
-    mContactItemCallback = (ContactItemCallback) context;
+    ContactItemCallback mContactItemCallback = (ContactItemCallback) context;
   }
 
   @Override public boolean onItemLongClick(int position, View view) {

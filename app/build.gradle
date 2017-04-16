@@ -55,6 +55,11 @@ android {
     exclude 'META-INF/dependencies.txt'
     exclude 'META-INF/LGPL2.1'
   }
+  dexOptions {
+    incremental = true;
+    preDexLibraries = false
+    javaMaxHeapSize "4g"
+  }
 
   compileOptions {
     sourceCompatibility rootProject.ext.android.javaVersion
