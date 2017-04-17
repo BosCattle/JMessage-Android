@@ -37,8 +37,8 @@ public class SupportUI {
     String resource = UUID.randomUUID().toString();
     //---------------------------------------配置中心--------------------------------
     //------------------------------------------------------------------------------
-    initialize(context, SERVICE_NAME, resource, HOST2, Integer.parseInt(PORT),
-        RESOURCE_ADDRESS2, API_ADDRESS2);
+    initialize(context, SERVICE_NAME, resource, HOST1, Integer.parseInt(PORT),
+        RESOURCE_ADDRESS1, API_ADDRESS1);
     BQMM.getInstance().initConfig(context, MM_APPID, MM_AppSecret);
   }
 

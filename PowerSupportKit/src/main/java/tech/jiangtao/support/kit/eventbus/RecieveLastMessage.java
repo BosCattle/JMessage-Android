@@ -32,6 +32,15 @@ public class RecieveLastMessage  implements Parcelable {
   public MessageExtensionType messageExtensionType;
   public boolean readStatus;
   public MessageAuthor messageAuthor;
+  public String groupId;
+
+  public String getGroupId() {
+    return groupId;
+  }
+
+  public void setGroupId(String groupId) {
+    this.groupId = groupId;
+  }
 
   public String getId() {
     return id;
@@ -166,7 +175,7 @@ public class RecieveLastMessage  implements Parcelable {
 
   public RecieveLastMessage(String id, Message.Type type, String userJID, String ownJid, String thread,
       String message, DataExtensionType messageType,MessageExtensionType messageExtensionType, boolean readStatus,
-      MessageAuthor messageAuthor) {
+      MessageAuthor messageAuthor,String groupId) {
     this.id = id;
     this.type = type;
     this.userJID = userJID;
@@ -177,6 +186,7 @@ public class RecieveLastMessage  implements Parcelable {
     this.readStatus = readStatus;
     this.messageAuthor = messageAuthor;
     this.messageExtensionType = messageExtensionType;
+    this.groupId = groupId;
   }
 
   public RecieveLastMessage() {

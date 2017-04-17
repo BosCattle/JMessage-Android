@@ -1,6 +1,5 @@
 package tech.jiangtao.support.ui.service;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -17,8 +16,12 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.widget.RemoteViews;
 
+import java.util.List;
+import net.grandcentrix.tray.AppPreferences;
+import net.grandcentrix.tray.core.ItemNotFoundException;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -26,6 +29,8 @@ import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
@@ -37,14 +42,18 @@ import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
+import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
+import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.SupportAIDLConnection;
 import tech.jiangtao.support.ui.activity.AllInvitedActivity;
 import tech.jiangtao.support.ui.activity.ChatActivity;
+import tech.jiangtao.support.ui.api.ApiService;
+import tech.jiangtao.support.ui.api.service.GroupServiceApi;
 import tech.jiangtao.support.ui.fragment.ChatFragment;
 import tech.jiangtao.support.ui.reciever.TickBroadcastReceiver;
 import tech.jiangtao.support.ui.utils.ServiceUtils;
@@ -65,10 +74,12 @@ public class XMPPService extends Service {
 
   public static final String TAG = XMPPService.class.getSimpleName();
   private static final int NOTIFICATION_ID = 1017;
-  @SuppressLint("StaticFieldLeak") private static Realm mRealm;
+  private Realm mRealm;
   private XMPPServiceConnection mXMPPServiceConnection;
   private XMPPBinder mXMPPBinder;
   private PowerManager.WakeLock mWakelock;
+  private GroupServiceApi mGroupServiceApi;
+  private AppPreferences mAppPreferences;
 
   @Override public void onCreate() {
     super.onCreate();
@@ -82,6 +93,8 @@ public class XMPPService extends Service {
     if (!HermesEventBus.getDefault().isRegistered(this)) {
       HermesEventBus.getDefault().register(this);
     }
+    mGroupServiceApi = ApiService.getInstance().createApiService(GroupServiceApi.class);
+    mAppPreferences = new AppPreferences(this);
   }
 
   @Override public int onStartCommand(Intent intent, int flags, int startId) {
@@ -154,48 +167,88 @@ public class XMPPService extends Service {
       } else if (message.messageExtensionType.equals(MessageExtensionType.GROUP_CHAT)) {
         messageRealm.setMessageExtensionType(1);
         messageRealm.setGroupId(message.groupId);
+        // 检查是否有当前群组的信息
+        String userId = null;
+        try {
+          userId = mAppPreferences.getString(SupportIM.USER_ID);
+        } catch (ItemNotFoundException e) {
+          e.printStackTrace();
+        }
+        RealmResults<GroupRealm> groups = realm.where(GroupRealm.class)
+            .equalTo(SupportIM.GROUPID, StringSplitUtil.splitDivider(message.groupId))
+            .findAll();
+        if (groups.size() == 0) {
+          mGroupServiceApi.groups(userId)
+              .subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(groupRealms -> {
+                writeGroupRealmData(groupRealms);
+              });
+        }
+        // 检查本地是否有该群用户的资料
+        RealmResults<ContactRealm> contactRealms =
+            realm.where(ContactRealm.class).equalTo(SupportIM.USER_ID, message.userJID).findAll();
+        // --------没有
+        if (contactRealms.size() == 0) {
+          // 获取用户信息
+          mGroupServiceApi.selectGroupMembers(StringSplitUtil.splitDivider(message.groupId),
+              StringSplitUtil.splitDivider(message.userJID))
+              .subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(contactRealms1 -> {
+                if (contactRealms1 != null && contactRealms1.size() != 0) {
+                  writeToRealm(contactRealms1);
+                }
+              }, new ErrorAction() {
+                @Override public void call(Throwable throwable) {
+                  super.call(throwable);
+                  Log.e(TAG, "call: 获取群用户错误");
+                }
+              });
+        }
+        realm.copyToRealmOrUpdate(sessionRealm);
+        realm.copyToRealm(messageRealm);
       }
-      realm.copyToRealmOrUpdate(sessionRealm);
-      realm.copyToRealm(messageRealm);
     }, () -> {
       LogUtils.d(TAG, "onSuccess: 保存消息成功");
       HermesEventBus.getDefault()
           .post(new RecieveLastMessage(message.id, message.type, message.userJID, message.ownJid,
               message.thread, message.message, message.messageType, message.messageExtensionType,
-              false, message.messageAuthor));
-      //查询VCard
+              false, message.messageAuthor, message.groupId));
       Intent intent = null;
       RealmResults<ContactRealm> results = mRealm.where(ContactRealm.class)
-          .equalTo("userId", StringSplitUtil.splitDivider(message.userJID))
+          .equalTo(SupportIM.USER_ID, StringSplitUtil.splitDivider(message.userJID))
           .findAll();
       if (results.size() != 0) {
         intent = new Intent(XMPPService.this, ChatActivity.class);
         intent.putExtra(SupportIM.VCARD, results.first());
       }
-      LogUtils.d(TAG, "当前应用是否处于前台"
-          + ServiceUtils.isApplicationBroughtToBackground(this.getApplicationContext())
-          + "");
+      LogUtils.d(TAG, "当前应用是否处于前台" + ServiceUtils.isApplicationBroughtToBackground(
+          this.getApplicationContext()));
       if (message.messageAuthor == MessageAuthor.FRIEND && intent != null) {
         if (message.messageType == DataExtensionType.TEXT) {
           showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), message.message,
               intent);
-          LogUtils.d(TAG, "显示通知");
-          //保存到本地数据库
         }
         if (message.messageType == DataExtensionType.IMAGE) {
           showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[图片]", intent);
-          //保存到本地数据库
         }
         if (message.messageType == DataExtensionType.AUDIO) {
           showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[音频]", intent);
-          //保存到本地数据库
         }
         if (message.messageType == DataExtensionType.VIDEO) {
           showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[视频]", intent);
-          //保存到本地数据库
         }
       }
     }, error -> LogUtils.d(TAG, "onError: 保存消息失败" + error.getMessage()));
+  }
+
+  private void writeGroupRealmData(List<GroupRealm> groupRealms) {
+    mRealm.executeTransaction(realm -> realm.copyToRealmOrUpdate(groupRealms));
+  }
+
+  public void writeToRealm(List<ContactRealm> list) {
+    mRealm.executeTransaction(realm -> realm.copyToRealmOrUpdate(list));
   }
 
   /**
@@ -267,13 +320,15 @@ public class XMPPService extends Service {
   @Deprecated @Subscribe(threadMode = ThreadMode.MAIN) public void messageAchieve(
       DeleteVCardRealm deleteVCardRealm) {
     mRealm.executeTransactionAsync(realm -> {
-      RealmResults<ContactRealm> results =
-          realm.where(ContactRealm.class).equalTo("userId", deleteVCardRealm.jid).findAll();
+      RealmResults<ContactRealm> results = realm.where(ContactRealm.class)
+          .equalTo(SupportIM.USER_ID, deleteVCardRealm.jid)
+          .findAll();
       if (results.size() != 0) {
         results.deleteAllFromRealm();
       }
-      RealmResults<SessionRealm> messageResult =
-          realm.where(SessionRealm.class).equalTo("vcard_id", deleteVCardRealm.jid).findAll();
+      RealmResults<SessionRealm> messageResult = realm.where(SessionRealm.class)
+          .equalTo(SupportIM.SENDERFRIENDID, deleteVCardRealm.jid)
+          .findAll();
       if (messageResult.size() != 0) {
         messageResult.deleteAllFromRealm();
       }
@@ -282,11 +337,8 @@ public class XMPPService extends Service {
 
   public static void disConnect(DisconnectCallBack callBack) {
     HermesEventBus.getDefault().post(new UnRegisterEvent());
-    //删除数据库
-    if (mRealm == null || mRealm.isClosed()) {
-      mRealm = Realm.getDefaultInstance();
-    }
-    mRealm.executeTransactionAsync(realm -> {
+    Realm realms = Realm.getDefaultInstance();
+    realms.executeTransactionAsync(realm -> {
       realm.deleteAll();
       callBack.disconnectFinish();
     });
@@ -316,7 +368,6 @@ public class XMPPService extends Service {
     }
   }
 
-  //防锁屏后系统休眠
   public static class InnerService extends Service {
 
     @Override public void onCreate() {
@@ -337,7 +388,6 @@ public class XMPPService extends Service {
 
   public static Notification fadeNotification(Context context) {
     Notification notification = new Notification();
-    // 随便给一个icon，反正不会显示，只是假装自己是合法的Notification而已
     notification.icon = R.drawable.abc_ab_share_pack_mtrl_alpha;
     notification.priority = Notification.PRIORITY_MIN;
     notification.contentView =
@@ -346,9 +396,6 @@ public class XMPPService extends Service {
   }
 
   private void startForegroundCompat() {
-
-    // api 18的时候，google管严了
-    // 先把自己做成一个前台服务，提供合法的参数
     startService(new Intent(this, InnerService.class));
     startForeground(NOTIFICATION_ID, fadeNotification(this));
   }

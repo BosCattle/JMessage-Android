@@ -14,6 +14,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import tech.jiangtao.support.kit.eventbus.NotificationConnection;
+import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
@@ -40,7 +41,8 @@ public abstract class BaseFragment extends Fragment {
     HermesEventBus.getDefault().register(this);
   }
 
-  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
     View view = inflater.inflate(layout(), container, false);
     mLayoutView = view;
     ButterKnife.bind(this, view);
@@ -73,12 +75,11 @@ public abstract class BaseFragment extends Fragment {
     MediaManager.pause();
   }
 
-  public View getView(){
+  public View getView() {
     return mLayoutView;
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onMessage(RecieveMessage message) {
-    Log.d("----------->", "onMessage: " + message);
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveLastMessage message){
+
   }
 }

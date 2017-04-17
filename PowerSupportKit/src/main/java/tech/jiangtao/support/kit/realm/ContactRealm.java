@@ -28,6 +28,15 @@ import tech.jiangtao.support.kit.util.PinYinUtils;
   public String inviteType;
   public Integer onlineStatus;
   public String pinYin;
+  public boolean authority;
+
+  public boolean isAuthority() {
+    return authority;
+  }
+
+  public void setAuthority(boolean authority) {
+    this.authority = authority;
+  }
 
   public String getPinYin() {
     return pinYin;
@@ -70,10 +79,16 @@ import tech.jiangtao.support.kit.util.PinYinUtils;
   }
 
   public String getAvatar() {
+    if (avatar == null) {
+      avatar = "";
+    }
     return avatar;
   }
 
   public void setAvatar(String avatar) {
+    if (avatar == null) {
+      avatar = "";
+    }
     this.avatar = avatar;
   }
 
@@ -136,6 +151,7 @@ import tech.jiangtao.support.kit.util.PinYinUtils;
     dest.writeString(this.inviteType);
     dest.writeValue(this.onlineStatus);
     dest.writeString(this.pinYin);
+    dest.writeByte(this.authority ? (byte) 1 : (byte) 0);
   }
 
   protected ContactRealm(Parcel in) {
@@ -150,6 +166,7 @@ import tech.jiangtao.support.kit.util.PinYinUtils;
     this.inviteType = in.readString();
     this.onlineStatus = (Integer) in.readValue(Integer.class.getClassLoader());
     this.pinYin = in.readString();
+    this.authority = in.readByte() != 0;
   }
 
   public static final Creator<ContactRealm> CREATOR = new Creator<ContactRealm>() {
