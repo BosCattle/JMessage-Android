@@ -73,11 +73,6 @@
         android:name=".activity.AllInvitedActivity"
         android:theme="@style/AppTheme.NoActionBar">
     </activity>
-    <!--群组列表页-->
-    <activity
-        android:name=".activity.GroupListActivity"
-        android:theme="@style/AppTheme.NoActionBar">
-    </activity>
     <!--群组创建页面-->
     <activity
         android:name=".activity.GroupCreateActivity"

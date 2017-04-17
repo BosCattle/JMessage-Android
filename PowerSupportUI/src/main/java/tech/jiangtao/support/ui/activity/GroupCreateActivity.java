@@ -184,7 +184,6 @@ public class GroupCreateActivity extends BaseActivity
     LogUtils.d(TAG, "创建成功");
     SimpleHUD.dismiss();
     this.finish();
-    GroupListActivity.startGroupList(this);
   }
 
   @Override public void createFailed(String failedReason) {

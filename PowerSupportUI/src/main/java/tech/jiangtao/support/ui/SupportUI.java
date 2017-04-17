@@ -2,7 +2,10 @@ package tech.jiangtao.support.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import com.facebook.stetho.Stetho;
 import com.melink.bqmmsdk.sdk.BQMM;
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
+import io.realm.Realm;
 import java.util.Properties;
 import java.util.UUID;
 import tech.jiangtao.support.kit.SupportIM;
@@ -37,9 +40,14 @@ public class SupportUI {
     String resource = UUID.randomUUID().toString();
     //---------------------------------------配置中心--------------------------------
     //------------------------------------------------------------------------------
-    initialize(context, SERVICE_NAME, resource, HOST1, Integer.parseInt(PORT),
-        RESOURCE_ADDRESS1, API_ADDRESS1);
+    initialize(context, SERVICE_NAME, resource, HOST2, Integer.parseInt(PORT), RESOURCE_ADDRESS2,
+        API_ADDRESS2);
     BQMM.getInstance().initConfig(context, MM_APPID, MM_AppSecret);
+    Realm.init(context);
+    Stetho.initialize(Stetho.newInitializerBuilder(context)
+        .enableDumpapp(Stetho.defaultDumperPluginsProvider(context))
+        .enableWebKitInspector(RealmInspectorModulesProvider.builder(context).build())
+        .build());
   }
 
   private static void initValue(Context context) {

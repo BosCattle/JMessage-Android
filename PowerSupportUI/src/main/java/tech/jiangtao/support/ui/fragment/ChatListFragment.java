@@ -125,11 +125,11 @@ public class ChatListFragment extends BaseFragment
     mChatList.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     mChatList.setAdapter(mSessionAdapter);
-    getChatList();
   }
 
   @Override public void onResume() {
     super.onResume();
+    getChatList();
   }
 
   private void getChatList() {
@@ -428,7 +428,6 @@ public class ChatListFragment extends BaseFragment
 
   @Override public void onAttach(Context context) {
     super.onAttach(context);
-    ContactItemCallback mContactItemCallback = (ContactItemCallback) context;
   }
 
   @Override public boolean onItemLongClick(int position, View view) {
@@ -438,8 +437,9 @@ public class ChatListFragment extends BaseFragment
           //删除会话
           mRealm.executeTransactionAsync(realm -> {
             SessionListMessage message = mSessionMessage.get(position);
-            RealmResults<SessionRealm> sessionRealms =
-                realm.where(SessionRealm.class).equalTo("session_id", message.sessionId).findAll();
+            RealmResults<SessionRealm> sessionRealms = realm.where(SessionRealm.class)
+                .equalTo(SupportIM.SESSIONID, message.sessionId)
+                .findAll();
             if (sessionRealms.size() != 0) {
               sessionRealms.deleteFirstFromRealm();
             }

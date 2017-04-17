@@ -120,9 +120,17 @@ public class XMPPService extends Service {
       if (message.messageExtensionType.equals(MessageExtensionType.CHAT)) {
         // 根据senderFriendId，发送者的userId是否可数据库中存储的userId相同
         // 单聊是message.userJID
-        result = realm.where(SessionRealm.class)
-            .equalTo(SupportIM.SENDERFRIENDID, StringSplitUtil.splitDivider(message.userJID))
-            .findAll();
+        // 自己发的消息，userId代表自己，ownJid代表别人
+        // 别人发的消息,userId代表别人，ownJid代表自己
+        if (message.messageAuthor.equals(MessageAuthor.OWN)) {
+          result = realm.where(SessionRealm.class)
+              .equalTo(SupportIM.SENDERFRIENDID, StringSplitUtil.splitDivider(message.ownJid))
+              .findAll();
+        } else {
+          result = realm.where(SessionRealm.class)
+              .equalTo(SupportIM.SENDERFRIENDID, StringSplitUtil.splitDivider(message.userJID))
+              .findAll();
+        }
       } else if (message.messageExtensionType.equals(MessageExtensionType.GROUP_CHAT)) {
         // 根据senderFriendId，发送者的userId是否可数据库中存储的userId相同
         // 群聊是message.groupId
@@ -131,8 +139,8 @@ public class XMPPService extends Service {
             .findAll();
       }
       // 保存到SessionRealm
-      SessionRealm sessionRealm;
-      if (result.size() != 0) {
+      SessionRealm sessionRealm = new SessionRealm();
+      if (result != null && result.size() != 0) {
         sessionRealm = result.first();
         sessionRealm.setMessageId(message.id);
         sessionRealm.setUnReadCount(sessionRealm.getUnReadCount() + 1);
@@ -146,7 +154,11 @@ public class XMPPService extends Service {
       // 单聊为0，群聊为1
       if (message.messageExtensionType.equals(MessageExtensionType.CHAT)) {
         sessionRealm.setMessageType(0);
-        sessionRealm.setSenderFriendId(StringSplitUtil.splitDivider(message.userJID));
+        if (message.messageAuthor.equals(MessageAuthor.OWN)) {
+          sessionRealm.setSenderFriendId(StringSplitUtil.splitDivider(message.ownJid));
+        } else {
+          sessionRealm.setSenderFriendId(StringSplitUtil.splitDivider(message.userJID));
+        }
       } else if (message.messageExtensionType.equals(MessageExtensionType.GROUP_CHAT)) {
         sessionRealm.setMessageType(1);
         sessionRealm.setSenderFriendId(StringSplitUtil.splitDivider(message.groupId));
@@ -181,9 +193,7 @@ public class XMPPService extends Service {
           mGroupServiceApi.groups(userId)
               .subscribeOn(Schedulers.io())
               .observeOn(AndroidSchedulers.mainThread())
-              .subscribe(groupRealms -> {
-                writeGroupRealmData(groupRealms);
-              });
+              .subscribe(this::writeGroupRealmData);
         }
         // 检查本地是否有该群用户的资料
         RealmResults<ContactRealm> contactRealms =
@@ -206,9 +216,9 @@ public class XMPPService extends Service {
                 }
               });
         }
-        realm.copyToRealmOrUpdate(sessionRealm);
-        realm.copyToRealm(messageRealm);
       }
+      realm.copyToRealmOrUpdate(sessionRealm);
+      realm.copyToRealm(messageRealm);
     }, () -> {
       LogUtils.d(TAG, "onSuccess: 保存消息成功");
       HermesEventBus.getDefault()

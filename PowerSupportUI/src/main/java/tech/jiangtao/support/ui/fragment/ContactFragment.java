@@ -2,6 +2,7 @@ package tech.jiangtao.support.ui.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +20,7 @@ import com.kevin.library.widget.CleanDialog;
 import com.kevin.library.widget.SideBar;
 import com.kevin.library.widget.builder.IconFlag;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,6 +34,7 @@ import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tech.jiangtao.support.kit.annotation.GroupAnnotation;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
@@ -43,7 +46,6 @@ import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.activity.AllInvitedActivity;
 import tech.jiangtao.support.ui.activity.ChatActivity;
-import tech.jiangtao.support.ui.activity.GroupListActivity;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.api.ApiService;
@@ -88,7 +90,7 @@ public class ContactFragment extends BaseFragment
     super.onCreateView(inflater, container, savedInstanceState);
     setRefresh();
     buildSideBar();
-    setAdapter() ;
+    setAdapter();
     return getView();
   }
 
@@ -197,10 +199,8 @@ public class ContactFragment extends BaseFragment
       RealmResults<ContactRealm> contactRealms = realmQuery.findAllSorted(SupportIM.PINYIN);
       if (contactRealms.size() != 0) {
         //Collections.sort(contactRealms, new ContactComparator());
-        for (int i = 0; i < contactRealms.size(); i++)
-        {
-          if (contactRealms.get(i) != null && contactRealms.get(i).getNickName() != null)
-          {
+        for (int i = 0; i < contactRealms.size(); i++) {
+          if (contactRealms.get(i) != null && contactRealms.get(i).getNickName() != null) {
             if (i == 0) {
               mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
                   .title(PinYinUtils.getPinyinFirstLetter(
@@ -259,9 +259,19 @@ public class ContactFragment extends BaseFragment
   }
 
   @Override public void onItemClick(int position, View view) {
-    LogUtils.d(TAG, "onItemClick: ");
+    Class<?> activity = getActivity().getClass();
+    Annotation[] annotation = activity.getAnnotations();
+    LogUtils.d(TAG, annotation.length + "注解个数");
     if (position == 0) {
-      GroupListActivity.startGroupList(getContext());
+      for (int i = 0; i < annotation.length; i++) {
+        if (annotation[i] instanceof GroupAnnotation) {
+          GroupAnnotation annomation = (GroupAnnotation) annotation[i];
+          Class clazz;
+          clazz = annomation.grouUri();
+          Intent intent = new Intent(getActivity(), clazz);
+          startActivity(intent);
+        }
+      }
     } else if (position == 1) {
       AllInvitedActivity.startAllInviteInfo(getContext());
     } else {

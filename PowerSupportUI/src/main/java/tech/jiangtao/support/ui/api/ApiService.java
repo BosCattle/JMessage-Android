@@ -1,5 +1,6 @@
 package tech.jiangtao.support.ui.api;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -47,6 +48,7 @@ public class ApiService {
           OkHttpClient.Builder builder = new OkHttpClient.Builder();
           builder.connectTimeout(10, TimeUnit.SECONDS);
           builder.addInterceptor(new HttpLoggingInterceptor());
+          builder.addNetworkInterceptor(new StethoInterceptor());
           /*for (Interceptor interceptor : interceptors) {
             builder.addInterceptor(interceptor);
           }*/

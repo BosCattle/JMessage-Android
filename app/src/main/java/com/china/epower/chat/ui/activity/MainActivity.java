@@ -27,6 +27,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import tech.jiangtao.support.kit.annotation.GroupAnnotation;
+import tech.jiangtao.support.kit.annotation.InvitedAnnotation;
+import tech.jiangtao.support.ui.activity.AllInvitedActivity;
 import tech.jiangtao.support.ui.activity.GroupCreateActivity;
 import tech.jiangtao.support.ui.activity.GroupSearchActivity;
 import tech.jiangtao.support.ui.fragment.ChatListFragment;
@@ -41,7 +44,9 @@ import tech.jiangtao.support.ui.linstener.ContactItemCallback;
  * Date: 10/11/2016 3:08 PM</br>
  * Update: 10/11/2016 3:08 PM </br>
  **/
-public class MainActivity extends BaseActivity implements ContactItemCallback {
+@GroupAnnotation(grouUri = GroupListActivity.class)
+@InvitedAnnotation(invitedUri = AllInvitedActivity.class) public class MainActivity
+    extends BaseActivity implements ContactItemCallback {
 
   @BindView(R.id.tv_toolbar) TextView mTvToolbar;
   @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -144,7 +149,7 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
   }
 
   public void updateCheck() {
-    PgyUpdateManager.register(this,"provider_paths", new UpdateManagerListener() {
+    PgyUpdateManager.register(this, "provider_paths", new UpdateManagerListener() {
 
       @Override public void onUpdateAvailable(final String result) {
 

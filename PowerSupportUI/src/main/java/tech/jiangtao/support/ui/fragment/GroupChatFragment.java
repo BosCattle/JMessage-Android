@@ -64,6 +64,7 @@ import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.kit.realm.MessageRealm;
+import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
@@ -79,7 +80,9 @@ import tech.jiangtao.support.ui.model.ChatExtraModel;
 import tech.jiangtao.support.ui.model.Message;
 import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.model.type.MessageType;
+import tech.jiangtao.support.ui.model.type.TransportType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
+import tech.jiangtao.support.ui.utils.ResourceAddress;
 import tech.jiangtao.support.ui.view.AudioManager;
 import tech.jiangtao.support.ui.view.AudioRecordButton;
 import tech.jiangtao.support.ui.viewholder.ExtraFuncViewHolder;
@@ -205,6 +208,7 @@ public class GroupChatFragment extends BaseFragment
       RealmResults<ContactRealm> contactRealm =
           mRealm.where(ContactRealm.class).equalTo(SupportIM.USER_ID, sender).findAll();
       ContactRealm contact = contactRealm.first();
+      LogUtils.d(TAG, "历史消息中的头像" + contact.getAvatar());
       if (StringSplitUtil.splitDivider(sender).equals(StringSplitUtil.splitDivider(mMyUserId))) {
         //自己的消息
         Message message1 = new Message();
@@ -212,7 +216,7 @@ public class GroupChatFragment extends BaseFragment
         if (messageRealmse.get(i).getMessageType().equals(DataExtensionType.TEXT.toString())) {
           message1.type = FileType.TYPE_TEXT;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
-              .avatar(contact.getAvatar())
+              .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
               .message(message1)
               .build());
         } else if (messageRealmse.get(i)
@@ -221,7 +225,7 @@ public class GroupChatFragment extends BaseFragment
           message1.fimePath = messageRealmse.get(i).getTextMessage();
           message1.type = FileType.TYPE_IMAGE;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
-              .avatar(contact.getAvatar())
+              .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
               .message(message1)
               .build());
         } else if (messageRealmse.get(i)
@@ -231,7 +235,7 @@ public class GroupChatFragment extends BaseFragment
           message1.time = 10;
           message1.type = FileType.TYPE_AUDIO;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
-              .avatar(contact.getAvatar())
+              .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
               .message(message1)
               .build());
         }
@@ -242,7 +246,7 @@ public class GroupChatFragment extends BaseFragment
         if (messageRealmse.get(i).getMessageType().equals(DataExtensionType.TEXT.toString())) {
           message1.paramContent = messageRealmse.get(i).getTextMessage();
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-              .avatar(contact.getAvatar())
+              .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
               .message(message1)
               .build());
         } else if (messageRealmse.get(i)
@@ -250,7 +254,7 @@ public class GroupChatFragment extends BaseFragment
             .equals(DataExtensionType.IMAGE.toString())) {
           message1.fimePath = messageRealmse.get(i).getTextMessage();
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
-              .avatar(contact.getAvatar())
+              .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
               .message(message1)
               .build());
         } else if (messageRealmse.get(i)
@@ -258,7 +262,7 @@ public class GroupChatFragment extends BaseFragment
             .equals(DataExtensionType.AUDIO.toString())) {
           message1.fimePath = messageRealmse.get(i).getTextMessage();
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
-              .avatar(contact.getAvatar())
+              .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
               .message(message1)
               .build());
         }
@@ -359,12 +363,13 @@ public class GroupChatFragment extends BaseFragment
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveLastMessage message) {
     LogUtils.d("----------->", "onMessage: " + message);
-    RealmResults<ContactRealm> contactRealmResult =
-        mRealm.where(ContactRealm.class).equalTo(SupportIM.USER_ID, message.getUserJID()).findAll();
+    RealmResults<ContactRealm> contactRealmResult = mRealm.where(ContactRealm.class)
+        .equalTo(SupportIM.USER_ID, StringSplitUtil.splitDivider(message.getUserJID()))
+        .findAll();
     ContactRealm contactRealm = null;
     if (contactRealmResult.size() > 0) {
       contactRealm = contactRealmResult.first();
-    }else {
+    } else {
       contactRealm = new ContactRealm();
     }
     if (message.messageAuthor == MessageAuthor.FRIEND) {
@@ -372,21 +377,22 @@ public class GroupChatFragment extends BaseFragment
       message1.paramContent = message.message;
       if (message.messageType == DataExtensionType.TEXT) {
         message1.paramContent = message.message;
+        LogUtils.d(TAG, "用户的头像为" + contactRealm.getAvatar());
         mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-            .avatar(contactRealm.getAvatar())
+            .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
             .message(message1)
             .build());
       } else if (message.messageType == DataExtensionType.IMAGE) {
         message1.fimePath = message.message;
         mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
-            .avatar(contactRealm.getAvatar())
+            .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
             .message(message1)
             .build());
         LogUtils.d(TAG, "onMessage: " + message1);
       } else if (message.messageType == DataExtensionType.AUDIO) {
         message1.fimePath = message.message;
         mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
-            .avatar(contactRealm.getAvatar())
+            .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
             .message(message1)
             .build());
         LogUtils.d(TAG, "onMessage: " + message1);
@@ -397,14 +403,14 @@ public class GroupChatFragment extends BaseFragment
       if (message.messageType == DataExtensionType.TEXT) {
         message2.type = FileType.TYPE_TEXT;
         mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
-            .avatar(contactRealm.getAvatar())
+            .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
             .message(message2)
             .build());
       } else if (message.messageType == DataExtensionType.IMAGE) {
         message2.fimePath = message.message;
         message2.type = FileType.TYPE_IMAGE;
         mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
-            .avatar(contactRealm.getAvatar())
+            .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
             .message(message2)
             .build());
       } else if (message.messageType == DataExtensionType.AUDIO) {
@@ -412,7 +418,7 @@ public class GroupChatFragment extends BaseFragment
         message2.time = 10;
         message2.type = FileType.TYPE_AUDIO;
         mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
-            .avatar(contactRealm.getAvatar())
+            .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
             .message(message2)
             .build());
       }
@@ -422,6 +428,19 @@ public class GroupChatFragment extends BaseFragment
 
   @Override public void onPause() {
     super.onPause();
+    mRealm.executeTransactionAsync(realm -> {
+      LogUtils.d(TAG, "onPause: 执行到.....");
+      RealmResults<SessionRealm> sessionRealms = realm.where(SessionRealm.class)
+          .equalTo(SupportIM.SENDERFRIENDID, StringSplitUtil.splitDivider(mGroup.getGroupId()))
+          .findAll();
+      if (sessionRealms.size() > 0) {
+        SessionRealm sessionRealm = sessionRealms.first();
+        if (sessionRealm != null) {
+          LogUtils.d(TAG, "onPause: 执行到.....对象不为空");
+          sessionRealm.setUnReadCount(0);
+        }
+      }
+    });
   }
 
   @Override public void onItemClick(int position, View view) {
@@ -484,6 +503,7 @@ public class GroupChatFragment extends BaseFragment
     HermesEventBus.getDefault().postSticky(message1);
     //将消息更新到本地
     mChatInput.setText("");
+    hideKeyBoard();
   }
 
   public void showKeyBoard() {

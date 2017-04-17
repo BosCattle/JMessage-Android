@@ -35,10 +35,11 @@ public class SupportIM {
   public static final String MESSAGE_ID = "id";
   public static final String PINYIN = "pinYin";
   public static final String GROUPID = "groupId";
+  public static final String SESSIONID = "sessionId";
+  public static  String GROUPSCLASS ;
 
   // TODO: 12/04/2017 realm版本升级配置
   private static void initialize(Context context){
-    Realm.init(context);
     HermesEventBus.getDefault().init(context);
   }
 

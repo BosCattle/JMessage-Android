@@ -1,37 +1,36 @@
-package tech.jiangtao.support.ui.activity;
+package tech.jiangtao.support.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
-import net.grandcentrix.tray.AppPreferences;
-import net.grandcentrix.tray.core.ItemNotFoundException;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmResults;
+import java.util.ArrayList;
+import java.util.List;
+import net.grandcentrix.tray.AppPreferences;
+import net.grandcentrix.tray.core.ItemNotFoundException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.kit.util.ErrorAction;
+import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
+import tech.jiangtao.support.ui.activity.GroupChatActivity;
 import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.api.ApiService;
@@ -41,18 +40,16 @@ import tech.jiangtao.support.ui.viewholder.GroupListViewHolder;
 import work.wanghao.simplehud.SimpleHUD;
 
 /**
- * Class: GroupListActivity </br>
- * Description: 所有群组页面 </br>
+ * Class: GroupsFragment </br>
+ * Description: 群组列表 </br>
  * Creator: kevin </br>
  * Email: jiangtao103cp@gmail.com </br>
- * Date: 08/01/2017 2:23 PM</br>
- * Update: 08/01/2017 2:23 PM </br>
+ * Date: 17/04/2017 10:15 PM</br>
+ * Update: 17/04/2017 10:15 PM </br>
  **/
-public class GroupListActivity extends BaseActivity
+public class GroupsFragment extends BaseFragment
     implements SwipeRefreshLayout.OnRefreshListener, EasyViewHolder.OnItemClickListener {
 
-  @BindView(R2.id.tv_toolbar) TextView mTvToolbar;
-  @BindView(R2.id.toolbar) Toolbar mToolbar;
   @BindView(R2.id.group_image) ImageView mGroupImage;
   @BindView(R2.id.group_list) RecyclerView mGroupList;
   @BindView(R2.id.group_swift_refresh) SwipeRefreshLayout mGroupSwiftRefresh;
@@ -62,18 +59,27 @@ public class GroupListActivity extends BaseActivity
   private List<GroupRealm> mGroupRealms = new ArrayList<>();
   private Realm mRealm;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_group_list);
-    ButterKnife.bind(this);
-    setUpToolbar();
+  public static GroupsFragment newInstance() {
+    return new GroupsFragment();
+  }
+
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    super.onCreateView(inflater, container, savedInstanceState);
+    ButterKnife.bind(this, getView());
+    SupportIM.GROUPSCLASS = getActivity().getClass().getCanonicalName();
     setUpRefresh();
     setUpAdapter();
     getLocalGroupData();
+    return getView();
+  }
+
+  @Override public int layout() {
+    return R.layout.fragment_group_list;
   }
 
   private void getLocalGroupData() {
-    mAppPreferences = new AppPreferences(this);
+    mAppPreferences = new AppPreferences(getContext());
     if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
@@ -108,7 +114,7 @@ public class GroupListActivity extends BaseActivity
         }, new ErrorAction() {
           @Override public void call(Throwable throwable) {
             super.call(throwable);
-            SimpleHUD.showErrorMessage(GroupListActivity.this, throwable.getLocalizedMessage());
+            SimpleHUD.showErrorMessage(getContext(), throwable.getLocalizedMessage());
           }
         });
   }
@@ -121,22 +127,15 @@ public class GroupListActivity extends BaseActivity
   }
 
   private void setUpAdapter() {
-    mBaseEasyAdapter = new BaseEasyAdapter(this);
+    mBaseEasyAdapter = new BaseEasyAdapter(getContext());
     mBaseEasyAdapter.bind(GroupRealm.class, GroupListViewHolder.class);
     mBaseEasyAdapter.setOnClickListener(this);
     mGroupList.setHasFixedSize(true);
-    mGroupList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(this));
-    mGroupList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    mGroupList.addItemDecoration(RecyclerViewUtils.buildItemDecoration(getContext()));
+    mGroupList.setLayoutManager(
+        new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     mGroupList.setAdapter(mBaseEasyAdapter);
     mBaseEasyAdapter.notifyDataSetChanged();
-  }
-
-  public void setUpToolbar() {
-    mToolbar.setTitle("");
-    mTvToolbar.setText("群聊");
-    setSupportActionBar(mToolbar);
-    mToolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
-    mToolbar.setNavigationOnClickListener(v -> this.finish());
   }
 
   public void setUpRefresh() {
@@ -149,13 +148,9 @@ public class GroupListActivity extends BaseActivity
     mGroupSwiftRefresh.setOnRefreshListener(this);
   }
 
-  @Override protected boolean preSetupToolbar() {
-    return false;
-  }
-
   public static void startGroupList(Context context) {
-    Intent intent = new Intent(context, GroupListActivity.class);
-    context.startActivity(intent);
+    //Intent intent = new Intent(context, GroupListActivity.class);
+    //context.startActivity(intent);
   }
 
   @Override public void onRefresh() {
@@ -163,6 +158,6 @@ public class GroupListActivity extends BaseActivity
   }
 
   @Override public void onItemClick(int position, View view) {
-    GroupChatActivity.startChat(this, mGroupRealms.get(position));
+    GroupChatActivity.startChat(getActivity(), mGroupRealms.get(position));
   }
 }

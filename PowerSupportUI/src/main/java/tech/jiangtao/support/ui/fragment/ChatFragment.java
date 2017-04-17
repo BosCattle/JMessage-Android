@@ -486,7 +486,8 @@ public class ChatFragment extends BaseFragment
         && mOwnContactRealm.getUserId() != null
         && mContactRealm.getUserId() != null
         && StringSplitUtil.splitDivider(mContactRealm.getUserId()) != StringSplitUtil.splitDivider(
-        mOwnContactRealm.getUserId())) {
+        mOwnContactRealm.getUserId()))
+    {
       mRealm.executeTransactionAsync(realm -> {
         LogUtils.d(TAG, "onPause: 执行到.....");
         SessionRealm sessionRealm = realm.where(SessionRealm.class)
@@ -560,6 +561,7 @@ public class ChatFragment extends BaseFragment
     HermesEventBus.getDefault().postSticky(message1);
     //将消息更新到本地
     mChatInput.setText("");
+    hideKeyBoard();
   }
 
   public void showKeyBoard() {

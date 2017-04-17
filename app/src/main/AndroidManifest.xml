@@ -93,6 +93,10 @@
     <activity android:name=".ui.activity.IndexActivity"
       android:screenOrientation="portrait"
       android:theme="@style/AppTheme.NoActionBar"/>
+
+    <activity android:name=".ui.activity.GroupListActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.NoActionBar"/>
   </application>
 
 </manifest>

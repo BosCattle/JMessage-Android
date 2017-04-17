@@ -1,5 +1,7 @@
 package tech.jiangtao.support.ui.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -79,7 +81,10 @@ public abstract class BaseFragment extends Fragment {
     return mLayoutView;
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveLastMessage message){
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveLastMessage message) {
 
+  }
+
+  public void startGroups(Activity context, Activity activity) {
   }
 }

@@ -4,18 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tech.jiangtao.support.ui.activity.GroupListActivity"
     >
-
-  <include
-      layout="@layout/include_header"
-      android:id="@+id/header"
-      />
 
   <FrameLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:layout_below="@id/header"
       >
     <ImageView
         android:id="@+id/group_image"

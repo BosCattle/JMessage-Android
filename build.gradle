@@ -23,6 +23,7 @@ allprojects {
     // 应用内测
     maven { url 'https://raw.githubusercontent.com/Pgyer/mvn_repo_pgyer/master' }
     maven { url 'https://jitpack.io' }
+    maven { url 'https://github.com/uPhyca/stetho-realm/raw/master/maven-repo' }
   }
   tasks.withType(Javadoc) {
     options.addStringOption('Xdoclint:none', '-quiet')
