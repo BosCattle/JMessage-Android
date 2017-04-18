@@ -1,5 +1,5 @@
 - 快速开始
-  - [项目介绍](quickstart.md)
+  - [项目介绍](README.md)
   - [Writing more pages](more-pages.md)
   - [Custom navbar](custom-navbar.md)
   - [Cover page](cover.md)
