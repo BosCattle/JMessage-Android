@@ -157,7 +157,7 @@ public class GroupsFragment extends BaseFragment
       if (annotations[i] instanceof GroupChatRouter) {
         GroupChatRouter groupChatRouter = (GroupChatRouter) annotations[i];
         Intent intent = new Intent(getActivity(), groupChatRouter.router());
-        intent.putExtra(GroupChatFragment.USER_FRIEND, mGroupRealms.get(position));
+        intent.putExtra(SupportIM.GROUP, mGroupRealms.get(position));
         startActivity(intent);
       }
     }

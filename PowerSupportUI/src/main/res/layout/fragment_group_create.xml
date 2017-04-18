@@ -10,11 +10,10 @@
       android:layout_width="128dp"
       android:layout_height="128dp"
       android:layout_centerHorizontal="true"
-      android:layout_marginTop="50dp"
       android:contentDescription=""
+      android:src="@mipmap/ic_group_create_img"
       app:civ_border_color="@color/white"
       app:civ_border_width="2dp"
-      tools:src="@mipmap/ic_group_create_img"
       />
 
   <android.support.v7.widget.AppCompatEditText
@@ -43,14 +42,16 @@
       />
   <android.support.v7.widget.AppCompatButton
       android:id="@+id/group_button"
-      android:layout_margin="@dimen/activity_horizontal_margin"
-      android:background="@drawable/shape_button"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:textSize="18sp"
-      android:textColor="@color/white"
       android:layout_below="@+id/group_create_detail"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:layout_marginTop="32dp"
+      android:background="@drawable/shape_button"
       android:text="@string/group_create"
+      android:textColor="@color/white"
+      android:textSize="18sp"
       />
 
 </RelativeLayout>

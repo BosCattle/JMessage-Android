@@ -107,8 +107,6 @@ public class GroupChatFragment extends BaseFragment
     View.OnLongClickListener, AudioRecordButton.onAudioFinishRecordListener,
     SwipeRefreshLayout.OnRefreshListener, View.OnFocusChangeListener {
 
-  public static final String USER_FRIEND = "group";
-
   @BindView(R2.id.recycler) RecyclerView mRecycler;
   @BindView(R2.id.swift_refresh) SwipeRefreshLayout mSwiftRefresh;
   @BindView(R2.id.chat_speak) ImageView mChatSpeak;
@@ -278,7 +276,7 @@ public class GroupChatFragment extends BaseFragment
   }
 
   private void init() {
-    mGroup = getArguments().getParcelable(USER_FRIEND);
+    mGroup = getArguments().getParcelable(SupportIM.GROUP);
     mAppPreferences = new AppPreferences(getContext());
     try {
       mMyUserId = mAppPreferences.getString(SupportIM.USER_ID);

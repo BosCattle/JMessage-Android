@@ -34,6 +34,7 @@ public class AllInvitedActivity extends BaseActivity {
     setContentView(R.layout.activity_new_friends);
     ButterKnife.bind(this);
     setUpToolbar();
+    buildFragment();
   }
 
   public void setUpToolbar() {

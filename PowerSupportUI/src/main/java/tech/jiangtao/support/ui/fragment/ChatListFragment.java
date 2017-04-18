@@ -425,7 +425,7 @@ public class ChatListFragment extends BaseFragment
           .findAll();
       if (groupRealms.size() != 0) {
         Intent intent = new Intent(getContext(), mGroupClazz);
-        intent.putExtra(GroupChatFragment.USER_FRIEND, groupRealms.first());
+        intent.putExtra(SupportIM.GROUP, groupRealms.first());
         startActivity(intent);
       } else {
         SimpleHUD.showErrorMessage(getContext(), "数据错误");

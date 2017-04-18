@@ -122,7 +122,10 @@ public class GroupCreateFragment extends BaseFragment {
             .subscribeOn(Schedulers.io())
             .doOnSubscribe(() -> SimpleHUD.showLoadingMessage(getContext(), "正在创建群..", false))
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::writeGroupToRealm);
+            .subscribe(groupRealm -> {
+              writeGroupToRealm(groupRealm);
+              SimpleHUD.dismiss();
+            });
       } catch (ItemNotFoundException e) {
         e.printStackTrace();
       }
@@ -138,7 +141,7 @@ public class GroupCreateFragment extends BaseFragment {
         if (annotation[i] instanceof GroupChatRouter) {
           GroupChatRouter groupChat = (GroupChatRouter) annotation[i];
           Intent intent = new Intent(getActivity(), groupChat.router());
-          intent.putExtra(GroupChatFragment.USER_FRIEND, group);
+          intent.putExtra(SupportIM.GROUP, group);
           startActivity(intent);
         }
       }
@@ -150,7 +153,7 @@ public class GroupCreateFragment extends BaseFragment {
     if (resultCode == RESULT_OK) {
       if (requestCode == Constant.REQUEST_CODE_PICK_IMAGE) {
         ArrayList<ImageFile> list = data.getParcelableArrayListExtra(Constant.RESULT_PICK_IMAGE);
-        uploadFile(list.get(0).getPath(), DataExtensionType.IMAGE.toString());
+        uploadFile(list.get(0).getPath(), "avatar");
       }
     }
   }
@@ -173,8 +176,6 @@ public class GroupCreateFragment extends BaseFragment {
           Glide.with(getContext())
               .load(Uri.parse(ResourceAddress.url(filePath.resourceId, TransportType.AVATAR)))
               .centerCrop()
-              .error(R.mipmap.ic_chat_default)
-              .placeholder(R.mipmap.ic_chat_default)
               .into(mGroupCreateCircle);
         }, new ErrorAction() {
           @Override public void call(Throwable throwable) {

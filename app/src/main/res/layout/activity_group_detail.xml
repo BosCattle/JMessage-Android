@@ -5,10 +5,16 @@
     android:layout_height="match_parent"
     >
 
-  <android.support.v7.widget.RecyclerView
-      android:id="@+id/new_friend_page"
+  <include
+      layout="@layout/include_header"
+      android:id="@+id/header"
+      />
+
+  <FrameLayout
+      android:id="@+id/groupDetailContainer"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_below="@id/header"
       />
 
 </RelativeLayout>

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.china.epower.chat.R;
+import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.ui.fragment.GroupChatFragment;
 
@@ -37,7 +38,7 @@ public class GroupChatActivity extends tech.jiangtao.support.ui.activity.BaseAct
   }
 
   private void init() {
-    mGroups = getIntent().getParcelableExtra(GroupChatFragment.USER_FRIEND);
+    mGroups = getIntent().getParcelableExtra(SupportIM.GROUP);
     buildFragment();
     setUpToolbar();
   }
@@ -47,7 +48,7 @@ public class GroupChatActivity extends tech.jiangtao.support.ui.activity.BaseAct
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
     GroupChatFragment fragment = GroupChatFragment.newInstance();
     Bundle bundle = new Bundle();
-    bundle.putParcelable(GroupChatFragment.USER_FRIEND, mGroups);
+    bundle.putParcelable(SupportIM.GROUP, mGroups);
     fragment.setArguments(bundle);
     fragmentTransaction.add(R.id.chat_func_detail, fragment);
     fragmentTransaction.commit();
@@ -64,7 +65,7 @@ public class GroupChatActivity extends tech.jiangtao.support.ui.activity.BaseAct
 
   public static void startChat(Activity activity, GroupRealm group) {
     Intent intent = new Intent(activity, GroupChatActivity.class);
-    intent.putExtra(GroupChatFragment.USER_FRIEND, group);
+    intent.putExtra(SupportIM.GROUP, group);
     activity.startActivity(intent);
   }
 
@@ -76,7 +77,7 @@ public class GroupChatActivity extends tech.jiangtao.support.ui.activity.BaseAct
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == R.id.menu_group_detail) {
-      //GroupDetailActivity.startGroupDetail(GroupChatActivity.this,mGroups);
+      GroupDetailActivity.startGroupsDetail(GroupChatActivity.this,mGroups);
     }
     return super.onOptionsItemSelected(item);
   }

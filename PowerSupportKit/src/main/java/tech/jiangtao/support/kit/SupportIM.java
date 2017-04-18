@@ -38,6 +38,7 @@ public class SupportIM {
   public static final String SESSIONID = "sessionId";
   public static final String NEW_FLAG = "add_friend";
   public static final String MUC_GROUP = "muc-group";
+  public static final String GROUP = "group";
 
   // TODO: 12/04/2017 realm版本升级配置
   private static void initialize(Context context){

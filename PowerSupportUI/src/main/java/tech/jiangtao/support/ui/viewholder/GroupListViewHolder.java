@@ -13,6 +13,8 @@ import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.model.group.Group;
 import tech.jiangtao.support.ui.model.group.GroupData;
+import tech.jiangtao.support.ui.model.type.TransportType;
+import tech.jiangtao.support.ui.utils.ResourceAddress;
 
 /**
  * Class:  </br>
@@ -38,7 +40,7 @@ public class GroupListViewHolder extends EasyViewHolder<GroupRealm> {
 
   @Override public void bindTo(int position, GroupRealm groupData) {
     Glide.with(mContext)
-        .load(groupData.getAvatar())
+        .load(ResourceAddress.url(groupData.getAvatar(), TransportType.AVATAR))
         .centerCrop()
         .placeholder(R.mipmap.ic_launcher)
         .crossFade()

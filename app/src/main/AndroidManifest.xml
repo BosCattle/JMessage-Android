@@ -101,6 +101,10 @@
     <activity android:name=".ui.activity.GroupCreateActivity"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar"/>
+
+    <activity android:name=".ui.activity.AllInvitedActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.NoActionBar"/>
   </application>
 
 </manifest>

@@ -76,7 +76,7 @@
     </activity>
     <!--群组详情页-->
     <activity
-        android:name=".activity.GroupDetailActivity"
+        android:name="com.china.epower.chat.ui.activity.GroupDetailActivity"
         android:theme="@style/AppTheme.NoActionBar">
     </activity>
     <!--邀请好友入群-->
