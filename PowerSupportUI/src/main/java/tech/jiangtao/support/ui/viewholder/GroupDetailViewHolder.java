@@ -12,7 +12,6 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
-import tech.jiangtao.support.ui.activity.GroupCreateActivity;
 import tech.jiangtao.support.ui.model.group.Groups;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 
@@ -45,11 +44,5 @@ public class GroupDetailViewHolder extends tech.jiangtao.support.ui.adapter.Cont
         .centerCrop()
         .into(mGroupMemberAvatar);
     mGroupMemberName.setText(groups.roomName);
-    mGroupMemberCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-      if (isChecked)
-        GroupCreateActivity.mChoicedFriends.add(l.mObject);
-      else
-        GroupCreateActivity.mChoicedFriends.remove(l.mObject);
-    });
   }
 }

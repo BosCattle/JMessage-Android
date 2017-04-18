@@ -8,15 +8,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Class: InvitedAnnotation </br>
+ * Class: GroupRouter </br>
  * Description:  </br>
  * Creator: kevin </br>
  * Email: jiangtao103cp@gmail.com </br>
- * Date: 18/04/2017 12:48 AM</br>
- * Update: 18/04/2017 12:48 AM </br>
+ * Date: 18/04/2017 1:29 AM</br>
+ * Update: 18/04/2017 1:29 AM </br>
  **/
-@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.TYPE) @Inherited @Documented
-public @interface InvitedAnnotation {
-
-  Class invitedUri();
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Inherited
+@Documented
+public @interface GroupChatRouter {
+  Class router();
 }

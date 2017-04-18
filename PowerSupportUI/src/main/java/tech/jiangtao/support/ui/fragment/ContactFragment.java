@@ -1,6 +1,5 @@
 package tech.jiangtao.support.ui.fragment;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -34,7 +33,10 @@ import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import tech.jiangtao.support.kit.annotation.GroupAnnotation;
+import tech.jiangtao.support.kit.annotation.ChatRouter;
+import tech.jiangtao.support.kit.annotation.GroupRouter;
+import tech.jiangtao.support.kit.annotation.GroupsRouter;
+import tech.jiangtao.support.kit.annotation.InvitedRouter;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
@@ -44,8 +46,6 @@ import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.PinYinUtils;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
-import tech.jiangtao.support.ui.activity.AllInvitedActivity;
-import tech.jiangtao.support.ui.activity.ChatActivity;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.api.ApiService;
@@ -80,6 +80,9 @@ public class ContactFragment extends BaseFragment
   private AppPreferences mAppPreferences;
   private User mSelfUser;
   private UserServiceApi mUserServiceApi;
+  private Class mGroupClazz;
+  private Class mInvitedClass;
+  private Class mChatClass;
 
   public static ContactFragment newInstance() {
     return new ContactFragment();
@@ -106,14 +109,13 @@ public class ContactFragment extends BaseFragment
     } catch (ItemNotFoundException e) {
       e.printStackTrace();
     }
+    getContact();
     mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
     mUserServiceApi.queryUserFriends(mSelfUser.userId)
         .subscribeOn(Schedulers.io())
-        .doOnSubscribe(() -> SimpleHUD.showLoadingMessage(getContext(), "正在加载...", false))
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(messageRealm -> {
           // 1. 填充好友信息到界面
-          SimpleHUD.dismiss();
           mConstrutContact.clear();
           mBaseEasyAdapter.clear();
           buildHeadView();
@@ -149,8 +151,6 @@ public class ContactFragment extends BaseFragment
             super.call(throwable);
             Log.d(TAG, "call: " + throwable.getMessage());
             // 从数据库中取数据，放到界面上
-            SimpleHUD.dismiss();
-            getContact();
           }
         });
   }
@@ -262,20 +262,30 @@ public class ContactFragment extends BaseFragment
     Class<?> activity = getActivity().getClass();
     Annotation[] annotation = activity.getAnnotations();
     LogUtils.d(TAG, annotation.length + "注解个数");
-    if (position == 0) {
-      for (int i = 0; i < annotation.length; i++) {
-        if (annotation[i] instanceof GroupAnnotation) {
-          GroupAnnotation annomation = (GroupAnnotation) annotation[i];
-          Class clazz;
-          clazz = annomation.grouUri();
-          Intent intent = new Intent(getActivity(), clazz);
-          startActivity(intent);
-        }
+    for (int i = 0; i < annotation.length; i++) {
+      if (annotation[i] instanceof GroupsRouter) {
+        GroupsRouter annomation = (GroupsRouter) annotation[i];
+        mGroupClazz = annomation.router();
       }
+      if (annotation[i] instanceof InvitedRouter) {
+        InvitedRouter invitedRouter = (InvitedRouter) annotation[i];
+        mInvitedClass = invitedRouter.router();
+      }
+      if (annotation[i] instanceof ChatRouter) {
+        ChatRouter chatRouter = (ChatRouter) annotation[i];
+        mChatClass = chatRouter.router();
+      }
+    }
+    if (position == 0) {
+      Intent intent = new Intent(getActivity(), mGroupClazz);
+      startActivity(intent);
     } else if (position == 1) {
-      AllInvitedActivity.startAllInviteInfo(getContext());
+      Intent intent = new Intent(getActivity(), mInvitedClass);
+      startActivity(intent);
     } else {
-      ChatActivity.startChat((Activity) getContext(), mConstrutContact.get(position).mContactRealm);
+      Intent intent = new Intent(getActivity(), mChatClass);
+      intent.putExtra(SupportIM.VCARD, mConstrutContact.get(position).mContactRealm);
+      startActivity(intent);
     }
   }
 

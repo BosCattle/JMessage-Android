@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="tech.jiangtao.support.ui.fragment.GroupCreateFragment"
+    >
+  <de.hdodenhof.circleimageview.CircleImageView
+      android:id="@+id/group_create_circle"
+      android:layout_width="128dp"
+      android:layout_height="128dp"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="50dp"
+      android:contentDescription=""
+      app:civ_border_color="@color/white"
+      app:civ_border_width="2dp"
+      tools:src="@mipmap/ic_group_create_img"
+      />
+
+  <android.support.v7.widget.AppCompatEditText
+      android:id="@+id/group_create_name"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:layout_below="@+id/group_create_circle"
+      android:layout_marginLeft="30dp"
+      android:layout_marginRight="30dp"
+      android:layout_marginTop="20dp"
+      android:hint="@string/group_create_alert"
+      />
+
+  <android.support.v7.widget.AppCompatEditText
+      android:id="@+id/group_create_detail"
+      android:layout_width="match_parent"
+      android:layout_height="150dp"
+      android:layout_below="@+id/group_create_name"
+      android:layout_marginLeft="20dp"
+      android:layout_marginRight="20dp"
+      android:layout_marginTop="20dp"
+      android:background="@drawable/shape_passenger_edittext"
+      android:gravity="top|left"
+      android:hint="@string/group_create_alert"
+      android:lineSpacingExtra="@dimen/activity_horizontal_margin"
+      />
+  <android.support.v7.widget.AppCompatButton
+      android:id="@+id/group_button"
+      android:layout_margin="@dimen/activity_horizontal_margin"
+      android:background="@drawable/shape_button"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="18sp"
+      android:textColor="@color/white"
+      android:layout_below="@+id/group_create_detail"
+      android:text="@string/group_create"
+      />
+
+</RelativeLayout>

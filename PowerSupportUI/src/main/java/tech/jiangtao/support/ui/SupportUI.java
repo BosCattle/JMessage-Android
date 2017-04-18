@@ -6,9 +6,13 @@ import com.facebook.stetho.Stetho;
 import com.melink.bqmmsdk.sdk.BQMM;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 import io.realm.Realm;
+import java.lang.annotation.Annotation;
 import java.util.Properties;
 import java.util.UUID;
 import tech.jiangtao.support.kit.SupportIM;
+import tech.jiangtao.support.kit.annotation.ChatRouter;
+import tech.jiangtao.support.kit.annotation.GroupChatRouter;
+import tech.jiangtao.support.kit.annotation.InvitedRouter;
 import tech.jiangtao.support.ui.service.SupportService;
 import tech.jiangtao.support.ui.service.XMPPService;
 import tech.jiangtao.support.ui.utils.PropertyUtils;
@@ -40,8 +44,8 @@ public class SupportUI {
     String resource = UUID.randomUUID().toString();
     //---------------------------------------配置中心--------------------------------
     //------------------------------------------------------------------------------
-    initialize(context, SERVICE_NAME, resource, HOST2, Integer.parseInt(PORT), RESOURCE_ADDRESS2,
-        API_ADDRESS2);
+    initialize(context, SERVICE_NAME, resource, HOST1, Integer.parseInt(PORT), RESOURCE_ADDRESS1,
+        API_ADDRESS1);
     BQMM.getInstance().initConfig(context, MM_APPID, MM_AppSecret);
     Realm.init(context);
     Stetho.initialize(Stetho.newInitializerBuilder(context)
@@ -76,7 +80,28 @@ public class SupportUI {
   private static void initialize(Context context, String serviceName, String resource, String host,
       int port, String resourceAddress, String apiAddress) {
     SupportIM.initialize(context, serviceName, resource, host, port, resourceAddress, apiAddress);
+    // 解析chat，groupchat，invite的页面
+    Class clazz = context.getApplicationContext().getClass();
+    Annotation[] annotations = clazz.getAnnotations();
+    Class chatClazz = null;
+    Class groupChatClazz = null;
+    Class invitedClass = null;
+    for (int i = 0; i < annotations.length; i++) {
+      Annotation annotation = annotations[i];
+      if (annotation instanceof ChatRouter) {
+        chatClazz = ((ChatRouter) annotation).router();
+      }
+      if (annotation instanceof GroupChatRouter) {
+        groupChatClazz = ((GroupChatRouter) annotation).router();
+      }
+      if (annotation instanceof InvitedRouter) {
+        invitedClass = ((InvitedRouter) annotation).router();
+      }
+    }
     Intent intent = new Intent(context, XMPPService.class);
+    intent.putExtra(XMPPService.CHAT_CLASS, chatClazz);
+    intent.putExtra(XMPPService.GROUP_CHAT_CLASS, groupChatClazz);
+    intent.putExtra(XMPPService.INVITED_CLASS, invitedClass);
     context.startService(intent);
     Intent intent1 = new Intent(context, SupportService.class);
     context.startService(intent1);

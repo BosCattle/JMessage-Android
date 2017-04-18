@@ -1,7 +1,7 @@
 package tech.jiangtao.support.ui.fragment;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -22,20 +22,21 @@ import com.kevin.library.widget.builder.IconFlag;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+import java.lang.annotation.Annotation;
 import java.util.Iterator;
 
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.jiangtao.support.kit.annotation.ChatRouter;
+import tech.jiangtao.support.kit.annotation.GroupChatRouter;
+import tech.jiangtao.support.kit.annotation.GroupRouter;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
-import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.GroupRealm;
@@ -45,12 +46,8 @@ import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
-import tech.jiangtao.support.ui.SupportUI;
-import tech.jiangtao.support.ui.activity.ChatActivity;
-import tech.jiangtao.support.ui.activity.GroupChatActivity;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.adapter.SessionAdapter;
-import tech.jiangtao.support.ui.linstener.ContactItemCallback;
 import tech.jiangtao.support.ui.model.type.TransportType;
 import tech.jiangtao.support.ui.pattern.SessionListMessage;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
@@ -80,6 +77,8 @@ public class ChatListFragment extends BaseFragment
   private RealmResults<GroupRealm> mGroupRealm;
   private Drawable mDrawable;
   private AppPreferences mAppPreferences;
+  private Class mGroupClazz;
+  private Class mChatClass;
 
   public static ChatListFragment newInstance() {
     return new ChatListFragment();
@@ -394,6 +393,18 @@ public class ChatListFragment extends BaseFragment
 
   @Override public void onItemClick(int position, View view) {
     //获得每一项的用户信息,
+    Class<?> activity = getActivity().getClass();
+    Annotation[] annotation = activity.getAnnotations();
+    for (int i = 0; i < annotation.length; i++) {
+      if (annotation[i] instanceof GroupChatRouter) {
+        GroupChatRouter annomation = (GroupChatRouter) annotation[i];
+        mGroupClazz = annomation.router();
+      }
+      if (annotation[i] instanceof ChatRouter) {
+        ChatRouter chatRouter = (ChatRouter) annotation[i];
+        mChatClass = chatRouter.router();
+      }
+    }
     SessionListMessage messageRealm = mSessionMessage.get(position);
     // 单聊
     if (messageRealm.messageExtensionType == 0) {
@@ -404,14 +415,18 @@ public class ChatListFragment extends BaseFragment
       if (vCardRealms.size() != 0) {
         vCardRealm = vCardRealms.first();
       }
-      ChatActivity.startChat((Activity) getContext(), vCardRealm);
+      Intent intent = new Intent(getContext(), mChatClass);
+      intent.putExtra(SupportIM.VCARD, vCardRealm);
+      startActivity(intent);
     } else if (messageRealm.messageExtensionType == 1) {
       // 群聊
       RealmResults<GroupRealm> groupRealms = mRealm.where(GroupRealm.class)
           .equalTo(SupportIM.GROUPID, StringSplitUtil.splitDivider(messageRealm.userJid))
           .findAll();
       if (groupRealms.size() != 0) {
-        GroupChatActivity.startChat(getActivity(), groupRealms.first());
+        Intent intent = new Intent(getContext(), mGroupClazz);
+        intent.putExtra(GroupChatFragment.USER_FRIEND, groupRealms.first());
+        startActivity(intent);
       } else {
         SimpleHUD.showErrorMessage(getContext(), "数据错误");
       }

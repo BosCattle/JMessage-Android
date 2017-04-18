@@ -69,15 +69,6 @@
         android:name="com.melink.bqmmsdk.ui.store.ServiceDeclaration"
         android:screenOrientation="portrait">
     </activity>
-    <activity
-        android:name=".activity.AllInvitedActivity"
-        android:theme="@style/AppTheme.NoActionBar">
-    </activity>
-    <!--群组创建页面-->
-    <activity
-        android:name=".activity.GroupCreateActivity"
-        android:theme="@style/AppTheme.NoActionBar">
-    </activity>
     <!--群组搜索页面-->
     <activity
         android:name=".activity.GroupSearchActivity"

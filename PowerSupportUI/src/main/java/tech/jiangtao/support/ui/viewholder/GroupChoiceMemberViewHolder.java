@@ -3,7 +3,6 @@ package tech.jiangtao.support.ui.viewholder;
 import android.content.Context;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -13,7 +12,6 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
-import tech.jiangtao.support.ui.activity.GroupCreateActivity;
 import tech.jiangtao.support.ui.model.group.Friends;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 
@@ -46,11 +44,5 @@ public class GroupChoiceMemberViewHolder extends tech.jiangtao.support.ui.adapte
         .centerCrop()
         .into(mGroupMemberAvatar);
     mGroupMemberName.setText(((Friends)(l.mObject)).nickName);
-    mGroupMemberCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-      if (isChecked)
-        GroupCreateActivity.mChoicedFriends.add(l.mObject);
-      else
-        GroupCreateActivity.mChoicedFriends.remove(l.mObject);
-    });
   }
 }

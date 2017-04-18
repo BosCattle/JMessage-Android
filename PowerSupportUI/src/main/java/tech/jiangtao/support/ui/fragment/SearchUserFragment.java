@@ -36,14 +36,14 @@ import work.wanghao.simplehud.SimpleHUD;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
- * Class: AddFriendFragment </br>
+ * Class: SearchUserFragment </br>
  * Description: 封装的添加好友界面 </br>
  * Creator: kevin </br>
  * Email: jiangtao103cp@gmail.com </br>
  * Date: 10/12/2016 9:58 PM</br>
  * Update: 10/12/2016 9:58 PM </br>
  **/
-public class AddFriendFragment extends BaseFragment
+public class SearchUserFragment extends BaseFragment
     implements EasyViewHolder.OnItemClickListener, SearchView.OnQueryTextListener {
 
   @BindView(R2.id.friend_edit) SearchView mSearchView;
@@ -51,8 +51,8 @@ public class AddFriendFragment extends BaseFragment
   private BaseEasyAdapter mBaseEasyAdapter;
   private ArrayList<User> mList = new ArrayList<>();
 
-  public static AddFriendFragment newInstance() {
-    return new AddFriendFragment();
+  public static SearchUserFragment newInstance() {
+    return new SearchUserFragment();
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,

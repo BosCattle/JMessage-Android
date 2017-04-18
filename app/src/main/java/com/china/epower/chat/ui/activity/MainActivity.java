@@ -27,10 +27,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import tech.jiangtao.support.kit.annotation.GroupAnnotation;
-import tech.jiangtao.support.kit.annotation.InvitedAnnotation;
-import tech.jiangtao.support.ui.activity.AllInvitedActivity;
-import tech.jiangtao.support.ui.activity.GroupCreateActivity;
+import tech.jiangtao.support.kit.annotation.ChatRouter;
+import tech.jiangtao.support.kit.annotation.GroupChatRouter;
+import tech.jiangtao.support.kit.annotation.GroupsRouter;
+import tech.jiangtao.support.kit.annotation.InvitedRouter;
 import tech.jiangtao.support.ui.activity.GroupSearchActivity;
 import tech.jiangtao.support.ui.fragment.ChatListFragment;
 import tech.jiangtao.support.ui.fragment.ContactFragment;
@@ -44,9 +44,12 @@ import tech.jiangtao.support.ui.linstener.ContactItemCallback;
  * Date: 10/11/2016 3:08 PM</br>
  * Update: 10/11/2016 3:08 PM </br>
  **/
-@GroupAnnotation(grouUri = GroupListActivity.class)
-@InvitedAnnotation(invitedUri = AllInvitedActivity.class) public class MainActivity
-    extends BaseActivity implements ContactItemCallback {
+@GroupsRouter(router = GroupListActivity.class)
+@InvitedRouter(router = AllInvitedActivity.class)
+@ChatRouter(router = ChatActivity.class)
+@GroupChatRouter(router = GroupChatActivity.class)
+public class MainActivity extends BaseActivity
+    implements ContactItemCallback {
 
   @BindView(R.id.tv_toolbar) TextView mTvToolbar;
   @BindView(R.id.toolbar) Toolbar mToolbar;

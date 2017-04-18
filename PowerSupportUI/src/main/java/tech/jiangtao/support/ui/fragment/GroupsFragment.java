@@ -1,8 +1,7 @@
 package tech.jiangtao.support.ui.fragment;
 
-import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 import net.grandcentrix.tray.AppPreferences;
@@ -24,13 +24,12 @@ import net.grandcentrix.tray.core.ItemNotFoundException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.SupportIM;
+import tech.jiangtao.support.kit.annotation.GroupChatRouter;
 import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.kit.util.ErrorAction;
-import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
-import tech.jiangtao.support.ui.activity.GroupChatActivity;
 import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.api.ApiService;
@@ -67,7 +66,6 @@ public class GroupsFragment extends BaseFragment
       Bundle savedInstanceState) {
     super.onCreateView(inflater, container, savedInstanceState);
     ButterKnife.bind(this, getView());
-    SupportIM.GROUPSCLASS = getActivity().getClass().getCanonicalName();
     setUpRefresh();
     setUpAdapter();
     getLocalGroupData();
@@ -148,16 +146,20 @@ public class GroupsFragment extends BaseFragment
     mGroupSwiftRefresh.setOnRefreshListener(this);
   }
 
-  public static void startGroupList(Context context) {
-    //Intent intent = new Intent(context, GroupListActivity.class);
-    //context.startActivity(intent);
-  }
-
   @Override public void onRefresh() {
     new Handler().postDelayed(() -> mGroupSwiftRefresh.setRefreshing(false), 3000);
   }
 
   @Override public void onItemClick(int position, View view) {
-    GroupChatActivity.startChat(getActivity(), mGroupRealms.get(position));
+    Class clazz = getActivity().getClass();
+    Annotation[] annotations = clazz.getAnnotations();
+    for (int i = 0; i < annotations.length; i++) {
+      if (annotations[i] instanceof GroupChatRouter) {
+        GroupChatRouter groupChatRouter = (GroupChatRouter) annotations[i];
+        Intent intent = new Intent(getActivity(), groupChatRouter.router());
+        intent.putExtra(GroupChatFragment.USER_FRIEND, mGroupRealms.get(position));
+        startActivity(intent);
+      }
+    }
   }
 }

@@ -2,17 +2,13 @@ package tech.jiangtao.support.ui.viewholder;
 
 import android.content.Context;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.bumptech.glide.Glide;
 import de.hdodenhof.circleimageview.CircleImageView;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
-import tech.jiangtao.support.ui.activity.GroupCreateActivity;
-import tech.jiangtao.support.ui.adapter.*;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 
 /**

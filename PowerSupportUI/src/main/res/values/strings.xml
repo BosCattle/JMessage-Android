@@ -8,7 +8,7 @@
   <string name="dialog_too_short">录音时间过短</string>
   <string name="group_yes">确定</string>
   <string name="group_cancel">取消</string>
-  <string name="group_create_alert">请输入群名</string>
+  <string name="group_create_alert">    请输入群名</string>
   <string name="group_name_check_alert">请正确输入群名</string>
   <string name="delete">删 除</string>
   <string name="news_friends">新朋友</string>
@@ -19,5 +19,6 @@
   <string name="message_history">清除聊天记录</string>
   <string name="friend_acture">同 意</string>
   <string name="friend_reject">拒 绝</string>
+  <string name="group_create">创 建</string>
 
 </resources>

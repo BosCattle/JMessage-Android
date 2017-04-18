@@ -50,8 +50,6 @@ import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.SupportAIDLConnection;
-import tech.jiangtao.support.ui.activity.AllInvitedActivity;
-import tech.jiangtao.support.ui.activity.ChatActivity;
 import tech.jiangtao.support.ui.api.ApiService;
 import tech.jiangtao.support.ui.api.service.GroupServiceApi;
 import tech.jiangtao.support.ui.fragment.ChatFragment;
@@ -74,12 +72,18 @@ public class XMPPService extends Service {
 
   public static final String TAG = XMPPService.class.getSimpleName();
   private static final int NOTIFICATION_ID = 1017;
+  public static final String CHAT_CLASS = "chat_class";
+  public static final String GROUP_CHAT_CLASS = "group_chat_class";
+  public static final String INVITED_CLASS = "invited_class";
   private Realm mRealm;
   private XMPPServiceConnection mXMPPServiceConnection;
   private XMPPBinder mXMPPBinder;
   private PowerManager.WakeLock mWakelock;
   private GroupServiceApi mGroupServiceApi;
   private AppPreferences mAppPreferences;
+  private Class mChatClass;
+  private Class mGroupClass;
+  private Class mInvitedClass;
 
   @Override public void onCreate() {
     super.onCreate();
@@ -102,6 +106,9 @@ public class XMPPService extends Service {
     if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
+    mChatClass = (Class) intent.getSerializableExtra(CHAT_CLASS);
+    mGroupClass = (Class) intent.getSerializableExtra(GROUP_CHAT_CLASS);
+    mInvitedClass = (Class) intent.getSerializableExtra(INVITED_CLASS);
     IntentFilter filter = new IntentFilter(Intent.ACTION_TIME_TICK);
     TickBroadcastReceiver receiver = new TickBroadcastReceiver();
     registerReceiver(receiver, filter);
@@ -225,30 +232,35 @@ public class XMPPService extends Service {
           .post(new RecieveLastMessage(message.id, message.type, message.userJID, message.ownJid,
               message.thread, message.message, message.messageType, message.messageExtensionType,
               false, message.messageAuthor, message.groupId));
+      // 根据单聊还是群聊来进行数据库检查
       Intent intent = null;
-      RealmResults<ContactRealm> results = mRealm.where(ContactRealm.class)
-          .equalTo(SupportIM.USER_ID, StringSplitUtil.splitDivider(message.userJID))
-          .findAll();
-      if (results.size() != 0) {
-        intent = new Intent(XMPPService.this, ChatActivity.class);
-        intent.putExtra(SupportIM.VCARD, results.first());
-      }
-      LogUtils.d(TAG, "当前应用是否处于前台" + ServiceUtils.isApplicationBroughtToBackground(
-          this.getApplicationContext()));
-      if (message.messageAuthor == MessageAuthor.FRIEND && intent != null) {
-        if (message.messageType == DataExtensionType.TEXT) {
-          showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), message.message,
-              intent);
+      if (message.messageExtensionType.equals(MessageExtensionType.CHAT)) {
+        RealmResults<ContactRealm> results = mRealm.where(ContactRealm.class)
+            .equalTo(SupportIM.USER_ID, StringSplitUtil.splitDivider(message.userJID))
+            .findAll();
+        if (results.size() != 0) {
+          intent = new Intent(XMPPService.this, mChatClass);
+          intent.putExtra(SupportIM.VCARD, results.first());
         }
-        if (message.messageType == DataExtensionType.IMAGE) {
-          showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[图片]", intent);
+        LogUtils.d(TAG, "当前应用是否处于前台" + ServiceUtils.isApplicationBroughtToBackground(
+            this.getApplicationContext()));
+        if (message.messageAuthor == MessageAuthor.FRIEND && intent != null) {
+          if (message.messageType == DataExtensionType.TEXT) {
+            showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), message.message,
+                intent);
+          }
+          if (message.messageType == DataExtensionType.IMAGE) {
+            showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[图片]", intent);
+          }
+          if (message.messageType == DataExtensionType.AUDIO) {
+            showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[音频]", intent);
+          }
+          if (message.messageType == DataExtensionType.VIDEO) {
+            showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[视频]", intent);
+          }
         }
-        if (message.messageType == DataExtensionType.AUDIO) {
-          showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[音频]", intent);
-        }
-        if (message.messageType == DataExtensionType.VIDEO) {
-          showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[视频]", intent);
-        }
+      } else if (message.messageExtensionType.equals(MessageExtensionType.GROUP_CHAT)) {
+
       }
     }, error -> LogUtils.d(TAG, "onError: 保存消息失败" + error.getMessage()));
   }
@@ -267,8 +279,8 @@ public class XMPPService extends Service {
   @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN) @Subscribe(threadMode = ThreadMode.MAIN)
   public void addFriendsNotification(FriendRequest request) {
     mWakelock.acquire();
-    Intent i = new Intent(this, AllInvitedActivity.class);
-    i.putExtra(AllInvitedActivity.NEW_FLAG, request);
+    Intent i = new Intent(this, mInvitedClass);
+    i.putExtra(SupportIM.NEW_FLAG, request);
     showOnesNotification(request.username, request.username + "请求添加你为好友.", i);
     mWakelock.release();
   }

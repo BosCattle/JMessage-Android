@@ -39,21 +39,22 @@ import tech.jiangtao.support.ui.viewholder.NewFriendViewHolder;
  * Date: 18/04/2017 1:55 AM</br>
  * Update: 18/04/2017 1:55 AM </br>
  **/
-public class InvitedFragment extends BaseFragment  implements EasyViewHolder.OnItemClickListener {
+public class InvitedFragment extends BaseFragment implements EasyViewHolder.OnItemClickListener {
 
   @BindView(R2.id.new_friend_page) RecyclerView mNewFriendPage;
   private BaseEasyAdapter mBaseEasyAdapter;
   private UserServiceApi mUserServiceApi;
 
-  public InvitedFragment newInstance() {
+  public static InvitedFragment newInstance() {
     return new InvitedFragment();
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     super.onCreateView(inflater, container, savedInstanceState);
-
-    ButterKnife.bind(this,getView());
+    setUpAdapter();
+    updateRequest();
+    ButterKnife.bind(this, getView());
     return getView();
   }
 
@@ -61,7 +62,7 @@ public class InvitedFragment extends BaseFragment  implements EasyViewHolder.OnI
     return R.layout.fragment_new_friend;
   }
 
-  public void updateRequest(){
+  public void updateRequest() {
     AppPreferences mAppPreferences = new AppPreferences(getContext());
     String userId = null;
     try {
@@ -94,7 +95,7 @@ public class InvitedFragment extends BaseFragment  implements EasyViewHolder.OnI
     mNewFriendPage.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     mNewFriendPage.setAdapter(mBaseEasyAdapter);
-    mBaseEasyAdapter.add(new InvitedInfo(new User(),new Groups()));
+    mBaseEasyAdapter.add(new InvitedInfo(new User(), new Groups()));
     mBaseEasyAdapter.notifyDataSetChanged();
   }
 

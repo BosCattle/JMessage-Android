@@ -1,4 +1,4 @@
-package tech.jiangtao.support.ui.activity;
+package com.china.epower.chat.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,20 +14,15 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.china.epower.chat.R;
 import tech.jiangtao.support.kit.realm.GroupRealm;
-import tech.jiangtao.support.ui.R;
-import tech.jiangtao.support.ui.R2;
-import tech.jiangtao.support.ui.fragment.ChatFragment;
 import tech.jiangtao.support.ui.fragment.GroupChatFragment;
-import tech.jiangtao.support.ui.model.group.Friends;
-import tech.jiangtao.support.ui.model.group.Group;
-import tech.jiangtao.support.ui.model.group.Groups;
 
-public class GroupChatActivity extends BaseActivity {
+public class GroupChatActivity extends tech.jiangtao.support.ui.activity.BaseActivity {
 
   public static final String TAG = GroupChatActivity.class.getSimpleName();
-  @BindView(R2.id.tv_toolbar) TextView mTvToolbar;
-  @BindView(R2.id.toolbar) Toolbar mToolbar;
+  @BindView(R.id.tv_toolbar) TextView mTvToolbar;
+  @BindView(R.id.toolbar) Toolbar mToolbar;
   private GroupRealm mGroups;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +76,7 @@ public class GroupChatActivity extends BaseActivity {
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == R.id.menu_group_detail) {
-      GroupDetailActivity.startGroupDetail(GroupChatActivity.this,mGroups);
+      //GroupDetailActivity.startGroupDetail(GroupChatActivity.this,mGroups);
     }
     return super.onOptionsItemSelected(item);
   }

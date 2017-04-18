@@ -1,4 +1,4 @@
-package tech.jiangtao.support.ui.activity;
+package com.china.epower.chat.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,17 +10,16 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.china.epower.chat.R;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
-import tech.jiangtao.support.ui.R;
-import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.fragment.ChatFragment;
 
-public class ChatActivity extends BaseActivity {
+public class ChatActivity extends tech.jiangtao.support.ui.activity.BaseActivity {
 
   public static final String TAG = ChatActivity.class.getSimpleName();
-  @BindView(R2.id.tv_toolbar) TextView mTvToolbar;
-  @BindView(R2.id.toolbar) Toolbar mToolbar;
+  @BindView(R.id.tv_toolbar) TextView mTvToolbar;
+  @BindView(R.id.toolbar) Toolbar mToolbar;
   private ContactRealm mContactRealm;
 
   @Override protected void onCreate(Bundle savedInstanceState) {

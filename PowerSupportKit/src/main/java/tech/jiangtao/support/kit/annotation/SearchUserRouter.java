@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Class: GroupAnnotation </br>
+ * Class: GroupRouter </br>
  * Description:  </br>
  * Creator: kevin </br>
  * Email: jiangtao103cp@gmail.com </br>
@@ -19,6 +19,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Inherited
 @Documented
-public @interface GroupAnnotation {
+public @interface SearchUserRouter {
   Class grouUri();
 }

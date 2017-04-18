@@ -1,8 +1,13 @@
 package com.china.epower.chat.app;
 
 import android.app.Application;
-import java.util.UUID;
+import tech.jiangtao.support.kit.annotation.ChatRouter;
+import tech.jiangtao.support.kit.annotation.GroupChatRouter;
+import tech.jiangtao.support.kit.annotation.InvitedRouter;
 import tech.jiangtao.support.ui.SupportUI;
+import com.china.epower.chat.ui.activity.AllInvitedActivity;
+import com.china.epower.chat.ui.activity.ChatActivity;
+import com.china.epower.chat.ui.activity.GroupChatActivity;
 import work.wanghao.simplehud.SimpleHUD;
 
 /**
@@ -12,13 +17,10 @@ import work.wanghao.simplehud.SimpleHUD;
  * Email: jiangtao103cp@gmail.com </br>
  * Date: 10/11/2016 1:06 AM</br>
  * Update: 10/11/2016 1:06 AM </br>
- * localhost
- * http://192.168.43.164:8080/tigase/
- * http:// 192.168.3.4.164:8080/tigase/
- * server
- * http://139.162.78.252:8080/tigase/
  **/
-
+@ChatRouter(router = ChatActivity.class)
+@GroupChatRouter(router = GroupChatActivity.class)
+@InvitedRouter(router = AllInvitedActivity.class)
 public class PowerApp extends Application {
 
   private static final String TAG = PowerApp.class.getSimpleName();
