@@ -1,6 +1,6 @@
 ![logo](_media/ic_launcher.svg)
 
-# JMessage https://jitpack.io/#BosCattle/JMessage
+# <small>V0.0.9</small>
 
 > JMessage 集成文档
 

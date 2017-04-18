@@ -1,6 +1,6 @@
 - 快速开始
   - [项目介绍](README.md)
-  - [Writing more pages](more-pages.md)
+  - [项目配置](project_profile.md)
   - [Custom navbar](custom-navbar.md)
   - [Cover page](cover.md)
 
