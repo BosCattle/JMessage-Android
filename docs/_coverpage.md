@@ -1,13 +1,13 @@
 ![logo](_media/ic_launcher.svg)
 
-# JMessage <small>V0.0.8</small>
+# JMessage https://jitpack.io/#BosCattle/JMessage
 
-> JMessage integrated documentation
+> JMessage 集成文档
 
-- Base on Tigase+Smack development
-- achieve chat，groupchat
-- custom groupchat component
-- Gradle depend，annotation integrated
+- 基于Tigase+Smack开发
+- 实现单聊，群聊
+- 自定义群聊组件
+- 注解支持
 
 
 [GitHub](https://github.com/BosCattle/JMessage)
