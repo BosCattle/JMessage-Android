@@ -6,11 +6,11 @@
     >
   <ImageView
       android:id="@+id/group_grid"
-      android:layout_width="800dp"
+      android:layout_width="80dp"
       android:layout_height="80dp"
       android:layout_centerVertical="true"
       android:layout_gravity="center"
-      android:contentDescription=""
+      android:padding="8dp"
       android:src="@mipmap/ic_group_add_member"
       android:foreground="?attr/selectableItemBackground"
       />

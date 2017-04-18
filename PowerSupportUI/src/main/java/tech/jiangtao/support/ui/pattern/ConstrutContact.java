@@ -26,6 +26,7 @@ public class ConstrutContact {
   public String mSubtitle;
   public ContactRealm mContactRealm;
   public String mImg;
+  public boolean mIsChecked;
 
   public static class Builder {
     public ContactType type;
@@ -36,7 +37,9 @@ public class ConstrutContact {
     public String subtitle;
     public ContactRealm contactRealm;
     public String img;
-    public ConstrutContact build(){
+    public boolean isChecked;
+
+    public ConstrutContact build() {
       ConstrutContact contact = new ConstrutContact();
       contact.mType = type;
       contact.mId = id;
@@ -46,49 +49,53 @@ public class ConstrutContact {
       contact.mSubtitle = subtitle;
       contact.mContactRealm = contactRealm;
       contact.mImg = img;
+      contact.mIsChecked = isChecked;
       return contact;
     }
 
-    public Builder type(ContactType type1){
+    public Builder type(ContactType type1) {
       this.type = type1;
       return this;
-  }
+    }
 
-    public Builder id(int id1){
+    public Builder id(int id1) {
       this.id = id1;
       return this;
     }
 
-    public Builder title(String text){
+    public Builder title(String text) {
       this.title = text;
       return this;
     }
 
-
-    public Builder object(Object object){
+    public Builder object(Object object) {
       this.object = object;
       return this;
     }
 
-    public Builder datas(List<?> datas){
+    public Builder datas(List<?> datas) {
       this.datas = datas;
       return this;
     }
 
-    public Builder subtitle(String title){
+    public Builder subtitle(String title) {
       this.subtitle = title;
       return this;
     }
 
-    public Builder contactRealm(ContactRealm contactRealm){
+    public Builder contactRealm(ContactRealm contactRealm) {
       this.contactRealm = contactRealm;
       return this;
     }
 
-    public Builder img(String img){
+    public Builder img(String img) {
       this.img = img;
       return this;
     }
 
+    public Builder isChecked(boolean isChecked) {
+      this.isChecked = isChecked;
+      return this;
+    }
   }
 }

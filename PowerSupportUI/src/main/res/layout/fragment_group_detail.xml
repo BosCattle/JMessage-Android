@@ -1,26 +1,44 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="tech.jiangtao.support.ui.fragment.GroupDetailFragment"
     >
-
-  <android.support.v7.widget.RecyclerView
-      android:id="@+id/group_detail_recycle"
+  <RelativeLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      />
+      >
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/group_detail_recycle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
-  <android.support.v7.widget.AppCompatButton
-      android:layout_below="@+id/group_detail_recycle"
-      android:id="@+id/delete_group_button"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_margin="@dimen/activity_horizontal_margin"
-      android:background="@drawable/shape_button"
-      android:text="@string/delete"
-      android:textColor="@color/white"
-      android:textSize="18sp"
-      />
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/delete_group_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/group_detail_recycle"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@drawable/shape_button"
+        android:text="@string/delete"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        />
 
-</RelativeLayout>
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/delete_member_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/delete_group_button"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@drawable/shape_delete_button"
+        android:text="@string/delete_member"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        />
+  </RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -1,6 +1,8 @@
 package com.china.epower.chat.app;
 
 import android.app.Application;
+import com.facebook.stetho.Stetho;
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 import tech.jiangtao.support.kit.annotation.ChatRouter;
 import tech.jiangtao.support.kit.annotation.GroupChatRouter;
 import tech.jiangtao.support.kit.annotation.InvitedRouter;
@@ -29,5 +31,9 @@ public class PowerApp extends Application {
     super.onCreate();
     SimpleHUD.backgroundHexColor = "#FF4081";
     SupportUI.initialize(getApplicationContext());
+    Stetho.initialize(Stetho.newInitializerBuilder(this)
+        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+        .build());
   }
 }

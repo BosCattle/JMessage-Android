@@ -31,7 +31,6 @@ public class GroupDetailMemberViewHolder
     extends tech.jiangtao.support.ui.adapter.ContactViewHolder {
 
   @BindView(R2.id.group_detail_member) RecyclerView mGroupDetailMember;
-  @BindView(R2.id.group_detail_arrow) ImageView mGroupDetailArrow;
   private Context mContext;
   private BaseEasyAdapter mBaseEasyAdapter;
   private ArrayList<ContactRealm> mFriends;
@@ -42,7 +41,7 @@ public class GroupDetailMemberViewHolder
     mContext = context;
     mBaseEasyAdapter = new BaseEasyAdapter(mContext);
     mBaseEasyAdapter.viewHolderFactory(new BaseEasyViewHolderFactory(mContext));
-    mBaseEasyAdapter.bind(User.class, GroupGridViewHolder.class);
+    mBaseEasyAdapter.bind(ContactRealm.class, GroupGridViewHolder.class);
     mGroupDetailMember.setLayoutManager(new GridLayoutManager(mContext, 4));
     mGroupDetailMember.setAdapter(mBaseEasyAdapter);
     mFriends = new ArrayList<>();
@@ -50,7 +49,7 @@ public class GroupDetailMemberViewHolder
   }
 
   @Override public void bindTo(int position, ConstrutContact l) {
-    if (l.mDatas == null || position == l.mDatas.size() - 1) {
+    if (l.mDatas == null || position == l.mDatas.size()) {
       ContactRealm user = new ContactRealm();
       user.avatar = mContext.getResources().getResourceName(R.mipmap.ic_group_add_member);
       mFriends.add(user);
@@ -65,11 +64,5 @@ public class GroupDetailMemberViewHolder
       mBaseEasyAdapter.addAll(mFriends);
     }
     mBaseEasyAdapter.notifyDataSetChanged();
-    mBaseEasyAdapter.setOnClickListener((position1, view) -> {
-      if (position1 == mFriends.size() - 1) {
-        // 进入列表，选择用户进群
-        InviteFriendsActivity.startInviteFriends((Activity) mContext,l.mTitle);
-      }
-    });
   }
 }

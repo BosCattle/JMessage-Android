@@ -33,6 +33,6 @@ public class GroupDetailRadioViewHolder extends tech.jiangtao.support.ui.adapter
   }
 
   @Override public void bindTo(int position, ConstrutContact l) {
-
+    mGroupCheck.setChecked(l.mIsChecked);
   }
 }

@@ -61,5 +61,4 @@ dependencies {
   compile 'com.facebook.stetho:stetho:' + rootProject.ext.depsVersion.stetho
   compile 'com.facebook.stetho:stetho-okhttp3:' + rootProject.ext.depsVersion.stethoOkhttp3
   compile 'com.uphyca:stetho_realm:' + rootProject.ext.depsVersion.stetho_realm
-  compile 'com.android.support:support-v4:25.3.1'
 }

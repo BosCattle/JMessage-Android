@@ -10,7 +10,8 @@
   <string name="group_cancel">取消</string>
   <string name="group_create_alert">    请输入群名</string>
   <string name="group_name_check_alert">请正确输入群名</string>
-  <string name="delete">删 除</string>
+  <string name="delete">退出群聊</string>
+  <string name="delete_member">删除用户</string>
   <string name="news_friends">新朋友</string>
   <string name="chat_send">发送</string>
   <string name="friends_add">添加好友</string>
@@ -20,8 +21,4 @@
   <string name="friend_acture">同 意</string>
   <string name="friend_reject">拒 绝</string>
   <string name="group_create">创 建</string>
-
-  <!-- TODO: Remove or change this placeholder text -->
-  <string name="hello_blank_fragment">Hello blank fragment</string>
-
 </resources>

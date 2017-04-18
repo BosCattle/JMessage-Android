@@ -11,8 +11,8 @@
   <de.hdodenhof.circleimageview.CircleImageView
       tools:src="@mipmap/ic_chat_default"
       android:id="@+id/items_group_avatar"
-      android:layout_width="72dp"
-      android:layout_height="72dp"
+      android:layout_width="84dp"
+      android:layout_height="84dp"
       />
 
   <TextView

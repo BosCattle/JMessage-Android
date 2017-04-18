@@ -142,6 +142,7 @@ public class ChatListFragment extends BaseFragment
       mSessionRealm = realm.where(SessionRealm.class).findAll();
       Iterator<SessionRealm> it = mSessionRealm.iterator();
       LogUtils.d(TAG, "getChatList: 数量为" + mSessionRealm.size());
+      mSessionMessage.clear();
       while (it.hasNext()) {
         frameImage(false);
         SessionRealm sessionRealms = it.next();
