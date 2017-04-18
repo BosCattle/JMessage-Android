@@ -1,2 +1,1 @@
-- [En](/)
-- [中文](/zh-cn/)
+- [下载](https://github.com/BosCattle/JMessage/archive/V0.0.8.zip)
