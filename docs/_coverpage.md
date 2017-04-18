@@ -1,13 +1,14 @@
-![logo](_media/icon.svg)
+![logo](_media/ic_launcher.svg)
 
-# docsify <small>1.3.3</small>
+# JMessage <small>V0.0.8</small>
 
-> A magical documentation site generator.
+> JMessage集成文档
 
-- Simple and lightweight (~12kb gzipped)
-- Multiple themes
-- Not build static html files
+- 基于Tigase+Smack开发
+- 实现单聊，群聊
+- 自定义群聊组件
+- Gradle引入，注解集成
 
 
-[GitHub](https://github.com/QingWei-Li/docsify/)
+[GitHub](https://github.com/BosCattle/JMessage)
 [Get Started](#quick-start)
