@@ -22,18 +22,20 @@ public class ConstrutContact {
   public @DrawableRes int mId;
   public String mTitle;
   public Object mObject;
-  public List<Object> mDatas;
+  public List<?> mDatas;
   public String mSubtitle;
   public ContactRealm mContactRealm;
+  public String mImg;
 
   public static class Builder {
     public ContactType type;
     public @DrawableRes int id;
     public String title;
     public Object object;
-    public List<Object> datas;
+    public List<?> datas;
     public String subtitle;
     public ContactRealm contactRealm;
+    public String img;
     public ConstrutContact build(){
       ConstrutContact contact = new ConstrutContact();
       contact.mType = type;
@@ -43,6 +45,7 @@ public class ConstrutContact {
       contact.mDatas = datas;
       contact.mSubtitle = subtitle;
       contact.mContactRealm = contactRealm;
+      contact.mImg = img;
       return contact;
     }
 
@@ -67,7 +70,7 @@ public class ConstrutContact {
       return this;
     }
 
-    public Builder datas(List<Object> datas){
+    public Builder datas(List<?> datas){
       this.datas = datas;
       return this;
     }
@@ -79,6 +82,11 @@ public class ConstrutContact {
 
     public Builder contactRealm(ContactRealm contactRealm){
       this.contactRealm = contactRealm;
+      return this;
+    }
+
+    public Builder img(String img){
+      this.img = img;
       return this;
     }
 

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
+import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.activity.InviteFriendsActivity;
@@ -33,7 +34,7 @@ public class GroupDetailMemberViewHolder
   @BindView(R2.id.group_detail_arrow) ImageView mGroupDetailArrow;
   private Context mContext;
   private BaseEasyAdapter mBaseEasyAdapter;
-  private ArrayList<User> mFriends;
+  private ArrayList<ContactRealm> mFriends;
 
   public GroupDetailMemberViewHolder(Context context, ViewGroup parent) {
     super(context, parent, R.layout.list_item_group_detail_member);
@@ -50,14 +51,14 @@ public class GroupDetailMemberViewHolder
 
   @Override public void bindTo(int position, ConstrutContact l) {
     if (l.mDatas == null || position == l.mDatas.size() - 1) {
-      User user = new User();
+      ContactRealm user = new ContactRealm();
       user.avatar = mContext.getResources().getResourceName(R.mipmap.ic_group_add_member);
       mFriends.add(user);
       mBaseEasyAdapter.addAll(mFriends);
     }
     if (l.mDatas != null) {
       for (Object object : l.mDatas) {
-        User user = (User) object;
+        ContactRealm user = (ContactRealm) object;
         mFriends.add(user);
       }
       mBaseEasyAdapter.clear();

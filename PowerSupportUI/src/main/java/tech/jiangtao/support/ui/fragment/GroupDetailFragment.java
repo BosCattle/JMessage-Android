@@ -10,18 +10,30 @@ import android.view.ViewGroup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmResults;
 import java.util.ArrayList;
 import java.util.List;
+import net.grandcentrix.tray.AppPreferences;
+import net.grandcentrix.tray.core.ItemNotFoundException;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.SupportIM;
+import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.GroupRealm;
+import tech.jiangtao.support.kit.util.ErrorAction;
+import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
+import tech.jiangtao.support.ui.api.ApiService;
+import tech.jiangtao.support.ui.api.service.GroupServiceApi;
 import tech.jiangtao.support.ui.model.User;
 import tech.jiangtao.support.ui.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
+import work.wanghao.simplehud.SimpleHUD;
 
 /**
  * Class: GroupDetailFragment </br>
@@ -39,8 +51,9 @@ public class GroupDetailFragment extends BaseFragment
   @BindView(R2.id.delete_group_button) AppCompatButton mDeleteGroupButton;
   private ContactAdapter mContactAdapter;
   private ArrayList<ConstrutContact> mConstrutContact;
-  private List<User> mUsers = new ArrayList<>();
+  private List<ContactRealm> mContact = new ArrayList<>();
   private GroupRealm mGroupRealm;
+  private GroupServiceApi mGroupServiceApi;
 
   public static GroupDetailFragment newInstance() {
     return new GroupDetailFragment();
@@ -52,6 +65,7 @@ public class GroupDetailFragment extends BaseFragment
     ButterKnife.bind(this, getView());
     setUpAdapter();
     updateGroupData();
+    loadGroupMember();
     return getView();
   }
 
@@ -60,14 +74,16 @@ public class GroupDetailFragment extends BaseFragment
   }
 
   private void updateGroupData() {
-    mGroupRealm  = getArguments().getParcelable(SupportIM.GROUP);
+    mGroupRealm = getArguments().getParcelable(SupportIM.GROUP);
     mConstrutContact.clear();
     mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_GROUP_DETAIL_HEAD)
         .title(mGroupRealm.getName())
+        .subtitle(mGroupRealm.getDescription())
+        .img(mGroupRealm.getAvatar())
         .build());
     mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_GROUP_MEMBER)
         .title(mGroupRealm.getGroupId())
-        .datas(null)
+        .datas(mContact)
         .build());
     mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_GROUP_RADIO).build());
     mConstrutContact.add(
@@ -90,6 +106,32 @@ public class GroupDetailFragment extends BaseFragment
     mGroupDetailRecycle.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     mGroupDetailRecycle.setAdapter(mContactAdapter);
+  }
+
+  public void loadGroupMember() {
+    String userId;
+    mGroupServiceApi = ApiService.getInstance().createApiService(GroupServiceApi.class);
+    AppPreferences sharepreference = new AppPreferences(getContext());
+    try {
+      userId = sharepreference.getString(SupportIM.USER_ID);
+      mGroupServiceApi.selectGroupMembers(mGroupRealm.groupId, userId)
+          .subscribeOn(Schedulers.io())
+          .doOnSubscribe(() -> SimpleHUD.showLoadingMessage(getContext(), "正在加载..", true))
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(contactRealms -> {
+            SimpleHUD.dismiss();
+            mContact = contactRealms;
+            updateGroupData();
+          }, new ErrorAction() {
+            @Override public void call(Throwable throwable) {
+              super.call(throwable);
+              LogUtils.e(TAG,"获取群组成员错误");
+              SimpleHUD.dismiss();
+            }
+          });
+    } catch (ItemNotFoundException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override public void onItemClick(int position, View view) {

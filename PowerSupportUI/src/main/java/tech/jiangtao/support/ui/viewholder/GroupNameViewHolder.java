@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.bumptech.glide.Glide;
 import de.hdodenhof.circleimageview.CircleImageView;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
@@ -36,7 +37,11 @@ public class GroupNameViewHolder extends tech.jiangtao.support.ui.adapter.Contac
 
   @Override public void bindTo(int position, ConstrutContact l) {
     mItemsGroupName.setText(l.mTitle);
-    mItemsGroupAvatar.setImageResource(R.mipmap.ic_mipmap_default_image);
-    mItemsGroupTab.setText("群介绍...");
+    Glide.with(mContext)
+        .load(l.mImg)
+        .placeholder(R.mipmap.ic_launcher)
+        .centerCrop()
+        .into(mItemsGroupAvatar);
+    mItemsGroupTab.setText(l.mSubtitle);
   }
 }
