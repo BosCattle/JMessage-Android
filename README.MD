@@ -1,6 +1,8 @@
 [![](https://jitpack.io/v/BosCattle/JMessage.svg)](https://jitpack.io/#BosCattle/JMessage)
+## 介绍
+Android版本聊天Library，基于XMPP开发，支持单聊，群聊。聊天类型支持文字，图片，表情，语音，视频，文件，地理位置。
 ## 文档
-[集成文档](http://blog.jiangtao.tech/2017/01/08/JMessage%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/)
+[集成文档](http://jmessage.jiangtao.tech/)
 ## 如何使用
 ### Gradle
 ```shell
