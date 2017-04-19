@@ -30,7 +30,7 @@ public class PowerApp extends Application {
   @Override public void onCreate() {
     super.onCreate();
     SimpleHUD.backgroundHexColor = "#FF4081";
-    SupportUI.initialize(getApplicationContext());
+    SupportUI.initialize(getApplicationContext(), "resource.properties");
     Stetho.initialize(Stetho.newInitializerBuilder(this)
         .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
         .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())

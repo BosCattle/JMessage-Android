@@ -106,7 +106,7 @@ import static com.vincent.filepicker.activity.VideoPickActivity.IS_NEED_CAMERA;
  * Date: 02/12/2016 11:40 AM</br>
  * Update: 02/12/2016 11:40 AM </br>
  **/
-public class ChatFragment extends BaseFragment
+public  class ChatFragment extends BaseFragment
     implements TextWatcher, View.OnClickListener, EasyViewHolder.OnItemClickListener,
     View.OnLongClickListener, AudioRecordButton.onAudioFinishRecordListener,
     SwipeRefreshLayout.OnRefreshListener, View.OnFocusChangeListener {

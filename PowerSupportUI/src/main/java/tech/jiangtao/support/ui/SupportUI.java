@@ -37,8 +37,8 @@ public class SupportUI {
   public static String RESOURCE_ADDRESS2 = "RESOURCE_ADDRESS2";
   private static String API_ADDRESS2 = "API_ADDRESS2";
 
-  public static void initialize(Context context) {
-    initValue(context);
+  public static void initialize(Context context,String resourceName) {
+    initValue(context,resourceName);
     String resource = UUID.randomUUID().toString();
     //---------------------------------------配置中心--------------------------------
     //------------------------------------------------------------------------------
@@ -48,8 +48,8 @@ public class SupportUI {
     Realm.init(context);
   }
 
-  private static void initValue(Context context) {
-    Properties properties = PropertyUtils.getProperties(context);
+  private static void initValue(Context context,String resourceName) {
+    Properties properties = PropertyUtils.getProperties(context,resourceName);
     MM_APPID = properties.getProperty(MM_APPID);
     MM_AppSecret = properties.getProperty(MM_AppSecret);
     PORT = properties.getProperty(PORT);

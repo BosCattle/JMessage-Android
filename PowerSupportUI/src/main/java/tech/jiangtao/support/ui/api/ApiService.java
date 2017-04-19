@@ -34,7 +34,8 @@ public class ApiService {
     if (INSTANCE == null) {
       synchronized (ApiService.class) {
         if (INSTANCE == null) {
-          INSTANCE = new ApiService(SupportIM.API_ADDRESS,new HttpLoggingInterceptor());
+          INSTANCE = new ApiService(SupportIM.API_ADDRESS, new HttpLoggingInterceptor(),
+              new StethoInterceptor());
         }
       }
     }
@@ -47,13 +48,10 @@ public class ApiService {
         if (sOkHttpClient == null) {
           OkHttpClient.Builder builder = new OkHttpClient.Builder();
           builder.connectTimeout(10, TimeUnit.SECONDS);
-          builder.addInterceptor(new HttpLoggingInterceptor());
-          builder.addNetworkInterceptor(new StethoInterceptor());
-          /*for (Interceptor interceptor : interceptors) {
+          for (Interceptor interceptor : interceptors) {
             builder.addInterceptor(interceptor);
-          }*/
-          HttpLoggingInterceptor httpLoggingInterceptor =
-              new HttpLoggingInterceptor();
+          }
+          HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
           httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
           builder.addInterceptor(httpLoggingInterceptor);
           builder.retryOnConnectionFailure(true);

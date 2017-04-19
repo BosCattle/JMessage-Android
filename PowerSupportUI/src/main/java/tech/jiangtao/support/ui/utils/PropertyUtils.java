@@ -25,4 +25,15 @@ public class PropertyUtils {
     }
     return props;
   }
+
+  public static Properties getProperties(Context c,String resource){
+    Properties props = new Properties();
+    try {
+      InputStream in = c.getAssets().open(resource);
+      props.load(in);
+    } catch (Exception e1) {
+      e1.printStackTrace();
+    }
+    return props;
+  }
 }
