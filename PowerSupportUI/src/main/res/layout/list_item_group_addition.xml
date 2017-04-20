@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
+    android:paddingBottom="8dp"
+    android:paddingLeft="@dimen/divider_normal_height"
+    android:paddingRight="@dimen/divider_normal_height"
+    android:paddingTop="8dp"
+    >
+
+  <de.hdodenhof.circleimageview.CircleImageView
+      android:id="@+id/group_contact_avatar"
+      android:layout_width="60dp"
+      android:layout_height="60dp"
+      tools:src="@mipmap/ic_chat_default"
+      />
+
+  <TextView
+      android:id="@+id/group_contact_nickname"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerVertical="true"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginStart="@dimen/activity_horizontal_margin"
+      android:layout_toEndOf="@+id/group_contact_avatar"
+      android:layout_toRightOf="@+id/group_contact_avatar"
+      tools:text="昵称"
+      />
+
+  <android.support.v7.widget.AppCompatCheckBox
+      android:id="@+id/group_addition_choice"
+      android:layout_centerVertical="true"
+      android:layout_alignParentRight="true"
+      android:layout_width="20dp"
+      android:layout_height="20dp"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      />
+
+</RelativeLayout>

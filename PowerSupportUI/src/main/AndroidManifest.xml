@@ -75,9 +75,6 @@
         android:theme="@style/AppTheme.NoActionBar">
     </activity>
     <!--邀请好友入群-->
-    <activity android:name=".activity.InviteFriendsActivity"
-        android:theme="@style/AppTheme.NoActionBar">
-    </activity>
   </application>
 
 </manifest>

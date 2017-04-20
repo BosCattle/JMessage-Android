@@ -1,7 +1,5 @@
 package com.china.epower.chat.ui.activity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -15,7 +13,7 @@ import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.ui.fragment.ChatFragment;
 
-public class ChatActivity extends tech.jiangtao.support.ui.activity.BaseActivity {
+public class ChatActivity extends BaseActivity {
 
   public static final String TAG = ChatActivity.class.getSimpleName();
   @BindView(R.id.tv_toolbar) TextView mTvToolbar;
@@ -34,12 +32,12 @@ public class ChatActivity extends tech.jiangtao.support.ui.activity.BaseActivity
   }
 
   private void init() {
-    mContactRealm = getIntent().getParcelableExtra(SupportIM.VCARD);
     buildFragment();
     setUpToolbar();
   }
 
   public void buildFragment() {
+    mContactRealm = getIntent().getParcelableExtra(SupportIM.VCARD);
     FragmentManager mFragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
     ChatFragment fragment = ChatFragment.newInstance();
@@ -52,18 +50,11 @@ public class ChatActivity extends tech.jiangtao.support.ui.activity.BaseActivity
 
   public void setUpToolbar() {
     mToolbar.setTitle("");
-    mTvToolbar.setText(
-        mContactRealm != null && mContactRealm.getNickName() != null ? mContactRealm.getNickName()
-            : "");
+    mTvToolbar.setText(mContactRealm != null && mContactRealm.getNickName() != null ?
+        mContactRealm.getNickName() : "");
     setSupportActionBar(mToolbar);
     mToolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
     mToolbar.setNavigationOnClickListener(
         v -> ActivityCompat.finishAfterTransition(ChatActivity.this));
-  }
-
-  public static void startChat(Activity activity, ContactRealm mContactRealm) {
-    Intent intent = new Intent(activity, ChatActivity.class);
-    intent.putExtra(SupportIM.VCARD, mContactRealm);
-    activity.startActivity(intent);
   }
 }

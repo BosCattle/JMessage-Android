@@ -19,6 +19,7 @@ import tech.jiangtao.support.kit.eventbus.NotificationConnection;
 import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.ui.R;
+import tech.jiangtao.support.ui.model.Message;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
 import tech.jiangtao.support.ui.service.SupportService;
 import tech.jiangtao.support.ui.view.AudioManager;
@@ -81,10 +82,11 @@ public abstract class BaseFragment extends Fragment {
     return mLayoutView;
   }
 
+  /**
+   * 接受消息
+   * @param message
+   */
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveLastMessage message) {
 
-  }
-
-  public void startGroups(Activity context, Activity activity) {
   }
 }

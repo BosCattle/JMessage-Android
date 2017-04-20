@@ -1,0 +1,15 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="tech.jiangtao.support.ui.fragment.FriendsFragment"
+    >
+
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/group_member_addition"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      tools:listitem="@layout/list_item_group_addition"
+      />
+
+</FrameLayout>

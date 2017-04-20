@@ -11,4 +11,4 @@
 
 
 [GitHub](https://github.com/BosCattle/JMessage)
-[Get Started](#quick-start)
+[Get Started](#README)

@@ -21,4 +21,7 @@
   <string name="friend_acture">同 意</string>
   <string name="friend_reject">拒 绝</string>
   <string name="group_create">创 建</string>
+
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

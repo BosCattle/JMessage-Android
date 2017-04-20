@@ -262,17 +262,17 @@ public class ContactFragment extends BaseFragment
     Class<?> activity = getActivity().getClass();
     Annotation[] annotation = activity.getAnnotations();
     LogUtils.d(TAG, annotation.length + "注解个数");
-    for (int i = 0; i < annotation.length; i++) {
-      if (annotation[i] instanceof GroupsRouter) {
-        GroupsRouter annomation = (GroupsRouter) annotation[i];
-        mGroupClazz = annomation.router();
+    for (Annotation anAnnotation : annotation) {
+      if (anAnnotation instanceof GroupsRouter) {
+        GroupsRouter animation = (GroupsRouter) anAnnotation;
+        mGroupClazz = animation.router();
       }
-      if (annotation[i] instanceof InvitedRouter) {
-        InvitedRouter invitedRouter = (InvitedRouter) annotation[i];
+      if (anAnnotation instanceof InvitedRouter) {
+        InvitedRouter invitedRouter = (InvitedRouter) anAnnotation;
         mInvitedClass = invitedRouter.router();
       }
-      if (annotation[i] instanceof ChatRouter) {
-        ChatRouter chatRouter = (ChatRouter) annotation[i];
+      if (anAnnotation instanceof ChatRouter) {
+        ChatRouter chatRouter = (ChatRouter) anAnnotation;
         mChatClass = chatRouter.router();
       }
     }

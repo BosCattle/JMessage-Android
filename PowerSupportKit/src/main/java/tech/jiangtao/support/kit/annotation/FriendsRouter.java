@@ -20,5 +20,5 @@ import java.lang.annotation.Target;
 @Inherited
 @Documented
 public @interface FriendsRouter {
-  Class grouUri();
+  Class router();
 }

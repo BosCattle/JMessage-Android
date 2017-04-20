@@ -1,6 +1,7 @@
 package com.china.epower.chat.ui.activity;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -43,11 +44,8 @@ public abstract class BaseActivity extends AppCompatActivity {
       mToolbar.setTitle("");
       setSupportActionBar(mToolbar);
       mToolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
-      mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View v) {
-          ActivityCompat.finishAfterTransition(BaseActivity.this);
-        }
-      });
+      mToolbar.setNavigationOnClickListener(
+          v -> ActivityCompat.finishAfterTransition(BaseActivity.this));
     }
   }
 

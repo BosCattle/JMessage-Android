@@ -1,5 +1,6 @@
 package tech.jiangtao.support.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 import net.grandcentrix.tray.AppPreferences;
@@ -20,6 +22,7 @@ import net.grandcentrix.tray.core.ItemNotFoundException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.SupportIM;
+import tech.jiangtao.support.kit.annotation.FriendsRouter;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.kit.util.ErrorAction;
@@ -193,11 +196,21 @@ public class GroupDetailFragment extends BaseFragment
       LogUtils.d(TAG, "点击了第三项");
     } else if (position == 4) {
 
+    } else if (position == 5) {
+      // 解析注解
+      Class clazz = getActivity().getClass();
+      Annotation[] annotations = clazz.getAnnotations();
+      for (int i = 0; i < annotations.length; i++) {
+        if (annotations[i] instanceof FriendsRouter) {
+          FriendsRouter router = (FriendsRouter) annotations[i];
+          Intent intent = new Intent(getActivity(), router.router());
+          startActivity(intent);
+        }
+      }
     }
   }
 
   @OnClick({ R2.id.delete_group_button, R2.id.delete_member_button }) public void onClick(View v) {
 
   }
-
 }

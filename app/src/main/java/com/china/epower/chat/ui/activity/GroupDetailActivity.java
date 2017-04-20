@@ -12,6 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.china.epower.chat.R;
 import tech.jiangtao.support.kit.SupportIM;
+import tech.jiangtao.support.kit.annotation.FriendsRouter;
 import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.ui.fragment.GroupDetailFragment;
 
@@ -23,7 +24,8 @@ import tech.jiangtao.support.ui.fragment.GroupDetailFragment;
  * Date: 2017/4/6 下午2:27</br>
  * Update: 2017/4/6 下午2:27 </br>
  **/
-public class GroupDetailActivity extends tech.jiangtao.support.ui.activity.BaseActivity {
+@FriendsRouter(router = FriendsActivity.class)
+public class GroupDetailActivity extends BaseActivity {
 
   public static final String TAG = GroupDetailActivity.class.getSimpleName();
   @BindView(R.id.tv_toolbar) TextView mTvToolbar;

@@ -13,9 +13,7 @@ import java.util.ArrayList;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
-import tech.jiangtao.support.ui.activity.InviteFriendsActivity;
 import tech.jiangtao.support.ui.adapter.*;
-import tech.jiangtao.support.ui.model.User;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 
 /**
