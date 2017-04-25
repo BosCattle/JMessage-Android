@@ -1,7 +1,7 @@
 package tech.jiangtao.support.ui.utils;
 
 import tech.jiangtao.support.kit.SupportIM;
-import tech.jiangtao.support.ui.model.type.TransportType;
+import tech.jiangtao.support.kit.model.type.TransportType;
 
 /**
  * Class: ResourceAddress </br>

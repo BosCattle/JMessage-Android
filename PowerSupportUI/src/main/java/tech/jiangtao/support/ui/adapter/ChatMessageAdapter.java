@@ -1,12 +1,11 @@
 package tech.jiangtao.support.ui.adapter;
 
 import android.content.Context;
-import android.support.annotation.BoolRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
-import tech.jiangtao.support.ui.model.type.MessageType;
+import tech.jiangtao.support.kit.model.type.MessageType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
 import tech.jiangtao.support.ui.viewholder.ChatImageMineViewHolder;
 import tech.jiangtao.support.ui.viewholder.ChatImageOtherViewHolder;

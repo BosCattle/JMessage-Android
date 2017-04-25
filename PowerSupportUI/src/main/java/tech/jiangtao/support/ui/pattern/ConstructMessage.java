@@ -1,7 +1,7 @@
 package tech.jiangtao.support.ui.pattern;
 
-import tech.jiangtao.support.ui.model.Message;
-import tech.jiangtao.support.ui.model.type.MessageType;
+import tech.jiangtao.support.kit.model.Message;
+import tech.jiangtao.support.kit.model.type.MessageType;
 
 /**
  * Class: ConstructMessage </br>

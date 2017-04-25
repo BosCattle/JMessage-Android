@@ -9,7 +9,7 @@ import java.util.List;
 
 import tech.jiangtao.support.ui.linstener.DebouncedOnClickListener;
 import tech.jiangtao.support.ui.linstener.DebouncedOnLongClickListener;
-import tech.jiangtao.support.ui.model.type.ContactType;
+import tech.jiangtao.support.kit.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.viewholder.ContactCellViewHolder;
 import tech.jiangtao.support.ui.viewholder.ContactHeadViewHolder;

@@ -1,7 +1,7 @@
 package tech.jiangtao.support.ui.pattern;
 
 import android.support.annotation.DrawableRes;
-import tech.jiangtao.support.ui.model.type.ListDataType;
+import tech.jiangtao.support.kit.model.type.ListDataType;
 
 /**
  * Class: ConstructListData </br>

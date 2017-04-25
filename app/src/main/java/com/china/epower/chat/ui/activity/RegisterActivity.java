@@ -13,8 +13,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
-import tech.jiangtao.support.ui.api.ApiService;
-import tech.jiangtao.support.ui.api.service.AccountServiceApi;
+import tech.jiangtao.support.kit.api.ApiService;
+import tech.jiangtao.support.kit.api.service.AccountServiceApi;
 import work.wanghao.simplehud.SimpleHUD;
 
 /**

@@ -49,17 +49,10 @@ dependencies {
   compile 'com.tbruyelle.rxpermissions:rxpermissions:' + rootProject.ext.depsVersion.rxpermissionsVersion
   annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
   apt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
-  compile 'com.squareup.retrofit2:adapter-rxjava:' + rootProject.ext.depsVersion.rxjavaadapter
-  compile 'com.squareup.retrofit2:retrofit:' + rootProject.ext.depsVersion.retrofitVersion
-  compile 'com.squareup.retrofit2:converter-jackson:' + rootProject.ext.depsVersion.jacksonVersion
-  compile 'com.squareup.okhttp3:okhttp:' + rootProject.ext.depsVersion.okhttpVersion
-  compile 'com.squareup.okio:okio:' + rootProject.ext.depsVersion.okioVersion
-  compile 'com.squareup.okhttp3:logging-interceptor:' + rootProject.ext.depsVersion.logginginterceptorVersion
   compile 'com.github.chrisbanes:PhotoView:' + rootProject.ext.depsVersion.photoViewVersion
   compile 'com.github.BosCattle:Emoji:' + rootProject.ext.depsVersion.emojiVersion
   compile 'com.afollestad.material-dialogs:core:' + rootProject.ext.depsVersion.materialDialogsVersion
   compile 'com.facebook.stetho:stetho:' + rootProject.ext.depsVersion.stetho
   compile 'com.facebook.stetho:stetho-okhttp3:' + rootProject.ext.depsVersion.stethoOkhttp3
   compile 'com.uphyca:stetho_realm:' + rootProject.ext.depsVersion.stetho_realm
-  compile 'com.android.support:support-v4:25.3.1'
 }

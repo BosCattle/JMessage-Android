@@ -35,7 +35,6 @@ import java.util.List;
 
 import tech.jiangtao.support.kit.annotation.ChatRouter;
 import tech.jiangtao.support.kit.annotation.GroupChatRouter;
-import tech.jiangtao.support.kit.annotation.GroupRouter;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
@@ -48,7 +47,7 @@ import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.adapter.SessionAdapter;
-import tech.jiangtao.support.ui.model.type.TransportType;
+import tech.jiangtao.support.kit.model.type.TransportType;
 import tech.jiangtao.support.ui.pattern.SessionListMessage;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
 import tech.jiangtao.support.ui.utils.ResourceAddress;

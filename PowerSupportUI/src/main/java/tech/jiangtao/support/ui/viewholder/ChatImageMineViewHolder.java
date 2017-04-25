@@ -2,23 +2,19 @@ package tech.jiangtao.support.ui.viewholder;
 
 import android.content.Context;
 import android.net.Uri;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ChatBaseViewHolder;
-import tech.jiangtao.support.ui.model.type.TransportType;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
-import tech.jiangtao.support.ui.utils.ResourceAddress;
 import tech.jiangtao.support.ui.view.ImageDialogManager;
 
 /**

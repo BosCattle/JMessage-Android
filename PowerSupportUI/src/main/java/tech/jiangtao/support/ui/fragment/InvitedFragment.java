@@ -1,13 +1,11 @@
 package tech.jiangtao.support.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import net.grandcentrix.tray.AppPreferences;
@@ -23,11 +21,11 @@ import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.BaseEasyAdapter;
 import tech.jiangtao.support.ui.adapter.BaseEasyViewHolderFactory;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
-import tech.jiangtao.support.ui.api.ApiService;
-import tech.jiangtao.support.ui.api.service.UserServiceApi;
-import tech.jiangtao.support.ui.model.User;
-import tech.jiangtao.support.ui.model.group.Groups;
-import tech.jiangtao.support.ui.model.group.InvitedInfo;
+import tech.jiangtao.support.kit.api.ApiService;
+import tech.jiangtao.support.kit.api.service.UserServiceApi;
+import tech.jiangtao.support.kit.model.User;
+import tech.jiangtao.support.kit.model.group.Groups;
+import tech.jiangtao.support.kit.model.group.InvitedInfo;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
 import tech.jiangtao.support.ui.viewholder.NewFriendViewHolder;
 

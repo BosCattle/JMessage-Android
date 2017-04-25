@@ -42,4 +42,10 @@ dependencies {
   compile 'org.igniterealtime.smack:smack-im:'+ rootProject.ext.depsVersion.smackVersion
   compile 'org.igniterealtime.smack:smack-extensions:'+ rootProject.ext.depsVersion.smackVersion
   compile 'org.igniterealtime.smack:smack-android-extensions:'+ rootProject.ext.depsVersion.smackVersion
+  compile 'com.squareup.retrofit2:adapter-rxjava:' + rootProject.ext.depsVersion.rxjavaadapter
+  compile 'com.squareup.retrofit2:retrofit:' + rootProject.ext.depsVersion.retrofitVersion
+  compile 'com.squareup.retrofit2:converter-jackson:' + rootProject.ext.depsVersion.jacksonVersion
+  compile 'com.squareup.okhttp3:okhttp:' + rootProject.ext.depsVersion.okhttpVersion
+  compile 'com.squareup.okio:okio:' + rootProject.ext.depsVersion.okioVersion
+  compile 'com.squareup.okhttp3:logging-interceptor:' + rootProject.ext.depsVersion.logginginterceptorVersion
 }

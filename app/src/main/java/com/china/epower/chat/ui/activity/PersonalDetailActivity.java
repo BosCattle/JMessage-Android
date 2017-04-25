@@ -40,11 +40,11 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.util.ErrorAction;
-import tech.jiangtao.support.ui.api.ApiService;
-import tech.jiangtao.support.ui.api.service.AccountServiceApi;
-import tech.jiangtao.support.ui.api.service.UpLoadServiceApi;
-import tech.jiangtao.support.ui.model.User;
-import tech.jiangtao.support.ui.model.type.TransportType;
+import tech.jiangtao.support.kit.api.ApiService;
+import tech.jiangtao.support.kit.api.service.AccountServiceApi;
+import tech.jiangtao.support.kit.api.service.UpLoadServiceApi;
+import tech.jiangtao.support.kit.model.User;
+import tech.jiangtao.support.kit.model.type.TransportType;
 import work.wanghao.simplehud.SimpleHUD;
 
 import static com.vincent.filepicker.Constant.REQUEST_CODE_PICK_IMAGE;

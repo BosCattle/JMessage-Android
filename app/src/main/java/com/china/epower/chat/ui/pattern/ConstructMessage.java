@@ -2,7 +2,7 @@ package com.china.epower.chat.ui.pattern;
 
 import com.china.epower.chat.model.Message;
 import com.china.epower.chat.model.type.MessageType;
-import tech.jiangtao.support.ui.model.User;
+import tech.jiangtao.support.kit.model.User;
 
 /**
  * Created by jiang on 2016/11/14.

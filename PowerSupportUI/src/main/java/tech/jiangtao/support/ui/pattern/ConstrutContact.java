@@ -5,7 +5,7 @@ import android.support.annotation.DrawableRes;
 import java.util.List;
 
 import tech.jiangtao.support.kit.realm.ContactRealm;
-import tech.jiangtao.support.ui.model.type.ContactType;
+import tech.jiangtao.support.kit.model.type.ContactType;
 
 /**
  * Class: ConstrutContact </br>

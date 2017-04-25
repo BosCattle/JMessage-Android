@@ -11,9 +11,7 @@ import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
-import tech.jiangtao.support.ui.model.group.Group;
-import tech.jiangtao.support.ui.model.group.GroupData;
-import tech.jiangtao.support.ui.model.type.TransportType;
+import tech.jiangtao.support.kit.model.type.TransportType;
 import tech.jiangtao.support.ui.utils.ResourceAddress;
 
 /**

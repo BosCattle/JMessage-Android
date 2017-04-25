@@ -7,12 +7,8 @@ import android.view.ViewGroup;
 import java.util.List;
 import tech.jiangtao.support.ui.linstener.DebouncedOnClickListener;
 import tech.jiangtao.support.ui.linstener.DebouncedOnLongClickListener;
-import tech.jiangtao.support.ui.model.type.ContactType;
-import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.pattern.SessionListMessage;
 import tech.jiangtao.support.ui.viewholder.AllChatListViewHolder;
-import tech.jiangtao.support.ui.viewholder.ContactHeadViewHolder;
-import tech.jiangtao.support.ui.viewholder.ContactsViewHolder;
 
 /**
  * Class: ContactAdapter </br>

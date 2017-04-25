@@ -120,5 +120,4 @@ dependencies {
   debugCompile 'com.squareup.leakcanary:leakcanary-android:' + rootProject.ext.depsVersion.leakcanaryAndroidVersion
   releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:' + rootProject.ext.depsVersion.leakcanaryAndroidVersion
   compile 'com.tbruyelle.rxpermissions:rxpermissions:' + rootProject.ext.depsVersion.rxpermissionsVersion
-  compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

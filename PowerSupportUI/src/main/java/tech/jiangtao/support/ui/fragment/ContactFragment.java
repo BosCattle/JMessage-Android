@@ -34,7 +34,6 @@ import net.grandcentrix.tray.core.ItemNotFoundException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.annotation.ChatRouter;
-import tech.jiangtao.support.kit.annotation.GroupRouter;
 import tech.jiangtao.support.kit.annotation.GroupsRouter;
 import tech.jiangtao.support.kit.annotation.InvitedRouter;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
@@ -48,13 +47,12 @@ import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
-import tech.jiangtao.support.ui.api.ApiService;
-import tech.jiangtao.support.ui.api.service.UserServiceApi;
-import tech.jiangtao.support.ui.model.User;
-import tech.jiangtao.support.ui.model.type.ContactType;
+import tech.jiangtao.support.kit.api.ApiService;
+import tech.jiangtao.support.kit.api.service.UserServiceApi;
+import tech.jiangtao.support.kit.model.User;
+import tech.jiangtao.support.kit.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
-import work.wanghao.simplehud.SimpleHUD;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**

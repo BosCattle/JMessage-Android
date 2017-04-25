@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
-import tech.jiangtao.support.ui.model.ChatExtraModel;
+import tech.jiangtao.support.kit.model.ChatExtraModel;
 
 /**
  * Created by jiang on 2016/11/16.

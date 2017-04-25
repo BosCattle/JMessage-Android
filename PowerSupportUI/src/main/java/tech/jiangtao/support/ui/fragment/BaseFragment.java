@@ -1,27 +1,16 @@
 package tech.jiangtao.support.ui.fragment;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import butterknife.ButterKnife;
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import tech.jiangtao.support.kit.eventbus.NotificationConnection;
 import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
-import tech.jiangtao.support.kit.eventbus.RecieveMessage;
-import tech.jiangtao.support.ui.R;
-import tech.jiangtao.support.ui.model.Message;
-import tech.jiangtao.support.ui.pattern.ConstructMessage;
-import tech.jiangtao.support.ui.service.SupportService;
 import tech.jiangtao.support.ui.view.AudioManager;
 import tech.jiangtao.support.ui.view.MediaManager;
 import xiaofei.library.hermeseventbus.HermesEventBus;

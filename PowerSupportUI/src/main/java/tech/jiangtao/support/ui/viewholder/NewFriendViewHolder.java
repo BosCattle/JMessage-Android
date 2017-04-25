@@ -1,7 +1,6 @@
 package tech.jiangtao.support.ui.viewholder;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,8 +14,8 @@ import tech.jiangtao.support.kit.eventbus.RecieveFriend;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
-import tech.jiangtao.support.ui.model.group.InvitedInfo;
-import tech.jiangtao.support.ui.model.type.TransportType;
+import tech.jiangtao.support.kit.model.group.InvitedInfo;
+import tech.jiangtao.support.kit.model.type.TransportType;
 import tech.jiangtao.support.ui.utils.ResourceAddress;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 

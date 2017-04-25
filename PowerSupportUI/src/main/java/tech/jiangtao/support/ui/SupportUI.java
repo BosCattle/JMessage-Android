@@ -11,8 +11,8 @@ import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.annotation.ChatRouter;
 import tech.jiangtao.support.kit.annotation.GroupChatRouter;
 import tech.jiangtao.support.kit.annotation.InvitedRouter;
-import tech.jiangtao.support.ui.service.SupportService;
-import tech.jiangtao.support.ui.service.XMPPService;
+import tech.jiangtao.support.kit.service.SupportService;
+import tech.jiangtao.support.kit.service.XMPPService;
 import tech.jiangtao.support.ui.utils.PropertyUtils;
 
 public class SupportUI {

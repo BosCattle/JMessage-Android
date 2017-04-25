@@ -11,7 +11,7 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
-import tech.jiangtao.support.ui.model.group.Groups;
+import tech.jiangtao.support.kit.model.group.Groups;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 
 /**

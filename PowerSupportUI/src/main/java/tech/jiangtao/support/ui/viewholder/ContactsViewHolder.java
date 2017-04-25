@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -18,7 +17,7 @@ import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ContactViewHolder;
-import tech.jiangtao.support.ui.model.type.TransportType;
+import tech.jiangtao.support.kit.model.type.TransportType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.ResourceAddress;
 
