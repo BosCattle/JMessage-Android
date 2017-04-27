@@ -9,6 +9,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.china.epower.chat.R;
+import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.ui.fragment.FriendsFragment;
 import tech.jiangtao.support.ui.fragment.InvitedFragment;
 
@@ -49,6 +50,7 @@ public class FriendsActivity extends BaseActivity {
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
     FriendsFragment fragment = FriendsFragment.newInstance();
     Bundle bundle = new Bundle();
+    bundle.putString(SupportIM.GROUPID,getIntent().getStringExtra(SupportIM.GROUPID));
     fragment.setArguments(bundle);
     fragmentTransaction.add(R.id.groupMemberContainer, fragment);
     fragmentTransaction.commit();

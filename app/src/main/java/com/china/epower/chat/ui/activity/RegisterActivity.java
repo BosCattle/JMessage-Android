@@ -11,7 +11,9 @@ import butterknife.OnClick;
 import com.china.epower.chat.R;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.util.ErrorAction;
+import tech.jiangtao.support.kit.util.MD5Utils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.kit.api.ApiService;
 import tech.jiangtao.support.kit.api.service.AccountServiceApi;
@@ -46,20 +48,27 @@ public class RegisterActivity extends BaseActivity {
   public void register(String username, String password) {
     //注册
     mAccountServiceApi = ApiService.getInstance().createApiService(AccountServiceApi.class);
-    mAccountServiceApi.createAccount(StringSplitUtil.userJid(username), username, password)
-        .subscribeOn(Schedulers.io())
-        .doOnSubscribe(() -> SimpleHUD.showLoadingMessage(this, "正在注册", false))
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(user -> {
-          SimpleHUD.dismiss();
-          LoginActivity.startLogin(this);
-        }, new ErrorAction() {
-          @Override public void call(Throwable throwable) {
-            super.call(throwable);
+    try {
+      String md5 = MD5Utils.encrypt(password,
+          MD5Utils.getDESKey(StringSplitUtil.userJid(username).getBytes()),
+          StringSplitUtil.userJid(username));
+      mAccountServiceApi.createAccount(StringSplitUtil.userJid(username), username, md5)
+          .subscribeOn(Schedulers.io())
+          .doOnSubscribe(() -> SimpleHUD.showLoadingMessage(this, "正在注册", false))
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(user -> {
             SimpleHUD.dismiss();
-            SimpleHUD.showErrorMessage(RegisterActivity.this, "已有该账户");
-          }
-        });
+            LoginActivity.startLogin(this);
+          }, new ErrorAction() {
+            @Override public void call(Throwable throwable) {
+              super.call(throwable);
+              SimpleHUD.dismiss();
+              SimpleHUD.showErrorMessage(RegisterActivity.this, "已有该账户");
+            }
+          });
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   @OnClick(R.id.register_button) public void onClick(View v) {

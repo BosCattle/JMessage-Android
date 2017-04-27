@@ -100,6 +100,7 @@ public class GroupDetailFragment extends BaseFragment
     realm.close();
     mGroupRealm = getArguments().getParcelable(SupportIM.GROUP);
     mConstrutContact.clear();
+    mContactAdapter.clear();
     mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_GROUP_DETAIL_HEAD)
         .title(mGroupRealm.getName())
         .subtitle(mGroupRealm.getDescription())
@@ -203,6 +204,7 @@ public class GroupDetailFragment extends BaseFragment
         if (annotations[i] instanceof FriendsRouter) {
           FriendsRouter router = (FriendsRouter) annotations[i];
           Intent intent = new Intent(getActivity(), router.router());
+          intent.putExtra(SupportIM.GROUPID,mGroupRealm.getGroupId());
           startActivity(intent);
         }
       }

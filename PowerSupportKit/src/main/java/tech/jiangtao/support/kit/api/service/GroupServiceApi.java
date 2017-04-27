@@ -54,7 +54,7 @@ public interface GroupServiceApi {
   /**
    * 添加用户入群
    */
-  @POST("group/addMembers") @FormUrlEncoded Observable<ContactRealm> addMembers(
+  @POST("group/addMembers") @FormUrlEncoded Observable<List<ContactRealm>> addMembers(
       @Field("userInvitedId") List<String> tigGroupMembers, @Field("userId") String userId,
       @Field("groupId") String groupId);
 

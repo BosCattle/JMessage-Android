@@ -8,10 +8,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import de.hdodenhof.circleimageview.CircleImageView;
+import tech.jiangtao.support.kit.model.type.TransportType;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
+import tech.jiangtao.support.ui.utils.ResourceAddress;
 
 /**
  * Class: GroupAdditionViewHolder </br>
@@ -29,16 +31,17 @@ public class GroupAdditionViewHolder extends EasyViewHolder<ContactRealm> {
 
   public GroupAdditionViewHolder(Context context, ViewGroup parent) {
     super(context, parent, R.layout.list_item_group_addition);
-    ButterKnife.bind(this,itemView);
+    ButterKnife.bind(this, itemView);
     mContext = context;
   }
 
   @Override public void bindTo(int position, ContactRealm contactRealm) {
     Glide.with(mContext)
-        .load(contactRealm.getAvatar())
+        .load(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
         .placeholder(R.mipmap.ic_chat_default)
         .centerCrop()
         .into(mGroupContactAvatar);
     mGroupContactNickname.setText(contactRealm.getNickName());
+    mGroupAdditionChoice.setChecked(true);
   }
 }

@@ -16,11 +16,22 @@ public class FriendRequest implements Parcelable {
   public String fullUserJid;
   public String username;
   public String avatar;
+  // true: 代表有好友请求发送过来
+  // false: 代表别人拒绝了你的好友请求
+  public boolean type;
+
 
   public FriendRequest(String fullUserJid, String username, String avatar) {
     this.fullUserJid = fullUserJid;
     this.username = username;
     this.avatar = avatar;
+  }
+
+  public FriendRequest(String fullUserJid, String username, String avatar,boolean type) {
+    this.fullUserJid = fullUserJid;
+    this.username = username;
+    this.avatar = avatar;
+    this.type = type;
   }
 
   @Override public int describeContents() {
