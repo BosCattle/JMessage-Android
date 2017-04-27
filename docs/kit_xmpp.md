@@ -16,8 +16,23 @@ mSimpleLogin.startLogin(new LoginParam(mLoginUsername.getText().toString(),
 
 
 ```java
+ HermesEventBus.getDefault()
+              .post(new AddRosterEvent(mList.get(position).userId, mList.get(position).nickName));
 
+```
 
+## 接收好友请求
+
+```java
+
+  /**
+   * 添加好友通知
+   */
+  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN) @Subscribe(threadMode = ThreadMode.MAIN)
+  public void addFriendsNotification(FriendRequest request) {
+  
+    
+  }
 
 ```
 
@@ -25,7 +40,7 @@ mSimpleLogin.startLogin(new LoginParam(mLoginUsername.getText().toString(),
 ## 处理好友请求
 
 ```java
-
+HermesEventBus.getDefault().post(new RecieveFriend(true));
 
 ```
 
