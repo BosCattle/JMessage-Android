@@ -45,6 +45,7 @@ import org.jivesoftware.smackx.muc.InvitationRejectionListener;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.jivesoftware.smackx.muc.MultiUserChatManager;
 import org.jivesoftware.smackx.muc.SubjectUpdatedListener;
+import org.jivesoftware.smackx.offline.OfflineMessageManager;
 import org.jivesoftware.smackx.vcardtemp.VCardManager;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 import org.jivesoftware.smackx.xdata.Form;
@@ -122,6 +123,7 @@ public class SupportService extends Service
   private ChatManager mChatManager;
   private AccountServiceApi mAccountServiceApi;
   private UserServiceApi mUserServiceApi;
+  private OfflineMessageManager mOfflineMessageManager;
 
   @Override public void onCreate() {
     super.onCreate();
@@ -482,7 +484,24 @@ public class SupportService extends Service
     mChatManager.addChatListener(this);
     mMultiUserChatManager = MultiUserChatManager.getInstanceFor(mXMPPConnection);
     mMultiUserChatManager.addInvitationListener(this);
+    mOfflineMessageManager = new OfflineMessageManager(mXMPPConnection);
+    pullOfflineMessage();
     rosterPresence();
+  }
+
+  /**
+   * 获取离线消息
+   */
+  private void pullOfflineMessage() {
+    try {
+      List<Message> messages = mOfflineMessageManager.getMessages();
+      // 解析消息，然后推到前台
+      for (int i = 0;i<messages.size();i++){
+
+      }
+    } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
