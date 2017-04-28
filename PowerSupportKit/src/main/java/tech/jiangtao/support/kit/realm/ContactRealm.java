@@ -29,6 +29,15 @@ import tech.jiangtao.support.kit.util.PinYinUtils;
   public Integer onlineStatus;
   public String pinYin;
   public boolean authority;
+  public String token;
+
+  public String getToken() {
+    return token;
+  }
+
+  public void setToken(String token) {
+    this.token = token;
+  }
 
   public boolean isAuthority() {
     return authority;
@@ -152,6 +161,7 @@ import tech.jiangtao.support.kit.util.PinYinUtils;
     dest.writeValue(this.onlineStatus);
     dest.writeString(this.pinYin);
     dest.writeByte(this.authority ? (byte) 1 : (byte) 0);
+    dest.writeString(this.token);
   }
 
   protected ContactRealm(Parcel in) {
@@ -167,6 +177,7 @@ import tech.jiangtao.support.kit.util.PinYinUtils;
     this.onlineStatus = (Integer) in.readValue(Integer.class.getClassLoader());
     this.pinYin = in.readString();
     this.authority = in.readByte() != 0;
+    this.token = in.readString();
   }
 
   public static final Creator<ContactRealm> CREATOR = new Creator<ContactRealm>() {

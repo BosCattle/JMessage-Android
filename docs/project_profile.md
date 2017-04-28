@@ -15,11 +15,17 @@ allprojects {
 			maven { url 'https://jitpack.io' }
 		}
 	}
+	// 必须的依赖
+	dependencies {
+	        compile 'com.github.BosCattle.JMessage:PowerSupportKit:Tag'
+	}
+	// 使用ui依赖,可选
 	dependencies {
   	        compile 'com.github.BosCattle.JMessage:PowerSupportUI:Tag'
   	}
 ```
 ### Maven
+
 ```shell
 <repositories>
 		<repository>
@@ -27,6 +33,11 @@ allprojects {
 		    <url>https://jitpack.io</url>
 		</repository>
 </repositories>
+<dependency>
+	    <groupId>com.github.BosCattle.JMessage</groupId>
+	    <artifactId>PowerSupportKit</artifactId>
+	    <version>Tag</version>
+</dependency>
 <dependency>
   	    <groupId>com.github.BosCattle.JMessage</groupId>
         <artifactId>PowerSupportUI</artifactId>
@@ -70,7 +81,7 @@ public class PowerApp extends Application {
   }
 }
 ```
-
+如果不使用ui，可不配置
 ```java
 @ChatRouter(router = ChatActivity.class) // 表示单聊消息点击后进入的页面
 ```
@@ -82,4 +93,44 @@ public class PowerApp extends Application {
 ```java
 @InvitedRouter(router = AllInvitedActivity.class) // 表示点击好友和群聊消息点击后进入的页面
 ```
+### 权限声明
 
+```java
+  <uses-sdk tools:overrideLibrary="work.wanghao.simplehud,com.kevin.library"/>
+
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> <!-- 获取网络状态 -->
+  <uses-permission android:name="android.permission.INTERNET"/> <!-- 网络通信 -->
+  <uses-permission android:name="android.permission.READ_PHONE_STATE"/> <!-- 获取设备信息 -->
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/> <!-- 获取MAC地址 -->
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- 读写sdcard，storage等等 -->
+  <uses-permission android:name="android.permission.RECORD_AUDIO"/> <!-- 允许程序录制音频 -->
+  <uses-permission android:name="android.permission.READ_LOGS"/> <!-- 获取logcat日志 -->
+  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+  <uses-permission android:name="android.permission.GET_TASKS"/>
+  <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+  <application
+      android:name=".app.PowerApp"
+      android:allowBackup="true"
+      android:icon="@mipmap/ic_launcher"
+      android:label="@string/app_name"
+      android:largeHeap="true"
+      android:supportsRtl="true"
+      android:theme="@style/AppTheme"
+      tools:ignore="AllowBackup">
+    <provider
+        android:name="android.support.v4.content.FileProvider"
+        android:authorities="provider_paths"
+        android:exported="false"
+        android:grantUriPermissions="true">
+      <meta-data
+          android:name="android.support.FILE_PROVIDER_PATHS"
+          android:resource="@xml/provider_paths"/>
+    </provider>
+
+    <service android:name="xiaofei.library.hermes.HermesService$HermesService0"/>
+```
+Android6.0+运行时权限需要自己加上.

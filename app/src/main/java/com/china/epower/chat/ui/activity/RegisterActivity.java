@@ -49,10 +49,10 @@ public class RegisterActivity extends BaseActivity {
     //注册
     mAccountServiceApi = ApiService.getInstance().createApiService(AccountServiceApi.class);
     try {
-      String md5 = MD5Utils.encrypt(password,
-          MD5Utils.getDESKey(StringSplitUtil.userJid(username).getBytes()),
-          StringSplitUtil.userJid(username));
-      mAccountServiceApi.createAccount(StringSplitUtil.userJid(username), username, md5)
+      //String md5 = MD5Utils.encrypt(password,
+      //    MD5Utils.getDESKey(StringSplitUtil.userJid(username).getBytes()),
+      //    StringSplitUtil.userJid(username));
+      mAccountServiceApi.createAccount(StringSplitUtil.userJid(username), username, password)
           .subscribeOn(Schedulers.io())
           .doOnSubscribe(() -> SimpleHUD.showLoadingMessage(this, "正在注册", false))
           .observeOn(AndroidSchedulers.mainThread())

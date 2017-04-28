@@ -15,6 +15,11 @@ import java.util.Properties;
 
 public class PropertyUtils {
 
+  /**
+   * 获取属性文件
+   * @param c  {@link Context} 上下文
+   * @return  {@link Properties}
+   */
   public static Properties getProperties(Context c){
     Properties props = new Properties();
     try {
@@ -26,6 +31,12 @@ public class PropertyUtils {
     return props;
   }
 
+  /**
+   * 获取属性文件
+   * @param c {@link Context}  上下文
+   * @param resource  资源文件位置
+   * @return
+   */
   public static Properties getProperties(Context c,String resource){
     Properties props = new Properties();
     try {

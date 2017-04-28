@@ -19,6 +19,71 @@ public class Account implements Parcelable {
   public String avatar;
   public boolean sex;
   public String signature;
+  public String token;
+
+  public int getUid() {
+    return uid;
+  }
+
+  public void setUid(int uid) {
+    this.uid = uid;
+  }
+
+  public int getNid() {
+    return nid;
+  }
+
+  public void setNid(int nid) {
+    this.nid = nid;
+  }
+
+  public String getUserId() {
+    return userId;
+  }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
+
+  public String getNickName() {
+    return nickName;
+  }
+
+  public void setNickName(String nickName) {
+    this.nickName = nickName;
+  }
+
+  public String getAvatar() {
+    return avatar;
+  }
+
+  public void setAvatar(String avatar) {
+    this.avatar = avatar;
+  }
+
+  public boolean isSex() {
+    return sex;
+  }
+
+  public void setSex(boolean sex) {
+    this.sex = sex;
+  }
+
+  public String getSignature() {
+    return signature;
+  }
+
+  public void setSignature(String signature) {
+    this.signature = signature;
+  }
+
+  public String getToken() {
+    return token;
+  }
+
+  public void setToken(String token) {
+    this.token = token;
+  }
 
   public Account() {
   }
@@ -35,6 +100,7 @@ public class Account implements Parcelable {
     dest.writeString(this.avatar);
     dest.writeByte(this.sex ? (byte) 1 : (byte) 0);
     dest.writeString(this.signature);
+    dest.writeString(this.token);
   }
 
   protected Account(Parcel in) {
@@ -45,6 +111,7 @@ public class Account implements Parcelable {
     this.avatar = in.readString();
     this.sex = in.readByte() != 0;
     this.signature = in.readString();
+    this.token = in.readString();
   }
 
   public static final Creator<Account> CREATOR = new Creator<Account>() {

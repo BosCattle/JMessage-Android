@@ -11,8 +11,11 @@ package tech.jiangtao.support.kit.eventbus;
 
 public class RecieveFriend {
   public boolean agreeFriends;
+  // 响应对方的jid
+  public String to;
 
-  public RecieveFriend(boolean agreeFriend){
+  public RecieveFriend(boolean agreeFriend,String to){
     this.agreeFriends = agreeFriend;
+    this.to = to;
   }
 }

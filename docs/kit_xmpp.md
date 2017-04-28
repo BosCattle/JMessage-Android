@@ -1,5 +1,15 @@
 # Kit配置
 
+## 启动Service
+
+```java
+	Intent intent1 = new Intent(context, SupportService.class);
+    context.startService(intent1);
+  }
+```
+
+
+
 ## 登录
 
 

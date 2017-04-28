@@ -1,5 +1,6 @@
 package tech.jiangtao.support.ui.viewholder;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,7 @@ public class NewFriendViewHolder extends EasyViewHolder<InvitedInfo> {
     mContext = context;
   }
 
-  @Override public void bindTo(int position, InvitedInfo info) {
+  @SuppressLint("SetTextI18n") @Override public void bindTo(int position, InvitedInfo info) {
     Glide.with(mContext)
         .load(info.account.avatar != null ? ResourceAddress.url(info.account.avatar,
             TransportType.AVATAR) : null)
@@ -52,13 +53,13 @@ public class NewFriendViewHolder extends EasyViewHolder<InvitedInfo> {
     mNewFriendNickname.setText(info.account.nickName + "请求添加您为好友。");
     //TODO 缺少邀请要加入的群名
     mNewFriendAgree.setOnClickListener(v -> {
-      HermesEventBus.getDefault().post(new RecieveFriend(true));
+      HermesEventBus.getDefault().post(new RecieveFriend(true,info.getAccount().getUserId()));
       mNewFriendAgree.setText("成功");
       mNewFriendAgree.setEnabled(false);
     });
     mNewFriendRefused.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        HermesEventBus.getDefault().post(new RecieveFriend(false));
+        HermesEventBus.getDefault().post(new RecieveFriend(false,info.getAccount().getUserId()));
         mNewFriendRefused.setText("拒绝成功");
         mNewFriendRefused.setEnabled(false);
       }

@@ -18,21 +18,26 @@ import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.StanzaListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.chat.ChatManager;
 import org.jivesoftware.smack.chat.ChatManagerListener;
+import org.jivesoftware.smack.filter.StanzaFilter;
+import org.jivesoftware.smack.filter.StanzaTypeFilter;
 import org.jivesoftware.smack.packet.DefaultExtensionElement;
 import org.jivesoftware.smack.packet.IQ;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.packet.Stanza;
 import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.roster.RosterEntry;
 import org.jivesoftware.smack.roster.RosterListener;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+import org.jivesoftware.smackx.bytestreams.ibb.InBandBytestreamManager;
 import org.jivesoftware.smackx.iqregister.AccountManager;
 import org.jivesoftware.smackx.muc.Affiliate;
 import org.jivesoftware.smackx.muc.InvitationListener;
@@ -487,45 +492,36 @@ public class SupportService extends Service
     Roster roster = Roster.getInstanceFor(mXMPPConnection);
     roster.setSubscriptionMode(Roster.SubscriptionMode.manual);
     roster.addRosterListener(this);
-    mXMPPConnection.addSyncStanzaListener(packet -> {
-      mFriendsPresence = (Presence) packet;
-      String from = mFriendsPresence.getFrom();//发送方
-      String to = mFriendsPresence.getTo();//接收方
-      if (mFriendsPresence.getType().equals(Presence.Type.subscribe)) {
-        // 收到好友请求,现在的代码是自动自动接受好友请求
-        HermesEventBus.getDefault()
-            .post(new FriendRequest(StringSplitUtil.splitDivider(from),
-                StringSplitUtil.splitPrefix(from), null));
-        LogUtils.d(TAG, "addFriend: 接受到好友请求");
-      } else if (mFriendsPresence.getType().equals(Presence.Type.unsubscribe)) {
-        // 不同意添加好友
-        LogUtils.d(TAG, "addFriend: 对方不同意好友请求");
-        Presence newp = new Presence(Presence.Type.unsubscribed);
-        newp.setMode(Presence.Mode.available);
-        newp.setPriority(24);
-        newp.setTo(mFriendsPresence.getFrom());
-        mXMPPConnection.sendStanza(newp);
-      } else if (mFriendsPresence.getType().equals(Presence.Type.subscribed)) {
-        LogUtils.d(TAG, "addFriend: 对方同意添加好友。");
-        //发送广播传递response字符串
-        //对方同意添加好友";
-      }
-    }, stanza -> {
-      if (stanza instanceof Presence) {
-        Presence presence = (Presence) stanza;
-        if (presence.getType().equals(Presence.Type.subscribed) || presence.getType()
-            .equals(Presence.Type.subscribe) || presence.getType()
-            .equals(Presence.Type.unsubscribed) || presence.getType()
-            .equals(Presence.Type.unsubscribe)) {
-          return true;
+    StanzaFilter filter = new StanzaTypeFilter(Presence.class);
+    StanzaListener listener = new StanzaListener() {
+      @Override public void processPacket(Stanza packet)
+          throws SmackException.NotConnectedException {
+        mFriendsPresence = (Presence) packet;
+        String from = packet.getFrom();
+        if (mFriendsPresence.getType().equals(Presence.Type.subscribe)) {
+          // 收到好友请求,现在的代码是自动自动接受好友请求
+          HermesEventBus.getDefault()
+              .post(new FriendRequest(StringSplitUtil.splitDivider(from),
+                  StringSplitUtil.splitPrefix(from), null));
+          LogUtils.d(TAG, "addFriend: 接受到好友请求");
+        } else if (mFriendsPresence.getType().equals(Presence.Type.unsubscribe)) {
+          // 不同意添加好友
+          LogUtils.d(TAG, "addFriend: 对方不同意好友请求");
+          Presence newp = new Presence(Presence.Type.unsubscribed);
+          newp.setMode(Presence.Mode.available);
+          newp.setPriority(24);
+          newp.setTo(mFriendsPresence.getFrom());
+          mXMPPConnection.sendStanza(newp);
+        } else if (mFriendsPresence.getType().equals(Presence.Type.subscribed)) {
+          LogUtils.d(TAG, "addFriend: 对方同意添加好友。");
         }
       }
-      return false;
-    });
+    };
+    mXMPPConnection.addSyncStanzaListener(listener, filter);
   }
 
   /**
-   * 接收到好友请求
+   * 处理好友请求
    */
   @Subscribe(threadMode = ThreadMode.MAIN) public void onRecieveFriendRequest(
       RecieveFriend request) {
@@ -534,11 +530,11 @@ public class SupportService extends Service
       Presence newp = new Presence(Presence.Type.subscribed);
       newp.setMode(Presence.Mode.available);
       newp.setPriority(24);
-      newp.setTo(mFriendsPresence.getFrom());
+      newp.setTo(request.to);
       try {
         mXMPPConnection.sendStanza(newp);
-        Presence subscription = new Presence(Presence.Type.subscribe);
-        subscription.setTo(mFriendsPresence.getFrom());
+        Presence subscription = new Presence(Presence.Type.subscribed);
+        subscription.setTo(request.to);
         mXMPPConnection.sendStanza(subscription);
       } catch (SmackException.NotConnectedException e) {
         e.printStackTrace();
