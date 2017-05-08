@@ -8,6 +8,8 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import com.google.gson.Gson;
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
@@ -27,30 +29,20 @@ import org.jivesoftware.smack.chat.ChatManagerListener;
 import org.jivesoftware.smack.filter.StanzaFilter;
 import org.jivesoftware.smack.filter.StanzaTypeFilter;
 import org.jivesoftware.smack.packet.DefaultExtensionElement;
-import org.jivesoftware.smack.packet.IQ;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.packet.Stanza;
-import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.roster.RosterEntry;
 import org.jivesoftware.smack.roster.RosterListener;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
-import org.jivesoftware.smackx.bytestreams.ibb.InBandBytestreamManager;
 import org.jivesoftware.smackx.iqregister.AccountManager;
-import org.jivesoftware.smackx.muc.Affiliate;
-import org.jivesoftware.smackx.muc.InvitationListener;
-import org.jivesoftware.smackx.muc.InvitationRejectionListener;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.jivesoftware.smackx.muc.MultiUserChatManager;
-import org.jivesoftware.smackx.muc.SubjectUpdatedListener;
 import org.jivesoftware.smackx.offline.OfflineMessageManager;
 import org.jivesoftware.smackx.vcardtemp.VCardManager;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
-import org.jivesoftware.smackx.xdata.Form;
-import org.jivesoftware.smackx.xdata.packet.DataForm;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -62,17 +54,12 @@ import tech.jiangtao.support.kit.SupportAIDLConnection;
 import tech.jiangtao.support.kit.api.ApiService;
 import tech.jiangtao.support.kit.api.service.AccountServiceApi;
 import tech.jiangtao.support.kit.api.service.UserServiceApi;
-import tech.jiangtao.support.kit.archive.MessageArchiveIQProvider;
-import tech.jiangtao.support.kit.archive.MessageArchiveRequestIQ;
-import tech.jiangtao.support.kit.archive.MessageArchiveStanzaFilter;
-import tech.jiangtao.support.kit.archive.MessageArchiveStanzaListener;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.AddRosterEvent;
 import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
 import tech.jiangtao.support.kit.eventbus.FriendRequest;
-import tech.jiangtao.support.kit.eventbus.InvitedFriendToGroup;
 import tech.jiangtao.support.kit.eventbus.LoginCallbackEvent;
 import tech.jiangtao.support.kit.eventbus.LoginParam;
 import tech.jiangtao.support.kit.eventbus.NotificationConnection;
@@ -85,10 +72,6 @@ import tech.jiangtao.support.kit.eventbus.RegisterResult;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
-import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateCallBackEvent;
-import tech.jiangtao.support.kit.eventbus.muc.model.GroupCreateParam;
-import tech.jiangtao.support.kit.eventbus.muc.model.GroupRequestParam;
-import tech.jiangtao.support.kit.eventbus.muc.model.InviteParam;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
@@ -99,8 +82,7 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 import static xiaofei.library.hermes.Hermes.getContext;
 
 public class SupportService extends Service
-    implements ChatManagerListener, ConnectionListener, RosterListener, InvitationListener,
-    InvitationRejectionListener, SubjectUpdatedListener {
+    implements ChatManagerListener, ConnectionListener, RosterListener {
 
   private static final String TAG = SupportService.class.getSimpleName();
   private static final String MESSAGE_SENDER = "message-sender";
@@ -124,6 +106,7 @@ public class SupportService extends Service
   private AccountServiceApi mAccountServiceApi;
   private UserServiceApi mUserServiceApi;
   private OfflineMessageManager mOfflineMessageManager;
+  private LocalBroadcastManager mLocalBroadcastManager;
 
   @Override public void onCreate() {
     super.onCreate();
@@ -182,16 +165,20 @@ public class SupportService extends Service
       } else if (messageExtension.getValue(TYPE)
           .equals(MessageExtensionType.GROUP_CHAT.toString())) {
         messageExtensionType = MessageExtensionType.GROUP_CHAT;
+      } else if (messageExtension.getValue(TYPE).equals(MessageExtensionType.PUSH.toString())) {
+        // 发广播
+        messageExtensionType = MessageExtensionType.PUSH;
       }
 
       // ------------------------------解析数据类型拓展-----------------------------
       DefaultExtensionElement dataExtension =
           (DefaultExtensionElement) message.getExtension(DATA_EXTENSION);
 
-      if (message.getBody() != null) {
+      if (message.getBody() != null)
+      {
         DataExtensionType dataExtensionType = null;
         if (messageExtensionType.equals(MessageExtensionType.CHAT)) {
-          if (dataExtension.getValue(TYPE) == null) {
+          if (dataExtension == null || dataExtension.getValue(TYPE) == null) {
             dataExtensionType = DataExtensionType.TEXT;
           } else {
             dataExtensionType = DataExtensionType.fromValue(dataExtension.getValue(TYPE));
@@ -213,12 +200,27 @@ public class SupportService extends Service
               .post(new RecieveMessage(message.getStanzaId(), message.getType(), sender,
                   message.getTo(), chat1.getThreadID(), message.getBody(), dataExtensionType,
                   messageExtensionType, false, MessageAuthor.FRIEND, message.getFrom()));
+        } else if (messageExtensionType.equals(MessageExtensionType.PUSH)) {
+          if (dataExtension==null||dataExtension.getValue(TYPE) == null) {
+            dataExtensionType = DataExtensionType.TEXT;
+          } else {
+            dataExtensionType = DataExtensionType.fromValue(dataExtension.getValue(TYPE));
+          }
+          // 发送广播
+          Intent intent = new Intent(this.getClass().getCanonicalName());
+          LogUtils.d(TAG, this.getClass().getCanonicalName());
+          sendBroadcast(intent);
+          TextMessage messageFeed = new TextMessage(message.getTo(),"1");
+          sendMessage(messageFeed);
+          // 发送消息到服务求确定已经收到消息
         }
       }
-      //发送消息到守护服务，先保存会话到另外一个会话表，然后保存消息到历史消息表
     });
   }
 
+  /**
+   * 发送消息
+   */
   @Subscribe(threadMode = ThreadMode.MAIN) public void sendMessage(TextMessage message) {
     if (message.type == Message.Type.groupchat) {
       MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(message.userJID);
@@ -313,37 +315,6 @@ public class SupportService extends Service
   @Subscribe(threadMode = ThreadMode.MAIN) public void loginEvent(LoginParam param) {
     LogUtils.d(TAG, "loginEvent: 进入登录");
     login(param.username, param.password);
-  }
-
-  @Deprecated public void sendMessageArchive(String jid, String time) {
-    MessageArchiveRequestIQ iq = new MessageArchiveRequestIQ(null);
-    iq.setJid(jid);
-    iq.setTime(time);
-    iq.setType(IQ.Type.get);
-    LogUtils.e(TAG, "sendMessageArchive: " + iq.toXML());
-    try {
-      mXMPPConnection.sendStanza(iq);
-    } catch (SmackException.NotConnectedException e) {
-      e.printStackTrace();
-      connect(true);
-    }
-  }
-
-  @Deprecated public void requestAllMessageArchive(String time) {
-    MessageArchiveRequestIQ iq = new MessageArchiveRequestIQ(null);
-    if (time == null || time.equals("")) {
-      iq.setTime("2017-01-01T00:00:00Z");
-    } else {
-      iq.setTime(time);
-    }
-    iq.setType(IQ.Type.get);
-    LogUtils.e(TAG, "sendMessageArchive: " + iq.toXML());
-    try {
-      mXMPPConnection.sendStanza(iq);
-    } catch (SmackException.NotConnectedException e) {
-      e.printStackTrace();
-      connect(true);
-    }
   }
 
   public void connect(boolean needAutoLogin) {
@@ -477,13 +448,9 @@ public class SupportService extends Service
   }
 
   public void connectSuccessPerform() {
-    ProviderManager.addIQProvider("chat", "urn:xmpp:archive", new MessageArchiveIQProvider());
-    mXMPPConnection.addAsyncStanzaListener(new MessageArchiveStanzaListener(),
-        new MessageArchiveStanzaFilter());
     mChatManager = ChatManager.getInstanceFor(mXMPPConnection);
     mChatManager.addChatListener(this);
     mMultiUserChatManager = MultiUserChatManager.getInstanceFor(mXMPPConnection);
-    mMultiUserChatManager.addInvitationListener(this);
     mOfflineMessageManager = new OfflineMessageManager(mXMPPConnection);
     pullOfflineMessage();
     rosterPresence();
@@ -496,8 +463,8 @@ public class SupportService extends Service
     try {
       List<Message> messages = mOfflineMessageManager.getMessages();
       // 解析消息，然后推到前台
-      for (int i = 0;i<messages.size();i++){
-
+      for (int i = 0; i < messages.size(); i++) {
+        Log.d(TAG, "pullOfflineMessage离线消息: " + messages.get(i).getBody());
       }
     } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
       e.printStackTrace();
@@ -718,153 +685,6 @@ public class SupportService extends Service
   @Subscribe(threadMode = ThreadMode.MAIN) public void disconnect(UnRegisterEvent event) {
     mXMPPConnection.disconnect();
     connect(false);
-  }
-
-  /**
-   * 创建群组
-   */
-  @Subscribe(threadMode = ThreadMode.MAIN) public void createMuc(GroupCreateParam param) {
-    String roomName = param.roomName;
-    String nickname = param.nickname;
-    Collection<String> owner = param.owner;
-    String groupId = roomName + "@muc." + SupportIM.mDomain;
-    MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(groupId);
-    Observable.create((Observable.OnSubscribe<String>) subscriber -> {
-      try {
-        multiUserChat.create(roomName);
-        Form form = multiUserChat.getConfigurationForm();
-        Form submitForm = form.createAnswerForm();
-        //房间的名称
-        submitForm.setAnswer("muc#roomconfig_roomname", StringSplitUtil.splitPrefix(groupId));
-        //设置为永久房间
-        submitForm.setAnswer("muc#roomconfig_persistentroom", true);
-        //      submitForm.setAnswer("muc#roomconfig_roomowners", owners);
-        multiUserChat.sendConfigurationForm(submitForm);
-        multiUserChat.join(nickname);
-        multiUserChat.banUsers(owner);
-        subscriber.onNext("");
-      } catch (SmackException | XMPPException.XMPPErrorException e) {
-        e.printStackTrace();
-        subscriber.onError(e);
-      }
-    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
-      HermesEventBus.getDefault().post(new GroupCreateCallBackEvent("创建成功"));
-    }, new ErrorAction() {
-      @Override public void call(Throwable throwable) {
-        super.call(throwable);
-        HermesEventBus.getDefault().post(new GroupCreateCallBackEvent(null));
-      }
-    });
-  }
-
-  // TODO: 2017/4/7  同意，拒绝群邀请
-  @Subscribe(threadMode = ThreadMode.MAIN) public void doInvite(InviteParam param) {
-    if (param.choice) {
-      mMultiUserChatManager.getMultiUserChat("");
-    } else {
-      //mMultiUserChatManager.decline();
-    }
-  }
-
-  // 邀请群成员
-  @Subscribe(threadMode = ThreadMode.MAIN) public void inviteMucMember(
-      InvitedFriendToGroup invited) {
-    String mucJid = invited.mucJid;
-    List<String> userIds = invited.getUserId();
-    String reason = invited.reason;
-    MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(mucJid);
-    Observable.create((Observable.OnSubscribe<String>) subscriber -> {
-      try {
-        List<Affiliate> affiliates = multiUserChat.getMembers();
-        for (Affiliate affiliate : affiliates) {
-          LogUtils.d(TAG, affiliate.getJid());
-          LogUtils.d(TAG, affiliate.getNick());
-        }
-        if (!multiUserChat.isJoined()) {
-          multiUserChat.join(StringSplitUtil.splitPrefix(
-              StringSplitUtil.splitDivider(mAppPreferences.getString("userJid"))));
-        }
-        for (String s : userIds) {
-          multiUserChat.invite(s, reason);
-        }
-        subscriber.onNext("");
-      } catch (SmackException.NotConnectedException | SmackException.NoResponseException | XMPPException.XMPPErrorException e) {
-        e.printStackTrace();
-        subscriber.onError(e);
-      } catch (ItemNotFoundException e) {
-        e.printStackTrace();
-      }
-    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
-      // 发送邀请成功
-      LogUtils.d(TAG, "发送群邀请请求成功");
-    }, new ErrorAction() {
-      @Override public void call(Throwable throwable) {
-        super.call(throwable);
-        LogUtils.d(TAG, throwable.getMessage());
-      }
-    });
-  }
-
-  // 更新群信息
-  @Subscribe(threadMode = ThreadMode.MAIN) public void updateMucForm(String mucJid) {
-    MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(mucJid);
-    try {
-      multiUserChat.sendConfigurationForm(new Form(DataForm.Type.form));
-    } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
-      e.printStackTrace();
-    }
-  }
-
-  // TODO: 10/04/2017 收到通知后
-  @Override public void invitationReceived(XMPPConnection conn, MultiUserChat room, String inviter,
-      String reason, String password, Message message) {
-    // 这里是收到群邀请请求
-    try {
-      // 加入房间
-      try {
-        String nickName = mAppPreferences.getString("userJid");
-        LogUtils.e(TAG, "收到" + inviter + "的邀请。" + inviter + "邀请你加入" + room.getRoom());
-        room.join(nickName);
-        for (String s : mMultiUserChatManager.getJoinedRooms()) {
-          LogUtils.d(TAG, "想看看你是哪一路这么猖狂: " + s);
-        }
-      } catch (ItemNotFoundException e) {
-        e.printStackTrace();
-      }
-      // 拒绝请求
-      //mMultiUserChatManager.decline(room.getRoom(), inviter, reason);
-    } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
-   * 入群请求
-   */
-  @Subscribe(threadMode = ThreadMode.MAIN) public void requestToGroup(GroupRequestParam request) {
-    String groupJid = request.groupJid;
-    String nickname = request.nickName;
-    Observable.create((Observable.OnSubscribe<Boolean>) subscriber -> {
-      MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(groupJid);
-      try {
-        subscriber.onNext(multiUserChat.createOrJoin(nickname));
-      } catch (XMPPException.XMPPErrorException | SmackException e) {
-        e.printStackTrace();
-        subscriber.onError(e);
-      }
-    }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(b -> {
-      LogUtils.d(TAG, "入群成功.....");
-    });
-  }
-
-  @Override public void invitationDeclined(String invitee, String reason) {
-    //发出的邀请被拒绝
-    LogUtils.d(TAG, "invitationDeclined: 你邀请" + invitee + "加入群被拒绝，原因是" + reason);
-  }
-
-  // 群公告
-  @Override public void subjectUpdated(String subject, String from) {
-
   }
 
   private class SupportServiceConnection implements ServiceConnection {

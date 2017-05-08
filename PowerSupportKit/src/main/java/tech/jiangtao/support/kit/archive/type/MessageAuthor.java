@@ -7,7 +7,8 @@ import java.util.Map;
 
 public enum MessageAuthor {
   OWN("own"),
-  FRIEND("friend");
+  FRIEND("friend"),
+  SERVER("server");
   private final String mValue;
 
   MessageAuthor(String value) {

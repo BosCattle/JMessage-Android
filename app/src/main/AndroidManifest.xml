@@ -114,6 +114,12 @@
         android:name=".ui.activity.FriendsActivity"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar"/>
+
+    <receiver
+        android:name=".componet.PushReceiver"
+        android:enabled="true"
+        android:exported="false">
+    </receiver>
   </application>
 
 </manifest>

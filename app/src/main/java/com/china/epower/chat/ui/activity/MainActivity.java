@@ -3,6 +3,7 @@ package com.china.epower.chat.ui.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.china.epower.chat.R;
+import com.china.epower.chat.componet.PushReceiver;
 import com.china.epower.chat.ui.fragment.PersonalFragment;
 import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
@@ -31,6 +33,7 @@ import tech.jiangtao.support.kit.annotation.ChatRouter;
 import tech.jiangtao.support.kit.annotation.GroupChatRouter;
 import tech.jiangtao.support.kit.annotation.GroupsRouter;
 import tech.jiangtao.support.kit.annotation.InvitedRouter;
+import tech.jiangtao.support.kit.service.SupportService;
 import tech.jiangtao.support.ui.activity.GroupSearchActivity;
 import tech.jiangtao.support.ui.fragment.ChatListFragment;
 import tech.jiangtao.support.ui.fragment.ContactFragment;
@@ -76,6 +79,10 @@ public class MainActivity extends BaseActivity
     initFragments();
     tabListen();
     updateCheck();
+    IntentFilter intentFilter = new IntentFilter();
+    intentFilter.addAction(SupportService.class.getCanonicalName());
+    PushReceiver receiver = new PushReceiver();
+    registerReceiver(receiver,intentFilter);
   }
 
   public void tabListen() {

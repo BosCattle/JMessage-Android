@@ -17,7 +17,8 @@ import java.util.Map;
 public enum MessageExtensionType {
 
   CHAT("chat"),
-  GROUP_CHAT("groupChat");
+  GROUP_CHAT("groupChat"),
+  PUSH("push");
   private final String mValue;
 
   MessageExtensionType(String value) {
