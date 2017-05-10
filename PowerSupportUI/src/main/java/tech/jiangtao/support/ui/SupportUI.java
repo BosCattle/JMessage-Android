@@ -13,7 +13,7 @@ import tech.jiangtao.support.kit.annotation.GroupChatRouter;
 import tech.jiangtao.support.kit.annotation.InvitedRouter;
 import tech.jiangtao.support.kit.service.SupportService;
 import tech.jiangtao.support.kit.service.XMPPService;
-import tech.jiangtao.support.ui.utils.PropertyUtils;
+import tech.jiangtao.support.kit.util.PropertyUtils;
 
 public class SupportUI {
 

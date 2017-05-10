@@ -1,8 +1,18 @@
 package tech.jiangtao.support.kit;
 
 import android.content.Context;
+import android.content.Intent;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import java.lang.annotation.Annotation;
+import java.util.Properties;
+import java.util.UUID;
+import tech.jiangtao.support.kit.annotation.ChatRouter;
+import tech.jiangtao.support.kit.annotation.GroupChatRouter;
+import tech.jiangtao.support.kit.annotation.InvitedRouter;
+import tech.jiangtao.support.kit.service.SupportService;
+import tech.jiangtao.support.kit.service.XMPPService;
+import tech.jiangtao.support.kit.util.PropertyUtils;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -40,29 +50,110 @@ public class SupportIM {
   public static final String MUC_GROUP = "muc-group";
   public static final String GROUP = "group";
 
-  private static void initialize(Context context){
+  private static String MM_APPID = "MM_APPID";
+  private static String MM_AppSecret = "MM_APPSECRET";
+  private static String PORT = "PORT";
+  private static String SERVICE_NAME = "SERVICE_NAME";
+
+  // server
+  private static String HOST = "HOST";
+  public static String RESOURCE_ADDRESS_CONFIG = "RESOURCE_ADDRESS";
+  private static String API_ADDRESS_CONFIG = "API_ADDRESS";
+
+  // company
+  private static String HOST1 = "HOST1";
+  public static String RESOURCE_ADDRESS1 = "RESOURCE_ADDRESS1";
+  private static String API_ADDRESS1 = "API_ADDRESS1";
+
+  // home
+  private static String HOST2 = "HOST2";
+  public static String RESOURCE_ADDRESS2 = "RESOURCE_ADDRESS2";
+  private static String API_ADDRESS2 = "API_ADDRESS2";
+
+  private static void initialize(Context context) {
     HermesEventBus.getDefault().init(context);
   }
 
-  private static void initialize(Context context, String serviceName){
+  public static void initialize(Context context, String resourceName) {
+    initValue(context, resourceName);
+    String resource = UUID.randomUUID().toString();
+    //---------------------------------------配置中心--------------------------------
+    //------------------------------------------------------------------------------
+    initialize(context, SERVICE_NAME, resource, HOST, Integer.parseInt(PORT), RESOURCE_ADDRESS,
+        API_ADDRESS);
+    Realm.init(context);
+    HermesEventBus.getDefault().init(context);
+  }
+
+  private static void initValue(Context context, String resourceName) {
+    Properties properties = PropertyUtils.getProperties(context, resourceName);
+    MM_APPID = properties.getProperty(MM_APPID);
+    MM_AppSecret = properties.getProperty(MM_AppSecret);
+    PORT = properties.getProperty(PORT);
+    SERVICE_NAME = properties.getProperty(SERVICE_NAME);
+
+    // 线上
+    HOST = properties.getProperty(HOST);
+    RESOURCE_ADDRESS = properties.getProperty(RESOURCE_ADDRESS_CONFIG);
+    API_ADDRESS = properties.getProperty(API_ADDRESS_CONFIG);
+
+    // 公司
+    HOST1 = properties.getProperty(HOST1);
+    RESOURCE_ADDRESS1 = properties.getProperty(RESOURCE_ADDRESS1);
+    API_ADDRESS1 = properties.getProperty(API_ADDRESS1);
+
+    // 家里
+    HOST2 = properties.getProperty(HOST2);
+    RESOURCE_ADDRESS2 = properties.getProperty(RESOURCE_ADDRESS2);
+    API_ADDRESS2 = properties.getProperty(API_ADDRESS2);
+  }
+
+  private static void initializeContext(Context context, String serviceName) {
     initialize(context);
     mDomain = serviceName;
   }
 
-  private static void initialize(Context context, String serviceName, String resource){
-    initialize(context,serviceName);
+  private static void initialize(Context context, String serviceName, String resource) {
+    initializeContext(context, serviceName);
     mResource = resource;
   }
 
-  private static void initialize(Context context, String serviceName, String resource, String host){
-    initialize(context,serviceName,resource);
+  private static void initialize(Context context, String serviceName, String resource,
+      String host) {
+    initialize(context, serviceName, resource);
     mHost = host;
   }
 
-  public static void initialize(Context context,String serviceName,String resource,String host,int port,String resourceAddress,String apiAddress){
-    initialize(context,serviceName,resource,host);
+  public static void initialize(Context context, String serviceName, String resource, String host,
+      int port, String resourceAddress, String apiAddress) {
+    initialize(context, serviceName, resource, host);
     RESOURCE_ADDRESS = resourceAddress;
     API_ADDRESS = apiAddress;
     mPort = port;
+
+    Class clazz = context.getApplicationContext().getClass();
+    Annotation[] annotations = clazz.getAnnotations();
+    Class chatClazz = null;
+    Class groupChatClazz = null;
+    Class invitedClass = null;
+    for (int i = 0; i < annotations.length; i++) {
+      Annotation annotation = annotations[i];
+      if (annotation instanceof ChatRouter) {
+        chatClazz = ((ChatRouter) annotation).router();
+      }
+      if (annotation instanceof GroupChatRouter) {
+        groupChatClazz = ((GroupChatRouter) annotation).router();
+      }
+      if (annotation instanceof InvitedRouter) {
+        invitedClass = ((InvitedRouter) annotation).router();
+      }
+    }
+    Intent intent = new Intent(context, XMPPService.class);
+    intent.putExtra(XMPPService.CHAT_CLASS, chatClazz);
+    intent.putExtra(XMPPService.GROUP_CHAT_CLASS, groupChatClazz);
+    intent.putExtra(XMPPService.INVITED_CLASS, invitedClass);
+    context.startService(intent);
+    Intent intent1 = new Intent(context, SupportService.class);
+    context.startService(intent1);
   }
 }

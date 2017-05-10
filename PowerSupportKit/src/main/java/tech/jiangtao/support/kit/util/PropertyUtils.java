@@ -1,4 +1,4 @@
-package tech.jiangtao.support.ui.utils;
+package tech.jiangtao.support.kit.util;
 
 import android.content.Context;
 import java.io.InputStream;
