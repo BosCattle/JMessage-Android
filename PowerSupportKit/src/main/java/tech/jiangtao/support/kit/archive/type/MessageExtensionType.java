@@ -29,15 +29,15 @@ public enum MessageExtensionType {
     return mValue;
   }
 
-  private static final Map<String, DataExtensionType> STRING_MAPPING = new HashMap<>();
+  private static final Map<String, MessageExtensionType> STRING_MAPPING = new HashMap<>();
 
   static {
-    for (DataExtensionType calorieType : DataExtensionType.values()) {
+    for (MessageExtensionType calorieType : MessageExtensionType.values()) {
       STRING_MAPPING.put(calorieType.toString().toUpperCase(), calorieType);
     }
   }
 
-  @JsonCreator public static DataExtensionType fromValue(String value) {
+  @JsonCreator public static MessageExtensionType fromValue(String value) {
     return STRING_MAPPING.get(value.toUpperCase());
   }
 }

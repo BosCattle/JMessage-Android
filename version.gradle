@@ -36,6 +36,7 @@ ext {
                  stetho                            : '1.5.0',
                  stethoOkhttp3                     : '1.5.0',
                  stetho_realm                      : '2.0.0',
-                 libjingleVersion                  : '9127@aar'
+                 libjingleVersion                  : '9127@aar',
+                 JMessageCommonVersion             : '1.0-SNAPSHOT'
   ]
 }

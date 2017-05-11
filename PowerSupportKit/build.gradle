@@ -48,4 +48,5 @@ dependencies {
   compile 'com.squareup.okhttp3:okhttp:' + rootProject.ext.depsVersion.okhttpVersion
   compile 'com.squareup.okio:okio:' + rootProject.ext.depsVersion.okioVersion
   compile 'com.squareup.okhttp3:logging-interceptor:' + rootProject.ext.depsVersion.logginginterceptorVersion
+  compile 'tech.jiangtao.im:JMessage-Common:'+rootProject.ext.depsVersion.JMessageCommonVersion
 }

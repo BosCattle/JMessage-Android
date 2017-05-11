@@ -11,6 +11,7 @@ import android.os.RemoteException;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import com.google.gson.Gson;
+import java.util.Objects;
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
 
@@ -73,6 +74,7 @@ import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.SupportIM;
+import tech.jiangtao.support.kit.model.User;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
@@ -85,14 +87,6 @@ public class SupportService extends Service
     implements ChatManagerListener, ConnectionListener, RosterListener {
 
   private static final String TAG = SupportService.class.getSimpleName();
-  private static final String MESSAGE_SENDER = "message-sender";
-  private static final String SENDER_EXTENSION = "sender:extension";
-  private static final String SENDERVALUE = "value";
-  private static final String DATA_TYPE = "data_type";
-  private static final String DATA_EXTENSION = "data:extension";
-  private static final String TYPE = "type";
-  private static final String MESSAGE_TYPE = "message_type";
-  private static final String MESSAGE_EXTENSION = "message:extension";
   private XMPPTCPConnection mXMPPConnection;
   private AccountManager mAccountManager;
   private Roster mRoster;
@@ -106,7 +100,6 @@ public class SupportService extends Service
   private AccountServiceApi mAccountServiceApi;
   private UserServiceApi mUserServiceApi;
   private OfflineMessageManager mOfflineMessageManager;
-  private LocalBroadcastManager mLocalBroadcastManager;
 
   @Override public void onCreate() {
     super.onCreate();
@@ -153,65 +146,43 @@ public class SupportService extends Service
   }
 
   @Override public void chatCreated(Chat chat, boolean createdLocally) {
+    Gson gson = new Gson();
     chat.addMessageListener((chat1, message) -> {
-      // ------------------------------解析消息类型拓展-----------------------------
-      DefaultExtensionElement messageExtension =
-          (DefaultExtensionElement) message.getExtension(MESSAGE_EXTENSION);
-      MessageExtensionType messageExtensionType = MessageExtensionType.CHAT;
-      if (messageExtension == null
-          || messageExtension.getValue(TYPE) == null
-          || messageExtension.getValue(TYPE).equals(MessageExtensionType.CHAT.toString())) {
-        messageExtensionType = MessageExtensionType.CHAT;
-      } else if (messageExtension.getValue(TYPE)
-          .equals(MessageExtensionType.GROUP_CHAT.toString())) {
-        messageExtensionType = MessageExtensionType.GROUP_CHAT;
-      } else if (messageExtension.getValue(TYPE).equals(MessageExtensionType.PUSH.toString())) {
-        // 发广播
-        messageExtensionType = MessageExtensionType.PUSH;
-      }
-
-      // ------------------------------解析数据类型拓展-----------------------------
-      DefaultExtensionElement dataExtension =
-          (DefaultExtensionElement) message.getExtension(DATA_EXTENSION);
-
-      if (message.getBody() != null)
-      {
-        DataExtensionType dataExtensionType = null;
-        if (messageExtensionType.equals(MessageExtensionType.CHAT)) {
-          if (dataExtension == null || dataExtension.getValue(TYPE) == null) {
-            dataExtensionType = DataExtensionType.TEXT;
-          } else {
-            dataExtensionType = DataExtensionType.fromValue(dataExtension.getValue(TYPE));
-          }
+      tech.jiangtao.support.kit.model.jackson.Message messageBody =
+          gson.fromJson(message.getBody(), tech.jiangtao.support.kit.model.jackson.Message.class);
+      if (message.getBody() != null) {
+        DataExtensionType dataExtensionType = DataExtensionType.valueOf(messageBody.getType());
+        if (messageBody.getChatType().equals(MessageExtensionType.CHAT.toString())) {
           HermesEventBus.getDefault()
               .post(new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
-                  message.getTo(), chat1.getThreadID(), message.getBody(), dataExtensionType,
-                  messageExtensionType, false, MessageAuthor.FRIEND, null));
-        } else if (messageExtensionType.equals(MessageExtensionType.GROUP_CHAT)) {
-          DefaultExtensionElement senderExtensionElement =
-              (DefaultExtensionElement) message.getExtension(SENDER_EXTENSION);
-          // 什么人在群组里发了信息
-          String sender = senderExtensionElement.getValue(SENDERVALUE);
-          dataExtensionType = DataExtensionType.fromValue(dataExtension.getValue(TYPE));
+                  message.getTo(), chat1.getThreadID(), messageBody.getMessage(), dataExtensionType,
+                  MessageExtensionType.valueOf(messageBody.getChatType()), false,
+                  MessageAuthor.FRIEND, null));
+        } else if (messageBody.getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())) {
+          dataExtensionType = DataExtensionType.fromValue(messageBody.getType());
           if (dataExtensionType == null) {
             dataExtensionType = DataExtensionType.TEXT;
           }
           HermesEventBus.getDefault()
-              .post(new RecieveMessage(message.getStanzaId(), message.getType(), sender,
-                  message.getTo(), chat1.getThreadID(), message.getBody(), dataExtensionType,
-                  messageExtensionType, false, MessageAuthor.FRIEND, message.getFrom()));
-        } else if (messageExtensionType.equals(MessageExtensionType.PUSH)) {
-          if (dataExtension==null||dataExtension.getValue(TYPE) == null) {
+              .post(new RecieveMessage(message.getStanzaId(), message.getType(), messageBody.getMsgSender(),
+                  message.getTo(), chat1.getThreadID(), messageBody.getMessage(), dataExtensionType,
+                  MessageExtensionType.valueOf(messageBody.getChatType()), false,
+                  MessageAuthor.FRIEND, message.getFrom()));
+        } else if (messageBody.getChatType().equals(MessageExtensionType.PUSH.toString())) {
+          if (messageBody.getType() == null) {
             dataExtensionType = DataExtensionType.TEXT;
           } else {
-            dataExtensionType = DataExtensionType.fromValue(dataExtension.getValue(TYPE));
+            dataExtensionType = DataExtensionType.fromValue(messageBody.getType());
           }
           // 发送广播
           Intent intent = new Intent(this.getClass().getCanonicalName());
           LogUtils.d(TAG, this.getClass().getCanonicalName());
           sendBroadcast(intent);
-          TextMessage messageFeed = new TextMessage(message.getTo(),"1");
-          sendMessage(messageFeed);
+          tech.jiangtao.support.kit.model.jackson.Message message1 =
+              new tech.jiangtao.support.kit.model.jackson.Message();
+          message1.setMsgSender(message.getTo());
+          message1.setMessage("1");
+          sendMessage(message1);
           // 发送消息到服务求确定已经收到消息
         }
       }
@@ -221,95 +192,55 @@ public class SupportService extends Service
   /**
    * 发送消息
    */
-  @Subscribe(threadMode = ThreadMode.MAIN) public void sendMessage(TextMessage message) {
-    if (message.type == Message.Type.groupchat) {
-      MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(message.userJID);
+  @Subscribe(threadMode = ThreadMode.MAIN) public void sendMessage(
+      tech.jiangtao.support.kit.model.jackson.Message message) {
+    Gson gson = new Gson();
+    Chat chat = ChatManager.getInstanceFor(mXMPPConnection).createChat(message.getMsgReceived());
+    Observable.create((Observable.OnSubscribe<Message>) subscriber -> {
       try {
-        if (!multiUserChat.isJoined()) {
-          multiUserChat.createOrJoin(StringSplitUtil.splitPrefix(
-              StringSplitUtil.splitDivider(mAppPreferences.getString(SupportIM.USER_ID))));
-        }
-        multiUserChat.sendMessage(message.message);
-      } catch (XMPPException.XMPPErrorException | SmackException | ItemNotFoundException e) {
+        Message message1 = new Message();
+        String msg = new Gson().toJson(message);
+        message1.setBody(msg);
+        chat.sendMessage(message1);
+        subscriber.onNext(message1);
+      } catch (SmackException.NotConnectedException e) {
+        connect(true);
+        subscriber.onError(e);
         e.printStackTrace();
       }
-    } else if (message.type == Message.Type.chat) {
-      Chat chat = ChatManager.getInstanceFor(mXMPPConnection).createChat(message.userJID);
-      Observable.create((Observable.OnSubscribe<Message>) subscriber -> {
-        try {
-          Message message1 = new Message();
-          message1.setBody(message.message);
-          // ----------------------------------------数据类型拓展--------------------------------
-          DefaultExtensionElement dataExtensionElement =
-              new DefaultExtensionElement(DATA_TYPE, DATA_EXTENSION);
-          dataExtensionElement.setValue(TYPE, message.messageType.toString());
-          message1.addExtension(dataExtensionElement);
-          // ----------------------------------------消息类型拓展---------------------------------
-          DefaultExtensionElement messageExtensionElement =
-              new DefaultExtensionElement(MESSAGE_TYPE, MESSAGE_EXTENSION);
-          messageExtensionElement.setValue(TYPE, message.messageExtensionType.toString());
-          message1.addExtension(messageExtensionElement);
-          chat.sendMessage(message1);
-          subscriber.onNext(message1);
-        } catch (SmackException.NotConnectedException e) {
-          connect(true);
-          subscriber.onError(e);
-          e.printStackTrace();
-        }
-      }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
-        LogUtils.d(TAG, "sendMessage: 发送成功");
-        //缓存消息
-        DefaultExtensionElement messageExtension =
-            (DefaultExtensionElement) s.getExtension(MESSAGE_EXTENSION);
-        MessageExtensionType messageExtensionType = MessageExtensionType.CHAT;
-        if (messageExtension == null
-            || messageExtension.getValue(TYPE) == null
-            || messageExtension.getValue(TYPE).equals(MessageExtensionType.CHAT.toString())) {
-          messageExtensionType = MessageExtensionType.CHAT;
-        } else if (messageExtension.getValue(TYPE)
-            .equals(MessageExtensionType.GROUP_CHAT.toString())) {
-          messageExtensionType = MessageExtensionType.GROUP_CHAT;
-        }
-        LogUtils.d(TAG, "sendMessage: 打印出别人的jid为:" + s.getTo());
-        String userJid = null;
-        final AppPreferences appPreferences = new AppPreferences(getContext());
-        try {
-          userJid = StringSplitUtil.splitDivider(appPreferences.getString(SupportIM.USER_ID));
-          DataExtensionType dataType = DataExtensionType.TEXT;
-          if (messageExtension == null
-              || messageExtension.getValue(TYPE) == null
-              || messageExtension.getValue(TYPE).equals(DataExtensionType.TEXT.toString())) {
-            dataType = DataExtensionType.TEXT;
-          } else if (messageExtension.getValue(TYPE).equals(DataExtensionType.IMAGE.toString())) {
-            dataType = DataExtensionType.IMAGE;
-          } else if (messageExtension.getValue(TYPE).equals(DataExtensionType.AUDIO.toString())) {
-            dataType = DataExtensionType.AUDIO;
-          } else if (messageExtension.getValue(TYPE).equals(DataExtensionType.VIDEO.toString())) {
-            dataType = DataExtensionType.VIDEO;
+    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
+      LogUtils.d(TAG, "sendMessage: 发送成功");
+      LogUtils.d(TAG, "sendMessage: 打印出别人的jid为:" + s.getTo());
+      String userJid = null;
+      final AppPreferences appPreferences = new AppPreferences(getContext());
+      tech.jiangtao.support.kit.model.jackson.Message message1 = gson.fromJson(s.getBody(),
+          tech.jiangtao.support.kit.model.jackson.Message.class);
+      try {
+        userJid = StringSplitUtil.splitDivider(appPreferences.getString(SupportIM.USER_ID));
+        if (s.getBody() != null) {
+          if (message.getChatType().equals(MessageExtensionType.CHAT.toString())) {
+            HermesEventBus.getDefault()
+                .postSticky(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
+                    chat.getThreadID(), message1.message, DataExtensionType.fromValue(message.getType()),
+                    MessageExtensionType.fromValue(message.getChatType()), false, MessageAuthor.OWN,
+                    null));
+          } else if (message.getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())) {
+            HermesEventBus.getDefault()
+                .postSticky(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
+                    chat.getThreadID(), message1.message, DataExtensionType.fromValue(message.getType()),
+                    MessageExtensionType.fromValue(message.getChatType()), false, MessageAuthor.OWN,
+                    s.getTo()));
           }
-          if (s.getBody() != null) {
-            if (messageExtensionType.equals(MessageExtensionType.CHAT)) {
-              HermesEventBus.getDefault()
-                  .postSticky(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
-                      chat.getThreadID(), s.getBody(), dataType, messageExtensionType, false,
-                      MessageAuthor.OWN, null));
-            } else if (messageExtensionType.equals(MessageExtensionType.GROUP_CHAT)) {
-              HermesEventBus.getDefault()
-                  .postSticky(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
-                      chat.getThreadID(), s.getBody(), dataType, messageExtensionType, false,
-                      MessageAuthor.OWN, s.getTo()));
-            }
-          }
-        } catch (ItemNotFoundException e) {
-          e.printStackTrace();
         }
-      }, new ErrorAction() {
-        @Override public void call(Throwable throwable) {
-          super.call(throwable);
-          LogUtils.e(TAG, "消息发送失败" + throwable.getMessage());
-        }
-      });
-    }
+      } catch (ItemNotFoundException e) {
+        e.printStackTrace();
+      }
+    }, new ErrorAction() {
+      @Override public void call(Throwable throwable) {
+        super.call(throwable);
+        LogUtils.e(TAG, "消息发送失败" + throwable.getMessage());
+      }
+    });
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void loginEvent(LoginParam param) {
@@ -374,6 +305,16 @@ public class SupportService extends Service
       LogUtils.d(TAG, "login: 登录成功");
       // 保存用户jid,获取用户数据，保存到mAppPreferences
       mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
+      mAppPreferences.put(SupportIM.USER_ID, username+"@"+SupportIM.mDomain);
+      mAppPreferences.put(SupportIM.USER_NAME, username);
+      mAppPreferences.put(SupportIM.USER_REAL_NAME, username);
+      mAppPreferences.put(SupportIM.USER_PASSWORD, password);
+      Gson gsonNormal = new Gson();
+      User userNormal = new User();
+      userNormal.setNickName(username);
+      userNormal.setUserId(username+"@"+SupportIM.mDomain);
+      String valueNormal = gsonNormal.toJson(userNormal);
+      mAppPreferences.put(SupportIM.USER, valueNormal);
       mUserServiceApi.selfAccount(StringSplitUtil.userJid(username))
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())

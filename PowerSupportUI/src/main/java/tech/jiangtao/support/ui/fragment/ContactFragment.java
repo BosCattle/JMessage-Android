@@ -109,48 +109,49 @@ public class ContactFragment extends BaseFragment
     }
     getContact();
     mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
-    mUserServiceApi.queryUserFriends(mSelfUser.userId)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(messageRealm -> {
-          // 1. 填充好友信息到界面
-          mConstrutContact.clear();
-          mBaseEasyAdapter.clear();
-          buildHeadView();
-          Collections.sort(messageRealm, new ContactComparator());
-          for (int i = 0; i < messageRealm.size(); i++) {
-            if (messageRealm.get(i) != null && messageRealm.get(i).getNickName() != null) {
-              if (i == 0) {
-                mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
-                    .title(PinYinUtils.getPinyinFirstLetter(
-                        PinYinUtils.ccs2Pinyin(messageRealm.get(i).getNickName())))
-                    .build());
-              }
-              if (i > 0) {
-                if (messageRealm.get(i - 1).getNickName() != null
-                    && !(PinYinUtils.getPinyinFirstLetter(messageRealm.get(i - 1).getNickName())
-                    .equals(PinYinUtils.getPinyinFirstLetter(messageRealm.get(i).getNickName())))) {
+    if (mSelfUser!=null&&mSelfUser.userId!=null) {
+      mUserServiceApi.queryUserFriends(mSelfUser.userId)
+          .subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(messageRealm -> {
+            // 1. 填充好友信息到界面
+            mConstrutContact.clear();
+            mBaseEasyAdapter.clear();
+            buildHeadView();
+            Collections.sort(messageRealm, new ContactComparator());
+            for (int i = 0; i < messageRealm.size(); i++) {
+              if (messageRealm.get(i) != null && messageRealm.get(i).getNickName() != null) {
+                if (i == 0) {
                   mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
                       .title(PinYinUtils.getPinyinFirstLetter(
                           PinYinUtils.ccs2Pinyin(messageRealm.get(i).getNickName())))
                       .build());
                 }
+                if (i > 0) {
+                  if (messageRealm.get(i - 1).getNickName() != null && !(PinYinUtils.getPinyinFirstLetter(messageRealm.get(i - 1).getNickName())
+                      .equals(PinYinUtils.getPinyinFirstLetter(messageRealm.get(i).getNickName())))) {
+                    mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
+                        .title(PinYinUtils.getPinyinFirstLetter(
+                            PinYinUtils.ccs2Pinyin(messageRealm.get(i).getNickName())))
+                        .build());
+                  }
+                }
               }
+              mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL)
+                  .contactRealm(messageRealm.get(i))
+                  .build());
             }
-            mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL)
-                .contactRealm(messageRealm.get(i))
-                .build());
-          }
-          mBaseEasyAdapter.notifyDataSetChanged();
-          // -->将数据放到数据库
-          writeToRealm(messageRealm);
-        }, new ErrorAction() {
-          @Override public void call(Throwable throwable) {
-            super.call(throwable);
-            Log.d(TAG, "call: " + throwable.getMessage());
-            // 从数据库中取数据，放到界面上
-          }
-        });
+            mBaseEasyAdapter.notifyDataSetChanged();
+            // -->将数据放到数据库
+            writeToRealm(messageRealm);
+          }, new ErrorAction() {
+            @Override public void call(Throwable throwable) {
+              super.call(throwable);
+              Log.d(TAG, "call: " + throwable.getMessage());
+              // 从数据库中取数据，放到界面上
+            }
+          });
+    }
   }
 
   public void writeToRealm(List<ContactRealm> contactRealms) {
