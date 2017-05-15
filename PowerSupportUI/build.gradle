@@ -28,6 +28,11 @@ android {
     sourceCompatibility rootProject.ext.android.javaVersion
     targetCompatibility rootProject.ext.android.javaVersion
   }
+  dexOptions {
+    incremental = true;
+    preDexLibraries = false
+    javaMaxHeapSize "4g"
+  }
   lintOptions {
     abortOnError false
     disable 'RestrictedApi'
@@ -56,3 +61,4 @@ dependencies {
   compile 'com.facebook.stetho:stetho-okhttp3:' + rootProject.ext.depsVersion.stethoOkhttp3
   compile 'com.uphyca:stetho_realm:' + rootProject.ext.depsVersion.stetho_realm
 }
+apply from: '../nexus_kit_upload.gradle'

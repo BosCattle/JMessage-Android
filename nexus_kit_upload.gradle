@@ -1,0 +1,62 @@
+apply plugin: 'maven'
+
+task androidJavadocs(type: Javadoc) {
+  source = android.sourceSets.main.java.srcDirs
+  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+  classifier = 'javadoc'
+  from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+  classifier = 'sources'
+  from android.sourceSets.main.java.srcDirs
+}
+
+tasks.withType(Javadoc) {
+  options.addStringOption('Xdoclint:none', '-quiet')
+  options.addStringOption('encoding', 'UTF-8')
+  options.addStringOption('charSet', 'UTF-8')
+}
+
+artifacts {
+  archives androidSourcesJar
+  //  archives androidJavadocsJar
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      repository(url: releases_url) {
+        authentication(userName: username, password: password)
+      }
+      pom.project {
+        name 'PowerSupportKit'
+        version '0.1.2'
+        artifactId 'PowerSupportKit'
+        groupId 'tech.jiangtao.support.kit'
+        packaging 'aar'
+        description 'support kit for im'
+      }
+    }
+  }
+}
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      repository(url: releases_url) {
+        authentication(userName: username, password: password)
+      }
+      pom.project {
+        name 'PowerSupportUI'
+        version '0.1.2'
+        artifactId 'PowerSupportUI'
+        groupId 'tech.jiangtao.support.ui'
+        packaging 'aar'
+        description 'support kit for ui'
+      }
+    }
+  }
+}

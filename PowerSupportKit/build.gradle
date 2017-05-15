@@ -3,6 +3,7 @@ apply plugin: 'realm-android'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.github.dcendents.android-maven'
 
+
 android {
   compileSdkVersion rootProject.ext.android.compileSdkVersion
   buildToolsVersion rootProject.ext.android.buildToolsVersion
@@ -23,6 +24,11 @@ android {
   compileOptions {
     sourceCompatibility rootProject.ext.android.javaVersion
     targetCompatibility rootProject.ext.android.javaVersion
+  }
+  dexOptions {
+    incremental = true;
+    preDexLibraries = false
+    javaMaxHeapSize "4g"
   }
   lintOptions {
     abortOnError false
@@ -50,3 +56,4 @@ dependencies {
   compile 'com.squareup.okhttp3:logging-interceptor:' + rootProject.ext.depsVersion.logginginterceptorVersion
   compile 'tech.jiangtao.im:JMessage-Common:'+rootProject.ext.depsVersion.JMessageCommonVersion
 }
+apply from: '../nexus_kit_upload.gradle'

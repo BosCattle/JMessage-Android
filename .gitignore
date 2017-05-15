@@ -227,3 +227,4 @@ freeline_project_description.json
 
 /PowerSupportSip/PowerSupportSip.iml
 !/PowerSupportUI/PowerSupportUI.iml
+gradle.properties
