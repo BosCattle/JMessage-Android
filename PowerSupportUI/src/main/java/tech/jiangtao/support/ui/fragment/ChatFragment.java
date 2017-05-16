@@ -62,8 +62,7 @@ import tech.jiangtao.support.kit.archive.type.FileType;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
-import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
-import tech.jiangtao.support.kit.eventbus.TextMessage;
+import tech.jiangtao.support.kit.eventbus.ReceiveLastMessage;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.MessageRealm;
@@ -417,7 +416,7 @@ public  class ChatFragment extends BaseFragment
 
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveLastMessage message) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(ReceiveLastMessage message) {
     LogUtils.d("----------->", "onMessage: " + message);
     if (StringSplitUtil.splitDivider(message.userJID).equals(mContactRealm.getUserId())
         || StringSplitUtil.splitDivider(message.ownJid).equals(mContactRealm.getUserId())) {

@@ -59,7 +59,7 @@ import tech.jiangtao.support.kit.archive.type.FileType;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
-import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
+import tech.jiangtao.support.kit.eventbus.ReceiveLastMessage;
 import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.GroupRealm;
@@ -357,7 +357,7 @@ public class GroupChatFragment extends BaseFragment
 
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveLastMessage message) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(ReceiveLastMessage message) {
     LogUtils.d("----------->", "onMessage: " + message);
     RealmResults<ContactRealm> contactRealmResult = mRealm.where(ContactRealm.class)
         .equalTo(SupportIM.USER_ID, StringSplitUtil.splitDivider(message.getUserJID()))

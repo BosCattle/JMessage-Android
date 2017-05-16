@@ -39,7 +39,7 @@ import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.callback.DisconnectCallBack;
 import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
 import tech.jiangtao.support.kit.eventbus.FriendRequest;
-import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
+import tech.jiangtao.support.kit.eventbus.ReceiveLastMessage;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.SupportIM;
@@ -228,7 +228,7 @@ public class XMPPService extends Service {
     }, () -> {
       LogUtils.d(TAG, "onSuccess: 保存消息成功");
       HermesEventBus.getDefault()
-          .post(new RecieveLastMessage(message.id, message.type, message.userJID, message.ownJid,
+          .post(new ReceiveLastMessage(message.id, message.type, message.userJID, message.ownJid,
               message.thread, message.message, message.messageType, message.messageExtensionType,
               false, message.messageAuthor, message.groupId));
       // 根据单聊还是群聊来进行数据库检查
