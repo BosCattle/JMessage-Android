@@ -13,6 +13,7 @@ import tech.jiangtao.support.kit.eventbus.NotificationConnection;
 import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
 import tech.jiangtao.support.ui.view.AudioManager;
 import tech.jiangtao.support.ui.view.MediaManager;
+import tech.jiangtao.support.ui.view.MessageNotification;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -24,7 +25,7 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  * Update: 04/12/2016 2:46 AM </br>
  **/
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements MessageNotification {
 
   private View mLayoutView;
 
@@ -69,13 +70,5 @@ public abstract class BaseFragment extends Fragment {
 
   public View getView() {
     return mLayoutView;
-  }
-
-  /**
-   * 接受消息
-   * @param message
-   */
-  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(RecieveLastMessage message) {
-
   }
 }

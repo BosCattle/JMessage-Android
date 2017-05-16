@@ -20,6 +20,7 @@ import com.china.epower.chat.ui.adapter.PersonalDataAdapter;
 import com.china.epower.chat.ui.pattern.ConstructListData;
 import com.china.epower.chat.utils.RecyclerViewUtils;
 
+import tech.jiangtao.support.kit.eventbus.RecieveLastMessage;
 import tech.jiangtao.support.ui.utils.ResourceAddress;
 import com.google.gson.Gson;
 import net.grandcentrix.tray.AppPreferences;
@@ -160,5 +161,9 @@ public class PersonalFragment extends BaseFragment implements EasyViewHolder.OnI
 
   @Override public void onDestroyView() {
     super.onDestroyView();
+  }
+
+  @Override public void onMessage(RecieveLastMessage message) {
+
   }
 }
