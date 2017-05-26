@@ -8,11 +8,8 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import com.google.gson.Gson;
-import java.util.Objects;
-import java.util.Set;
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
 
@@ -30,7 +27,6 @@ import org.jivesoftware.smack.chat.ChatManager;
 import org.jivesoftware.smack.chat.ChatManagerListener;
 import org.jivesoftware.smack.filter.StanzaFilter;
 import org.jivesoftware.smack.filter.StanzaTypeFilter;
-import org.jivesoftware.smack.packet.DefaultExtensionElement;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.packet.Stanza;
@@ -40,7 +36,6 @@ import org.jivesoftware.smack.roster.RosterListener;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.jivesoftware.smackx.iqregister.AccountManager;
-import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.jivesoftware.smackx.muc.MultiUserChatManager;
 import org.jivesoftware.smackx.offline.OfflineMessageManager;
 import org.jivesoftware.smackx.vcardtemp.VCardManager;
@@ -52,6 +47,7 @@ import java.util.List;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tech.jiangtao.support.kit.ServiceListener;
 import tech.jiangtao.support.kit.SupportAIDLConnection;
 import tech.jiangtao.support.kit.api.ApiService;
 import tech.jiangtao.support.kit.api.service.AccountServiceApi;
@@ -72,7 +68,6 @@ import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.eventbus.RegisterAccount;
 import tech.jiangtao.support.kit.eventbus.RegisterResult;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
-import tech.jiangtao.support.kit.eventbus.TextMessage;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.model.User;
@@ -101,6 +96,8 @@ public class SupportService extends Service
   private AccountServiceApi mAccountServiceApi;
   private UserServiceApi mUserServiceApi;
   private OfflineMessageManager mOfflineMessageManager;
+  // 监听改变
+  private ServiceListener mServiceListener;
 
   @Override public void onCreate() {
     super.onCreate();
@@ -396,6 +393,12 @@ public class SupportService extends Service
     mOfflineMessageManager = new OfflineMessageManager(mXMPPConnection);
     pullOfflineMessage();
     rosterPresence();
+    try {
+      mServiceListener.connectSuccess();
+    }catch (RemoteException ignored){
+
+    }
+
   }
 
   /**
@@ -664,6 +667,12 @@ public class SupportService extends Service
 
     @Override public String getServiceName() throws RemoteException {
       return "SupportService连接";
+    }
+
+    @Override public void listen(ServiceListener listener) throws RemoteException {
+      // 获取到监听器
+      LogUtils.d(TAG,"获取到监听器");
+      mServiceListener = listener;
     }
   }
 }

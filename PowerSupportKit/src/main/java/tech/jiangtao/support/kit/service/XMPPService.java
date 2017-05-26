@@ -32,10 +32,12 @@ import io.realm.RealmResults;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.R;
+import tech.jiangtao.support.kit.ServiceListener;
 import tech.jiangtao.support.kit.SupportAIDLConnection;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
+import tech.jiangtao.support.kit.callback.CurrentListenerCollection;
 import tech.jiangtao.support.kit.callback.DisconnectCallBack;
 import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
 import tech.jiangtao.support.kit.eventbus.FriendRequest;
@@ -83,11 +85,19 @@ public class XMPPService extends Service {
   private Class mChatClass;
   private Class mGroupClass;
   private Class mInvitedClass;
+  public static CurrentListenerCollection listenerCollection;
 
   @Override public void onCreate() {
     super.onCreate();
     if (mXMPPBinder == null) {
       mXMPPBinder = new XMPPBinder();
+    }
+    if (listenerCollection==null) {
+      synchronized (this) {
+        if (listenerCollection == null) {
+          listenerCollection = new CurrentListenerCollection();
+        }
+      }
     }
     PowerManager mPowerManager = (PowerManager) getSystemService(POWER_SERVICE);
     mWakelock = mPowerManager.newWakeLock(
@@ -115,6 +125,8 @@ public class XMPPService extends Service {
     this.bindService(intent1, mXMPPServiceConnection, Context.BIND_IMPORTANT);
     return START_STICKY;
   }
+
+
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onRecieveMessage(RecieveMessage message) {
     //先保存会话表，然后保存到消息记录表
@@ -314,7 +326,7 @@ public class XMPPService extends Service {
   }
 
   public void showOnesNotification(String name, String info, Intent intent) {
-    mWakelock.acquire();
+    mWakelock.acquire(10*60*1000L /*10 minutes*/);
     NotificationManager mNotificationManager =
         (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     Notification.Builder builder = new Notification.Builder(this);
@@ -372,6 +384,28 @@ public class XMPPService extends Service {
 
     @Override public void onServiceConnected(ComponentName name, IBinder service) {
       LogUtils.d(TAG, "onServiceConnected: 建立连接");
+      SupportAIDLConnection connection = SupportAIDLConnection.Stub.asInterface(service);
+      try {
+        connection.listen(new ServiceListener() {
+          @Override public IBinder asBinder() {
+            return null;
+          }
+
+          @Override public void connectSuccess() throws RemoteException {
+            LogUtils.d(TAG,"哈哈哈，连接成功");
+          }
+
+          @Override public void connectionFailed(String e) throws RemoteException {
+            LogUtils.d(TAG,"哈哈哈，连接失败");
+          }
+
+          @Override public void disconnectFinish() throws RemoteException {
+            LogUtils.d(TAG,"哈哈哈，断开成功");
+          }
+        });
+      }catch (RemoteException ignored){
+
+      }
     }
 
     @Override public void onServiceDisconnected(ComponentName name) {
@@ -387,8 +421,20 @@ public class XMPPService extends Service {
     @Override public String getServiceName() throws RemoteException {
       return "XMPPService的服务";
     }
-  }
 
+    @Override public void listen(ServiceListener listener) throws RemoteException {
+
+    }
+  }
+  
+  /**
+   * Class: XMPPService </br>
+   * Description: 开启前台服务，关闭view，不可动 </br>
+   * Creator: kevin </br>
+   * Email: jiangtao103cp@gmail.com </br>
+   * Date: 26/05/2017 23:09</br>
+   * Update: 26/05/2017 23:09 </br>
+   **/
   public static class InnerService extends Service {
 
     @Override public void onCreate() {
@@ -419,5 +465,9 @@ public class XMPPService extends Service {
   private void startForegroundCompat() {
     startService(new Intent(this, InnerService.class));
     startForeground(NOTIFICATION_ID, fadeNotification(this));
+  }
+
+  public static void login(String userName,String password){
+
   }
 }

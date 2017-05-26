@@ -158,27 +158,32 @@ public class ChatFragment extends BaseFragment
     mBaseEasyAdapter.viewHolderFactory(new BaseEasyViewHolderFactory(getContext()));
     mBaseEasyAdapter.setOnClickListener((position, view) -> {
       ChatExtraModel model = (ChatExtraModel) mBaseEasyAdapter.get(position);
-      if (model.name.equals("图片")) {
-        Intent intent1 = new Intent(getContext(), ImagePickActivity.class);
-        intent1.putExtra(IS_NEED_CAMERA, true);
-        intent1.putExtra(Constant.MAX_NUMBER, 1);
-        startActivityForResult(intent1, Constant.REQUEST_CODE_PICK_IMAGE);
-      } else if (model.name.equals("文档")) {
-        Intent intent4 = new Intent(getContext(), NormalFilePickActivity.class);
-        intent4.putExtra(Constant.MAX_NUMBER, 1);
-        intent4.putExtra(NormalFilePickActivity.SUFFIX,
-            new String[] { "xlsx", "xls", "doc", "docx", "ppt", "pptx", "pdf" });
-        startActivityForResult(intent4, Constant.REQUEST_CODE_PICK_FILE);
-      } else if (model.name.equals("语音")) {
-        Intent intent3 = new Intent(getContext(), AudioPickActivity.class);
-        intent3.putExtra(IS_NEED_RECORDER, true);
-        intent3.putExtra(Constant.MAX_NUMBER, 1);
-        startActivityForResult(intent3, Constant.REQUEST_CODE_PICK_AUDIO);
-      } else if (model.name.equals("视频")) {
-        Intent intent2 = new Intent(getContext(), VideoPickActivity.class);
-        intent2.putExtra(IS_NEED_CAMERA, true);
-        intent2.putExtra(Constant.MAX_NUMBER, 1);
-        startActivityForResult(intent2, Constant.REQUEST_CODE_PICK_VIDEO);
+      switch (model.name) {
+        case "图片":
+          Intent intent1 = new Intent(getContext(), ImagePickActivity.class);
+          intent1.putExtra(IS_NEED_CAMERA, true);
+          intent1.putExtra(Constant.MAX_NUMBER, 1);
+          startActivityForResult(intent1, Constant.REQUEST_CODE_PICK_IMAGE);
+          break;
+        case "文档":
+          Intent intent4 = new Intent(getContext(), NormalFilePickActivity.class);
+          intent4.putExtra(Constant.MAX_NUMBER, 1);
+          intent4.putExtra(NormalFilePickActivity.SUFFIX,
+              new String[] { "xlsx", "xls", "doc", "docx", "ppt", "pptx", "pdf" });
+          startActivityForResult(intent4, Constant.REQUEST_CODE_PICK_FILE);
+          break;
+        case "语音":
+          Intent intent3 = new Intent(getContext(), AudioPickActivity.class);
+          intent3.putExtra(IS_NEED_RECORDER, true);
+          intent3.putExtra(Constant.MAX_NUMBER, 1);
+          startActivityForResult(intent3, Constant.REQUEST_CODE_PICK_AUDIO);
+          break;
+        case "视频":
+          Intent intent2 = new Intent(getContext(), VideoPickActivity.class);
+          intent2.putExtra(IS_NEED_CAMERA, true);
+          intent2.putExtra(Constant.MAX_NUMBER, 1);
+          startActivityForResult(intent2, Constant.REQUEST_CODE_PICK_VIDEO);
+          break;
       }
     });
     mBaseEasyAdapter.bind(ChatExtraModel.class, ExtraFuncViewHolder.class);

@@ -10,6 +10,7 @@ import java.util.UUID;
 import tech.jiangtao.support.kit.annotation.ChatRouter;
 import tech.jiangtao.support.kit.annotation.GroupChatRouter;
 import tech.jiangtao.support.kit.annotation.InvitedRouter;
+import tech.jiangtao.support.kit.callback.LoginListener;
 import tech.jiangtao.support.kit.service.SupportService;
 import tech.jiangtao.support.kit.service.XMPPService;
 import tech.jiangtao.support.kit.util.PropertyUtils;
@@ -135,5 +136,16 @@ public class SupportIM {
     context.startService(intent);
     Intent intent1 = new Intent(context, SupportService.class);
     context.startService(intent1);
+  }
+
+  /**
+   * 登录，不能使用静态,
+   * @param userName
+   * @param password
+   * @param listener
+   */
+  public static void login(String userName,String password,LoginListener listener){
+    XMPPService.listenerCollection.setLoginListener(listener);
+    XMPPService.login(userName,password);
   }
 }

@@ -2,6 +2,7 @@ package tech.jiangtao.support.kit.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import tech.jiangtao.support.kit.Account;
 
 /**
  * Class: User </br>
