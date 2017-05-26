@@ -31,9 +31,6 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import tech.jiangtao.support.kit.R;
-import tech.jiangtao.support.kit.ServiceListener;
-import tech.jiangtao.support.kit.SupportAIDLConnection;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
@@ -289,7 +286,7 @@ public class XMPPService extends Service {
    */
   @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN) @Subscribe(threadMode = ThreadMode.MAIN)
   public void addFriendsNotification(FriendRequest request) {
-    mWakelock.acquire();
+    mWakelock.acquire(10*60*1000L /*10 minutes*/);
     Intent i = new Intent(this, mInvitedClass);
     i.putExtra(SupportIM.NEW_FLAG, request);
     showOnesNotification(request.username, request.username + "请求添加你为好友.", i);
@@ -385,27 +382,6 @@ public class XMPPService extends Service {
     @Override public void onServiceConnected(ComponentName name, IBinder service) {
       LogUtils.d(TAG, "onServiceConnected: 建立连接");
       SupportAIDLConnection connection = SupportAIDLConnection.Stub.asInterface(service);
-      try {
-        connection.listen(new ServiceListener() {
-          @Override public IBinder asBinder() {
-            return null;
-          }
-
-          @Override public void connectSuccess() throws RemoteException {
-            LogUtils.d(TAG,"哈哈哈，连接成功");
-          }
-
-          @Override public void connectionFailed(String e) throws RemoteException {
-            LogUtils.d(TAG,"哈哈哈，连接失败");
-          }
-
-          @Override public void disconnectFinish() throws RemoteException {
-            LogUtils.d(TAG,"哈哈哈，断开成功");
-          }
-        });
-      }catch (RemoteException ignored){
-
-      }
     }
 
     @Override public void onServiceDisconnected(ComponentName name) {

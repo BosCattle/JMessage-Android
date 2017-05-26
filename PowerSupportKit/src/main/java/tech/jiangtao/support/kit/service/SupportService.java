@@ -47,7 +47,6 @@ import java.util.List;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import tech.jiangtao.support.kit.ServiceListener;
 import tech.jiangtao.support.kit.SupportAIDLConnection;
 import tech.jiangtao.support.kit.api.ApiService;
 import tech.jiangtao.support.kit.api.service.AccountServiceApi;
@@ -96,8 +95,7 @@ public class SupportService extends Service
   private AccountServiceApi mAccountServiceApi;
   private UserServiceApi mUserServiceApi;
   private OfflineMessageManager mOfflineMessageManager;
-  // 监听改变
-  private ServiceListener mServiceListener;
+
 
   @Override public void onCreate() {
     super.onCreate();
@@ -167,11 +165,6 @@ public class SupportService extends Service
                   MessageExtensionType.valueOf(messageBody.getChatType()), false,
                   MessageAuthor.FRIEND, message.getFrom()));
         } else if (messageBody.getChatType().equals(MessageExtensionType.PUSH.toString())) {
-          if (messageBody.getType() == null) {
-            dataExtensionType = DataExtensionType.TEXT;
-          } else {
-            dataExtensionType = DataExtensionType.fromValue(messageBody.getType());
-          }
           // 发送广播
           Intent intent = new Intent(this.getClass().getCanonicalName());
           LogUtils.d(TAG, this.getClass().getCanonicalName());
@@ -393,12 +386,6 @@ public class SupportService extends Service
     mOfflineMessageManager = new OfflineMessageManager(mXMPPConnection);
     pullOfflineMessage();
     rosterPresence();
-    try {
-      mServiceListener.connectSuccess();
-    }catch (RemoteException ignored){
-
-    }
-
   }
 
   /**
@@ -667,12 +654,6 @@ public class SupportService extends Service
 
     @Override public String getServiceName() throws RemoteException {
       return "SupportService连接";
-    }
-
-    @Override public void listen(ServiceListener listener) throws RemoteException {
-      // 获取到监听器
-      LogUtils.d(TAG,"获取到监听器");
-      mServiceListener = listener;
     }
   }
 }
