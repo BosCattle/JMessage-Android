@@ -56,7 +56,7 @@ android {
     exclude 'META-INF/LGPL2.1'
   }
   dexOptions {
-    incremental = true;
+    incremental = true
     preDexLibraries = false
     javaMaxHeapSize "4g"
   }

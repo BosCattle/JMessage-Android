@@ -29,7 +29,7 @@ android {
     targetCompatibility rootProject.ext.android.javaVersion
   }
   dexOptions {
-    incremental = true;
+    incremental = true
     preDexLibraries = false
     javaMaxHeapSize "4g"
   }

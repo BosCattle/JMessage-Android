@@ -19,6 +19,10 @@ android {
   lintOptions {
     abortOnError false
   }
+  compileOptions {
+    sourceCompatibility rootProject.ext.android.javaVersion
+    targetCompatibility rootProject.ext.android.javaVersion
+  }
 }
 
 dependencies {
@@ -26,5 +30,5 @@ dependencies {
   compile 'com.android.support:appcompat-v7:'+rootProject.ext.depsVersion.supportVersion
   compile 'io.reactivex:rxandroid:'+rootProject.ext.depsVersion.rxAndroidVersion
   compile 'io.reactivex:rxjava:'+rootProject.ext.depsVersion.rxJavaVersion
-  compile 'io.pristine:libjingle:'+rootProject.ext.depsVersion.libjingleVersion
+//  compile 'io.pristine:libjingle:'+rootProject.ext.depsVersion.libjingleVersion
 }

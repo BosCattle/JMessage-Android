@@ -105,7 +105,7 @@ import static com.vincent.filepicker.activity.VideoPickActivity.IS_NEED_CAMERA;
  * Date: 02/12/2016 11:40 AM</br>
  * Update: 02/12/2016 11:40 AM </br>
  **/
-public  class ChatFragment extends BaseFragment
+public class ChatFragment extends BaseFragment
     implements TextWatcher, View.OnClickListener, EasyViewHolder.OnItemClickListener,
     View.OnLongClickListener, AudioRecordButton.onAudioFinishRecordListener,
     SwipeRefreshLayout.OnRefreshListener, View.OnFocusChangeListener {
@@ -240,8 +240,7 @@ public  class ChatFragment extends BaseFragment
                   TransportType.AVATAR) : null)
               .message(message1)
               .build());
-        }
-        else if (messageRealmse.get(i)
+        } else if (messageRealmse.get(i)
             .getMessageType()
             .equals(DataExtensionType.IMAGE.toString())) {
           message1.fimePath = messageRealmse.get(i).getTextMessage();
@@ -252,8 +251,7 @@ public  class ChatFragment extends BaseFragment
                       .url(mOwnContactRealm.getAvatar(), TransportType.AVATAR) : null)
               .message(message1)
               .build());
-        }
-        else if (messageRealmse.get(i)
+        } else if (messageRealmse.get(i)
             .getMessageType()
             .equals(DataExtensionType.AUDIO.toString())) {
           message1.fimePath = messageRealmse.get(i).getTextMessage();
@@ -266,8 +264,7 @@ public  class ChatFragment extends BaseFragment
               .message(message1)
               .build());
         }
-      }
-      else {
+      } else {
         //别人发送的消息
         Message message1 = new Message();
         message1.paramContent = messageRealmse.get(i).getTextMessage();
@@ -458,8 +455,9 @@ public  class ChatFragment extends BaseFragment
           message2.fimePath = message.message;
           message2.type = FileType.TYPE_IMAGE;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
-              .avatar(mOwnContactRealm != null && mOwnContactRealm.getAvatar() != null
-                  ? ResourceAddress.url(mOwnContactRealm.getAvatar(),TransportType.AVATAR) : null)
+              .avatar(
+                  mOwnContactRealm != null && mOwnContactRealm.getAvatar() != null ? ResourceAddress
+                      .url(mOwnContactRealm.getAvatar(), TransportType.AVATAR) : null)
               .message(message2)
               .build());
         } else if (message.messageType == DataExtensionType.AUDIO) {
@@ -467,8 +465,9 @@ public  class ChatFragment extends BaseFragment
           message2.time = 10;
           message2.type = FileType.TYPE_AUDIO;
           mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
-              .avatar(mOwnContactRealm != null && mOwnContactRealm.getAvatar() != null
-                  ? ResourceAddress.url(mOwnContactRealm.getAvatar(),TransportType.AVATAR) : null)
+              .avatar(
+                  mOwnContactRealm != null && mOwnContactRealm.getAvatar() != null ? ResourceAddress
+                      .url(mOwnContactRealm.getAvatar(), TransportType.AVATAR) : null)
               .message(message2)
               .build());
         }
@@ -485,12 +484,12 @@ public  class ChatFragment extends BaseFragment
         && mOwnContactRealm.getUserId() != null
         && mContactRealm.getUserId() != null
         && StringSplitUtil.splitDivider(mContactRealm.getUserId()) != StringSplitUtil.splitDivider(
-        mOwnContactRealm.getUserId()))
-    {
+        mOwnContactRealm.getUserId())) {
       mRealm.executeTransactionAsync(realm -> {
         LogUtils.d(TAG, "onPause: 执行到.....");
         SessionRealm sessionRealm = realm.where(SessionRealm.class)
-            .equalTo(SupportIM.SENDERFRIENDID, StringSplitUtil.splitDivider(mContactRealm.getUserId()))
+            .equalTo(SupportIM.SENDERFRIENDID,
+                StringSplitUtil.splitDivider(mContactRealm.getUserId()))
             .findFirst();
         if (sessionRealm != null) {
           LogUtils.d(TAG, "onPause: 执行到.....对象不为空");
@@ -525,7 +524,8 @@ public  class ChatFragment extends BaseFragment
         mChatSendOther.setVisibility(View.VISIBLE);
       }
     } else if (i == R.id.chat_send_message) {
-      sendMyFriendMessage(mChatInput.getText().toString(), DataExtensionType.TEXT,MessageExtensionType.CHAT);
+      sendMyFriendMessage(mChatInput.getText().toString(), DataExtensionType.TEXT,
+          MessageExtensionType.CHAT);
     } else if (i == R.id.add_smile) {
       mChatSendOther.setVisibility(View.GONE);
       //切换键盘
@@ -552,8 +552,10 @@ public  class ChatFragment extends BaseFragment
   /**
    * 发送消息到对方，并且添加到本地
    */
-  public void sendMyFriendMessage(String message, DataExtensionType type,MessageExtensionType messageExtensionType) {
-    tech.jiangtao.support.kit.model.jackson.Message message2 = new tech.jiangtao.support.kit.model.jackson.Message();
+  public void sendMyFriendMessage(String message, DataExtensionType type,
+      MessageExtensionType messageExtensionType) {
+    tech.jiangtao.support.kit.model.jackson.Message message2 =
+        new tech.jiangtao.support.kit.model.jackson.Message();
     message2.setMessage(message);
     message2.setChatType(messageExtensionType.toString());
     message2.setType(type.toString());
@@ -630,15 +632,15 @@ public  class ChatFragment extends BaseFragment
           //发送消息添加到本地，然后发送拓展消息到对方
           if (type.equals(DataExtensionType.IMAGE.toString())) {
             sendMyFriendMessage(ResourceAddress.url(filePath.resourceId, TransportType.IMAGE),
-                DataExtensionType.IMAGE,MessageExtensionType.CHAT);
+                DataExtensionType.IMAGE, MessageExtensionType.CHAT);
           }
           if (type.equals(DataExtensionType.AUDIO.toString())) {
             sendMyFriendMessage(ResourceAddress.url(filePath.resourceId, TransportType.AUDIO),
-                DataExtensionType.AUDIO,MessageExtensionType.CHAT);
+                DataExtensionType.AUDIO, MessageExtensionType.CHAT);
           }
           if (type.equals(DataExtensionType.VIDEO.toString())) {
             sendMyFriendMessage(ResourceAddress.url(filePath.resourceId, TransportType.AUDIO),
-                DataExtensionType.VIDEO,MessageExtensionType.CHAT);
+                DataExtensionType.VIDEO, MessageExtensionType.CHAT);
           }
         }, new ErrorAction() {
           @Override public void call(Throwable throwable) {

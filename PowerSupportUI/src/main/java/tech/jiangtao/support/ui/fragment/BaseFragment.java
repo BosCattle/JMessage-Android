@@ -7,7 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import tech.jiangtao.support.kit.eventbus.NotificationConnection;
+import tech.jiangtao.support.kit.eventbus.ReceiveLastMessage;
 import tech.jiangtao.support.ui.view.AudioManager;
 import tech.jiangtao.support.ui.view.MediaManager;
 import tech.jiangtao.support.ui.view.MessageNotification;
@@ -67,5 +70,11 @@ public abstract class BaseFragment extends Fragment implements MessageNotificati
 
   public View getView() {
     return mLayoutView;
+  }
+
+
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void onMessage(ReceiveLastMessage message) {
+
   }
 }

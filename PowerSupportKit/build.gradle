@@ -21,12 +21,15 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+
   compileOptions {
-    sourceCompatibility rootProject.ext.android.javaVersion
-    targetCompatibility rootProject.ext.android.javaVersion
+    sourceCompatibility 1.8
+    targetCompatibility 1.8
   }
+
+
   dexOptions {
-    incremental = true;
+    incremental = true
     preDexLibraries = false
     javaMaxHeapSize "4g"
   }
@@ -54,6 +57,6 @@ dependencies {
   compile 'com.squareup.okhttp3:okhttp:' + rootProject.ext.depsVersion.okhttpVersion
   compile 'com.squareup.okio:okio:' + rootProject.ext.depsVersion.okioVersion
   compile 'com.squareup.okhttp3:logging-interceptor:' + rootProject.ext.depsVersion.logginginterceptorVersion
-  compile 'tech.jiangtao.im:JMessage-Common:'+rootProject.ext.depsVersion.JMessageCommonVersion
+//  compile 'tech.jiangtao.im:JMessage-Common:'+rootProject.ext.depsVersion.JMessageCommonVersion
 }
 apply from: '../nexus_kit_upload.gradle'

@@ -27,15 +27,6 @@ public class SupportUI {
   public static String RESOURCE_ADDRESS = "RESOURCE_ADDRESS";
   private static String API_ADDRESS = "API_ADDRESS";
 
-  // company
-  private static String HOST1 = "HOST1";
-  public static String RESOURCE_ADDRESS1 = "RESOURCE_ADDRESS1";
-  private static String API_ADDRESS1 = "API_ADDRESS1";
-
-  // home
-  private static String HOST2 = "HOST2";
-  public static String RESOURCE_ADDRESS2 = "RESOURCE_ADDRESS2";
-  private static String API_ADDRESS2 = "API_ADDRESS2";
 
   public static void initialize(Context context,String resourceName) {
     initValue(context,resourceName);
@@ -59,16 +50,6 @@ public class SupportUI {
     HOST = properties.getProperty(HOST);
     RESOURCE_ADDRESS = properties.getProperty(RESOURCE_ADDRESS);
     API_ADDRESS = properties.getProperty(API_ADDRESS);
-
-    // 公司
-    HOST1 = properties.getProperty(HOST1);
-    RESOURCE_ADDRESS1 = properties.getProperty(RESOURCE_ADDRESS1);
-    API_ADDRESS1 = properties.getProperty(API_ADDRESS1);
-
-    // 家里
-    HOST2 = properties.getProperty(HOST2);
-    RESOURCE_ADDRESS2 = properties.getProperty(RESOURCE_ADDRESS2);
-    API_ADDRESS2 = properties.getProperty(API_ADDRESS2);
   }
 
   private static void initialize(Context context, String serviceName, String resource, String host,

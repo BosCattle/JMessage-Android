@@ -12,6 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import com.google.gson.Gson;
 import java.util.Objects;
+import java.util.Set;
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
 
@@ -417,6 +418,7 @@ public class SupportService extends Service
    */
   public void rosterPresence() {
     Roster roster = Roster.getInstanceFor(mXMPPConnection);
+    // 获取用户最近联系人
     roster.setSubscriptionMode(Roster.SubscriptionMode.manual);
     roster.addRosterListener(this);
     StanzaFilter filter = new StanzaTypeFilter(Presence.class);
@@ -477,19 +479,35 @@ public class SupportService extends Service
     }
   }
 
-  //
+  /**
+   *  roster添加了用户
+   * @param addresses
+   */
   @Override public void entriesAdded(Collection<String> addresses) {
     LogUtils.d(TAG, "entriesAdded: 好友添加成功");
+
   }
 
+  /**
+   * roster中用户更新信息
+   * @param addresses
+   */
   @Override public void entriesUpdated(Collection<String> addresses) {
     LogUtils.d(TAG, "entriesUpdated: 好友更新成功");
   }
 
+  /**
+   * roster中有好友被删除
+   * @param addresses
+   */
   @Override public void entriesDeleted(Collection<String> addresses) {
     LogUtils.d(TAG, "entriesDeleted: 好友删除成功");
   }
 
+  /**
+   * 状态改变
+   * @param presence
+   */
   @Override public void presenceChanged(Presence presence) {
     if (presence.getType().equals(Presence.Type.available)) {
       LogUtils.d(TAG, "在线");
