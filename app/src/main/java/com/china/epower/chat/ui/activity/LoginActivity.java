@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
@@ -16,9 +15,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.china.epower.chat.R;
-import tech.jiangtao.support.kit.callback.LoginCallBack;
-import tech.jiangtao.support.kit.eventbus.LoginParam;
-import tech.jiangtao.support.kit.userdata.SimpleLogin;
+import tech.jiangtao.support.kit.callback.IMLoginCallBack;
+import tech.jiangtao.support.kit.eventbus.IMLoginRequestModel;
+import tech.jiangtao.support.kit.manager.IMAccountManager;
+import tech.jiangtao.support.kit.model.Account;
+import tech.jiangtao.support.kit.model.Result;
 import work.wanghao.simplehud.SimpleHUD;
 
 import static java.lang.System.exit;
@@ -33,7 +34,7 @@ import static java.lang.System.exit;
  * 登录的功能拿到服务去做，登录成功，在服务器中跳转到主页面
  * 保存用户信息到数据库中
  **/
-public class LoginActivity extends BaseActivity implements LoginCallBack{
+public class LoginActivity extends BaseActivity implements IMLoginCallBack {
 
   @BindView(R.id.tv_toolbar) TextView mTvToolbar;
   @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -41,7 +42,7 @@ public class LoginActivity extends BaseActivity implements LoginCallBack{
   @BindView(R.id.login_password) AppCompatEditText mLoginPassword;
   @BindView(R.id.login_button) AppCompatButton mLoginButton;
   @BindView(R.id.register) AppCompatTextView mRegisterText;
-  private SimpleLogin mSimpleLogin;
+  private IMAccountManager mIMAccountManager;
 
   public static final String TAG = LoginActivity.class.getSimpleName();
 
@@ -50,7 +51,7 @@ public class LoginActivity extends BaseActivity implements LoginCallBack{
     setContentView(R.layout.activity_login);
     ButterKnife.bind(this);
     setUpToolbar();
-    mSimpleLogin = new SimpleLogin();
+    mIMAccountManager = new IMAccountManager(this);
   }
 
   @Override protected boolean preSetupToolbar() {
@@ -81,7 +82,7 @@ public class LoginActivity extends BaseActivity implements LoginCallBack{
         }
         SimpleHUD.showLoadingMessage(LoginActivity.this, (String) getText(R.string.profile_loading),
             false);
-        mSimpleLogin.startLogin(new LoginParam(mLoginUsername.getText().toString(),
+        mIMAccountManager.login(new IMLoginRequestModel(mLoginUsername.getText().toString(),
             mLoginPassword.getText().toString()), this);
         break;
       case R.id.register:
@@ -101,16 +102,14 @@ public class LoginActivity extends BaseActivity implements LoginCallBack{
     exit(0);
   }
 
-  @Override public void connectSuccess() {
+  @Override public void connectSuccess(Account account) {
     SimpleHUD.dismiss();
     SimpleHUD.showSuccessMessage(LoginActivity.this,
-        (String) getText(R.string.connect_success), () -> {
-          MainActivity.startMain(LoginActivity.this);
-        });
+        (String) getText(R.string.connect_success), () -> MainActivity.startMain(LoginActivity.this));
   }
 
-  @Override public void connectionFailed(String e) {
+  @Override public void connectionFailed(Result result) {
     SimpleHUD.dismiss();
-    SimpleHUD.showErrorMessage(LoginActivity.this, getText(R.string.connect_fail) + e);
+    SimpleHUD.showErrorMessage(LoginActivity.this, getText(R.string.connect_fail) + result.getMsg());
   }
 }

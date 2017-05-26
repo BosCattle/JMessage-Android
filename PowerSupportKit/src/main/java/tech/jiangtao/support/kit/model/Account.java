@@ -1,4 +1,4 @@
-package tech.jiangtao.support.kit;
+package tech.jiangtao.support.kit.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

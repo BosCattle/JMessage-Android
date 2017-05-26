@@ -10,6 +10,8 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 import com.google.gson.Gson;
+import java.util.ArrayList;
+import java.util.Set;
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
 
@@ -57,8 +59,10 @@ import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.AddRosterEvent;
 import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
 import tech.jiangtao.support.kit.eventbus.FriendRequest;
-import tech.jiangtao.support.kit.eventbus.LoginCallbackEvent;
-import tech.jiangtao.support.kit.eventbus.LoginParam;
+import tech.jiangtao.support.kit.eventbus.IMContactRequestModel;
+import tech.jiangtao.support.kit.eventbus.IMContactResponseCollection;
+import tech.jiangtao.support.kit.eventbus.IMLoginRequestModel;
+import tech.jiangtao.support.kit.eventbus.IMLoginResponseModel;
 import tech.jiangtao.support.kit.eventbus.NotificationConnection;
 import tech.jiangtao.support.kit.eventbus.QueryUser;
 import tech.jiangtao.support.kit.eventbus.QueryUserResult;
@@ -69,7 +73,9 @@ import tech.jiangtao.support.kit.eventbus.RegisterResult;
 import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.SupportIM;
+import tech.jiangtao.support.kit.model.Result;
 import tech.jiangtao.support.kit.model.User;
+import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
@@ -95,7 +101,6 @@ public class SupportService extends Service
   private AccountServiceApi mAccountServiceApi;
   private UserServiceApi mUserServiceApi;
   private OfflineMessageManager mOfflineMessageManager;
-
 
   @Override public void onCreate() {
     super.onCreate();
@@ -160,8 +165,9 @@ public class SupportService extends Service
             dataExtensionType = DataExtensionType.TEXT;
           }
           HermesEventBus.getDefault()
-              .post(new RecieveMessage(message.getStanzaId(), message.getType(), messageBody.getMsgSender(),
-                  message.getTo(), chat1.getThreadID(), messageBody.getMessage(), dataExtensionType,
+              .post(new RecieveMessage(message.getStanzaId(), message.getType(),
+                  messageBody.getMsgSender(), message.getTo(), chat1.getThreadID(),
+                  messageBody.getMessage(), dataExtensionType,
                   MessageExtensionType.valueOf(messageBody.getChatType()), false,
                   MessageAuthor.FRIEND, message.getFrom()));
         } else if (messageBody.getChatType().equals(MessageExtensionType.PUSH.toString())) {
@@ -204,21 +210,23 @@ public class SupportService extends Service
       LogUtils.d(TAG, "sendMessage: 打印出别人的jid为:" + s.getTo());
       String userJid = null;
       final AppPreferences appPreferences = new AppPreferences(getContext());
-      tech.jiangtao.support.kit.model.jackson.Message message1 = gson.fromJson(s.getBody(),
-          tech.jiangtao.support.kit.model.jackson.Message.class);
+      tech.jiangtao.support.kit.model.jackson.Message message1 =
+          gson.fromJson(s.getBody(), tech.jiangtao.support.kit.model.jackson.Message.class);
       try {
         userJid = StringSplitUtil.splitDivider(appPreferences.getString(SupportIM.USER_ID));
         if (s.getBody() != null) {
           if (message.getChatType().equals(MessageExtensionType.CHAT.toString())) {
             HermesEventBus.getDefault()
                 .postSticky(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
-                    chat.getThreadID(), message1.message, DataExtensionType.fromValue(message.getType()),
+                    chat.getThreadID(), message1.message,
+                    DataExtensionType.fromValue(message.getType()),
                     MessageExtensionType.fromValue(message.getChatType()), false, MessageAuthor.OWN,
                     null));
           } else if (message.getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())) {
             HermesEventBus.getDefault()
                 .postSticky(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
-                    chat.getThreadID(), message1.message, DataExtensionType.fromValue(message.getType()),
+                    chat.getThreadID(), message1.message,
+                    DataExtensionType.fromValue(message.getType()),
                     MessageExtensionType.fromValue(message.getChatType()), false, MessageAuthor.OWN,
                     s.getTo()));
           }
@@ -234,7 +242,7 @@ public class SupportService extends Service
     });
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN) public void loginEvent(LoginParam param) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void loginEvent(IMLoginRequestModel param) {
     LogUtils.d(TAG, "loginEvent: 进入登录");
     login(param.username, param.password);
   }
@@ -296,41 +304,33 @@ public class SupportService extends Service
       LogUtils.d(TAG, "login: 登录成功");
       // 保存用户jid,获取用户数据，保存到mAppPreferences
       mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
-      mAppPreferences.put(SupportIM.USER_ID, username+"@"+SupportIM.mDomain);
+      mAppPreferences.put(SupportIM.USER_ID, username + "@" + SupportIM.mDomain);
       mAppPreferences.put(SupportIM.USER_NAME, username);
       mAppPreferences.put(SupportIM.USER_REAL_NAME, username);
       mAppPreferences.put(SupportIM.USER_PASSWORD, password);
       Gson gsonNormal = new Gson();
       User userNormal = new User();
       userNormal.setNickName(username);
-      userNormal.setUserId(username+"@"+SupportIM.mDomain);
+      userNormal.setUserId(username + "@" + SupportIM.mDomain);
       String valueNormal = gsonNormal.toJson(userNormal);
       mAppPreferences.put(SupportIM.USER, valueNormal);
       mUserServiceApi.selfAccount(StringSplitUtil.userJid(username))
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(user -> {
-            mAppPreferences.put(SupportIM.USER_ID, user.userId);
-            mAppPreferences.put(SupportIM.USER_NAME, user.nickName);
-            mAppPreferences.put(SupportIM.USER_REAL_NAME, username);
-            mAppPreferences.put(SupportIM.USER_PASSWORD, password);
-            Gson gson = new Gson();
-            String value = gson.toJson(user);
-            mAppPreferences.put(SupportIM.USER, value);
-            HermesEventBus.getDefault().postSticky(new LoginCallbackEvent("登录成功", null));
-          }, new ErrorAction() {
+          .subscribe(user -> HermesEventBus.getDefault().postSticky(new IMLoginResponseModel(user, null)), new ErrorAction() {
             @Override public void call(Throwable throwable) {
               super.call(throwable);
               LogUtils.d(TAG, "call: 登录失败" + throwable);
-              HermesEventBus.getDefault()
-                  .postSticky(new LoginCallbackEvent(null, throwable.getMessage()));
+              Result result = new Result(401, throwable.getMessage());
+              HermesEventBus.getDefault().postSticky(new IMLoginResponseModel(null, result));
             }
           });
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
         super.call(throwable);
         LogUtils.d(TAG, "call: 登录失败" + throwable);
-        HermesEventBus.getDefault().post(new LoginCallbackEvent(null, throwable.getMessage()));
+        Result result = new Result(401, throwable.getMessage());
+        HermesEventBus.getDefault().postSticky(new IMLoginResponseModel(null, result));
       }
     });
   }
@@ -354,7 +354,7 @@ public class SupportService extends Service
 
   @Override public void authenticated(XMPPConnection connection, boolean resumed) {
     mXMPPConnection = (XMPPTCPConnection) connection;
-    HermesEventBus.getDefault().postSticky(new LoginCallbackEvent("登录成功", null));
+    //HermesEventBus.getDefault().postSticky(new IMLoginResponseModel("登录成功", null));
     connectSuccessPerform();
   }
 
@@ -470,17 +470,14 @@ public class SupportService extends Service
   }
 
   /**
-   *  roster添加了用户
-   * @param addresses
+   * roster添加了用户
    */
   @Override public void entriesAdded(Collection<String> addresses) {
     LogUtils.d(TAG, "entriesAdded: 好友添加成功");
-
   }
 
   /**
    * roster中用户更新信息
-   * @param addresses
    */
   @Override public void entriesUpdated(Collection<String> addresses) {
     LogUtils.d(TAG, "entriesUpdated: 好友更新成功");
@@ -488,7 +485,6 @@ public class SupportService extends Service
 
   /**
    * roster中有好友被删除
-   * @param addresses
    */
   @Override public void entriesDeleted(Collection<String> addresses) {
     LogUtils.d(TAG, "entriesDeleted: 好友删除成功");
@@ -496,7 +492,6 @@ public class SupportService extends Service
 
   /**
    * 状态改变
-   * @param presence
    */
   @Override public void presenceChanged(Presence presence) {
     if (presence.getType().equals(Presence.Type.available)) {
@@ -598,6 +593,51 @@ public class SupportService extends Service
         .subscribe(rosterEntry -> {
           //删除成功
           HermesEventBus.getDefault().post(new DeleteVCardRealm(user.jid));
+        });
+  }
+
+  /**
+   * 获取所有的好友,有点唐突
+   */
+  @Subscribe(threadMode = ThreadMode.MAIN) public void contactCollection(
+      IMContactRequestModel model) {
+    mRoster = Roster.getInstanceFor(mXMPPConnection);
+    Observable.create((Observable.OnSubscribe<Set<RosterEntry>>) subscriber -> {
+      subscriber.onNext(mRoster.getEntries());
+    })
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(rosterEntries -> {
+          List<ContactRealm> models = new ArrayList<>();
+          for (RosterEntry entry : rosterEntries) {
+            Observable.create((Observable.OnSubscribe<VCard>) subscriber -> {
+              if (mVCardManager == null) {
+                mVCardManager = VCardManager.getInstanceFor(mXMPPConnection);
+              }
+              try {
+                subscriber.onNext(mVCardManager.loadVCard(entry.getUser()));
+              } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
+                e.printStackTrace();
+                subscriber.onError(e);
+              }
+            })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(vCard -> {
+                   ContactRealm account = new ContactRealm();
+                   account.setAvatar(vCard.getField("AVATAR"));
+                   account.setNickName(vCard.getField("NICKNAME"));
+                   account.setSex(!vCard.getField("SEX").equals("男"));
+                   account.setSignature(vCard.getField("SIGNATURE"));
+                   account.setUserId(entry.getUser());
+                   models.add(account);
+                }, new ErrorAction() {
+                  @Override public void call(Throwable throwable) {
+                    super.call(throwable);
+                  }
+                });
+            HermesEventBus.getDefault().postSticky(new IMContactResponseCollection(models));
+          }
         });
   }
 

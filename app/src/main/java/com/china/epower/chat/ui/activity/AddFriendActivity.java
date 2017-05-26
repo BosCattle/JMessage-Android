@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import butterknife.BindView;
+import com.china.epower.chat.R;
 import tech.jiangtao.support.ui.fragment.SearchUserFragment;
 
 /**

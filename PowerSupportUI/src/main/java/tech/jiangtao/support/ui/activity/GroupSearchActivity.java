@@ -25,7 +25,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import tech.jiangtao.support.kit.userdata.SimpleCGroup;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.StringUtils;
 import tech.jiangtao.support.ui.R;
@@ -114,8 +113,8 @@ public class GroupSearchActivity extends BaseActivity implements SearchView.OnQu
               @Override
               public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                 Groups groups = mGroups.get(position);
-                SimpleCGroup mSimpleCGroup = new SimpleCGroup();
-                mSimpleCGroup.startGroupRequest(groups.groupUid, groups.roomName);
+                //SimpleCGroup mSimpleCGroup = new SimpleCGroup();
+                //mSimpleCGroup.startGroupRequest(groups.groupUid, groups.roomName);
               }
             })
             .show();

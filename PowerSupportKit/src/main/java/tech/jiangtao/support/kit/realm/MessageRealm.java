@@ -19,6 +19,14 @@ import java.sql.Date;
  * 1969-07-21T02:56:15Z
  **/
 
+/**
+ * Class: MessageRealm </br>
+ * Description:  </br>
+ * Creator: kevin </br>
+ * Email: jiangtao103cp@gmail.com </br>
+ * Date: 27/05/2017 02:51</br>
+ * Update: 27/05/2017 02:51 </br>
+ **/
 public class MessageRealm extends RealmObject implements Parcelable {
 
   @PrimaryKey

@@ -13,7 +13,6 @@ import butterknife.OnClick;
 
 import com.china.epower.chat.R;
 import com.china.epower.chat.model.type.ListDataType;
-import com.china.epower.chat.ui.activity.LoginActivity;
 import com.china.epower.chat.ui.activity.PersonalDetailActivity;
 import com.china.epower.chat.ui.adapter.EasyViewHolder;
 import com.china.epower.chat.ui.adapter.PersonalDataAdapter;
@@ -21,6 +20,7 @@ import com.china.epower.chat.ui.pattern.ConstructListData;
 import com.china.epower.chat.utils.RecyclerViewUtils;
 
 import tech.jiangtao.support.kit.eventbus.ReceiveLastMessage;
+import tech.jiangtao.support.kit.manager.IMAccountManager;
 import tech.jiangtao.support.ui.utils.ResourceAddress;
 import com.google.gson.Gson;
 import net.grandcentrix.tray.AppPreferences;
@@ -29,12 +29,11 @@ import net.grandcentrix.tray.core.ItemNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.jiangtao.support.kit.callback.DisconnectCallBack;
+import tech.jiangtao.support.kit.callback.IMDisconnectCallBack;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.ui.fragment.BaseFragment;
 import tech.jiangtao.support.kit.model.User;
 import tech.jiangtao.support.kit.model.type.TransportType;
-import tech.jiangtao.support.kit.service.XMPPService;
 
 /**
  * Class: PersonalFragment </br>
@@ -60,6 +59,7 @@ public class PersonalFragment extends BaseFragment implements EasyViewHolder.OnI
   private List<ConstructListData> mData = new ArrayList<>();
   private User mUser;
   private AppPreferences mAppPreferences;
+  private IMAccountManager mImAccountManager;
 
   public static PersonalFragment newInstance() {
     return new PersonalFragment();
@@ -73,6 +73,7 @@ public class PersonalFragment extends BaseFragment implements EasyViewHolder.OnI
       Bundle savedInstanceState) {
     super.onCreateView(inflater, container, savedInstanceState);
     mAppPreferences = new AppPreferences(getContext());
+    mImAccountManager = new IMAccountManager(getContext());
     try {
       Gson gson = new Gson();
       mUser = gson.fromJson(mAppPreferences.getString(SupportIM.USER), User.class);
@@ -151,8 +152,7 @@ public class PersonalFragment extends BaseFragment implements EasyViewHolder.OnI
 
   //点击发送回调退出
   @OnClick(R.id.login_button) public void onClick(View v) {
-    XMPPService.disConnect(() -> LoginActivity.startLogin(getActivity()));
-    XMPPService.disConnect(new DisconnectCallBack() {
+    mImAccountManager.disConnect(new IMDisconnectCallBack() {
       @Override public void disconnectFinish() {
 
       }

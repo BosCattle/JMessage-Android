@@ -5,7 +5,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-
+/**
+ * Class: SessionRealm </br>
+ * Description:  </br>
+ * Creator: kevin </br>
+ * Email: jiangtao103cp@gmail.com </br>
+ * Date: 27/05/2017 02:50</br>
+ * Update: 27/05/2017 02:50 </br>
+ **/
+// TODO: 27/05/2017 添加会话的用户,群组，类型
 public class SessionRealm extends RealmObject implements Parcelable {
 
     // 回话id
@@ -19,6 +27,28 @@ public class SessionRealm extends RealmObject implements Parcelable {
     public int unReadCount;
     // 消息类型，单聊---群聊
     public int messageType;
+    // 用户信息
+    public ContactRealm contactRealm;
+    // 群组信息
+    public GroupRealm groupRealm;
+
+
+
+  public ContactRealm getContactRealm() {
+    return contactRealm;
+  }
+
+  public void setContactRealm(ContactRealm contactRealm) {
+    this.contactRealm = contactRealm;
+  }
+
+  public GroupRealm getGroupRealm() {
+    return groupRealm;
+  }
+
+  public void setGroupRealm(GroupRealm groupRealm) {
+    this.groupRealm = groupRealm;
+  }
 
   public int getMessageType() {
     return messageType;
@@ -73,6 +103,8 @@ public class SessionRealm extends RealmObject implements Parcelable {
     dest.writeString(this.messageId);
     dest.writeInt(this.unReadCount);
     dest.writeInt(this.messageType);
+    dest.writeParcelable(this.contactRealm, flags);
+    dest.writeParcelable(this.groupRealm, flags);
   }
 
   protected SessionRealm(Parcel in) {
@@ -81,6 +113,8 @@ public class SessionRealm extends RealmObject implements Parcelable {
     this.messageId = in.readString();
     this.unReadCount = in.readInt();
     this.messageType = in.readInt();
+    this.contactRealm = in.readParcelable(ContactRealm.class.getClassLoader());
+    this.groupRealm = in.readParcelable(GroupRealm.class.getClassLoader());
   }
 
   public static final Creator<SessionRealm> CREATOR = new Creator<SessionRealm>() {

@@ -26,34 +26,23 @@ import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
-import io.realm.Realm;
-import io.realm.RealmQuery;
 import io.realm.RealmResults;
-import net.grandcentrix.tray.AppPreferences;
-import net.grandcentrix.tray.core.ItemNotFoundException;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.annotation.ChatRouter;
 import tech.jiangtao.support.kit.annotation.GroupsRouter;
 import tech.jiangtao.support.kit.annotation.InvitedRouter;
-import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
+import tech.jiangtao.support.kit.callback.IMListenerCollection;
 import tech.jiangtao.support.kit.SupportIM;
+import tech.jiangtao.support.kit.manager.IMContactManager;
 import tech.jiangtao.support.kit.realm.ContactRealm;
-import tech.jiangtao.support.kit.util.ContactComparator;
-import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.PinYinUtils;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ContactAdapter;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
-import tech.jiangtao.support.kit.api.ApiService;
-import tech.jiangtao.support.kit.api.service.UserServiceApi;
-import tech.jiangtao.support.kit.model.User;
 import tech.jiangtao.support.kit.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
  * Class: ContactFragment </br>
@@ -65,7 +54,7 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  **/
 public class ContactFragment extends BaseFragment
     implements EasyViewHolder.OnItemClickListener, EasyViewHolder.OnItemLongClickListener,
-    EasyViewHolder.OnItemLeftScrollListener, SwipeRefreshLayout.OnRefreshListener {
+    EasyViewHolder.OnItemLeftScrollListener, SwipeRefreshLayout.OnRefreshListener,IMListenerCollection.IMRealmChangeListener<ContactRealm> {
 
   @BindView(R2.id.contact_list) RecyclerView mContactList;
   @BindView(R2.id.sidebar) SideBar mSideBar;
@@ -74,10 +63,6 @@ public class ContactFragment extends BaseFragment
   public static final String TAG = ContactFragment.class.getSimpleName();
   private ContactAdapter mBaseEasyAdapter;
   private List<ConstrutContact> mConstrutContact;
-  private Realm mRealm;
-  private AppPreferences mAppPreferences;
-  private User mSelfUser;
-  private UserServiceApi mUserServiceApi;
   private Class mGroupClazz;
   private Class mInvitedClass;
   private Class mChatClass;
@@ -96,66 +81,8 @@ public class ContactFragment extends BaseFragment
   }
 
   private void pullDatas() {
-    mAppPreferences = new AppPreferences(getContext());
-    if (mRealm == null || mRealm.isClosed()) {
-      mRealm = Realm.getDefaultInstance();
-    }
-    // 获取自己的信息
-    try {
-      String userGson = mAppPreferences.getString(SupportIM.USER);
-      mSelfUser = new Gson().fromJson(userGson, User.class);
-    } catch (ItemNotFoundException e) {
-      e.printStackTrace();
-    }
-    getContact();
-    mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
-    if (mSelfUser!=null&&mSelfUser.userId!=null) {
-      mUserServiceApi.queryUserFriends(mSelfUser.userId)
-          .subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(messageRealm -> {
-            // 1. 填充好友信息到界面
-            mConstrutContact.clear();
-            mBaseEasyAdapter.clear();
-            buildHeadView();
-            Collections.sort(messageRealm, new ContactComparator());
-            for (int i = 0; i < messageRealm.size(); i++) {
-              if (messageRealm.get(i) != null && messageRealm.get(i).getNickName() != null) {
-                if (i == 0) {
-                  mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
-                      .title(PinYinUtils.getPinyinFirstLetter(
-                          PinYinUtils.ccs2Pinyin(messageRealm.get(i).getNickName())))
-                      .build());
-                }
-                if (i > 0) {
-                  if (messageRealm.get(i - 1).getNickName() != null && !(PinYinUtils.getPinyinFirstLetter(messageRealm.get(i - 1).getNickName())
-                      .equals(PinYinUtils.getPinyinFirstLetter(messageRealm.get(i).getNickName())))) {
-                    mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
-                        .title(PinYinUtils.getPinyinFirstLetter(
-                            PinYinUtils.ccs2Pinyin(messageRealm.get(i).getNickName())))
-                        .build());
-                  }
-                }
-              }
-              mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL)
-                  .contactRealm(messageRealm.get(i))
-                  .build());
-            }
-            mBaseEasyAdapter.notifyDataSetChanged();
-            // -->将数据放到数据库
-            writeToRealm(messageRealm);
-          }, new ErrorAction() {
-            @Override public void call(Throwable throwable) {
-              super.call(throwable);
-              Log.d(TAG, "call: " + throwable.getMessage());
-              // 从数据库中取数据，放到界面上
-            }
-          });
-    }
-  }
-
-  public void writeToRealm(List<ContactRealm> contactRealms) {
-    mRealm.executeTransaction(realm -> realm.copyToRealmOrUpdate(contactRealms));
+    IMContactManager.geInstance().readContacts(this);
+    IMContactManager.geInstance().readContactsFromHttp(getContext(),this);
   }
 
   private void setRefresh() {
@@ -188,44 +115,6 @@ public class ContactFragment extends BaseFragment
     pullDatas();
   }
 
-  private void getContact() {
-    mRealm.executeTransaction(realm -> {
-      mConstrutContact.clear();
-      mBaseEasyAdapter.clear();
-      buildHeadView();
-      RealmQuery<ContactRealm> realmQuery = realm.where(ContactRealm.class);
-      // 查询,根据nickName进行排序
-      RealmResults<ContactRealm> contactRealms = realmQuery.findAllSorted(SupportIM.PINYIN);
-      if (contactRealms.size() != 0) {
-        //Collections.sort(contactRealms, new ContactComparator());
-        for (int i = 0; i < contactRealms.size(); i++) {
-          if (contactRealms.get(i) != null && contactRealms.get(i).getNickName() != null) {
-            if (i == 0) {
-              mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
-                  .title(PinYinUtils.getPinyinFirstLetter(
-                      PinYinUtils.ccs2Pinyin(contactRealms.get(i).getNickName())))
-                  .build());
-            }
-            if (i > 0) {
-              if (contactRealms.get(i - 1).getNickName() != null
-                  && !(PinYinUtils.getPinyinFirstLetter(contactRealms.get(i - 1).getNickName())
-                  .equals(PinYinUtils.getPinyinFirstLetter(contactRealms.get(i).getNickName())))) {
-                mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
-                    .title(PinYinUtils.getPinyinFirstLetter(
-                        PinYinUtils.ccs2Pinyin(contactRealms.get(i).getNickName())))
-                    .build());
-              }
-            }
-          }
-          mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL)
-              .contactRealm(contactRealms.get(i))
-              .build());
-        }
-      }
-      mBaseEasyAdapter.notifyDataSetChanged();
-    });
-  }
-
   public void buildSideBar() {
     mSideBar.setBubble(mUiViewBuddle);
     List<String> list = Arrays.asList(SideBar.b);
@@ -243,7 +132,7 @@ public class ContactFragment extends BaseFragment
 
   @Override public void onDestroyView() {
     super.onDestroyView();
-    mRealm.close();
+    IMContactManager.geInstance().destory();
   }
 
   public void buildHeadView() {
@@ -296,21 +185,20 @@ public class ContactFragment extends BaseFragment
     LogUtils.d(TAG, "onItemLongClick: ");
     ConstrutContact construtContact = mConstrutContact.get(position);
     if (position >= 2) {
-      deleteFriends((construtContact.mContactRealm).getUserId(),
-          (construtContact.mContactRealm).getNickName());
+      deleteFriends(construtContact.mContactRealm);
     }
     return false;
   }
 
-  @Deprecated public void deleteFriends(String userjid, String username) {
+  public void deleteFriends(ContactRealm contactRealm) {
     final CleanDialog dialog = new CleanDialog.Builder(getContext()).iconFlag(IconFlag.WARN)
         .negativeButton("取消", Dialog::dismiss)
         .positiveButton("删除", dialog1 -> {
           //删除用户,远程删除用户，成功后，从会话中列表中，删除用户
-          HermesEventBus.getDefault().post(new RosterEntryBus(userjid));
+          IMContactManager.geInstance().deleteSingleIMContactRealm(contactRealm,ContactFragment.this);
           dialog1.dismiss();
         })
-        .title("确认删除好友" + username + "吗?")
+        .title("确认删除好友" + contactRealm.getNickName() + "吗?")
         .negativeTextColor(Color.WHITE)
         .positiveTextColor(Color.WHITE)
         .builder();
@@ -327,5 +215,38 @@ public class ContactFragment extends BaseFragment
         mSwipeRefreshLayout.setRefreshing(false);
       }
     }, 3000);
+  }
+
+  @Override public void change(RealmResults<ContactRealm> contactRealms) {
+    mConstrutContact.clear();
+    mBaseEasyAdapter.clear();
+    buildHeadView();
+    if (contactRealms.size() != 0) {
+      //Collections.sort(contactRealms, new ContactComparator());
+      for (int i = 0; i < contactRealms.size(); i++) {
+        if (contactRealms.get(i) != null && contactRealms.get(i).getNickName() != null) {
+          if (i == 0) {
+            mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
+                .title(PinYinUtils.getPinyinFirstLetter(
+                    PinYinUtils.ccs2Pinyin(contactRealms.get(i).getNickName())))
+                .build());
+          }
+          if (i > 0) {
+            if (contactRealms.get(i - 1).getNickName() != null
+                && !(PinYinUtils.getPinyinFirstLetter(contactRealms.get(i - 1).getNickName())
+                .equals(PinYinUtils.getPinyinFirstLetter(contactRealms.get(i).getNickName())))) {
+              mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
+                  .title(PinYinUtils.getPinyinFirstLetter(
+                      PinYinUtils.ccs2Pinyin(contactRealms.get(i).getNickName())))
+                  .build());
+            }
+          }
+        }
+        mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_NORMAL)
+            .contactRealm(contactRealms.get(i))
+            .build());
+      }
+    }
+    mBaseEasyAdapter.notifyDataSetChanged();
   }
 }

@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import java.util.List;
 
 /**
  * Class: GroupRealm </br>
@@ -66,6 +67,9 @@ public class GroupRealm extends RealmObject implements Parcelable {
     this.description = description;
   }
 
+  public GroupRealm() {
+  }
+
   @Override public int describeContents() {
     return 0;
   }
@@ -76,9 +80,6 @@ public class GroupRealm extends RealmObject implements Parcelable {
     dest.writeString(this.name);
     dest.writeString(this.avatar);
     dest.writeString(this.description);
-  }
-
-  public GroupRealm() {
   }
 
   protected GroupRealm(Parcel in) {

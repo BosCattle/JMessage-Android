@@ -31,16 +31,15 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tech.jiangtao.support.kit.R;
+import tech.jiangtao.support.kit.SupportAIDLConnection;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
-import tech.jiangtao.support.kit.callback.CurrentListenerCollection;
-import tech.jiangtao.support.kit.callback.DisconnectCallBack;
 import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
 import tech.jiangtao.support.kit.eventbus.FriendRequest;
 import tech.jiangtao.support.kit.eventbus.ReceiveLastMessage;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
-import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.GroupRealm;
@@ -82,19 +81,11 @@ public class XMPPService extends Service {
   private Class mChatClass;
   private Class mGroupClass;
   private Class mInvitedClass;
-  public static CurrentListenerCollection listenerCollection;
 
   @Override public void onCreate() {
     super.onCreate();
     if (mXMPPBinder == null) {
       mXMPPBinder = new XMPPBinder();
-    }
-    if (listenerCollection==null) {
-      synchronized (this) {
-        if (listenerCollection == null) {
-          listenerCollection = new CurrentListenerCollection();
-        }
-      }
     }
     PowerManager mPowerManager = (PowerManager) getSystemService(POWER_SERVICE);
     mWakelock = mPowerManager.newWakeLock(
@@ -365,15 +356,6 @@ public class XMPPService extends Service {
     });
   }
 
-  public static void disConnect(DisconnectCallBack callBack) {
-    HermesEventBus.getDefault().post(new UnRegisterEvent());
-    Realm realms = Realm.getDefaultInstance();
-    realms.executeTransactionAsync(realm -> {
-      realm.deleteAll();
-      callBack.disconnectFinish();
-    });
-  }
-
   /**
    * 保证连接的代码
    */
@@ -396,10 +378,6 @@ public class XMPPService extends Service {
 
     @Override public String getServiceName() throws RemoteException {
       return "XMPPService的服务";
-    }
-
-    @Override public void listen(ServiceListener listener) throws RemoteException {
-
     }
   }
   
