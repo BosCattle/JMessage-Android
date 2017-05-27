@@ -8,21 +8,16 @@ import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.google.gson.Gson;
 import com.kevin.library.widget.CleanDialog;
 import com.kevin.library.widget.SideBar;
 import com.kevin.library.widget.builder.IconFlag;
-
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,6 +27,7 @@ import tech.jiangtao.support.kit.annotation.GroupsRouter;
 import tech.jiangtao.support.kit.annotation.InvitedRouter;
 import tech.jiangtao.support.kit.callback.IMListenerCollection;
 import tech.jiangtao.support.kit.SupportIM;
+import tech.jiangtao.support.kit.eventbus.IMDeleteContactResponseModel;
 import tech.jiangtao.support.kit.manager.IMContactManager;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.util.LogUtils;
@@ -43,6 +39,7 @@ import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.kit.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
+import work.wanghao.simplehud.SimpleHUD;
 
 /**
  * Class: ContactFragment </br>
@@ -54,7 +51,8 @@ import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
  **/
 public class ContactFragment extends BaseFragment
     implements EasyViewHolder.OnItemClickListener, EasyViewHolder.OnItemLongClickListener,
-    EasyViewHolder.OnItemLeftScrollListener, SwipeRefreshLayout.OnRefreshListener,IMListenerCollection.IMRealmChangeListener<ContactRealm> {
+    EasyViewHolder.OnItemLeftScrollListener, SwipeRefreshLayout.OnRefreshListener,
+    IMListenerCollection.IMRealmChangeListener<ContactRealm> {
 
   @BindView(R2.id.contact_list) RecyclerView mContactList;
   @BindView(R2.id.sidebar) SideBar mSideBar;
@@ -82,7 +80,8 @@ public class ContactFragment extends BaseFragment
 
   private void pullDatas() {
     IMContactManager.geInstance().readContacts(this);
-    IMContactManager.geInstance().readContactsFromHttp(getContext(),this);
+    // TODO: 27/05/2017 待优化,检查一下，不是每次都需要
+    IMContactManager.geInstance().readContactsFromXMPP( this);
   }
 
   private void setRefresh() {
@@ -195,8 +194,20 @@ public class ContactFragment extends BaseFragment
         .negativeButton("取消", Dialog::dismiss)
         .positiveButton("删除", dialog1 -> {
           //删除用户,远程删除用户，成功后，从会话中列表中，删除用户
-          IMContactManager.geInstance().deleteSingleIMContactRealm(contactRealm,ContactFragment.this);
-          dialog1.dismiss();
+          IMContactManager.geInstance()
+              .deleteSingleIMContactRealm(contactRealm, ContactFragment.this,
+                  new IMListenerCollection.IMDeleteContactListener<ContactRealm>() {
+                    @Override public void deleteContactSuccess(IMDeleteContactResponseModel model) {
+                      dialog1.dismiss();
+                      SimpleHUD.showSuccessMessage(getContext(), "删除成功...");
+                    }
+
+                    @Override public void deleteContactFailed(IMDeleteContactResponseModel model) {
+                      dialog1.dismiss();
+                      SimpleHUD.showErrorMessage(getContext(),
+                          "删除失败,错误码" + model.result.getCode() + " 错误详情:" + model.result.getMsg());
+                    }
+                  });
         })
         .title("确认删除好友" + contactRealm.getNickName() + "吗?")
         .negativeTextColor(Color.WHITE)
@@ -217,12 +228,11 @@ public class ContactFragment extends BaseFragment
     }, 3000);
   }
 
-  @Override public void change(RealmResults<ContactRealm> contactRealms) {
+  @Override public void change(List<ContactRealm> contactRealms) {
     mConstrutContact.clear();
     mBaseEasyAdapter.clear();
     buildHeadView();
     if (contactRealms.size() != 0) {
-      //Collections.sort(contactRealms, new ContactComparator());
       for (int i = 0; i < contactRealms.size(); i++) {
         if (contactRealms.get(i) != null && contactRealms.get(i).getNickName() != null) {
           if (i == 0) {

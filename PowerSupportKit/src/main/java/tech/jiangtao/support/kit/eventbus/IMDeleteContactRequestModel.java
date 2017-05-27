@@ -1,7 +1,7 @@
 package tech.jiangtao.support.kit.eventbus;
 
 /**
- * Class: RosterEntryBus </br>
+ * Class: IMDeleteContactRequestModel </br>
  * Description: 通讯录事件，用于删除好友 </br>
  * Creator: kevin </br>
  * Email: jiangtao103cp@gmail.com </br>
@@ -9,10 +9,10 @@ package tech.jiangtao.support.kit.eventbus;
  * Update: 06/01/2017 6:24 PM </br>
  **/
 
-public class RosterEntryBus {
-  public String jid;
+public class IMDeleteContactRequestModel {
+  public String userId;
 
-  public RosterEntryBus(String jid){
-    this.jid = jid;
+  public IMDeleteContactRequestModel(String userId){
+    this.userId = userId;
   }
 }

@@ -17,11 +17,14 @@ import tech.jiangtao.support.kit.api.service.UserServiceApi;
 import tech.jiangtao.support.kit.callback.IMListenerCollection;
 import tech.jiangtao.support.kit.eventbus.IMContactRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMContactResponseCollection;
-import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
+import tech.jiangtao.support.kit.eventbus.IMDeleteContactRequestModel;
+import tech.jiangtao.support.kit.eventbus.IMDeleteContactResponseModel;
 import tech.jiangtao.support.kit.model.Account;
 import tech.jiangtao.support.kit.realm.ContactRealm;
+import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.kit.util.ContactComparator;
 import tech.jiangtao.support.kit.util.ErrorAction;
+import tech.jiangtao.support.kit.util.LogUtils;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -38,11 +41,17 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 // TODO: 27/05/2017 读通讯到UI
 public class IMContactManager {
 
+  public static final String TAG = IMContactManager.class.getCanonicalName();
+
   private Realm mRealm;
   private UserServiceApi mUserServiceApi;
   private IMListenerCollection.IMRealmChangeListener<ContactRealm> mRealmIMRealmChangeListener;
+  private IMListenerCollection.IMDeleteContactListener<ContactRealm> mIMDeleteContactListener;
 
   private IMContactManager() {
+    if (!HermesEventBus.getDefault().isRegistered(this)) {
+      HermesEventBus.getDefault().register(this);
+    }
   }
 
   public static IMContactManager geInstance() {
@@ -56,7 +65,8 @@ public class IMContactManager {
   /**
    * 获取通讯录信息
    */
-  public void readContacts(IMListenerCollection.IMRealmChangeListener<ContactRealm> realmIMRealmChangeListener) {
+  public void readContacts(
+      IMListenerCollection.IMRealmChangeListener<ContactRealm> realmIMRealmChangeListener) {
     if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
@@ -99,7 +109,8 @@ public class IMContactManager {
   /**
    * 通过XMPP获取通讯录信息
    */
-  public void readContactsFromXMPP(IMListenerCollection.IMRealmChangeListener<ContactRealm> realmIMRealmChangeListener) {
+  public void readContactsFromXMPP(
+      IMListenerCollection.IMRealmChangeListener<ContactRealm> realmIMRealmChangeListener) {
     if (!HermesEventBus.getDefault().isRegistered(this)) {
       HermesEventBus.getDefault().register(this);
     }
@@ -109,12 +120,13 @@ public class IMContactManager {
 
   /**
    * 通过xmpp获取通讯录的回调
+   *
    */
   @Subscribe(threadMode = ThreadMode.MAIN) public void receiveContactFromProcess(
       IMContactResponseCollection contactResponseCollection) {
-    mRealmIMRealmChangeListener.change(
-        (RealmResults<ContactRealm>) contactResponseCollection.getModels());
-    writeToRealm(contactResponseCollection.getModels());
+    if (contactResponseCollection.getModels()!=null) {
+      updateSingleIMContactRealm(contactResponseCollection.getModels(), mRealmIMRealmChangeListener);
+    }
   }
 
   /**
@@ -124,15 +136,8 @@ public class IMContactManager {
     if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
+    LogUtils.d(TAG,"写数据");
     mRealm.executeTransaction(realm -> realm.copyToRealmOrUpdate(contactRealms));
-  }
-
-  /**
-   * 存储单个用户到数据库中
-   */
-  public void restoreSingleIMContactRealm(ContactRealm contactRealm,
-      IMListenerCollection.IMRealmChangeListener<ContactRealm> realmIMRealmChangeListener) {
-    readContacts(realmIMRealmChangeListener);
   }
 
   /**
@@ -140,25 +145,59 @@ public class IMContactManager {
    */
   public void updateSingleIMContactRealm(ContactRealm contactRealm,
       IMListenerCollection.IMRealmChangeListener<ContactRealm> realmIMRealmChangeListener) {
-    readContacts(realmIMRealmChangeListener);
+    if (mRealm == null || mRealm.isClosed()) {
+      mRealm = Realm.getDefaultInstance();
+    }
+    mRealm.executeTransactionAsync(realm -> {
+      realm.copyToRealmOrUpdate(contactRealm);
+    }, () -> readContacts(realmIMRealmChangeListener));
   }
 
   /**
    * 删除一条数据
-   * @param contactRealm
-   * @param realmIMRealmChangeListener
    */
   public void deleteSingleIMContactRealm(ContactRealm contactRealm,
-      IMListenerCollection.IMRealmChangeListener<ContactRealm> realmIMRealmChangeListener) {
-    HermesEventBus.getDefault().post(new RosterEntryBus(contactRealm.getUserId()));
-    readContacts(realmIMRealmChangeListener);
+      IMListenerCollection.IMRealmChangeListener<ContactRealm> realmIMRealmChangeListener,
+      IMListenerCollection.IMDeleteContactListener<ContactRealm> deleteContactListener) {
+    mRealmIMRealmChangeListener = realmIMRealmChangeListener;
+    mIMDeleteContactListener = deleteContactListener;
+    LogUtils.d(TAG, contactRealm.getUserId());
+    HermesEventBus.getDefault().post(new IMDeleteContactRequestModel(contactRealm.getUserId()));
+  }
+
+  /**
+   * XMPP删除Contact成功的回调，删除成功后将本地数据库一起删除
+   */
+  @Subscribe(threadMode = ThreadMode.MAIN) public void deleteContactFromXMPP(
+      IMDeleteContactResponseModel deleteContactResponseModel) {
+    if (mRealm == null || mRealm.isClosed()) {
+      mRealm = Realm.getDefaultInstance();
+    }
+    LogUtils.d(TAG, deleteContactResponseModel.userId + "   " + deleteContactResponseModel.result);
+    mIMDeleteContactListener.deleteContactSuccess(deleteContactResponseModel);
+    if (deleteContactResponseModel.userId != null) {
+      RealmResults<ContactRealm> realms = mRealm.where(ContactRealm.class)
+          .equalTo("userId", deleteContactResponseModel.userId)
+          .findAll();
+      RealmResults<SessionRealm> messageResult = mRealm.where(SessionRealm.class)
+          .equalTo(SupportIM.SENDERFRIENDID, deleteContactResponseModel.userId)
+          .findAll();
+      mRealm.executeTransactionAsync(realm -> {
+        realms.deleteAllFromRealm();
+        if (messageResult.size() != 0) {
+          messageResult.deleteAllFromRealm();
+        }
+      }, () -> readContacts(mRealmIMRealmChangeListener));
+    } else {
+      mIMDeleteContactListener.deleteContactFailed(deleteContactResponseModel);
+    }
   }
 
   /**
    * 删除表
-   * @param realmIMRealmChangeListener
    */
-  public void deleteAllIMContactRealm(IMListenerCollection.IMRealmChangeListener<ContactRealm> realmIMRealmChangeListener){
+  public void deleteAllIMContactRealm(
+      IMListenerCollection.IMRealmChangeListener<ContactRealm> realmIMRealmChangeListener) {
     if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
@@ -169,8 +208,11 @@ public class IMContactManager {
   /**
    * 销毁mRealm
    */
-  public void destory(){
+  public void destory() {
     mRealm.close();
     mRealm = null;
+    if (HermesEventBus.getDefault().isRegistered(this)) {
+      HermesEventBus.getDefault().unregister(this);
+    }
   }
 }

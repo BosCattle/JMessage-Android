@@ -11,6 +11,7 @@ import android.os.RemoteException;
 import android.util.Log;
 import com.google.gson.Gson;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Set;
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
@@ -34,6 +35,7 @@ import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.packet.Stanza;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.roster.RosterEntry;
+import org.jivesoftware.smack.roster.RosterGroup;
 import org.jivesoftware.smack.roster.RosterListener;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
@@ -57,12 +59,13 @@ import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.AddRosterEvent;
-import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
+import tech.jiangtao.support.kit.eventbus.IMDeleteContactResponseModel;
 import tech.jiangtao.support.kit.eventbus.FriendRequest;
 import tech.jiangtao.support.kit.eventbus.IMContactRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMContactResponseCollection;
 import tech.jiangtao.support.kit.eventbus.IMLoginRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMLoginResponseModel;
+import tech.jiangtao.support.kit.eventbus.IMDeleteContactRequestModel;
 import tech.jiangtao.support.kit.eventbus.NotificationConnection;
 import tech.jiangtao.support.kit.eventbus.QueryUser;
 import tech.jiangtao.support.kit.eventbus.QueryUserResult;
@@ -70,7 +73,6 @@ import tech.jiangtao.support.kit.eventbus.RecieveFriend;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.eventbus.RegisterAccount;
 import tech.jiangtao.support.kit.eventbus.RegisterResult;
-import tech.jiangtao.support.kit.eventbus.RosterEntryBus;
 import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.model.Result;
@@ -317,14 +319,16 @@ public class SupportService extends Service
       mUserServiceApi.selfAccount(StringSplitUtil.userJid(username))
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(user -> HermesEventBus.getDefault().postSticky(new IMLoginResponseModel(user, null)), new ErrorAction() {
-            @Override public void call(Throwable throwable) {
-              super.call(throwable);
-              LogUtils.d(TAG, "call: 登录失败" + throwable);
-              Result result = new Result(401, throwable.getMessage());
-              HermesEventBus.getDefault().postSticky(new IMLoginResponseModel(null, result));
-            }
-          });
+          .subscribe(
+              user -> HermesEventBus.getDefault().postSticky(new IMLoginResponseModel(user, null)),
+              new ErrorAction() {
+                @Override public void call(Throwable throwable) {
+                  super.call(throwable);
+                  LogUtils.d(TAG, "call: 登录失败" + throwable);
+                  Result result = new Result(401, throwable.getMessage());
+                  HermesEventBus.getDefault().postSticky(new IMLoginResponseModel(null, result));
+                }
+              });
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
         super.call(throwable);
@@ -572,44 +576,67 @@ public class SupportService extends Service
   /**
    * 删除好友
    *
-   * @param user {@link RosterEntryBus}
+   * @param user {@link IMDeleteContactRequestModel}
    */
-  @Deprecated @Subscribe(threadMode = ThreadMode.MAIN) public void deleteFriends(
-      RosterEntryBus user) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void deleteFriends(
+      IMDeleteContactRequestModel user) {
     mRoster = Roster.getInstanceFor(mXMPPConnection);
-    RosterEntry entry = mRoster.getEntry(user.jid);
-    Observable.create((Observable.OnSubscribe<RosterEntry>) subscriber -> {
-      try {
-        mRoster.removeEntry(entry);
-        subscriber.onNext(entry);
-      } catch (SmackException.NotLoggedInException | SmackException.NoResponseException | SmackException.NotConnectedException | XMPPException.XMPPErrorException e) {
-        e.printStackTrace();
-        subscriber.onError(e);
-        connect(true);
-      }
-    })
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(rosterEntry -> {
-          //删除成功
-          HermesEventBus.getDefault().post(new DeleteVCardRealm(user.jid));
-        });
+    RosterEntry entry = mRoster.getEntry(user.userId);
+    print(mRoster);
+    if (entry!=null) {
+      Observable.create((Observable.OnSubscribe<RosterEntry>) subscriber -> {
+        try {
+          mRoster.removeEntry(entry);
+          subscriber.onNext(null);
+        } catch (SmackException.NotLoggedInException | SmackException.NoResponseException | SmackException.NotConnectedException | XMPPException.XMPPErrorException e) {
+          e.printStackTrace();
+          subscriber.onError(e);
+          connect(true);
+        }
+      }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(rosterEntry -> {
+        //删除成功
+        HermesEventBus.getDefault().post(new IMDeleteContactResponseModel(user.userId, null));
+      }, new ErrorAction() {
+        @Override public void call(Throwable throwable) {
+          super.call(throwable);
+          LogUtils.d(TAG, "删除contact失败");
+          HermesEventBus.getDefault()
+              .post(new IMDeleteContactResponseModel(null, new Result(400, throwable.getMessage())));
+        }
+      });
+    }else {
+      HermesEventBus.getDefault()
+          .post(new IMDeleteContactResponseModel(null, new Result(404, "You have not this friends")));
+    }
+  }
+
+  public void print(Roster roster){
+    for (RosterGroup group: mRoster.getGroups()) {
+      LogUtils.d(TAG,"组名:"+group.getName());
+      LogUtils.d(TAG,group.toString());
+    }
+    for (RosterEntry entry1: mRoster.getEntries()){
+      LogUtils.d(TAG,entry1.toString());
+    }
   }
 
   /**
    * 获取所有的好友,有点唐突
    */
+  // TODO: 27/05/2017 将所有
   @Subscribe(threadMode = ThreadMode.MAIN) public void contactCollection(
       IMContactRequestModel model) {
     mRoster = Roster.getInstanceFor(mXMPPConnection);
+    print(mRoster);
     Observable.create((Observable.OnSubscribe<Set<RosterEntry>>) subscriber -> {
       subscriber.onNext(mRoster.getEntries());
     })
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(rosterEntries -> {
-          List<ContactRealm> models = new ArrayList<>();
-          for (RosterEntry entry : rosterEntries) {
+          for (RosterEntry entry : rosterEntries)
+          {
+
             Observable.create((Observable.OnSubscribe<VCard>) subscriber -> {
               if (mVCardManager == null) {
                 mVCardManager = VCardManager.getInstanceFor(mXMPPConnection);
@@ -624,19 +651,19 @@ public class SupportService extends Service
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(vCard -> {
-                   ContactRealm account = new ContactRealm();
-                   account.setAvatar(vCard.getField("AVATAR"));
-                   account.setNickName(vCard.getField("NICKNAME"));
-                   account.setSex(!vCard.getField("SEX").equals("男"));
-                   account.setSignature(vCard.getField("SIGNATURE"));
-                   account.setUserId(entry.getUser());
-                   models.add(account);
+                  ContactRealm account = new ContactRealm();
+                  account.setAvatar(vCard.getField("AVATAR"));
+                  account.setNickName(vCard.getField("NICKNAME"));
+                  account.setSex(!vCard.getField("SEX").equals("男"));
+                  account.setSignature(vCard.getField("SIGNATURE"));
+                  account.setUserId(entry.getUser());
+                  HermesEventBus.getDefault().postSticky(new IMContactResponseCollection(account));
                 }, new ErrorAction() {
                   @Override public void call(Throwable throwable) {
                     super.call(throwable);
+                    HermesEventBus.getDefault().postSticky(new IMContactResponseCollection(null));
                   }
                 });
-            HermesEventBus.getDefault().postSticky(new IMContactResponseCollection(models));
           }
         });
   }

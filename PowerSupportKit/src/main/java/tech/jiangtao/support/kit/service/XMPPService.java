@@ -36,7 +36,7 @@ import tech.jiangtao.support.kit.SupportAIDLConnection;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
-import tech.jiangtao.support.kit.eventbus.DeleteVCardRealm;
+import tech.jiangtao.support.kit.eventbus.IMDeleteContactResponseModel;
 import tech.jiangtao.support.kit.eventbus.FriendRequest;
 import tech.jiangtao.support.kit.eventbus.ReceiveLastMessage;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
@@ -333,27 +333,6 @@ public class XMPPService extends Service {
     notification.defaults = Notification.DEFAULT_SOUND;
     mNotificationManager.notify(0, notification);
     mWakelock.release();
-  }
-
-  /**
-   * 删除用户，并且删除该用户的聊天用户
-   */
-  @Deprecated @Subscribe(threadMode = ThreadMode.MAIN) public void messageAchieve(
-      DeleteVCardRealm deleteVCardRealm) {
-    mRealm.executeTransactionAsync(realm -> {
-      RealmResults<ContactRealm> results = realm.where(ContactRealm.class)
-          .equalTo(SupportIM.USER_ID, deleteVCardRealm.jid)
-          .findAll();
-      if (results.size() != 0) {
-        results.deleteAllFromRealm();
-      }
-      RealmResults<SessionRealm> messageResult = realm.where(SessionRealm.class)
-          .equalTo(SupportIM.SENDERFRIENDID, deleteVCardRealm.jid)
-          .findAll();
-      if (messageResult.size() != 0) {
-        messageResult.deleteAllFromRealm();
-      }
-    });
   }
 
   /**

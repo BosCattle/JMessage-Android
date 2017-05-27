@@ -16,17 +16,17 @@ import tech.jiangtao.support.kit.realm.ContactRealm;
 
 public class IMContactResponseCollection implements Parcelable {
 
-  public List<ContactRealm> models;
+  public ContactRealm models;
 
-  public IMContactResponseCollection(List<ContactRealm> models) {
+  public IMContactResponseCollection(ContactRealm models) {
     this.models = models;
   }
 
-  public List<ContactRealm> getModels() {
+  public ContactRealm getModels() {
     return models;
   }
 
-  public void setModels(List<ContactRealm> models) {
+  public void setModels(ContactRealm models) {
     this.models = models;
   }
 
@@ -35,11 +35,11 @@ public class IMContactResponseCollection implements Parcelable {
   }
 
   @Override public void writeToParcel(Parcel dest, int flags) {
-    dest.writeTypedList(this.models);
+    dest.writeParcelable(this.models, flags);
   }
 
   protected IMContactResponseCollection(Parcel in) {
-    this.models = in.createTypedArrayList(ContactRealm.CREATOR);
+    this.models = in.readParcelable(ContactRealm.class.getClassLoader());
   }
 
   public static final Creator<IMContactResponseCollection> CREATOR =

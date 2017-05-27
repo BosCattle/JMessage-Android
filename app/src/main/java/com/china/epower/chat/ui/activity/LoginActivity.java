@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.china.epower.chat.R;
-import tech.jiangtao.support.kit.callback.IMLoginCallBack;
+import tech.jiangtao.support.kit.callback.IMListenerCollection;
 import tech.jiangtao.support.kit.eventbus.IMLoginRequestModel;
 import tech.jiangtao.support.kit.manager.IMAccountManager;
 import tech.jiangtao.support.kit.model.Account;
@@ -34,7 +34,7 @@ import static java.lang.System.exit;
  * 登录的功能拿到服务去做，登录成功，在服务器中跳转到主页面
  * 保存用户信息到数据库中
  **/
-public class LoginActivity extends BaseActivity implements IMLoginCallBack {
+public class LoginActivity extends BaseActivity implements IMListenerCollection.IMLoginListener {
 
   @BindView(R.id.tv_toolbar) TextView mTvToolbar;
   @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -102,13 +102,13 @@ public class LoginActivity extends BaseActivity implements IMLoginCallBack {
     exit(0);
   }
 
-  @Override public void connectSuccess(Account account) {
+  @Override public void loginSuccess(Account account) {
     SimpleHUD.dismiss();
     SimpleHUD.showSuccessMessage(LoginActivity.this,
         (String) getText(R.string.connect_success), () -> MainActivity.startMain(LoginActivity.this));
   }
 
-  @Override public void connectionFailed(Result result) {
+  @Override public void loginFailed(Result result) {
     SimpleHUD.dismiss();
     SimpleHUD.showErrorMessage(LoginActivity.this, getText(R.string.connect_fail) + result.getMsg());
   }

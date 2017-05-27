@@ -19,6 +19,7 @@ import com.china.epower.chat.ui.adapter.PersonalDataAdapter;
 import com.china.epower.chat.ui.pattern.ConstructListData;
 import com.china.epower.chat.utils.RecyclerViewUtils;
 
+import tech.jiangtao.support.kit.callback.IMListenerCollection;
 import tech.jiangtao.support.kit.eventbus.ReceiveLastMessage;
 import tech.jiangtao.support.kit.manager.IMAccountManager;
 import tech.jiangtao.support.ui.utils.ResourceAddress;
@@ -29,7 +30,6 @@ import net.grandcentrix.tray.core.ItemNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.jiangtao.support.kit.callback.IMDisconnectCallBack;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.ui.fragment.BaseFragment;
 import tech.jiangtao.support.kit.model.User;
@@ -152,10 +152,8 @@ public class PersonalFragment extends BaseFragment implements EasyViewHolder.OnI
 
   //点击发送回调退出
   @OnClick(R.id.login_button) public void onClick(View v) {
-    mImAccountManager.disConnect(new IMDisconnectCallBack() {
-      @Override public void disconnectFinish() {
+    mImAccountManager.disConnect(() -> {
 
-      }
     });
   }
 
