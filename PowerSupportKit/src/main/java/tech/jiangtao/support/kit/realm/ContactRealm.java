@@ -17,8 +17,9 @@ import tech.jiangtao.support.kit.util.PinYinUtils;
  **/
 @RealmClass public class ContactRealm extends RealmObject implements Parcelable {
 
-  @PrimaryKey public int uid;
+  public int uid;
   public int nid;
+  @PrimaryKey
   public String userId;
   public String nickName;
   public String avatar;

@@ -1,6 +1,21 @@
 package tech.jiangtao.support.kit.manager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.util.UUID;
 import net.grandcentrix.tray.AppPreferences;
 
 /**
@@ -19,44 +34,58 @@ public class IMSettingManager {
 
   /**
    * 修改声音控制
-   * @param context
-   * @param value
    */
-  public void storeVoice(Context context,boolean value){
-    AppPreferences appPreferences  = new AppPreferences(context);
-    appPreferences.put(VOICE,value);
+  public void storeVoice(Context context, boolean value) {
+    AppPreferences appPreferences = new AppPreferences(context);
+    appPreferences.put(VOICE, value);
     // 写接口上传保存
   }
 
   /**
    * 修改震动控制
-   * @param context
-   * @param value
    */
-  public void storeVibrate(Context context,boolean value){
-    AppPreferences appPreferences  = new AppPreferences(context);
-    appPreferences.put(VIBRATE,value);
+  public void storeVibrate(Context context, boolean value) {
+    AppPreferences appPreferences = new AppPreferences(context);
+    appPreferences.put(VIBRATE, value);
     // 写接口上传保存信息
   }
 
   /**
    * 获取声音设置
-   * @param context
-   * @return
    */
-  public boolean getVoice(Context context){
+  public boolean getVoice(Context context) {
     AppPreferences preferences = new AppPreferences(context);
-    return preferences.getBoolean(VOICE,false);
+    return preferences.getBoolean(VOICE, false);
   }
 
   /**
    * 获取震动
-   * @param context
-   * @return
    */
-  public boolean getVibrate(Context context){
+  public boolean getVibrate(Context context) {
     AppPreferences preferences = new AppPreferences(context);
-    return preferences.getBoolean(VIBRATE,false);
+    return preferences.getBoolean(VIBRATE, false);
   }
 
+  // IMEI码
+  public String getIMIEStatus(Context context) {
+    TelephonyManager tm = (TelephonyManager) context
+        .getSystemService(Context.TELEPHONY_SERVICE);
+    String deviceId = tm.getDeviceId();
+    return deviceId;
+  }
+
+  // Mac地址
+  public String getLocalMac(Context context) {
+    WifiManager wifi = (WifiManager) context
+        .getSystemService(Context.WIFI_SERVICE);
+    WifiInfo info = wifi.getConnectionInfo();
+    return info.getMacAddress();
+  }
+
+  // Android Id
+  public String getAndroidId(Context context) {
+    @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(
+        context.getContentResolver(), Settings.Secure.ANDROID_ID);
+    return androidId;
+  }
 }

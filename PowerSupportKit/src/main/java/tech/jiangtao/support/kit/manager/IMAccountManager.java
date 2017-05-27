@@ -76,12 +76,12 @@ public class IMAccountManager {
    */
   public void disConnect(IMListenerCollection.IMExitlistener callBack) {
     HermesEventBus.getDefault().post(new UnRegisterEvent());
+    if (mRealms==null||mRealms.isClosed()){
+      mRealms = Realm.getDefaultInstance();
+    }
     mRealms.executeTransactionAsync(realm -> realm.deleteAll(), () -> {
       callBack.exitSuccess();
       mAppPreferences.put(SupportIM.USER,null);
-      mRealms.close();
-    }, error -> {
-      mRealms.close();
     });
   }
 

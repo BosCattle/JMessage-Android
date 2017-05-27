@@ -70,12 +70,10 @@ public class IMContactManager {
     if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
-    mRealm.executeTransaction(realm -> {
-      RealmQuery<ContactRealm> realmQuery = realm.where(ContactRealm.class);
-      // 查询,根据nickName进行排序
-      RealmResults<ContactRealm> contactRealms = realmQuery.findAllSorted(SupportIM.PINYIN);
-      realmIMRealmChangeListener.change(contactRealms);
-    });
+    RealmQuery<ContactRealm> realmQuery = mRealm.where(ContactRealm.class);
+    // 查询,根据nickName进行排序
+    RealmResults<ContactRealm> contactRealms = realmQuery.findAllSorted(SupportIM.PINYIN);
+    realmIMRealmChangeListener.change(contactRealms);
   }
 
   /**
@@ -94,7 +92,7 @@ public class IMContactManager {
             Collections.sort(contactRealms, new ContactComparator());
             // -->将数据放到数据库
             writeToRealm(contactRealms);
-            realmIMRealmChangeListener.change((RealmResults<ContactRealm>) contactRealms);
+            realmIMRealmChangeListener.change(contactRealms);
           }, new ErrorAction() {
             @Override public void call(Throwable throwable) {
               super.call(throwable);
@@ -120,12 +118,12 @@ public class IMContactManager {
 
   /**
    * 通过xmpp获取通讯录的回调
-   *
    */
   @Subscribe(threadMode = ThreadMode.MAIN) public void receiveContactFromProcess(
       IMContactResponseCollection contactResponseCollection) {
-    if (contactResponseCollection.getModels()!=null) {
-      updateSingleIMContactRealm(contactResponseCollection.getModels(), mRealmIMRealmChangeListener);
+    if (contactResponseCollection.getModels() != null) {
+      updateSingleIMContactRealm(contactResponseCollection.getModels(),
+          mRealmIMRealmChangeListener);
     }
   }
 
@@ -136,7 +134,7 @@ public class IMContactManager {
     if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
-    LogUtils.d(TAG,"写数据");
+    LogUtils.d(TAG, "写数据");
     mRealm.executeTransaction(realm -> realm.copyToRealmOrUpdate(contactRealms));
   }
 
@@ -148,9 +146,8 @@ public class IMContactManager {
     if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
-    mRealm.executeTransactionAsync(realm -> {
-      realm.copyToRealmOrUpdate(contactRealm);
-    }, () -> readContacts(realmIMRealmChangeListener));
+    mRealm.executeTransactionAsync(realm -> realm.copyToRealmOrUpdate(contactRealm),
+        () -> readContacts(realmIMRealmChangeListener));
   }
 
   /**
@@ -182,12 +179,13 @@ public class IMContactManager {
       RealmResults<SessionRealm> messageResult = mRealm.where(SessionRealm.class)
           .equalTo(SupportIM.SENDERFRIENDID, deleteContactResponseModel.userId)
           .findAll();
-      mRealm.executeTransactionAsync(realm -> {
+      mRealm.executeTransaction(realm -> {
         realms.deleteAllFromRealm();
         if (messageResult.size() != 0) {
           messageResult.deleteAllFromRealm();
         }
-      }, () -> readContacts(mRealmIMRealmChangeListener));
+        readContacts(mRealmIMRealmChangeListener);
+      });
     } else {
       mIMDeleteContactListener.deleteContactFailed(deleteContactResponseModel);
     }

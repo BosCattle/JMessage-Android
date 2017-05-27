@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
-import io.realm.RealmResults;
 import tech.jiangtao.support.kit.annotation.ChatRouter;
 import tech.jiangtao.support.kit.annotation.GroupsRouter;
 import tech.jiangtao.support.kit.annotation.InvitedRouter;
@@ -29,7 +28,9 @@ import tech.jiangtao.support.kit.callback.IMListenerCollection;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.eventbus.IMDeleteContactResponseModel;
 import tech.jiangtao.support.kit.manager.IMContactManager;
+import tech.jiangtao.support.kit.model.type.TransportType;
 import tech.jiangtao.support.kit.realm.ContactRealm;
+import tech.jiangtao.support.kit.util.CommonUtils;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.PinYinUtils;
 import tech.jiangtao.support.ui.R;
@@ -39,6 +40,7 @@ import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.kit.model.type.ContactType;
 import tech.jiangtao.support.ui.pattern.ConstrutContact;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
+import tech.jiangtao.support.ui.utils.ResourceAddress;
 import work.wanghao.simplehud.SimpleHUD;
 
 /**
@@ -248,6 +250,7 @@ public class ContactFragment extends BaseFragment
               mConstrutContact.add(new ConstrutContact.Builder().type(ContactType.TYPE_LETTER)
                   .title(PinYinUtils.getPinyinFirstLetter(
                       PinYinUtils.ccs2Pinyin(contactRealms.get(i).getNickName())))
+                  .img(ResourceAddress.url(contactRealms.get(i).getAvatar(), TransportType.AVATAR))
                   .build());
             }
           }

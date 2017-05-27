@@ -10,6 +10,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
@@ -42,6 +43,8 @@ import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.jivesoftware.smackx.iqregister.AccountManager;
 import org.jivesoftware.smackx.muc.MultiUserChatManager;
 import org.jivesoftware.smackx.offline.OfflineMessageManager;
+import org.jivesoftware.smackx.ping.PingManager;
+import org.jivesoftware.smackx.ping.android.ServerPingWithAlarmManager;
 import org.jivesoftware.smackx.vcardtemp.VCardManager;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 import java.io.IOException;
@@ -49,6 +52,8 @@ import java.util.Collection;
 import java.util.List;
 
 import rx.Observable;
+import rx.Scheduler;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.SupportAIDLConnection;
@@ -103,6 +108,7 @@ public class SupportService extends Service
   private AccountServiceApi mAccountServiceApi;
   private UserServiceApi mUserServiceApi;
   private OfflineMessageManager mOfflineMessageManager;
+  private PingManager mPingManager;
 
   @Override public void onCreate() {
     super.onCreate();
@@ -151,9 +157,14 @@ public class SupportService extends Service
   @Override public void chatCreated(Chat chat, boolean createdLocally) {
     Gson gson = new Gson();
     chat.addMessageListener((chat1, message) -> {
-      tech.jiangtao.support.kit.model.jackson.Message messageBody =
-          gson.fromJson(message.getBody(), tech.jiangtao.support.kit.model.jackson.Message.class);
-      if (message.getBody() != null) {
+      tech.jiangtao.support.kit.model.jackson.Message messageBody = null;
+      try {
+        messageBody =
+            gson.fromJson(message.getBody(), tech.jiangtao.support.kit.model.jackson.Message.class);
+      } catch (JsonSyntaxException e) {
+        LogUtils.e(TAG, "你根本不是司机，请发送json格式的数据---->" + message.getBody());
+      }
+      if (messageBody != null) {
         DataExtensionType dataExtensionType = DataExtensionType.valueOf(messageBody.getType());
         if (messageBody.getChatType().equals(MessageExtensionType.CHAT.toString())) {
           HermesEventBus.getDefault()
@@ -384,6 +395,16 @@ public class SupportService extends Service
   }
 
   public void connectSuccessPerform() {
+    Presence presence = new Presence(Presence.Type.available);
+    presence.setStatus("在线");
+    try {
+      mXMPPConnection.sendStanza(presence);
+    } catch (SmackException.NotConnectedException e) {
+      e.printStackTrace();
+    }
+    mPingManager = PingManager.getInstanceFor(mXMPPConnection);
+    mPingManager.setPingInterval(30);
+    ServerPingWithAlarmManager.getInstanceFor(mXMPPConnection).isEnabled();
     mChatManager = ChatManager.getInstanceFor(mXMPPConnection);
     mChatManager.addChatListener(this);
     mMultiUserChatManager = MultiUserChatManager.getInstanceFor(mXMPPConnection);
@@ -396,15 +417,24 @@ public class SupportService extends Service
    * 获取离线消息
    */
   private void pullOfflineMessage() {
-    try {
-      List<Message> messages = mOfflineMessageManager.getMessages();
-      // 解析消息，然后推到前台
-      for (int i = 0; i < messages.size(); i++) {
-        Log.d(TAG, "pullOfflineMessage离线消息: " + messages.get(i).getBody());
+    Observable.create((Observable.OnSubscribe<List<Message>>) subscriber -> {
+      try {
+        subscriber.onNext(mOfflineMessageManager.getMessages());
+      } catch (SmackException.NoResponseException | SmackException.NotConnectedException| XMPPException.XMPPErrorException e) {
+        e.printStackTrace();
+        subscriber.onError(e);
       }
-    } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
-      e.printStackTrace();
-    }
+    }).subscribeOn(AndroidSchedulers.mainThread())
+    .observeOn(Schedulers.io()).subscribe(messages -> {
+      // 解析消息，然后推到前台
+      for (Message message:messages) {
+       // 发消息到XMPPService
+      }
+    }, new ErrorAction() {
+      @Override public void call(Throwable throwable) {
+        super.call(throwable);
+      }
+    });
   }
 
   /**
@@ -521,8 +551,7 @@ public class SupportService extends Service
    * 注册账户
    * account {@link RegisterAccount}
    */
-  @Deprecated @Subscribe(threadMode = ThreadMode.MAIN) public void createAccount(
-      RegisterAccount account) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void createAccount(RegisterAccount account) {
     mAccountManager = AccountManager.getInstance(mXMPPConnection);
     Observable.create(subscriber -> {
       try {
@@ -583,7 +612,7 @@ public class SupportService extends Service
     mRoster = Roster.getInstanceFor(mXMPPConnection);
     RosterEntry entry = mRoster.getEntry(user.userId);
     print(mRoster);
-    if (entry!=null) {
+    if (entry != null) {
       Observable.create((Observable.OnSubscribe<RosterEntry>) subscriber -> {
         try {
           mRoster.removeEntry(entry);
@@ -593,35 +622,46 @@ public class SupportService extends Service
           subscriber.onError(e);
           connect(true);
         }
-      }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(rosterEntry -> {
-        //删除成功
-        HermesEventBus.getDefault().post(new IMDeleteContactResponseModel(user.userId, null));
-      }, new ErrorAction() {
-        @Override public void call(Throwable throwable) {
-          super.call(throwable);
-          LogUtils.d(TAG, "删除contact失败");
-          HermesEventBus.getDefault()
-              .post(new IMDeleteContactResponseModel(null, new Result(400, throwable.getMessage())));
-        }
-      });
-    }else {
+      })
+          .subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(rosterEntry -> {
+            //删除成功
+            HermesEventBus.getDefault().post(new IMDeleteContactResponseModel(user.userId, null));
+          }, new ErrorAction() {
+            @Override public void call(Throwable throwable) {
+              super.call(throwable);
+              LogUtils.d(TAG, "删除contact失败");
+              HermesEventBus.getDefault()
+                  .post(new IMDeleteContactResponseModel(null,
+                      new Result(400, throwable.getMessage())));
+            }
+          });
+    } else {
       HermesEventBus.getDefault()
-          .post(new IMDeleteContactResponseModel(null, new Result(404, "You have not this friends")));
+          .post(
+              new IMDeleteContactResponseModel(null, new Result(404, "You have not this friends")));
     }
   }
 
-  public void print(Roster roster){
-    for (RosterGroup group: mRoster.getGroups()) {
-      LogUtils.d(TAG,"组名:"+group.getName());
-      LogUtils.d(TAG,group.toString());
+  public void print(Roster roster) {
+    for (RosterGroup group : mRoster.getGroups()) {
+      LogUtils.d(TAG, "组名:" + group.getName());
+      LogUtils.d(TAG, group.toString());
     }
-    for (RosterEntry entry1: mRoster.getEntries()){
-      LogUtils.d(TAG,entry1.toString());
+    for (RosterEntry entry1 : mRoster.getEntries()) {
+      LogUtils.d(TAG, entry1.toString());
+      LogUtils.d(TAG, entry1.getName());
+      LogUtils.d(TAG, entry1.getUser());
     }
   }
 
   /**
    * 获取所有的好友,有点唐突
+   * java.lang.NullPointerException: Attempt to invoke interface method
+   * 'org.jivesoftware.smack.PacketCollector org.jivesoftware.smack.
+   * XMPPConnection.createPacketCollectorAndSend(org.jivesoftware.smack.packet.IQ)'
+   * on a null object reference
    */
   // TODO: 27/05/2017 将所有
   @Subscribe(threadMode = ThreadMode.MAIN) public void contactCollection(
@@ -634,8 +674,7 @@ public class SupportService extends Service
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(rosterEntries -> {
-          for (RosterEntry entry : rosterEntries)
-          {
+          for (RosterEntry entry : rosterEntries) {
 
             Observable.create((Observable.OnSubscribe<VCard>) subscriber -> {
               if (mVCardManager == null) {
@@ -651,13 +690,41 @@ public class SupportService extends Service
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(vCard -> {
+                  Log.d(TAG, "contactCollection: "+entry.getUser());
                   ContactRealm account = new ContactRealm();
-                  account.setAvatar(vCard.getField("AVATAR"));
-                  account.setNickName(vCard.getField("NICKNAME"));
-                  account.setSex(!vCard.getField("SEX").equals("男"));
-                  account.setSignature(vCard.getField("SIGNATURE"));
-                  account.setUserId(entry.getUser());
-                  HermesEventBus.getDefault().postSticky(new IMContactResponseCollection(account));
+                  if (vCard.getField("NICKNAME") != null) {
+                    account.setAvatar(
+                        vCard.getField("AVATAR") != null ? vCard.getField("AVATAR") : "");
+                    account.setNickName(vCard.getField("NICKNAME"));
+                    account.setSex(
+                        vCard.getField("SEX") != null && !vCard.getField("SEX").equals("男"));
+                    account.setSignature(
+                        vCard.getField("SIGNATURE") != null ? vCard.getField("SIGNATURE") : "");
+                    account.setUserId(entry.getUser());
+                    HermesEventBus.getDefault()
+                        .postSticky(new IMContactResponseCollection(account));
+                  } else {
+                    mUserServiceApi.selfAccount(entry.getUser())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(user -> {
+                          ContactRealm realm = new ContactRealm();
+                          realm.setUid(user.getUid());
+                          realm.setAvatar(user.getAvatar());
+                          realm.setSignature(user.getSignature());
+                          realm.setSex(user.isSex());
+                          realm.setUserId(user.getUserId());
+                          realm.setRelative(user.relative);
+                          realm.setNid(user.nid);
+                          HermesEventBus.getDefault()
+                              .postSticky(new IMContactResponseCollection(realm));
+                        }, new ErrorAction() {
+                          @Override public void call(Throwable throwable) {
+                            super.call(throwable);
+                            LogUtils.e(TAG,"---->从网络中获取数据失败");
+                          }
+                        });
+                  }
                 }, new ErrorAction() {
                   @Override public void call(Throwable throwable) {
                     super.call(throwable);

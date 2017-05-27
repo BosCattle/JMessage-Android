@@ -20,7 +20,7 @@ public class TickBroadcastReceiver extends BroadcastReceiver {
   }
 
   @Override public void onReceive(Context context, Intent intent) {
-    LogUtils.i(TAG, "onReceive: 检测服务是否在运行");
+    LogUtils.d(TAG, "onReceive: 检测服务是否在运行");
     HermesEventBus.getDefault().post(new NotificationConnection(true));
     boolean isServiceRunning = false;
     if (intent.getAction().equals(Intent.ACTION_TIME_TICK)) {
@@ -31,11 +31,11 @@ public class TickBroadcastReceiver extends BroadcastReceiver {
         if (SupportService.class.getCanonicalName().equals(service.service.getClassName())
             || XMPPService.class.getCanonicalName().equals(service.service.getClassName())) {
           isServiceRunning = true;
-          LogUtils.i(TAG, "onReceive: 服务正在运行");
+          LogUtils.d(TAG, "onReceive: 服务正在运行");
         }
       }
       if (!isServiceRunning) {
-        LogUtils.i("-------->", "onReceive: 启动service");
+        LogUtils.d("-------->", "onReceive: 启动service");
         Intent intent1 = new Intent(context, XMPPService.class);
         context.startService(intent1);
         Intent intent2 = new Intent(context, SupportService.class);

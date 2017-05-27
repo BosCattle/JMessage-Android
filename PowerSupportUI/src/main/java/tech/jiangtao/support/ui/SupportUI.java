@@ -2,6 +2,7 @@ package tech.jiangtao.support.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.nfc.Tag;
 import com.melink.bqmmsdk.sdk.BQMM;
 import io.realm.Realm;
 import java.lang.annotation.Annotation;
@@ -11,8 +12,10 @@ import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.annotation.ChatRouter;
 import tech.jiangtao.support.kit.annotation.GroupChatRouter;
 import tech.jiangtao.support.kit.annotation.InvitedRouter;
+import tech.jiangtao.support.kit.manager.IMSettingManager;
 import tech.jiangtao.support.kit.service.SupportService;
 import tech.jiangtao.support.kit.service.XMPPService;
+import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.PropertyUtils;
 
 public class SupportUI {
@@ -30,7 +33,9 @@ public class SupportUI {
 
   public static void initialize(Context context,String resourceName) {
     initValue(context,resourceName);
-    String resource = UUID.randomUUID().toString();
+    IMSettingManager manager = new IMSettingManager();
+    String resource = manager.getAndroidId(context);
+    LogUtils.d("MAC地址:",resource);
     //---------------------------------------配置中心--------------------------------
     //------------------------------------------------------------------------------
     initialize(context, SERVICE_NAME, resource, HOST, Integer.parseInt(PORT), RESOURCE_ADDRESS,
