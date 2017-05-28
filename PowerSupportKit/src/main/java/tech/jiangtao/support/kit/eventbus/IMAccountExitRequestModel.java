@@ -1,7 +1,7 @@
 package tech.jiangtao.support.kit.eventbus;
 
 /**
- * Class: UnRegisterEvent </br>
+ * Class: IMAccountExitRequestModel </br>
  * Description: 关闭连接 </br>
  * Creator: kevin </br>
  * Email: jiangtao103cp@gmail.com </br>
@@ -9,7 +9,7 @@ package tech.jiangtao.support.kit.eventbus;
  * Update: 07/01/2017 12:40 AM </br>
  **/
 
-public class UnRegisterEvent {
+public class IMAccountExitRequestModel {
 
-  public UnRegisterEvent(){}
+  public IMAccountExitRequestModel(){}
 }

@@ -7,8 +7,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Parcelable;
+import tech.jiangtao.support.kit.eventbus.IMAccountExitRequestModel;
 import tech.jiangtao.support.kit.eventbus.NotificationConnection;
-import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.util.LogUtils;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
@@ -72,7 +72,7 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
           }
         } else {
           LogUtils.i("TAG", getConnectionType(info.getType()) + "网络断开");
-          HermesEventBus.getDefault().post(new UnRegisterEvent());
+          HermesEventBus.getDefault().post(new IMAccountExitRequestModel());
         }
       }
     }

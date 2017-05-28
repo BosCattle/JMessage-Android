@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -33,11 +34,16 @@ import tech.jiangtao.support.kit.annotation.ChatRouter;
 import tech.jiangtao.support.kit.annotation.GroupChatRouter;
 import tech.jiangtao.support.kit.annotation.GroupsRouter;
 import tech.jiangtao.support.kit.annotation.InvitedRouter;
+import tech.jiangtao.support.kit.callback.IMListenerCollection;
+import tech.jiangtao.support.kit.manager.IMContactManager;
+import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.service.SupportService;
+import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.ui.activity.GroupSearchActivity;
 import tech.jiangtao.support.ui.fragment.ChatListFragment;
 import tech.jiangtao.support.ui.fragment.ContactFragment;
 import tech.jiangtao.support.ui.linstener.ContactItemCallback;
+import work.wanghao.simplehud.SimpleHUD;
 
 /**
  * Class: MainActivity </br>
@@ -47,12 +53,9 @@ import tech.jiangtao.support.ui.linstener.ContactItemCallback;
  * Date: 10/11/2016 3:08 PM</br>
  * Update: 10/11/2016 3:08 PM </br>
  **/
-@GroupsRouter(router = GroupListActivity.class)
-@InvitedRouter(router = AllInvitedActivity.class)
-@ChatRouter(router = ChatActivity.class)
-@GroupChatRouter(router = GroupChatActivity.class)
-public class MainActivity extends BaseActivity
-    implements ContactItemCallback {
+@GroupsRouter(router = GroupListActivity.class) @InvitedRouter(router = AllInvitedActivity.class)
+@ChatRouter(router = ChatActivity.class) @GroupChatRouter(router = GroupChatActivity.class)
+public class MainActivity extends BaseActivity implements ContactItemCallback {
 
   @BindView(R.id.tv_toolbar) TextView mTvToolbar;
   @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -68,6 +71,26 @@ public class MainActivity extends BaseActivity
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
     init();
+    IMContactManager.geInstance()
+        .setmFriendNotificationListener(new IMListenerCollection.IMFriendNotificationListener() {
+          @Override public void receivedUserInvited(ContactRealm contactRealm) {
+            LogUtils.d("---->:", contactRealm.getNickName() + "请求加你为好友");
+            SimpleHUD.showSuccessMessage(MainActivity.this,
+                contactRealm.getNickName() + "请求加你为好友");
+          }
+
+          @Override public void receivedAgreeInvited(ContactRealm contactRealm) {
+            LogUtils.d("---->:", contactRealm.getNickName() + "同意加你为好友");
+            SimpleHUD.showSuccessMessage(MainActivity.this,
+                contactRealm.getNickName() + "同意加你为好友");
+          }
+
+          @Override public void receivedRejectInvited(ContactRealm contactRealm) {
+            LogUtils.d("---->:", contactRealm.getNickName() + "拒绝加你为好友");
+            SimpleHUD.showSuccessMessage(MainActivity.this,
+                contactRealm.getNickName() + "拒绝加你为好友");
+          }
+        });
   }
 
   @Override protected boolean preSetupToolbar() {
@@ -82,7 +105,7 @@ public class MainActivity extends BaseActivity
     IntentFilter intentFilter = new IntentFilter();
     intentFilter.addAction(SupportService.class.getCanonicalName());
     PushReceiver receiver = new PushReceiver();
-    registerReceiver(receiver,intentFilter);
+    registerReceiver(receiver, intentFilter);
   }
 
   public void tabListen() {

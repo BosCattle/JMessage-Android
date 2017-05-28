@@ -31,6 +31,7 @@ public class IMSettingManager {
 
   public static final String VOICE = "voice";
   public static final String VIBRATE = "vibrate";
+  public static final String NOTIFICATION = "notification";
 
   /**
    * 修改声音控制
@@ -51,6 +52,15 @@ public class IMSettingManager {
   }
 
   /**
+   * 修改是否显示通知栏控制
+   */
+  public void storeNotification(Context context, boolean value) {
+    AppPreferences appPreferences = new AppPreferences(context);
+    appPreferences.put(NOTIFICATION, value);
+    // 写接口上传保存信息
+  }
+
+  /**
    * 获取声音设置
    */
   public boolean getVoice(Context context) {
@@ -64,6 +74,14 @@ public class IMSettingManager {
   public boolean getVibrate(Context context) {
     AppPreferences preferences = new AppPreferences(context);
     return preferences.getBoolean(VIBRATE, false);
+  }
+
+  /**
+   * 获取是否显示通知栏
+   */
+  public boolean getNotification(Context context) {
+    AppPreferences preferences = new AppPreferences(context);
+    return preferences.getBoolean(NOTIFICATION, true);
   }
 
   // IMEI码

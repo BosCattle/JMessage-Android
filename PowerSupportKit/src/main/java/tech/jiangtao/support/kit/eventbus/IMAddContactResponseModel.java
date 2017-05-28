@@ -17,20 +17,10 @@ import tech.jiangtao.support.kit.realm.ContactRealm;
 
 public class IMAddContactResponseModel implements Parcelable {
 
-  public ContactRealm contactRealm;
   public Result result;
 
-  public IMAddContactResponseModel(ContactRealm contactRealm, Result result) {
-    this.contactRealm = contactRealm;
+  public IMAddContactResponseModel(Result result) {
     this.result = result;
-  }
-
-  public ContactRealm getContactRealm() {
-    return contactRealm;
-  }
-
-  public void setContactRealm(ContactRealm contactRealm) {
-    this.contactRealm = contactRealm;
   }
 
   public Result getResult() {
@@ -46,12 +36,10 @@ public class IMAddContactResponseModel implements Parcelable {
   }
 
   @Override public void writeToParcel(Parcel dest, int flags) {
-    dest.writeParcelable(this.contactRealm, flags);
     dest.writeParcelable(this.result, flags);
   }
 
   protected IMAddContactResponseModel(Parcel in) {
-    this.contactRealm = in.readParcelable(ContactRealm.class.getClassLoader());
     this.result = in.readParcelable(Result.class.getClassLoader());
   }
 

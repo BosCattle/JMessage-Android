@@ -36,11 +36,12 @@ import tech.jiangtao.support.kit.SupportAIDLConnection;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
-import tech.jiangtao.support.kit.eventbus.IMDeleteContactResponseModel;
-import tech.jiangtao.support.kit.eventbus.FriendRequest;
+import tech.jiangtao.support.kit.eventbus.IMContactRequestNotificationModel;
 import tech.jiangtao.support.kit.eventbus.ReceiveLastMessage;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.SupportIM;
+import tech.jiangtao.support.kit.manager.IMNotificationManager;
+import tech.jiangtao.support.kit.manager.IMSettingManager;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.kit.realm.MessageRealm;
@@ -81,12 +82,14 @@ public class XMPPService extends Service {
   private Class mChatClass;
   private Class mGroupClass;
   private Class mInvitedClass;
+  private IMSettingManager mSettingManager;
 
   @Override public void onCreate() {
     super.onCreate();
     if (mXMPPBinder == null) {
       mXMPPBinder = new XMPPBinder();
     }
+    mSettingManager = new IMSettingManager();
     PowerManager mPowerManager = (PowerManager) getSystemService(POWER_SERVICE);
     mWakelock = mPowerManager.newWakeLock(
         PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_DIM_WAKE_LOCK, "target");
@@ -113,8 +116,6 @@ public class XMPPService extends Service {
     this.bindService(intent1, mXMPPServiceConnection, Context.BIND_IMPORTANT);
     return START_STICKY;
   }
-
-
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onRecieveMessage(RecieveMessage message) {
     //先保存会话表，然后保存到消息记录表
@@ -275,12 +276,13 @@ public class XMPPService extends Service {
   /**
    * 添加好友通知
    */
-  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN) @Subscribe(threadMode = ThreadMode.MAIN)
-  public void addFriendsNotification(FriendRequest request) {
-    mWakelock.acquire(10*60*1000L /*10 minutes*/);
+  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void addFriendsNotification(IMContactRequestNotificationModel request) {
+    mWakelock.acquire(10 * 60 * 1000L /*10 minutes*/);
     Intent i = new Intent(this, mInvitedClass);
     i.putExtra(SupportIM.NEW_FLAG, request);
-    showOnesNotification(request.username, request.username + "请求添加你为好友.", i);
+    IMNotificationManager.geInstance().showContactNotification(this,request.getContactRealm(),request.getType(),i);
     mWakelock.release();
   }
 
@@ -314,25 +316,24 @@ public class XMPPService extends Service {
   }
 
   public void showOnesNotification(String name, String info, Intent intent) {
-    mWakelock.acquire(10*60*1000L /*10 minutes*/);
-    NotificationManager mNotificationManager =
-        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-    Notification.Builder builder = new Notification.Builder(this);
-    builder.setContentIntent(
-        PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT))
-        .setContentTitle(name)
-        .setContentText(info)
-        .setSmallIcon(tech.jiangtao.support.kit.R.mipmap.ic_launcher)
-        .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
-            tech.jiangtao.support.kit.R.mipmap.ic_launcher))
-        .setWhen(System.currentTimeMillis())
-        .setPriority(Notification.PRIORITY_HIGH)
-        .setDefaults(Notification.DEFAULT_VIBRATE);
-    Notification notification = builder.build();
-    notification.flags = Notification.FLAG_AUTO_CANCEL;
-    notification.defaults = Notification.DEFAULT_SOUND;
-    mNotificationManager.notify(0, notification);
-    mWakelock.release();
+    if (mSettingManager.getNotification(this)) {
+      mWakelock.acquire(10 * 60 * 1000L /*10 minutes*/);
+      NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+      Notification.Builder builder = new Notification.Builder(this);
+      builder.setContentIntent(PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT))
+          .setContentTitle(name)
+          .setContentText(info)
+          .setSmallIcon(tech.jiangtao.support.kit.R.mipmap.ic_launcher)
+          .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), tech.jiangtao.support.kit.R.mipmap.ic_launcher))
+          .setWhen(System.currentTimeMillis())
+          .setPriority(Notification.PRIORITY_HIGH)
+          .setDefaults(Notification.DEFAULT_VIBRATE);
+      Notification notification = builder.build();
+      notification.flags = Notification.FLAG_AUTO_CANCEL;
+      notification.defaults = Notification.DEFAULT_SOUND;
+      mNotificationManager.notify(0, notification);
+      mWakelock.release();
+    }
   }
 
   /**
@@ -359,7 +360,7 @@ public class XMPPService extends Service {
       return "XMPPService的服务";
     }
   }
-  
+
   /**
    * Class: XMPPService </br>
    * Description: 开启前台服务，关闭view，不可动 </br>
@@ -400,7 +401,7 @@ public class XMPPService extends Service {
     startForeground(NOTIFICATION_ID, fadeNotification(this));
   }
 
-  public static void login(String userName,String password){
+  public static void login(String userName, String password) {
 
   }
 }

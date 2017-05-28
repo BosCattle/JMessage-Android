@@ -11,8 +11,6 @@ import android.os.RemoteException;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Set;
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
@@ -52,7 +50,6 @@ import java.util.Collection;
 import java.util.List;
 
 import rx.Observable;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -60,12 +57,16 @@ import tech.jiangtao.support.kit.SupportAIDLConnection;
 import tech.jiangtao.support.kit.api.ApiService;
 import tech.jiangtao.support.kit.api.service.AccountServiceApi;
 import tech.jiangtao.support.kit.api.service.UserServiceApi;
+import tech.jiangtao.support.kit.archive.type.IMFNotificationType;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
-import tech.jiangtao.support.kit.eventbus.AddRosterEvent;
+import tech.jiangtao.support.kit.eventbus.IMAccountExitRequestModel;
+import tech.jiangtao.support.kit.eventbus.IMAddContactRequestModel;
+import tech.jiangtao.support.kit.eventbus.IMAddContactResponseModel;
+import tech.jiangtao.support.kit.eventbus.IMContactDealResponseModel;
 import tech.jiangtao.support.kit.eventbus.IMDeleteContactResponseModel;
-import tech.jiangtao.support.kit.eventbus.FriendRequest;
+import tech.jiangtao.support.kit.eventbus.IMContactRequestNotificationModel;
 import tech.jiangtao.support.kit.eventbus.IMContactRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMContactResponseCollection;
 import tech.jiangtao.support.kit.eventbus.IMLoginRequestModel;
@@ -74,11 +75,10 @@ import tech.jiangtao.support.kit.eventbus.IMDeleteContactRequestModel;
 import tech.jiangtao.support.kit.eventbus.NotificationConnection;
 import tech.jiangtao.support.kit.eventbus.QueryUser;
 import tech.jiangtao.support.kit.eventbus.QueryUserResult;
-import tech.jiangtao.support.kit.eventbus.RecieveFriend;
+import tech.jiangtao.support.kit.eventbus.IMContactDealModel;
 import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.eventbus.RegisterAccount;
 import tech.jiangtao.support.kit.eventbus.RegisterResult;
-import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.model.Result;
 import tech.jiangtao.support.kit.model.User;
@@ -135,13 +135,13 @@ public class SupportService extends Service
 
   @Subscribe(threadMode = ThreadMode.BACKGROUND)
   public void onMessage(NotificationConnection connection) {
-    LogUtils.d(TAG, "是否连接" + mXMPPConnection.isConnected());
-    LogUtils.d(TAG, "是否认证" + mXMPPConnection.isAuthenticated());
-    if (connection.connectChoice && !mXMPPConnection.isConnected()) {
-      //收到广播，开始连接
-      LogUtils.d(TAG, "onMessage: 开始连接");
-      connect(true);
-    }
+    //LogUtils.d(TAG, "是否连接" + mXMPPConnection.isConnected());
+    //LogUtils.d(TAG, "是否认证" + mXMPPConnection.isAuthenticated());
+    //if (connection.connectChoice && !mXMPPConnection.isConnected()) {
+    //  //收到广播，开始连接
+    //  LogUtils.d(TAG, "onMessage: 开始连接");
+    //  connect(true);
+    //}
   }
 
   @Override public IBinder onBind(Intent intent) {
@@ -359,7 +359,6 @@ public class SupportService extends Service
     configBuilder.setHost(SupportIM.mHost);
     configBuilder.setPort(SupportIM.mPort);
     mXMPPConnection = new XMPPTCPConnection(configBuilder.build());
-    mXMPPConnection.setPacketReplyTimeout(20000);
     mXMPPConnection.addConnectionListener(this);
   }
 
@@ -369,7 +368,6 @@ public class SupportService extends Service
 
   @Override public void authenticated(XMPPConnection connection, boolean resumed) {
     mXMPPConnection = (XMPPTCPConnection) connection;
-    //HermesEventBus.getDefault().postSticky(new IMLoginResponseModel("登录成功", null));
     connectSuccessPerform();
   }
 
@@ -420,21 +418,24 @@ public class SupportService extends Service
     Observable.create((Observable.OnSubscribe<List<Message>>) subscriber -> {
       try {
         subscriber.onNext(mOfflineMessageManager.getMessages());
-      } catch (SmackException.NoResponseException | SmackException.NotConnectedException| XMPPException.XMPPErrorException e) {
+      } catch (SmackException.NoResponseException | SmackException.NotConnectedException | XMPPException.XMPPErrorException e) {
         e.printStackTrace();
         subscriber.onError(e);
       }
-    }).subscribeOn(AndroidSchedulers.mainThread())
-    .observeOn(Schedulers.io()).subscribe(messages -> {
-      // 解析消息，然后推到前台
-      for (Message message:messages) {
-       // 发消息到XMPPService
-      }
-    }, new ErrorAction() {
-      @Override public void call(Throwable throwable) {
-        super.call(throwable);
-      }
-    });
+    })
+        .subscribeOn(AndroidSchedulers.mainThread())
+        .observeOn(Schedulers.io())
+        .subscribe(messages -> {
+          // 解析消息，然后推到前台
+          for (Message message : messages) {
+            // 发消息到XMPPService
+            LogUtils.d(TAG, "获取到离线消息:" + message.getBody());
+          }
+        }, new ErrorAction() {
+          @Override public void call(Throwable throwable) {
+            super.call(throwable);
+          }
+        });
   }
 
   /**
@@ -449,25 +450,51 @@ public class SupportService extends Service
     StanzaListener listener = new StanzaListener() {
       @Override public void processPacket(Stanza packet)
           throws SmackException.NotConnectedException {
-        mFriendsPresence = (Presence) packet;
-        String from = packet.getFrom();
-        if (mFriendsPresence.getType().equals(Presence.Type.subscribe)) {
-          // 收到好友请求,现在的代码是自动自动接受好友请求
-          HermesEventBus.getDefault()
-              .post(new FriendRequest(StringSplitUtil.splitDivider(from),
-                  StringSplitUtil.splitPrefix(from), null));
-          LogUtils.d(TAG, "addFriend: 接受到好友请求");
-        } else if (mFriendsPresence.getType().equals(Presence.Type.unsubscribe)) {
-          // 不同意添加好友
-          LogUtils.d(TAG, "addFriend: 对方不同意好友请求");
-          Presence newp = new Presence(Presence.Type.unsubscribed);
-          newp.setMode(Presence.Mode.available);
-          newp.setPriority(24);
-          newp.setTo(mFriendsPresence.getFrom());
-          mXMPPConnection.sendStanza(newp);
-        } else if (mFriendsPresence.getType().equals(Presence.Type.subscribed)) {
-          LogUtils.d(TAG, "addFriend: 对方同意添加好友。");
-        }
+        String from = StringSplitUtil.splitDivider(packet.getFrom());
+        mUserServiceApi.selfAccount(from)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(user -> {
+              ContactRealm realm = new ContactRealm();
+              realm.setUid(user.getUid());
+              realm.setAvatar(user.getAvatar());
+              realm.setSignature(user.getSignature());
+              realm.setSex(user.isSex());
+              realm.setNickName(user.nickName);
+              realm.setUserId(user.getUserId());
+              realm.setRelative(user.relative);
+              realm.setNid(user.nid);
+              if (((Presence) packet).getType().equals(Presence.Type.subscribe)) {
+                // 收到好友请求
+                LogUtils.d(TAG, "----> : 接收到好友请求");
+                HermesEventBus.getDefault()
+                    .postSticky(new IMContactRequestNotificationModel(realm,
+                        IMFNotificationType.SUBSCRIBE));
+              } else if (((Presence) packet).getType().equals(Presence.Type.unsubscribe)) {
+                // 不同意添加好友
+                LogUtils.d(TAG, "----> : 对方不同意好友请求");
+                HermesEventBus.getDefault()
+                    .postSticky(new IMContactRequestNotificationModel(realm,
+                        IMFNotificationType.UNSUBSCRIBE));
+              } else if (((Presence) packet).getType().equals(Presence.Type.subscribed)) {
+                LogUtils.d(TAG, "----> : 对方同意添加好友。");
+                Presence pres = new Presence(Presence.Type.subscribed);
+                pres.setTo(packet.getFrom());
+                try {
+                  mXMPPConnection.sendStanza(pres);
+                } catch (SmackException.NotConnectedException e) {
+                  e.printStackTrace();
+                }
+                HermesEventBus.getDefault()
+                    .postSticky(new IMContactRequestNotificationModel(realm,
+                        IMFNotificationType.SUBSCRIBED));
+              }
+            }, new ErrorAction() {
+              @Override public void call(Throwable throwable) {
+                super.call(throwable);
+                LogUtils.e(TAG, "----> : 从网络中获取数据失败");
+              }
+            });
       }
     };
     mXMPPConnection.addSyncStanzaListener(listener, filter);
@@ -476,30 +503,55 @@ public class SupportService extends Service
   /**
    * 处理好友请求
    */
-  @Subscribe(threadMode = ThreadMode.MAIN) public void onRecieveFriendRequest(
-      RecieveFriend request) {
-    if (request.agreeFriends) {
-      // 这部分代码是同意添加好友请求
-      Presence newp = new Presence(Presence.Type.subscribed);
-      newp.setMode(Presence.Mode.available);
-      newp.setPriority(24);
-      newp.setTo(request.to);
-      try {
-        mXMPPConnection.sendStanza(newp);
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onDealFriendInvited(
+      IMContactDealModel request) {
+    if (request.value) {
+      Observable.create((Observable.OnSubscribe<Presence>) subscriber -> {
         Presence subscription = new Presence(Presence.Type.subscribed);
-        subscription.setTo(request.to);
-        mXMPPConnection.sendStanza(subscription);
-      } catch (SmackException.NotConnectedException e) {
-        e.printStackTrace();
-      }
+        subscription.setMode(Presence.Mode.available);
+        subscription.setTo(request.userId);
+        try {
+          mXMPPConnection.sendStanza(subscription);
+          subscriber.onNext(subscription);
+        } catch (SmackException.NotConnectedException e) {
+          e.printStackTrace();
+          subscriber.onError(e);
+        }
+      })
+          .subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(presence -> {
+              HermesEventBus.getDefault().postSticky(new IMContactDealResponseModel(true));
+          }, new ErrorAction() {
+            @Override public void call(Throwable throwable) {
+              super.call(throwable);
+              LogUtils.d(TAG, throwable.getMessage());
+              HermesEventBus.getDefault().postSticky(new IMContactDealResponseModel(false));
+            }
+          });
     } else {
-      Presence presenceRes = new Presence(Presence.Type.unsubscribe);
-      presenceRes.setTo(mFriendsPresence.getFrom());
-      try {
-        mXMPPConnection.sendStanza(presenceRes);
-      } catch (SmackException.NotConnectedException e) {
-        e.printStackTrace();
-      }
+      Observable.create((Observable.OnSubscribe<Presence>) subscriber -> {
+        Presence subscription = new Presence(Presence.Type.unsubscribe);
+        subscription.setTo(request.userId);
+        try {
+          mXMPPConnection.sendStanza(subscription);
+          subscriber.onNext(subscription);
+        } catch (SmackException.NotConnectedException e) {
+          e.printStackTrace();
+          subscriber.onError(e);
+        }
+      })
+          .subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(presence -> {
+            HermesEventBus.getDefault().postSticky(new IMContactDealResponseModel(true));
+          }, new ErrorAction() {
+            @Override public void call(Throwable throwable) {
+              super.call(throwable);
+              LogUtils.d(TAG, throwable.getMessage());
+              HermesEventBus.getDefault().postSticky(new IMContactDealResponseModel(false));
+            }
+          });
     }
   }
 
@@ -508,6 +560,7 @@ public class SupportService extends Service
    */
   @Override public void entriesAdded(Collection<String> addresses) {
     LogUtils.d(TAG, "entriesAdded: 好友添加成功");
+    printRoster(addresses);
   }
 
   /**
@@ -515,6 +568,7 @@ public class SupportService extends Service
    */
   @Override public void entriesUpdated(Collection<String> addresses) {
     LogUtils.d(TAG, "entriesUpdated: 好友更新成功");
+    printRoster(addresses);
   }
 
   /**
@@ -522,6 +576,13 @@ public class SupportService extends Service
    */
   @Override public void entriesDeleted(Collection<String> addresses) {
     LogUtils.d(TAG, "entriesDeleted: 好友删除成功");
+    printRoster(addresses);
+  }
+
+  public void printRoster(Collection<String> collection) {
+    for (String s : collection) {
+      LogUtils.d(TAG, s);
+    }
   }
 
   /**
@@ -690,7 +751,7 @@ public class SupportService extends Service
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(vCard -> {
-                  Log.d(TAG, "contactCollection: "+entry.getUser());
+                  Log.d(TAG, "contactCollection: " + entry.getUser());
                   ContactRealm account = new ContactRealm();
                   if (vCard.getField("NICKNAME") != null) {
                     account.setAvatar(
@@ -721,7 +782,7 @@ public class SupportService extends Service
                         }, new ErrorAction() {
                           @Override public void call(Throwable throwable) {
                             super.call(throwable);
-                            LogUtils.e(TAG,"---->从网络中获取数据失败");
+                            LogUtils.e(TAG, "---->从网络中获取数据失败");
                           }
                         });
                   }
@@ -738,13 +799,14 @@ public class SupportService extends Service
   /**
    * 发送添加好友请求
    *
-   * @param user {@link AddRosterEvent}
+   * @param user {@link IMAddContactRequestModel}
    */
-  @Subscribe(threadMode = ThreadMode.MAIN) public void addFirend(AddRosterEvent user) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void addContactFirend(
+      IMAddContactRequestModel user) {
     mRoster = Roster.getInstanceFor(mXMPPConnection);
     Observable.create(subscriber -> {
       try {
-        mRoster.createEntry(user.jid, user.nickname, null);
+        mRoster.createEntry(user.userId, user.nickName, null);
         subscriber.onNext(user);
       } catch (SmackException.NotLoggedInException | SmackException.NoResponseException | SmackException.NotConnectedException | XMPPException.XMPPErrorException e) {
         e.printStackTrace();
@@ -755,17 +817,21 @@ public class SupportService extends Service
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
       //发送添加好友成功
-      LogUtils.d(TAG, "addFirend: 添加好友请求成功");
+      LogUtils.d(TAG, "---->: 向用户发送添加好友请求成功");
+      HermesEventBus.getDefault()
+          .postSticky(new IMAddContactResponseModel(new Result(200, "Success")));
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
         super.call(throwable);
         //发送添加好友请求失败
         LogUtils.d(TAG, "call: 添加好友请求失败");
+        HermesEventBus.getDefault()
+            .postSticky(new IMAddContactResponseModel(new Result(400, "Success")));
       }
     });
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN) public void disconnect(UnRegisterEvent event) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void disconnect(IMAccountExitRequestModel event) {
     mXMPPConnection.disconnect();
     connect(false);
   }

@@ -11,6 +11,12 @@ package tech.jiangtao.support.kit.eventbus;
 
 public class IMAddContactRequestModel {
   public String userId;
+  public String nickName;
+
+  public IMAddContactRequestModel(String userId,String nickName){
+    this.userId = userId;
+    this.nickName = nickName;
+  }
 
   public IMAddContactRequestModel(String userId){
     this.userId = userId;

@@ -11,14 +11,15 @@ import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import tech.jiangtao.support.kit.eventbus.RecieveFriend;
+import tech.jiangtao.support.kit.callback.IMListenerCollection;
+import tech.jiangtao.support.kit.eventbus.IMContactDealModel;
+import tech.jiangtao.support.kit.manager.IMContactManager;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.kit.model.group.InvitedInfo;
 import tech.jiangtao.support.kit.model.type.TransportType;
 import tech.jiangtao.support.ui.utils.ResourceAddress;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
  * Class: NewFriendViewHolder </br>
@@ -53,15 +54,32 @@ public class NewFriendViewHolder extends EasyViewHolder<InvitedInfo> {
     mNewFriendNickname.setText(info.account.nickName + "请求添加您为好友。");
     //TODO 缺少邀请要加入的群名
     mNewFriendAgree.setOnClickListener(v -> {
-      HermesEventBus.getDefault().post(new RecieveFriend(true,info.getAccount().getUserId()));
-      mNewFriendAgree.setText("成功");
-      mNewFriendAgree.setEnabled(false);
+      IMContactManager.geInstance().requestDealInvited(
+          new IMContactDealModel(true, info.getAccount().getUserId()), new IMListenerCollection.IMDealFriendInvitedListener() {
+            @Override public void success() {
+              mNewFriendAgree.setText("成功");
+              mNewFriendAgree.setEnabled(false);
+            }
+
+            @Override public void failed() {
+
+            }
+          });
+
     });
     mNewFriendRefused.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        HermesEventBus.getDefault().post(new RecieveFriend(false,info.getAccount().getUserId()));
-        mNewFriendRefused.setText("拒绝成功");
-        mNewFriendRefused.setEnabled(false);
+        IMContactManager.geInstance().requestDealInvited(
+            new IMContactDealModel(false, info.getAccount().getUserId()), new IMListenerCollection.IMDealFriendInvitedListener() {
+              @Override public void success() {
+                mNewFriendRefused.setText("拒绝成功");
+                mNewFriendRefused.setEnabled(false);
+              }
+
+              @Override public void failed() {
+
+              }
+            });
       }
     });
   }

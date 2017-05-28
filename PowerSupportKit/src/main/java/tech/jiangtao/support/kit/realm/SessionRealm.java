@@ -31,8 +31,16 @@ public class SessionRealm extends RealmObject implements Parcelable {
     public ContactRealm contactRealm;
     // 群组信息
     public GroupRealm groupRealm;
+    // 消息
+    public MessageRealm messageRealm;
 
+  public MessageRealm getMessageRealm() {
+    return messageRealm;
+  }
 
+  public void setMessageRealm(MessageRealm messageRealm) {
+    this.messageRealm = messageRealm;
+  }
 
   public ContactRealm getContactRealm() {
     return contactRealm;
@@ -105,6 +113,7 @@ public class SessionRealm extends RealmObject implements Parcelable {
     dest.writeInt(this.messageType);
     dest.writeParcelable(this.contactRealm, flags);
     dest.writeParcelable(this.groupRealm, flags);
+    dest.writeParcelable(this.messageRealm, flags);
   }
 
   protected SessionRealm(Parcel in) {
@@ -115,6 +124,7 @@ public class SessionRealm extends RealmObject implements Parcelable {
     this.messageType = in.readInt();
     this.contactRealm = in.readParcelable(ContactRealm.class.getClassLoader());
     this.groupRealm = in.readParcelable(GroupRealm.class.getClassLoader());
+    this.messageRealm = in.readParcelable(MessageRealm.class.getClassLoader());
   }
 
   public static final Creator<SessionRealm> CREATOR = new Creator<SessionRealm>() {

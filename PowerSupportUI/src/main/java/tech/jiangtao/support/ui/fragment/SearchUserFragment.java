@@ -19,7 +19,11 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import tech.jiangtao.support.kit.eventbus.AddRosterEvent;
+import tech.jiangtao.support.kit.callback.IMListenerCollection;
+import tech.jiangtao.support.kit.eventbus.IMAddContactRequestModel;
+import tech.jiangtao.support.kit.eventbus.IMAddContactResponseModel;
+import tech.jiangtao.support.kit.manager.IMAccountManager;
+import tech.jiangtao.support.kit.manager.IMContactManager;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.ui.R;
@@ -108,9 +112,22 @@ public class SearchUserFragment extends BaseFragment
     final CleanDialog dialog = new CleanDialog.Builder(getContext()).iconFlag(IconFlag.OK)
         .negativeButton("取消", Dialog::dismiss)
         .positiveButton("确认", dialog1 -> {
-          HermesEventBus.getDefault()
-              .post(new AddRosterEvent(mList.get(position).userId, mList.get(position).nickName));
-          dialog1.dismiss();
+          IMContactManager.geInstance()
+              .requestMakeFriend(new IMAddContactRequestModel(mList.get(position).userId,
+                  mList.get(position).nickName), new IMListenerCollection.IMAddContactListener() {
+                @Override public void addContactSuccess(IMAddContactResponseModel model) {
+                  dialog1.dismiss();
+                  SimpleHUD.showSuccessMessage(getContext(), "发送成功");
+                }
+
+                @Override public void addContactFailed(IMAddContactResponseModel model) {
+                  dialog1.dismiss();
+                  SimpleHUD.showErrorMessage(getContext(), "发送失败:---->错误码"
+                      + model.result.getCode()
+                      + " 详细错误信息:"
+                      + model.result.getMsg());
+                }
+              });
         })
         .title("确认添加" + mList.get(position).nickName + "为好友吗?")
         .negativeTextColor(Color.WHITE)
@@ -125,7 +142,7 @@ public class SearchUserFragment extends BaseFragment
     if (query != null && query != "" && query.trim() != "") {
       mUserServiceApi.getQueryAccount(query)
           .subscribeOn(Schedulers.io())
-          .doOnSubscribe(()->SimpleHUD.showLoadingMessage(getContext(), "正在查询", false))
+          .doOnSubscribe(() -> SimpleHUD.showLoadingMessage(getContext(), "正在查询", false))
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe(list -> {
             {

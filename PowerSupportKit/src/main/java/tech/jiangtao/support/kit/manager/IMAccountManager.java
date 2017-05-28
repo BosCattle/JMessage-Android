@@ -8,9 +8,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.callback.IMListenerCollection;
+import tech.jiangtao.support.kit.eventbus.IMAccountExitRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMLoginRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMLoginResponseModel;
-import tech.jiangtao.support.kit.eventbus.UnRegisterEvent;
 import tech.jiangtao.support.kit.model.Account;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
@@ -75,7 +75,7 @@ public class IMAccountManager {
    * @param callBack
    */
   public void disConnect(IMListenerCollection.IMExitlistener callBack) {
-    HermesEventBus.getDefault().post(new UnRegisterEvent());
+    HermesEventBus.getDefault().post(new IMAccountExitRequestModel());
     if (mRealms==null||mRealms.isClosed()){
       mRealms = Realm.getDefaultInstance();
     }

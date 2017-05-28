@@ -1,6 +1,8 @@
 package tech.jiangtao.support.kit.manager;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import io.realm.Realm;
 import io.realm.RealmQuery;
@@ -15,7 +17,12 @@ import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.api.ApiService;
 import tech.jiangtao.support.kit.api.service.UserServiceApi;
 import tech.jiangtao.support.kit.callback.IMListenerCollection;
+import tech.jiangtao.support.kit.eventbus.IMAddContactRequestModel;
+import tech.jiangtao.support.kit.eventbus.IMAddContactResponseModel;
+import tech.jiangtao.support.kit.eventbus.IMContactDealModel;
+import tech.jiangtao.support.kit.eventbus.IMContactDealResponseModel;
 import tech.jiangtao.support.kit.eventbus.IMContactRequestModel;
+import tech.jiangtao.support.kit.eventbus.IMContactRequestNotificationModel;
 import tech.jiangtao.support.kit.eventbus.IMContactResponseCollection;
 import tech.jiangtao.support.kit.eventbus.IMDeleteContactRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMDeleteContactResponseModel;
@@ -47,6 +54,9 @@ public class IMContactManager {
   private UserServiceApi mUserServiceApi;
   private IMListenerCollection.IMRealmChangeListener<ContactRealm> mRealmIMRealmChangeListener;
   private IMListenerCollection.IMDeleteContactListener<ContactRealm> mIMDeleteContactListener;
+  private IMListenerCollection.IMAddContactListener mIMAddContactListener;
+  private IMListenerCollection.IMFriendNotificationListener mFriendNotificationListener;
+  private IMListenerCollection.IMDealFriendInvitedListener mDealFriendInvitedListener;
 
   private IMContactManager() {
     if (!HermesEventBus.getDefault().isRegistered(this)) {
@@ -211,6 +221,96 @@ public class IMContactManager {
     mRealm = null;
     if (HermesEventBus.getDefault().isRegistered(this)) {
       HermesEventBus.getDefault().unregister(this);
+    }
+  }
+
+  /**
+   * 请求添加好友
+   */
+  public void requestMakeFriend(IMAddContactRequestModel model,
+      IMListenerCollection.IMAddContactListener listener) {
+    connectHermes();
+    HermesEventBus.getDefault().postSticky(model);
+    mIMAddContactListener = listener;
+  }
+
+  /**
+   * 用户自己发送添加好友请求的回调
+   * 1. 发送成功
+   * 2. 发送失败
+   */
+  @Subscribe(threadMode = ThreadMode.MAIN) public void requestMakeFriendCallBack(
+      IMAddContactResponseModel model) {
+    if (model.result.getCode() == 200) {
+      mIMAddContactListener.addContactSuccess(model);
+    } else {
+      mIMAddContactListener.addContactFailed(model);
+    }
+  }
+
+  /**
+   * 判断服务是否连接
+   */
+  public void connectHermes() {
+    if (!HermesEventBus.getDefault().isRegistered(this)) {
+      HermesEventBus.getDefault().register(this);
+    }
+  }
+
+  /**
+   * 判断数据库是否连接
+   */
+  public void connectRealm() {
+    if (mRealm == null || mRealm.isClosed()) {
+      mRealm = Realm.getDefaultInstance();
+    }
+  }
+
+  public void setmFriendNotificationListener(
+      IMListenerCollection.IMFriendNotificationListener mFriendNotificationListener) {
+    this.mFriendNotificationListener = mFriendNotificationListener;
+  }
+
+  /**
+   * 添加好友通知
+   */
+  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN) @Subscribe(threadMode = ThreadMode.MAIN)
+  public void addFriendsNotification(IMContactRequestNotificationModel model) {
+    if (mFriendNotificationListener == null) {
+      return;
+    }
+    switch (model.getType()) {
+      case SUBSCRIBE:
+        mFriendNotificationListener.receivedUserInvited(model.getContactRealm());
+        break;
+      case SUBSCRIBED:
+        mFriendNotificationListener.receivedAgreeInvited(model.getContactRealm());
+        break;
+      case UNSUBSCRIBE:
+        mFriendNotificationListener.receivedRejectInvited(model.getContactRealm());
+        break;
+    }
+  }
+
+  /**
+   * 处理好友请求
+   * 1. 同意加微好友
+   * 2. 拒绝加为好友
+   * @param model
+   * @param imDealFriendInvitedListener
+   */
+  public void requestDealInvited(IMContactDealModel model,
+      IMListenerCollection.IMDealFriendInvitedListener imDealFriendInvitedListener){
+    connectHermes();
+    HermesEventBus.getDefault().postSticky(model);
+    mDealFriendInvitedListener  = imDealFriendInvitedListener;
+  }
+
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void dealInvited(IMContactDealResponseModel model) {
+    if (model.value) {
+      mDealFriendInvitedListener.success();
+      mDealFriendInvitedListener.failed();
     }
   }
 }

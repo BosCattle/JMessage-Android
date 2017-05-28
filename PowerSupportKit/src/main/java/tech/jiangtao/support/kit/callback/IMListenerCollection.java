@@ -67,5 +67,27 @@ public interface IMListenerCollection {
     void deleteContactFailed(IMDeleteContactResponseModel model);
   }
 
+  /**
+   * 关于好友的骚操作
+   */
+  interface IMFriendNotificationListener{
+    // 接收到好友邀请
+    void receivedUserInvited(ContactRealm contactRealm);
+    // 好友同意了邀请
+    void receivedAgreeInvited(ContactRealm contactRealm);
+    // 好友拒绝了邀请
+    void receivedRejectInvited(ContactRealm contactRealm);
+  }
+
+  /**
+   * 我同意或者拒绝好友邀请的回调
+   */
+  interface IMDealFriendInvitedListener{
+
+    void success();
+
+    void failed();
+  }
+
 
 }
