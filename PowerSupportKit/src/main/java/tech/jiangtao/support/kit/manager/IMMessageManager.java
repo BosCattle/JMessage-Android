@@ -1,11 +1,11 @@
 package tech.jiangtao.support.kit.manager;
 
-import android.util.Log;
 import io.realm.Realm;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.callback.IMListenerCollection;
 import tech.jiangtao.support.kit.eventbus.IMMessageResponseModel;
 import tech.jiangtao.support.kit.realm.MessageRealm;
+import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
@@ -46,8 +46,9 @@ public class IMMessageManager {
    */
   public MessageRealm storeMessage(IMMessageResponseModel model) {
     // ---> 保存到消息表
-    MessageRealm messageRealm = new MessageRealm();
-    messageRealm.setId(model.getId());
+    connectRealm();
+    MessageRealm messageRealm = mRealm.createObject(MessageRealm.class, model.getId());
+    LogUtils.d(TAG, "消息id" + model.getId());
     messageRealm.setSender(StringSplitUtil.splitDivider(model.getMessage().getMsgSender()));
     messageRealm.setReceiver(StringSplitUtil.splitDivider(model.getMessage().getMsgReceived()));
     messageRealm.setTextMessage(model.getMessage().getMessage());
@@ -64,13 +65,12 @@ public class IMMessageManager {
       messageRealm.setMessageExtensionType(1);
       messageRealm.setGroupId(model.getMessage().getGroup());
     }
-    connectRealm();
-    mRealm.executeTransactionAsync(realm -> realm.copyToRealm(messageRealm), () -> {
-      Log.d(TAG, "onSuccess: 消息存储成功");
+    mRealm.executeTransaction(realm -> {
+      realm.copyToRealm(messageRealm);
       if (mIMMessageChangeListener != null) {
         mIMMessageChangeListener.message(messageRealm);
       }
-    }, error -> Log.d(TAG, "onSuccess: 消息存储失败"));
+    });
     return messageRealm;
   }
 

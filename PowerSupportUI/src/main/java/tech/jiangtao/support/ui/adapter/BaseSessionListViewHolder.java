@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import tech.jiangtao.support.kit.realm.SessionRealm;
-import tech.jiangtao.support.ui.pattern.SessionListMessage;
 
 /**
  * Class: BaseSessionListViewHolder </br>

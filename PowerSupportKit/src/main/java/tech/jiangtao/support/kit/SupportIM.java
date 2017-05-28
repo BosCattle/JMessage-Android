@@ -40,7 +40,7 @@ public class SupportIM {
   public static final String VCARD = "contact";
   public static final String SENDER = "sender";
   public static final String RECEIVER = "receiver";
-  public static final String SENDERFRIENDID = "senderFriendId";
+  public static final String SENDERFRIENDID = "sessionId";
   public static final String MESSAGE_ID = "id";
   public static final String PINYIN = "pinYin";
   public static final String GROUPID = "groupId";

@@ -21,13 +21,8 @@ import com.kevin.library.widget.CleanDialog;
 import com.kevin.library.widget.builder.IconFlag;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 import java.lang.annotation.Annotation;
-import java.util.Iterator;
-
-import net.grandcentrix.tray.AppPreferences;
-import net.grandcentrix.tray.core.ItemNotFoundException;
 
 import butterknife.BindView;
 
@@ -36,27 +31,17 @@ import java.util.List;
 
 import tech.jiangtao.support.kit.annotation.ChatRouter;
 import tech.jiangtao.support.kit.annotation.GroupChatRouter;
-import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.callback.IMListenerCollection;
-import tech.jiangtao.support.kit.eventbus.ReceiveLastMessage;
 import tech.jiangtao.support.kit.manager.IMConversationManager;
 import tech.jiangtao.support.kit.model.Result;
-import tech.jiangtao.support.kit.realm.ContactRealm;
-import tech.jiangtao.support.kit.realm.GroupRealm;
-import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.kit.util.LogUtils;
-import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.EasyViewHolder;
 import tech.jiangtao.support.ui.adapter.SessionAdapter;
-import tech.jiangtao.support.kit.model.type.TransportType;
-import tech.jiangtao.support.ui.pattern.SessionListMessage;
 import tech.jiangtao.support.ui.utils.RecyclerViewUtils;
-import tech.jiangtao.support.ui.utils.ResourceAddress;
-import work.wanghao.simplehud.SimpleHUD;
 
 /**
  * Class: ChatListFragment </br>
@@ -77,10 +62,7 @@ public class ChatListFragment extends BaseFragment
   private SessionAdapter mSessionAdapter;
   private List<SessionRealm> mSessionMessage;
   private Realm mRealm;
-  private RealmResults<SessionRealm> mSessionRealm;
-  private RealmResults<GroupRealm> mGroupRealm;
   private Drawable mDrawable;
-  private AppPreferences mAppPreferences;
   private Class mGroupClazz;
   private Class mChatClass;
 
@@ -99,7 +81,6 @@ public class ChatListFragment extends BaseFragment
     if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
-    mAppPreferences = new AppPreferences(getContext());
     setRefresh();
     setAdapter();
     IMConversationManager.geInstance().queryConversations(ChatListFragment.this);
@@ -196,11 +177,7 @@ public class ChatListFragment extends BaseFragment
   }
 
   @Override public void onRefresh() {
-    new Handler().postDelayed(new Runnable() {
-      @Override public void run() {
-        mSwipeRefreshLayout.setRefreshing(false);
-      }
-    }, 3000);
+    new Handler().postDelayed(() -> mSwipeRefreshLayout.setRefreshing(false), 3000);
   }
 
   /**
@@ -223,6 +200,7 @@ public class ChatListFragment extends BaseFragment
 
   @Override public void change(List<SessionRealm> sessionRealms) {
     frameImage(false);
+    mSessionAdapter.clear();
     mSessionMessage.clear();
     mSessionMessage.addAll(sessionRealms);
     mSessionAdapter.notifyDataSetChanged();

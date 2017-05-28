@@ -12,11 +12,9 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.kit.util.DateUtils;
-import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.BaseSessionListViewHolder;
-import tech.jiangtao.support.ui.pattern.SessionListMessage;
 import tech.jiangtao.support.ui.utils.ResourceAddress;
 
 /**

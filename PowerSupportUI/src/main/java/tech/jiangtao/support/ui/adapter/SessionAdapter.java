@@ -8,7 +8,6 @@ import java.util.List;
 import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.ui.linstener.DebouncedOnClickListener;
 import tech.jiangtao.support.ui.linstener.DebouncedOnLongClickListener;
-import tech.jiangtao.support.ui.pattern.SessionListMessage;
 import tech.jiangtao.support.ui.viewholder.AllChatListViewHolder;
 
 /**

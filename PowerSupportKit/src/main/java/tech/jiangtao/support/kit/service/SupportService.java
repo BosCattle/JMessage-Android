@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import java.util.Date;
 import java.util.Set;
+import java.util.UUID;
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
 
@@ -167,11 +168,11 @@ public class SupportService extends Service
       if (messageBody != null) {
         if (messageBody.getChatType().equals(MessageExtensionType.CHAT.toString())) {
           HermesEventBus.getDefault()
-              .post(new IMMessageResponseModel(message.getStanzaId(), messageBody, new Date(),
+              .post(new IMMessageResponseModel(UUID.randomUUID().toString(), messageBody, new Date(),
                   chat1.getThreadID(), false, MessageAuthor.FRIEND));
         } else if (messageBody.getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())) {
           HermesEventBus.getDefault()
-              .post(new IMMessageResponseModel(message.getStanzaId(), messageBody, new Date(),
+              .post(new IMMessageResponseModel(UUID.randomUUID().toString(), messageBody, new Date(),
                   chat1.getThreadID(), false, MessageAuthor.FRIEND));
         } else if (messageBody.getChatType().equals(MessageExtensionType.PUSH.toString())) {
           // 发送广播
@@ -215,12 +216,12 @@ public class SupportService extends Service
         if (message.getChatType().equals(MessageExtensionType.CHAT.toString())) {
           HermesEventBus.getDefault()
               .postSticky(
-                  new IMMessageResponseModel(s.getStanzaId(), message, new Date(), s.getThread(),
+                  new IMMessageResponseModel(UUID.randomUUID().toString(), message, new Date(), s.getThread(),
                       false, MessageAuthor.OWN));
         } else if (message.getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())) {
           HermesEventBus.getDefault()
               .postSticky(
-                  new IMMessageResponseModel(s.getStanzaId(), message, new Date(), s.getThread(),
+                  new IMMessageResponseModel(UUID.randomUUID().toString(), message, new Date(), s.getThread(),
                       false, MessageAuthor.OWN));
         }
       }
@@ -404,9 +405,39 @@ public class SupportService extends Service
         .observeOn(Schedulers.io())
         .subscribe(messages -> {
           // 解析消息，然后推到前台
+          Gson gson = new Gson();
           for (Message message : messages) {
             // 发消息到XMPPService
             LogUtils.d(TAG, "获取到离线消息:" + message.getBody());
+            tech.jiangtao.support.kit.model.jackson.Message messageBody = null;
+            try {
+              messageBody =
+                  gson.fromJson(message.getBody(), tech.jiangtao.support.kit.model.jackson.Message.class);
+            } catch (JsonSyntaxException e) {
+              LogUtils.e(TAG, "你根本不是司机，请发送json格式的数据---->" + message.getBody());
+            }
+            if (messageBody != null) {
+              if (messageBody.getChatType().equals(MessageExtensionType.CHAT.toString())) {
+                HermesEventBus.getDefault()
+                    .post(new IMMessageResponseModel(UUID.randomUUID().toString(), messageBody, new Date(),
+                        UUID.randomUUID().toString(), false, MessageAuthor.FRIEND));
+              } else if (messageBody.getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())) {
+                HermesEventBus.getDefault()
+                    .post(new IMMessageResponseModel(UUID.randomUUID().toString(), messageBody, new Date(),
+                        UUID.randomUUID().toString(), false, MessageAuthor.FRIEND));
+              } else if (messageBody.getChatType().equals(MessageExtensionType.PUSH.toString())) {
+                // 发送广播
+                Intent intent = new Intent(this.getClass().getCanonicalName());
+                LogUtils.d(TAG, this.getClass().getCanonicalName());
+                sendBroadcast(intent);
+                tech.jiangtao.support.kit.model.jackson.Message message1 =
+                    new tech.jiangtao.support.kit.model.jackson.Message();
+                message1.setMsgSender(message.getTo());
+                message1.setMessage("1");
+                sendMessage(message1);
+                // 发送消息到服务求确定已经收到消息
+              }
+            }
           }
         }, new ErrorAction() {
           @Override public void call(Throwable throwable) {

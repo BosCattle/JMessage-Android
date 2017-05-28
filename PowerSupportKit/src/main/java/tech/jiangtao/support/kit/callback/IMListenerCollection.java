@@ -124,6 +124,13 @@ public interface IMListenerCollection {
     void error(Result result);
   }
 
+  /**
+   * 查询单个会话
+   */
+  interface IMConversationQueryListener{
+    void result(SessionRealm sessionRealm);
+  }
+
   // --------------------------------------群组-------------------------------------//
 
   /**

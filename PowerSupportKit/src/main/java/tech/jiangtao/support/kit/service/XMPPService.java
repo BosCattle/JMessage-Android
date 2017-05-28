@@ -137,26 +137,6 @@ public class XMPPService extends Service {
     mWakelock.release();
   }
 
-  /**
-   * 显示通知
-   */
-  public void showNotification(String name, String info) {
-    Notification.Builder builder = new Notification.Builder(this);
-    Intent intent = new Intent(this, null);
-    builder.setContentIntent(
-        PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT))
-        .setContentTitle(name)
-        .setContentText(info)
-        .setSmallIcon(R.mipmap.ic_launcher)
-        .setWhen(System.currentTimeMillis())
-        .setPriority(Notification.PRIORITY_HIGH)
-        .setDefaults(Notification.DEFAULT_VIBRATE);
-    Notification notification = builder.build();
-    notification.flags = Notification.FLAG_ONGOING_EVENT;
-    notification.defaults = Notification.DEFAULT_SOUND;
-    startForeground(110, notification);
-  }
-
   @Override public void onDestroy() {
     super.onDestroy();
     mRealm.close();
@@ -164,30 +144,6 @@ public class XMPPService extends Service {
 
   @Nullable @Override public IBinder onBind(Intent intent) {
     return mXMPPBinder;
-  }
-
-  public void showOnesNotification(String name, String info, Intent intent) {
-    if (mSettingManager.getNotification(this)) {
-      mWakelock.acquire(10 * 60 * 1000L /*10 minutes*/);
-      NotificationManager mNotificationManager =
-          (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-      Notification.Builder builder = new Notification.Builder(this);
-      builder.setContentIntent(
-          PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT))
-          .setContentTitle(name)
-          .setContentText(info)
-          .setSmallIcon(tech.jiangtao.support.kit.R.mipmap.ic_launcher)
-          .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
-              tech.jiangtao.support.kit.R.mipmap.ic_launcher))
-          .setWhen(System.currentTimeMillis())
-          .setPriority(Notification.PRIORITY_HIGH)
-          .setDefaults(Notification.DEFAULT_VIBRATE);
-      Notification notification = builder.build();
-      notification.flags = Notification.FLAG_AUTO_CANCEL;
-      notification.defaults = Notification.DEFAULT_SOUND;
-      mNotificationManager.notify(0, notification);
-      mWakelock.release();
-    }
   }
 
   /**
