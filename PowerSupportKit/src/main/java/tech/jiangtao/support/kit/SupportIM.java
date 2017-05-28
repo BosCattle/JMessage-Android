@@ -9,6 +9,7 @@ import java.util.UUID;
 import tech.jiangtao.support.kit.annotation.ChatRouter;
 import tech.jiangtao.support.kit.annotation.GroupChatRouter;
 import tech.jiangtao.support.kit.annotation.InvitedRouter;
+import tech.jiangtao.support.kit.manager.IMSettingManager;
 import tech.jiangtao.support.kit.service.SupportService;
 import tech.jiangtao.support.kit.service.XMPPService;
 import tech.jiangtao.support.kit.util.PropertyUtils;
@@ -23,7 +24,6 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  * Update: 01/12/2016 11:15 PM </br>
  * 初始化数据，全局保存
  **/
-// TODO: 09/04/2017 有点流氓，后期升级
 public class SupportIM {
 
   public static String mDomain;
@@ -65,7 +65,8 @@ public class SupportIM {
 
   public static void initialize(Context context, String resourceName) {
     initValue(context, resourceName);
-    String resource = UUID.randomUUID().toString();
+    IMSettingManager manager = new IMSettingManager();
+    String resource = manager.getAndroidId(context);
     //---------------------------------------配置中心--------------------------------
     //------------------------------------------------------------------------------
     initialize(context, SERVICE_NAME, resource, HOST, Integer.parseInt(PORT), RESOURCE_ADDRESS,
@@ -105,6 +106,7 @@ public class SupportIM {
 
   public static void initialize(Context context, String serviceName, String resource, String host,
       int port, String resourceAddress, String apiAddress) {
+    HermesEventBus.getDefault().init(context);
     initialize(context, serviceName, resource, host);
     RESOURCE_ADDRESS = resourceAddress;
     API_ADDRESS = apiAddress;

@@ -5,6 +5,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import rx.Observable;
+import tech.jiangtao.support.kit.model.group.Group;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.kit.model.group.Authority;
@@ -60,14 +61,16 @@ public interface GroupServiceApi {
 
   /**
    * 删除用户
-   * @param userIds
-   * @param userId
-   * @param groupId
-   * @return
    */
   @POST("group/addMembers") @FormUrlEncoded Observable<ContactRealm> deleteGroupMember(
       @Field("userIds") List<String> userIds, @Field("userId") String userId,
       @Field("groupId") String groupId);
 
-
+  /**
+   * 查询群详情
+   * @param groupId
+   * @return
+   */
+  @POST("group//queryGroup") @FormUrlEncoded Observable<GroupRealm> queryGroup(
+      @Field("groupId") String groupId);
 }

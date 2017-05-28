@@ -37,9 +37,10 @@ import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.eventbus.IMContactRequestNotificationModel;
+import tech.jiangtao.support.kit.eventbus.IMMessageResponseModel;
 import tech.jiangtao.support.kit.eventbus.ReceiveLastMessage;
-import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.SupportIM;
+import tech.jiangtao.support.kit.manager.IMConversationManager;
 import tech.jiangtao.support.kit.manager.IMNotificationManager;
 import tech.jiangtao.support.kit.manager.IMSettingManager;
 import tech.jiangtao.support.kit.realm.ContactRealm;
@@ -117,172 +118,22 @@ public class XMPPService extends Service {
     return START_STICKY;
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN) public void onRecieveMessage(RecieveMessage message) {
-    //先保存会话表，然后保存到消息记录表
-    if (mRealm == null || mRealm.isClosed()) {
-      mRealm = Realm.getDefaultInstance();
-    }
-    mRealm.executeTransactionAsync(realm -> {
-      RealmResults<SessionRealm> result = null;
-      if (message.messageExtensionType.equals(MessageExtensionType.CHAT)) {
-        // 根据senderFriendId，发送者的userId是否可数据库中存储的userId相同
-        // 单聊是message.userJID
-        // 自己发的消息，userId代表自己，ownJid代表别人
-        // 别人发的消息,userId代表别人，ownJid代表自己
-        if (message.messageAuthor.equals(MessageAuthor.OWN)) {
-          result = realm.where(SessionRealm.class)
-              .equalTo(SupportIM.SENDERFRIENDID, StringSplitUtil.splitDivider(message.ownJid))
-              .findAll();
-        } else {
-          result = realm.where(SessionRealm.class)
-              .equalTo(SupportIM.SENDERFRIENDID, StringSplitUtil.splitDivider(message.userJID))
-              .findAll();
-        }
-      } else if (message.messageExtensionType.equals(MessageExtensionType.GROUP_CHAT)) {
-        // 根据senderFriendId，发送者的userId是否可数据库中存储的userId相同
-        // 群聊是message.groupId
-        result = realm.where(SessionRealm.class)
-            .equalTo(SupportIM.SENDERFRIENDID, StringSplitUtil.splitDivider(message.groupId))
-            .findAll();
-      }
-      // 保存到SessionRealm
-      SessionRealm sessionRealm = new SessionRealm();
-      if (result != null && result.size() != 0) {
-        sessionRealm = result.first();
-        sessionRealm.setMessageId(message.id);
-        sessionRealm.setUnReadCount(sessionRealm.getUnReadCount() + 1);
-      } else {
-        sessionRealm = new SessionRealm();
-        sessionRealm.setSessionId(UUID.randomUUID().toString());
-        sessionRealm.setMessageId(message.id);
-        sessionRealm.setUnReadCount(1);
-      }
-      // 应该使用int值，后期会拓展推送消息
-      // 单聊为0，群聊为1
-      if (message.messageExtensionType.equals(MessageExtensionType.CHAT)) {
-        sessionRealm.setMessageType(0);
-        if (message.messageAuthor.equals(MessageAuthor.OWN)) {
-          sessionRealm.setSenderFriendId(StringSplitUtil.splitDivider(message.ownJid));
-        } else {
-          sessionRealm.setSenderFriendId(StringSplitUtil.splitDivider(message.userJID));
-        }
-      } else if (message.messageExtensionType.equals(MessageExtensionType.GROUP_CHAT)) {
-        sessionRealm.setMessageType(1);
-        sessionRealm.setSenderFriendId(StringSplitUtil.splitDivider(message.groupId));
-      }
-      // ---> 保存到消息表
-      MessageRealm messageRealm = new MessageRealm();
-      messageRealm.setId(message.id);
-      messageRealm.setSender(StringSplitUtil.splitDivider(message.userJID));
-      messageRealm.setReceiver(StringSplitUtil.splitDivider(message.ownJid));
-      messageRealm.setTextMessage(message.message);
-      messageRealm.setTime(null);
-      messageRealm.setThread(message.thread);
-      messageRealm.setType(message.type.toString());
-      messageRealm.setMessageType(message.messageType.toString());
-      messageRealm.setMessageStatus(false);
-      if (message.messageExtensionType.equals(MessageExtensionType.CHAT)) {
-        messageRealm.setMessageExtensionType(0);
-      } else if (message.messageExtensionType.equals(MessageExtensionType.GROUP_CHAT)) {
-        messageRealm.setMessageExtensionType(1);
-        messageRealm.setGroupId(message.groupId);
-        // 检查是否有当前群组的信息
-        String userId = null;
-        try {
-          userId = mAppPreferences.getString(SupportIM.USER_ID);
-        } catch (ItemNotFoundException e) {
-          e.printStackTrace();
-        }
-        RealmResults<GroupRealm> groups = realm.where(GroupRealm.class)
-            .equalTo(SupportIM.GROUPID, StringSplitUtil.splitDivider(message.groupId))
-            .findAll();
-        if (groups.size() == 0) {
-          mGroupServiceApi.groups(userId)
-              .subscribeOn(Schedulers.io())
-              .observeOn(AndroidSchedulers.mainThread())
-              .subscribe(this::writeGroupRealmData);
-        }
-        // 检查本地是否有该群用户的资料
-        RealmResults<ContactRealm> contactRealms =
-            realm.where(ContactRealm.class).equalTo(SupportIM.USER_ID, message.userJID).findAll();
-        // --------没有
-        if (contactRealms.size() == 0) {
-          // 获取用户信息
-          mGroupServiceApi.selectGroupMembers(StringSplitUtil.splitDivider(message.groupId),
-              StringSplitUtil.splitDivider(message.userJID))
-              .subscribeOn(Schedulers.io())
-              .observeOn(AndroidSchedulers.mainThread())
-              .subscribe(contactRealms1 -> {
-                if (contactRealms1 != null && contactRealms1.size() != 0) {
-                  writeToRealm(contactRealms1);
-                }
-              }, new ErrorAction() {
-                @Override public void call(Throwable throwable) {
-                  super.call(throwable);
-                  Log.e(TAG, "call: 获取群用户错误");
-                }
-              });
-        }
-      }
-      realm.copyToRealmOrUpdate(sessionRealm);
-      realm.copyToRealm(messageRealm);
-    }, () -> {
-      LogUtils.d(TAG, "onSuccess: 保存消息成功");
-      HermesEventBus.getDefault()
-          .post(new ReceiveLastMessage(message.id, message.type, message.userJID, message.ownJid,
-              message.thread, message.message, message.messageType, message.messageExtensionType,
-              false, message.messageAuthor, message.groupId));
-      // 根据单聊还是群聊来进行数据库检查
-      Intent intent = null;
-      if (message.messageExtensionType.equals(MessageExtensionType.CHAT)) {
-        RealmResults<ContactRealm> results = mRealm.where(ContactRealm.class)
-            .equalTo(SupportIM.USER_ID, StringSplitUtil.splitDivider(message.userJID))
-            .findAll();
-        if (results.size() != 0) {
-          intent = new Intent(XMPPService.this, mChatClass);
-          intent.putExtra(SupportIM.VCARD, results.first());
-        }
-        LogUtils.d(TAG, "当前应用是否处于前台" + ServiceUtils.isApplicationBroughtToBackground(
-            this.getApplicationContext()));
-        if (message.messageAuthor == MessageAuthor.FRIEND && intent != null) {
-          if (message.messageType == DataExtensionType.TEXT) {
-            showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), message.message,
-                intent);
-          }
-          if (message.messageType == DataExtensionType.IMAGE) {
-            showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[图片]", intent);
-          }
-          if (message.messageType == DataExtensionType.AUDIO) {
-            showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[音频]", intent);
-          }
-          if (message.messageType == DataExtensionType.VIDEO) {
-            showOnesNotification(StringSplitUtil.splitPrefix(message.userJID), "[视频]", intent);
-          }
-        }
-      } else if (message.messageExtensionType.equals(MessageExtensionType.GROUP_CHAT)) {
-
-      }
-    }, error -> LogUtils.d(TAG, "onError: 保存消息失败" + error.getMessage()));
-  }
-
-  private void writeGroupRealmData(List<GroupRealm> groupRealms) {
-    mRealm.executeTransaction(realm -> realm.copyToRealmOrUpdate(groupRealms));
-  }
-
-  public void writeToRealm(List<ContactRealm> list) {
-    mRealm.executeTransaction(realm -> realm.copyToRealmOrUpdate(list));
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void onRecieveMessage(IMMessageResponseModel message) {
+    // TODO: 28/05/2017  需要获取到是单聊还是群聊
+    IMConversationManager.geInstance().storeConversation(message, this, mChatClass);
   }
 
   /**
    * 添加好友通知
    */
-  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-  @Subscribe(threadMode = ThreadMode.MAIN)
+  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN) @Subscribe(threadMode = ThreadMode.MAIN)
   public void addFriendsNotification(IMContactRequestNotificationModel request) {
     mWakelock.acquire(10 * 60 * 1000L /*10 minutes*/);
     Intent i = new Intent(this, mInvitedClass);
     i.putExtra(SupportIM.NEW_FLAG, request);
-    IMNotificationManager.geInstance().showContactNotification(this,request.getContactRealm(),request.getType(),i);
+    IMNotificationManager.geInstance()
+        .showContactNotification(this, request.getContactRealm(), request.getType(), i);
     mWakelock.release();
   }
 
@@ -318,13 +169,16 @@ public class XMPPService extends Service {
   public void showOnesNotification(String name, String info, Intent intent) {
     if (mSettingManager.getNotification(this)) {
       mWakelock.acquire(10 * 60 * 1000L /*10 minutes*/);
-      NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+      NotificationManager mNotificationManager =
+          (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
       Notification.Builder builder = new Notification.Builder(this);
-      builder.setContentIntent(PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT))
+      builder.setContentIntent(
+          PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT))
           .setContentTitle(name)
           .setContentText(info)
           .setSmallIcon(tech.jiangtao.support.kit.R.mipmap.ic_launcher)
-          .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), tech.jiangtao.support.kit.R.mipmap.ic_launcher))
+          .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
+              tech.jiangtao.support.kit.R.mipmap.ic_launcher))
           .setWhen(System.currentTimeMillis())
           .setPriority(Notification.PRIORITY_HIGH)
           .setDefaults(Notification.DEFAULT_VIBRATE);

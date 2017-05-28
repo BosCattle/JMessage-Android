@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
-import tech.jiangtao.support.kit.eventbus.NotificationConnection;
+import tech.jiangtao.support.kit.eventbus.IMNotificationConnection;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.service.SupportService;
 import tech.jiangtao.support.kit.service.XMPPService;
@@ -21,7 +21,7 @@ public class TickBroadcastReceiver extends BroadcastReceiver {
 
   @Override public void onReceive(Context context, Intent intent) {
     //LogUtils.d(TAG, "onReceive: 检测服务是否在运行");
-    HermesEventBus.getDefault().post(new NotificationConnection(true));
+    HermesEventBus.getDefault().post(new IMNotificationConnection(true));
     boolean isServiceRunning = false;
     if (intent.getAction().equals(Intent.ACTION_TIME_TICK)) {
       ActivityManager manager = (ActivityManager) context.getApplicationContext()

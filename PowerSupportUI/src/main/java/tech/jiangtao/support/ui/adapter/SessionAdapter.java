@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import java.util.List;
+import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.ui.linstener.DebouncedOnClickListener;
 import tech.jiangtao.support.ui.linstener.DebouncedOnLongClickListener;
 import tech.jiangtao.support.ui.pattern.SessionListMessage;
@@ -22,11 +23,11 @@ import tech.jiangtao.support.ui.viewholder.AllChatListViewHolder;
 public class SessionAdapter extends RecyclerView.Adapter<BaseSessionListViewHolder> {
 
   private Context mContext;
-  private List<SessionListMessage> mDatas;
+  private List<SessionRealm> mDatas;
   private EasyViewHolder.OnItemClickListener mOnItemClickListener;
   private EasyViewHolder.OnItemLongClickListener mOnItemLongClickListener;
 
-  public SessionAdapter(Context context,List<SessionListMessage> datas){
+  public SessionAdapter(Context context,List<SessionRealm> datas){
     mContext = context;
     mDatas = datas;
   }

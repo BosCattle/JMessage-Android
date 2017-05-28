@@ -8,6 +8,9 @@ import tech.jiangtao.support.kit.eventbus.IMDeleteContactResponseModel;
 import tech.jiangtao.support.kit.model.Account;
 import tech.jiangtao.support.kit.model.Result;
 import tech.jiangtao.support.kit.realm.ContactRealm;
+import tech.jiangtao.support.kit.realm.GroupRealm;
+import tech.jiangtao.support.kit.realm.MessageRealm;
+import tech.jiangtao.support.kit.realm.SessionRealm;
 
 /**
  * Class: IMListenerCollection </br>
@@ -27,6 +30,14 @@ public interface IMListenerCollection {
   interface IMRealmChangeListener<T extends RealmObject> {
 
     void change(List<T> realmResults);
+  }
+
+  /**
+   * 查询条ContactRealm
+   * @param <T>
+   */
+  interface IMRealmQueryListener<T extends RealmObject>{
+    void result(ContactRealm contactRealm);
   }
 
   /**
@@ -87,6 +98,39 @@ public interface IMListenerCollection {
     void success();
 
     void failed();
+  }
+
+  /**
+   * 获得消息来了
+   */
+  interface IMMessageChangeListener{
+    void message(MessageRealm messageRealm);
+  }
+
+  //--------------------------------有关会话的-------------------------------------//
+
+  /**
+   * 会话改变
+   */
+  interface IMConversationChangeListener{
+    void change(List<SessionRealm> sessionRealms);
+  }
+
+  /**
+   * 删除会话
+   */
+  interface IMConversationDeleteListener{
+    void success();
+    void error(Result result);
+  }
+
+  // --------------------------------------群组-------------------------------------//
+
+  /**
+   * 获取单个群组信息
+   */
+  interface IMGroupQueryListener{
+    void result(GroupRealm group);
   }
 
 

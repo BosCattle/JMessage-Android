@@ -1,7 +1,11 @@
 package tech.jiangtao.support.ui.utils;
 
 import tech.jiangtao.support.kit.SupportIM;
+import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.model.type.TransportType;
+import tech.jiangtao.support.kit.realm.SessionRealm;
+import tech.jiangtao.support.kit.util.StringSplitUtil;
+import tech.jiangtao.support.kit.util.StringUtils;
 
 /**
  * Class: ResourceAddress </br>
@@ -15,7 +19,7 @@ import tech.jiangtao.support.kit.model.type.TransportType;
 public class ResourceAddress {
 
   public static String url(String resourceId, TransportType type) {
-    if (type==null||resourceId==null){
+    if (type == null || resourceId == null) {
       return null;
     }
     if (type == TransportType.AVATAR) {
@@ -30,5 +34,64 @@ public class ResourceAddress {
       return SupportIM.RESOURCE_ADDRESS + "file/" + resourceId;
     }
     return null;
+  }
+
+  public static String avatar(SessionRealm session) {
+    String avatar = "";
+    switch (session.getMessageType()) {
+      case 0:
+        avatar = session.getContactRealm().getAvatar() == null ? ""
+            : session.getContactRealm().getAvatar();
+        break;
+      case 1:
+        avatar =
+            session.getGroupRealm().getAvatar() == null ? "" : session.getGroupRealm().getAvatar();
+        break;
+    }
+    return avatar;
+  }
+
+  public static String nickName(SessionRealm session) {
+    String nickName = "";
+    switch (session.getMessageType()) {
+      case 0:
+        if (session.getContactRealm().getNickName() == null) {
+          nickName = StringSplitUtil.splitPrefix(session.getContactRealm().getUserId());
+        } else {
+          nickName = session.getContactRealm().getNickName();
+        }
+        break;
+      case 1:
+        if (session.getGroupRealm().getName() == null) {
+          nickName = StringSplitUtil.splitPrefix(session.getGroupRealm().getGroupId());
+        } else {
+          nickName = session.getGroupRealm().getName();
+        }
+        break;
+    }
+    return nickName;
+  }
+
+  public static String content(SessionRealm sessionRealm) {
+    String message = "";
+    if (sessionRealm.getMessageRealm().getMessageType().equals(DataExtensionType.TEXT.toString())) {
+      message = sessionRealm.getMessageRealm().textMessage;
+    }
+    if (sessionRealm.getMessageRealm()
+        .getMessageType()
+        .equals(DataExtensionType.IMAGE.toString())) {
+      message = "图片";
+    }
+    if (sessionRealm.getMessageRealm()
+        .getMessageType()
+        .equals(DataExtensionType.AUDIO.toString())) {
+      message = "语音";
+    }
+    if (sessionRealm.getMessageRealm()
+        .getMessageType()
+        .equals(DataExtensionType.VIDEO.toString())) {
+      message = "视频";
+    }
+    return message;
   }
 }

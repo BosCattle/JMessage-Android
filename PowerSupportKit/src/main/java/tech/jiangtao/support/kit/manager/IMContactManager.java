@@ -16,6 +16,7 @@ import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.api.ApiService;
 import tech.jiangtao.support.kit.api.service.UserServiceApi;
+import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.callback.IMListenerCollection;
 import tech.jiangtao.support.kit.eventbus.IMAddContactRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMAddContactResponseModel;
@@ -26,12 +27,16 @@ import tech.jiangtao.support.kit.eventbus.IMContactRequestNotificationModel;
 import tech.jiangtao.support.kit.eventbus.IMContactResponseCollection;
 import tech.jiangtao.support.kit.eventbus.IMDeleteContactRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMDeleteContactResponseModel;
+import tech.jiangtao.support.kit.eventbus.IMLoginResponseModel;
+import tech.jiangtao.support.kit.eventbus.IMMessageResponseModel;
 import tech.jiangtao.support.kit.model.Account;
+import tech.jiangtao.support.kit.model.Result;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.kit.util.ContactComparator;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
+import tech.jiangtao.support.kit.util.StringSplitUtil;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -77,13 +82,51 @@ public class IMContactManager {
    */
   public void readContacts(
       IMListenerCollection.IMRealmChangeListener<ContactRealm> realmIMRealmChangeListener) {
-    if (mRealm == null || mRealm.isClosed()) {
-      mRealm = Realm.getDefaultInstance();
-    }
+    connectRealm();
     RealmQuery<ContactRealm> realmQuery = mRealm.where(ContactRealm.class);
     // 查询,根据nickName进行排序
     RealmResults<ContactRealm> contactRealms = realmQuery.findAllSorted(SupportIM.PINYIN);
     realmIMRealmChangeListener.change(contactRealms);
+  }
+
+  public void readSingleContact(IMMessageResponseModel model,
+      IMListenerCollection.IMRealmQueryListener<ContactRealm> listener) {
+    connectRealm();
+    String userId = null;
+    if (model.author.equals(MessageAuthor.OWN)) {
+      userId = StringSplitUtil.splitDivider(model.getMessage().getMsgReceived());
+    } else if (model.getAuthor().equals(MessageAuthor.FRIEND)) {
+      userId = StringSplitUtil.splitDivider(model.getMessage().getMsgSender());
+    }
+    ContactRealm contactRealm =
+        mRealm.where(ContactRealm.class).equalTo(SupportIM.USER_ID, userId).findFirst();
+    if (contactRealm != null) {
+      listener.result(contactRealm);
+    } else {
+      // 通过http获取用户信息
+      mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
+      mUserServiceApi.selfAccount(StringSplitUtil.userJid(userId))
+          .subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(user -> {
+            ContactRealm realm = new ContactRealm();
+            realm.setUid(user.getUid());
+            realm.setAvatar(user.getAvatar());
+            realm.setSignature(user.getSignature());
+            realm.setSex(user.isSex());
+            realm.setNickName(user.nickName);
+            realm.setUserId(user.getUserId());
+            realm.setRelative(user.relative);
+            realm.setNid(user.nid);
+            updateSingleIMContactRealm(realm, null);
+            listener.result(realm);
+          }, new ErrorAction() {
+            @Override public void call(Throwable throwable) {
+              super.call(throwable);
+              LogUtils.d(TAG, "在通讯录管理器中获取用户信息失败" + throwable.getMessage());
+            }
+          });
+    }
   }
 
   /**
@@ -156,8 +199,11 @@ public class IMContactManager {
     if (mRealm == null || mRealm.isClosed()) {
       mRealm = Realm.getDefaultInstance();
     }
-    mRealm.executeTransactionAsync(realm -> realm.copyToRealmOrUpdate(contactRealm),
-        () -> readContacts(realmIMRealmChangeListener));
+    mRealm.executeTransactionAsync(realm -> realm.copyToRealmOrUpdate(contactRealm), () -> {
+      if (mRealmIMRealmChangeListener != null) {
+        readContacts(realmIMRealmChangeListener);
+      }
+    });
   }
 
   /**
@@ -296,14 +342,12 @@ public class IMContactManager {
    * 处理好友请求
    * 1. 同意加微好友
    * 2. 拒绝加为好友
-   * @param model
-   * @param imDealFriendInvitedListener
    */
   public void requestDealInvited(IMContactDealModel model,
-      IMListenerCollection.IMDealFriendInvitedListener imDealFriendInvitedListener){
+      IMListenerCollection.IMDealFriendInvitedListener imDealFriendInvitedListener) {
     connectHermes();
     HermesEventBus.getDefault().postSticky(model);
-    mDealFriendInvitedListener  = imDealFriendInvitedListener;
+    mDealFriendInvitedListener = imDealFriendInvitedListener;
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN)

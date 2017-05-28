@@ -11,6 +11,7 @@ import android.os.RemoteException;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import java.util.Date;
 import java.util.Set;
 import net.grandcentrix.tray.AppPreferences;
 import net.grandcentrix.tray.core.ItemNotFoundException;
@@ -50,7 +51,6 @@ import java.util.Collection;
 import java.util.List;
 
 import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.SupportAIDLConnection;
@@ -72,11 +72,11 @@ import tech.jiangtao.support.kit.eventbus.IMContactResponseCollection;
 import tech.jiangtao.support.kit.eventbus.IMLoginRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMLoginResponseModel;
 import tech.jiangtao.support.kit.eventbus.IMDeleteContactRequestModel;
-import tech.jiangtao.support.kit.eventbus.NotificationConnection;
+import tech.jiangtao.support.kit.eventbus.IMNotificationConnection;
+import tech.jiangtao.support.kit.eventbus.IMMessageResponseModel;
 import tech.jiangtao.support.kit.eventbus.QueryUser;
 import tech.jiangtao.support.kit.eventbus.QueryUserResult;
 import tech.jiangtao.support.kit.eventbus.IMContactDealModel;
-import tech.jiangtao.support.kit.eventbus.RecieveMessage;
 import tech.jiangtao.support.kit.eventbus.RegisterAccount;
 import tech.jiangtao.support.kit.eventbus.RegisterResult;
 import tech.jiangtao.support.kit.SupportIM;
@@ -134,7 +134,7 @@ public class SupportService extends Service
   }
 
   @Subscribe(threadMode = ThreadMode.BACKGROUND)
-  public void onMessage(NotificationConnection connection) {
+  public void onMessage(IMNotificationConnection connection) {
     //LogUtils.d(TAG, "是否连接" + mXMPPConnection.isConnected());
     //LogUtils.d(TAG, "是否认证" + mXMPPConnection.isAuthenticated());
     //if (connection.connectChoice && !mXMPPConnection.isConnected()) {
@@ -165,24 +165,14 @@ public class SupportService extends Service
         LogUtils.e(TAG, "你根本不是司机，请发送json格式的数据---->" + message.getBody());
       }
       if (messageBody != null) {
-        DataExtensionType dataExtensionType = DataExtensionType.valueOf(messageBody.getType());
         if (messageBody.getChatType().equals(MessageExtensionType.CHAT.toString())) {
           HermesEventBus.getDefault()
-              .post(new RecieveMessage(message.getStanzaId(), message.getType(), message.getFrom(),
-                  message.getTo(), chat1.getThreadID(), messageBody.getMessage(), dataExtensionType,
-                  MessageExtensionType.valueOf(messageBody.getChatType()), false,
-                  MessageAuthor.FRIEND, null));
+              .post(new IMMessageResponseModel(message.getStanzaId(), messageBody, new Date(),
+                  chat1.getThreadID(), false, MessageAuthor.FRIEND));
         } else if (messageBody.getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())) {
-          dataExtensionType = DataExtensionType.fromValue(messageBody.getType());
-          if (dataExtensionType == null) {
-            dataExtensionType = DataExtensionType.TEXT;
-          }
           HermesEventBus.getDefault()
-              .post(new RecieveMessage(message.getStanzaId(), message.getType(),
-                  messageBody.getMsgSender(), message.getTo(), chat1.getThreadID(),
-                  messageBody.getMessage(), dataExtensionType,
-                  MessageExtensionType.valueOf(messageBody.getChatType()), false,
-                  MessageAuthor.FRIEND, message.getFrom()));
+              .post(new IMMessageResponseModel(message.getStanzaId(), messageBody, new Date(),
+                  chat1.getThreadID(), false, MessageAuthor.FRIEND));
         } else if (messageBody.getChatType().equals(MessageExtensionType.PUSH.toString())) {
           // 发送广播
           Intent intent = new Intent(this.getClass().getCanonicalName());
@@ -221,31 +211,18 @@ public class SupportService extends Service
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
       LogUtils.d(TAG, "sendMessage: 发送成功");
       LogUtils.d(TAG, "sendMessage: 打印出别人的jid为:" + s.getTo());
-      String userJid = null;
-      final AppPreferences appPreferences = new AppPreferences(getContext());
-      tech.jiangtao.support.kit.model.jackson.Message message1 =
-          gson.fromJson(s.getBody(), tech.jiangtao.support.kit.model.jackson.Message.class);
-      try {
-        userJid = StringSplitUtil.splitDivider(appPreferences.getString(SupportIM.USER_ID));
-        if (s.getBody() != null) {
-          if (message.getChatType().equals(MessageExtensionType.CHAT.toString())) {
-            HermesEventBus.getDefault()
-                .postSticky(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
-                    chat.getThreadID(), message1.message,
-                    DataExtensionType.fromValue(message.getType()),
-                    MessageExtensionType.fromValue(message.getChatType()), false, MessageAuthor.OWN,
-                    null));
-          } else if (message.getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())) {
-            HermesEventBus.getDefault()
-                .postSticky(new RecieveMessage(s.getStanzaId(), s.getType(), userJid, s.getTo(),
-                    chat.getThreadID(), message1.message,
-                    DataExtensionType.fromValue(message.getType()),
-                    MessageExtensionType.fromValue(message.getChatType()), false, MessageAuthor.OWN,
-                    s.getTo()));
-          }
+      if (s.getBody() != null) {
+        if (message.getChatType().equals(MessageExtensionType.CHAT.toString())) {
+          HermesEventBus.getDefault()
+              .postSticky(
+                  new IMMessageResponseModel(s.getStanzaId(), message, new Date(), s.getThread(),
+                      false, MessageAuthor.OWN));
+        } else if (message.getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())) {
+          HermesEventBus.getDefault()
+              .postSticky(
+                  new IMMessageResponseModel(s.getStanzaId(), message, new Date(), s.getThread(),
+                      false, MessageAuthor.OWN));
         }
-      } catch (ItemNotFoundException e) {
-        e.printStackTrace();
       }
     }, new ErrorAction() {
       @Override public void call(Throwable throwable) {
@@ -521,7 +498,7 @@ public class SupportService extends Service
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe(presence -> {
-              HermesEventBus.getDefault().postSticky(new IMContactDealResponseModel(true));
+            HermesEventBus.getDefault().postSticky(new IMContactDealResponseModel(true));
           }, new ErrorAction() {
             @Override public void call(Throwable throwable) {
               super.call(throwable);

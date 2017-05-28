@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import tech.jiangtao.support.kit.eventbus.NotificationConnection;
+import tech.jiangtao.support.kit.eventbus.IMNotificationConnection;
 import tech.jiangtao.support.kit.eventbus.ReceiveLastMessage;
 import tech.jiangtao.support.ui.view.AudioManager;
 import tech.jiangtao.support.ui.view.MediaManager;
@@ -59,7 +59,7 @@ public abstract class BaseFragment extends Fragment implements MessageNotificati
   @Override public void onResume() {
     super.onResume();
     MediaManager.resume();
-    HermesEventBus.getDefault().post(new NotificationConnection(true));
+    HermesEventBus.getDefault().post(new IMNotificationConnection(true));
   }
 
   @Override public void onPause() {

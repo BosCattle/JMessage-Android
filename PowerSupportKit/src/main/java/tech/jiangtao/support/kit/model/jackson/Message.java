@@ -14,6 +14,7 @@ import android.os.Parcelable;
 public class Message implements Parcelable {
 
   public String message;
+  // 数据类型
   public String type;
   public String url;
   public int time;
@@ -21,6 +22,17 @@ public class Message implements Parcelable {
   public String longitude;
   public String msgSender;
   public String msgReceived;
+  public String group;
+
+  public String getGroup() {
+    return group;
+  }
+
+  public void setGroup(String group) {
+    this.group = group;
+  }
+
+  // 聊天类型，单聊，群聊
   public String chatType;
 
   public String getMsgReceived() {
@@ -111,6 +123,7 @@ public class Message implements Parcelable {
     dest.writeString(this.longitude);
     dest.writeString(this.msgSender);
     dest.writeString(this.msgReceived);
+    dest.writeString(this.group);
     dest.writeString(this.chatType);
   }
 
@@ -123,6 +136,7 @@ public class Message implements Parcelable {
     this.longitude = in.readString();
     this.msgSender = in.readString();
     this.msgReceived = in.readString();
+    this.group = in.readString();
     this.chatType = in.readString();
   }
 

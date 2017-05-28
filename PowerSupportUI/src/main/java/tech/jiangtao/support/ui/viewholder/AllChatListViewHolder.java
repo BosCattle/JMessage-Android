@@ -10,10 +10,14 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
+import tech.jiangtao.support.kit.realm.SessionRealm;
+import tech.jiangtao.support.kit.util.DateUtils;
+import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.BaseSessionListViewHolder;
 import tech.jiangtao.support.ui.pattern.SessionListMessage;
+import tech.jiangtao.support.ui.utils.ResourceAddress;
 
 /**
  * Class: AllChatListViewHolder </br>
@@ -38,19 +42,19 @@ public abstract class AllChatListViewHolder extends BaseSessionListViewHolder {
     mContext = context;
   }
 
-  @SuppressLint("SetTextI18n") @Override public void bindTo(int position, SessionListMessage session) {
+  @SuppressLint("SetTextI18n") @Override public void bindTo(int position, SessionRealm session) {
     Glide.with(mContext)
-        .load(Uri.parse(session.avatar != null ? session.avatar : ""))
+        .load(Uri.parse(ResourceAddress.avatar(session)))
         .centerCrop()
         .error(R.mipmap.ic_chat_default)
         .placeholder(R.mipmap.ic_chat_default)
         .into(mItemChatAvatar);
-    mSessionNickname.setText(session.username);
-    mSessionMessage.setText(session.unReadMessage);
-    mSessionTime.setText(session.date!=null?session.date.toString():"");
-    if (session.unReadMessageCount != 0) {
+    mSessionNickname.setText(ResourceAddress.nickName(session));
+    mSessionMessage.setText(session.getMessageRealm().getTextMessage());
+    mSessionTime.setText(DateUtils.format(session.getMessageRealm().getTime()));
+    if (session.getUnReadCount() != 0) {
       mSessionUnreadCount.setVisibility(View.VISIBLE);
-      mSessionUnreadCount.setText(session.unReadMessageCount+"");
+      mSessionUnreadCount.setText(session.getUnReadCount() + "");
     } else {
       mSessionUnreadCount.setVisibility(View.GONE);
     }

@@ -16,15 +16,10 @@ import java.util.List;
  **/
 
 public class GroupRealm extends RealmObject implements Parcelable {
-  @PrimaryKey
   public Long uid;
-
-  public String groupId;
-
+  @PrimaryKey public String groupId;
   public String name;
-
   public String avatar;
-
   public String description;
 
   public Long getUid() {

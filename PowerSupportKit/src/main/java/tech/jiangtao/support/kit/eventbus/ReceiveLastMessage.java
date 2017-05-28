@@ -9,7 +9,7 @@ import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 
 /**
- * Class: RecieveMessage </br>
+ * Class: IMMessageResponseModel </br>
  * Description: 接受到的消息 </br>
  * Creator: kevin </br>
  * Email: jiangtao103cp@gmail.com </br>

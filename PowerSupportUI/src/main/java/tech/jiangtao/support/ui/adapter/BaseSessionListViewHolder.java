@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.ui.pattern.SessionListMessage;
 
 /**
@@ -28,7 +29,7 @@ public abstract class BaseSessionListViewHolder extends RecyclerView.ViewHolder 
     itemView.setOnLongClickListener(this);
   }
 
-  public abstract void bindTo(int position,SessionListMessage session);
+  public abstract void bindTo(int position,SessionRealm session);
 
 
   @Override public void onClick(View v) {
