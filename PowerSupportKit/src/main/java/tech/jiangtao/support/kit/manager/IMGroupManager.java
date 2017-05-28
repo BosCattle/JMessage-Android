@@ -28,7 +28,6 @@ public class IMGroupManager {
   private GroupServiceApi mGroupServiceApi;
 
   private IMGroupManager() {
-    connectHermes();
     connectRealm();
   }
 

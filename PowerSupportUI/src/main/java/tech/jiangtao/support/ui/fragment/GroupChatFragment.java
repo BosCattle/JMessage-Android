@@ -59,8 +59,10 @@ import tech.jiangtao.support.kit.archive.type.FileType;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
+import tech.jiangtao.support.kit.callback.IMListenerCollection;
 import tech.jiangtao.support.kit.eventbus.ReceiveLastMessage;
-import tech.jiangtao.support.kit.eventbus.TextMessage;
+import tech.jiangtao.support.kit.manager.IMMessageManager;
+import tech.jiangtao.support.kit.model.Result;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.kit.realm.MessageRealm;
@@ -85,7 +87,6 @@ import tech.jiangtao.support.ui.utils.ResourceAddress;
 import tech.jiangtao.support.ui.view.AudioRecordButton;
 import tech.jiangtao.support.ui.viewholder.ExtraFuncViewHolder;
 import work.wanghao.simplehud.SimpleHUD;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
@@ -492,11 +493,23 @@ public class GroupChatFragment extends BaseFragment
    * 发送消息到对方，并且添加到本地
    */
   public void sendMyFriendMessage(String message, DataExtensionType type) {
-    TextMessage message1 =
-        new TextMessage(org.jivesoftware.smack.packet.Message.Type.chat, mGroup.getGroupId(),
-            message, type, MessageExtensionType.GROUP_CHAT);
-    message1.messageType = type;
-    HermesEventBus.getDefault().postSticky(message1);
+    tech.jiangtao.support.kit.model.jackson.Message messageBody = new tech.jiangtao.support.kit.model.jackson.Message();
+    messageBody.setChatType(MessageExtensionType.GROUP_CHAT.toString());
+    messageBody.setGroup(mGroup.getGroupId());
+    messageBody.setMessage(message);
+    messageBody.setMsgSender(mMyUserId);
+    messageBody.setMsgReceived(mGroup.getGroupId());
+    messageBody.setType(type.toString());
+    IMMessageManager.geInstance().sendMessage(messageBody, new IMListenerCollection.IMMessageChangeListener() {
+      @Override public void message(MessageRealm messageRealm) {
+        // 发送成功
+      }
+
+      @Override public void error(Result result) {
+        // 发送失败
+
+      }
+    });
     //将消息更新到本地
     mChatInput.setText("");
     hideKeyBoard();

@@ -48,7 +48,7 @@ public abstract class AllChatListViewHolder extends BaseSessionListViewHolder {
         .placeholder(R.mipmap.ic_chat_default)
         .into(mItemChatAvatar);
     mSessionNickname.setText(ResourceAddress.nickName(session));
-    mSessionMessage.setText(session.getMessageRealm().getTextMessage());
+    mSessionMessage.setText(ResourceAddress.content(session));
     mSessionTime.setText(DateUtils.format(session.getMessageRealm().getTime()));
     if (session.getUnReadCount() != 0) {
       mSessionUnreadCount.setVisibility(View.VISIBLE);

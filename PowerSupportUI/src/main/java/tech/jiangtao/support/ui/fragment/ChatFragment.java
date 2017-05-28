@@ -62,8 +62,11 @@ import tech.jiangtao.support.kit.archive.type.FileType;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
+import tech.jiangtao.support.kit.callback.IMListenerCollection;
 import tech.jiangtao.support.kit.eventbus.ReceiveLastMessage;
 import tech.jiangtao.support.kit.SupportIM;
+import tech.jiangtao.support.kit.manager.IMMessageManager;
+import tech.jiangtao.support.kit.model.Result;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
@@ -90,8 +93,6 @@ import tech.jiangtao.support.ui.view.AudioManager;
 import tech.jiangtao.support.ui.view.AudioRecordButton;
 import tech.jiangtao.support.ui.viewholder.ExtraFuncViewHolder;
 import work.wanghao.simplehud.SimpleHUD;
-import xiaofei.library.hermeseventbus.HermesEventBus;
-
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 import static com.vincent.filepicker.activity.AudioPickActivity.IS_NEED_RECORDER;
@@ -559,14 +560,22 @@ public class ChatFragment extends BaseFragment
    */
   public void sendMyFriendMessage(String message, DataExtensionType type,
       MessageExtensionType messageExtensionType) {
-    tech.jiangtao.support.kit.model.jackson.Message message2 =
+    tech.jiangtao.support.kit.model.jackson.Message messageBody =
         new tech.jiangtao.support.kit.model.jackson.Message();
-    message2.setMessage(message);
-    message2.setChatType(messageExtensionType.toString());
-    message2.setType(type.toString());
-    message2.setMsgSender(mUserJid);
-    message2.setMsgReceived(mContactRealm.getUserId());
-    HermesEventBus.getDefault().postSticky(message2);
+    messageBody.setMessage(message);
+    messageBody.setChatType(messageExtensionType.toString());
+    messageBody.setType(type.toString());
+    messageBody.setMsgSender(mUserJid);
+    messageBody.setMsgReceived(mContactRealm.getUserId());
+    IMMessageManager.geInstance().sendMessage(messageBody, new IMListenerCollection.IMMessageChangeListener() {
+      @Override public void message(MessageRealm messageRealm) {
+        // 消息发送成功
+      }
+
+      @Override public void error(Result result) {
+        // 消息发送失败
+      }
+    });
     //将消息更新到本地
     mChatInput.setText("");
     hideKeyBoard();

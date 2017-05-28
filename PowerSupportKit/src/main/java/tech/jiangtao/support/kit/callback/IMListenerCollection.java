@@ -25,7 +25,6 @@ public interface IMListenerCollection {
 
   /**
    * 数据库改变
-   * @param <T>
    */
   interface IMRealmChangeListener<T extends RealmObject> {
 
@@ -34,9 +33,8 @@ public interface IMListenerCollection {
 
   /**
    * 查询条ContactRealm
-   * @param <T>
    */
-  interface IMRealmQueryListener<T extends RealmObject>{
+  interface IMRealmQueryListener<T extends RealmObject> {
     void result(ContactRealm contactRealm);
   }
 
@@ -61,7 +59,7 @@ public interface IMListenerCollection {
   /**
    * 添加好友的回调
    */
-  interface IMAddContactListener{
+  interface IMAddContactListener {
 
     void addContactSuccess(IMAddContactResponseModel model);
 
@@ -71,7 +69,7 @@ public interface IMListenerCollection {
   /**
    * 删除好友的回调
    */
-  interface IMDeleteContactListener<T extends ContactRealm>{
+  interface IMDeleteContactListener<T extends ContactRealm> {
 
     void deleteContactSuccess(IMDeleteContactResponseModel model);
 
@@ -81,11 +79,13 @@ public interface IMListenerCollection {
   /**
    * 关于好友的骚操作
    */
-  interface IMFriendNotificationListener{
+  interface IMFriendNotificationListener {
     // 接收到好友邀请
     void receivedUserInvited(ContactRealm contactRealm);
+
     // 好友同意了邀请
     void receivedAgreeInvited(ContactRealm contactRealm);
+
     // 好友拒绝了邀请
     void receivedRejectInvited(ContactRealm contactRealm);
   }
@@ -93,18 +93,37 @@ public interface IMListenerCollection {
   /**
    * 我同意或者拒绝好友邀请的回调
    */
-  interface IMDealFriendInvitedListener{
+  interface IMDealFriendInvitedListener {
 
     void success();
 
     void failed();
   }
 
+  //--------------------------------有关消息---------------------------------//
+
+  /**
+   * 获取消息
+   */
+  interface IMMessageNotificationListener {
+    void change(List<MessageRealm> messageRealms);
+  }
+
   /**
    * 获得消息来了
    */
-  interface IMMessageChangeListener{
+  interface IMMessageChangeListener {
+    /**
+     * 发送消息成功
+     * @param messageRealm
+     */
     void message(MessageRealm messageRealm);
+
+    /**
+     * 发送消息失败
+     * @param result
+     */
+    void error(Result result);
   }
 
   //--------------------------------有关会话的-------------------------------------//
@@ -112,22 +131,23 @@ public interface IMListenerCollection {
   /**
    * 会话改变
    */
-  interface IMConversationChangeListener{
+  interface IMConversationChangeListener {
     void change(List<SessionRealm> sessionRealms);
   }
 
   /**
    * 删除会话
    */
-  interface IMConversationDeleteListener{
+  interface IMConversationDeleteListener {
     void success();
+
     void error(Result result);
   }
 
   /**
    * 查询单个会话
    */
-  interface IMConversationQueryListener{
+  interface IMConversationQueryListener {
     void result(SessionRealm sessionRealm);
   }
 
@@ -136,9 +156,7 @@ public interface IMListenerCollection {
   /**
    * 获取单个群组信息
    */
-  interface IMGroupQueryListener{
+  interface IMGroupQueryListener {
     void result(GroupRealm group);
   }
-
-
 }

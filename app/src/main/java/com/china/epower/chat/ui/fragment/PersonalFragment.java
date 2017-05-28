@@ -13,6 +13,7 @@ import butterknife.OnClick;
 
 import com.china.epower.chat.R;
 import com.china.epower.chat.model.type.ListDataType;
+import com.china.epower.chat.ui.activity.LoginActivity;
 import com.china.epower.chat.ui.activity.PersonalDetailActivity;
 import com.china.epower.chat.ui.adapter.EasyViewHolder;
 import com.china.epower.chat.ui.adapter.PersonalDataAdapter;
@@ -152,9 +153,7 @@ public class PersonalFragment extends BaseFragment implements EasyViewHolder.OnI
 
   //点击发送回调退出
   @OnClick(R.id.login_button) public void onClick(View v) {
-    mImAccountManager.disConnect(() -> {
-
-    });
+    mImAccountManager.disConnect(() -> LoginActivity.startLogin(getActivity()));
   }
 
   @Override public void onDestroyView() {

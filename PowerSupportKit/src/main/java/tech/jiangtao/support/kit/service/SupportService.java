@@ -88,6 +88,9 @@ import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import tech.jiangtao.support.kit.reciever.TickBroadcastReceiver;
+import xiaofei.library.hermes.Hermes;
+import xiaofei.library.hermes.HermesListener;
+import xiaofei.library.hermes.HermesService;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static xiaofei.library.hermes.Hermes.getContext;
@@ -195,7 +198,6 @@ public class SupportService extends Service
    */
   @Subscribe(threadMode = ThreadMode.MAIN) public void sendMessage(
       tech.jiangtao.support.kit.model.jackson.Message message) {
-    Gson gson = new Gson();
     Chat chat = ChatManager.getInstanceFor(mXMPPConnection).createChat(message.getMsgReceived());
     Observable.create((Observable.OnSubscribe<Message>) subscriber -> {
       try {

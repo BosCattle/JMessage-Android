@@ -17,6 +17,7 @@ import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.api.ApiService;
 import tech.jiangtao.support.kit.api.service.UserServiceApi;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
+import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.callback.IMListenerCollection;
 import tech.jiangtao.support.kit.eventbus.IMAddContactRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMAddContactResponseModel;
@@ -86,7 +87,9 @@ public class IMContactManager {
     RealmQuery<ContactRealm> realmQuery = mRealm.where(ContactRealm.class);
     // 查询,根据nickName进行排序
     RealmResults<ContactRealm> contactRealms = realmQuery.findAllSorted(SupportIM.PINYIN);
-    realmIMRealmChangeListener.change(contactRealms);
+    if (realmIMRealmChangeListener!=null) {
+      realmIMRealmChangeListener.change(contactRealms);
+    }
   }
 
   public void readSingleContact(IMMessageResponseModel model,
@@ -98,14 +101,19 @@ public class IMContactManager {
     } else if (model.getAuthor().equals(MessageAuthor.FRIEND)) {
       userId = StringSplitUtil.splitDivider(model.getMessage().getMsgSender());
     }
+    if (model.getMessage().getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())) {
+      userId = StringSplitUtil.splitDivider(model.getMessage().getMsgSender());
+    }
+    LogUtils.d(TAG,userId);
     ContactRealm contactRealm =
         mRealm.where(ContactRealm.class).equalTo(SupportIM.USER_ID, userId).findFirst();
     if (contactRealm != null) {
       listener.result(contactRealm);
     } else {
       // 通过http获取用户信息
+      LogUtils.d(TAG,"通讯录中没有该用户信息，通过网络获取");
       mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
-      mUserServiceApi.selfAccount(StringSplitUtil.userJid(userId))
+      mUserServiceApi.selfAccount(userId)
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe(user -> {

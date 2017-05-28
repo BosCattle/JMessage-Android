@@ -44,8 +44,13 @@ public class ResourceAddress {
             : session.getContactRealm().getAvatar();
         break;
       case 1:
-        avatar =
-            session.getGroupRealm().getAvatar() == null ? "" : session.getGroupRealm().getAvatar();
+        if (session.getGroupRealm()==null){
+          avatar = "";
+        }else if (session.getGroupRealm().getAvatar() == null){
+          avatar = "";
+        }else {
+          avatar = session.getGroupRealm().getAvatar();
+        }
         break;
     }
     return avatar;
@@ -62,7 +67,9 @@ public class ResourceAddress {
         }
         break;
       case 1:
-        if (session.getGroupRealm().getName() == null) {
+        if (session.getGroupRealm() == null) {
+          nickName = "群组名为空";
+        } else if (session.getGroupRealm().getName() == null) {
           nickName = StringSplitUtil.splitPrefix(session.getGroupRealm().getGroupId());
         } else {
           nickName = session.getGroupRealm().getName();
@@ -74,23 +81,53 @@ public class ResourceAddress {
 
   public static String content(SessionRealm sessionRealm) {
     String message = "";
-    if (sessionRealm.getMessageRealm().getMessageType().equals(DataExtensionType.TEXT.toString())) {
-      message = sessionRealm.getMessageRealm().textMessage;
-    }
-    if (sessionRealm.getMessageRealm()
-        .getMessageType()
-        .equals(DataExtensionType.IMAGE.toString())) {
-      message = "图片";
-    }
-    if (sessionRealm.getMessageRealm()
-        .getMessageType()
-        .equals(DataExtensionType.AUDIO.toString())) {
-      message = "语音";
-    }
-    if (sessionRealm.getMessageRealm()
-        .getMessageType()
-        .equals(DataExtensionType.VIDEO.toString())) {
-      message = "视频";
+    switch (sessionRealm.getMessageType()) {
+      case 0:
+        if (sessionRealm.getMessageRealm()
+            .getMessageType()
+            .equals(DataExtensionType.TEXT.toString())) {
+          message = sessionRealm.getMessageRealm().textMessage;
+        }
+        if (sessionRealm.getMessageRealm()
+            .getMessageType()
+            .equals(DataExtensionType.IMAGE.toString())) {
+          message = "图片";
+        }
+        if (sessionRealm.getMessageRealm()
+            .getMessageType()
+            .equals(DataExtensionType.AUDIO.toString())) {
+          message = "语音";
+        }
+        if (sessionRealm.getMessageRealm()
+            .getMessageType()
+            .equals(DataExtensionType.VIDEO.toString())) {
+          message = "视频";
+        }
+        break;
+      case 1:
+        if (sessionRealm.getMessageRealm()
+            .getMessageType()
+            .equals(DataExtensionType.TEXT.toString())) {
+          message = sessionRealm.getContactRealm().getNickName()
+              + ": "
+              + sessionRealm.getMessageRealm().textMessage;
+        }
+        if (sessionRealm.getMessageRealm()
+            .getMessageType()
+            .equals(DataExtensionType.IMAGE.toString())) {
+          message = sessionRealm.getContactRealm().getNickName() + ": 图片";
+        }
+        if (sessionRealm.getMessageRealm()
+            .getMessageType()
+            .equals(DataExtensionType.AUDIO.toString())) {
+          message = sessionRealm.getContactRealm().getNickName() + ": 语音";
+        }
+        if (sessionRealm.getMessageRealm()
+            .getMessageType()
+            .equals(DataExtensionType.VIDEO.toString())) {
+          message = sessionRealm.getContactRealm().getNickName() + ": 视频";
+        }
+        break;
     }
     return message;
   }

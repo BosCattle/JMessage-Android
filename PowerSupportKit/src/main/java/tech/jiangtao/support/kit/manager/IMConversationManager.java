@@ -2,7 +2,6 @@ package tech.jiangtao.support.kit.manager;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Debug;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import tech.jiangtao.support.kit.SupportIM;
@@ -10,7 +9,6 @@ import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.callback.IMListenerCollection;
 import tech.jiangtao.support.kit.eventbus.IMMessageResponseModel;
-import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
@@ -74,6 +72,9 @@ public class IMConversationManager {
             mSessionRealm.setMessageId(message.id);
             mSessionRealm.setUnReadCount(1);
           }
+          mSessionRealm.setMessageType(
+              message.getMessage().getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())
+                  ? 1 : 0);
           mSessionRealm.setContactRealm(contactRealm);
           mSessionRealm.setMessageRealm(IMMessageManager.geInstance().storeMessage(message));
           if (message.getMessage()
@@ -83,8 +84,6 @@ public class IMConversationManager {
                 .readSingleGroupRealm(message, group -> mSessionRealm.setGroupRealm(group));
           }
           realm.copyToRealmOrUpdate(mSessionRealm);
-
-
           if (mIMSettingManager.getNotification(context) && message.getAuthor()
               .equals(MessageAuthor.FRIEND)) {
             Intent intent = new Intent(context, clazz);

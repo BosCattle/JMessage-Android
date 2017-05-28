@@ -13,6 +13,9 @@ import tech.jiangtao.support.kit.manager.IMSettingManager;
 import tech.jiangtao.support.kit.service.SupportService;
 import tech.jiangtao.support.kit.service.XMPPService;
 import tech.jiangtao.support.kit.util.PropertyUtils;
+import xiaofei.library.hermes.Hermes;
+import xiaofei.library.hermes.HermesListener;
+import xiaofei.library.hermes.HermesService;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -73,6 +76,16 @@ public class SupportIM {
         API_ADDRESS);
     Realm.init(context);
     HermesEventBus.getDefault().init(context);
+    Hermes.setHermesListener(new HermesListener() {
+      @Override public void onHermesConnected(Class<? extends HermesService> service) {
+
+      }
+
+      @Override public void onHermesDisconnected(Class<? extends HermesService> service) {
+        super.onHermesDisconnected(service);
+        HermesEventBus.getDefault().init(context);
+      }
+    });
   }
 
   private static void initValue(Context context, String resourceName) {

@@ -1,9 +1,11 @@
 package tech.jiangtao.support.kit.manager;
 
 import io.realm.Realm;
+import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.callback.IMListenerCollection;
 import tech.jiangtao.support.kit.eventbus.IMMessageResponseModel;
+import tech.jiangtao.support.kit.model.jackson.Message;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
@@ -65,13 +67,21 @@ public class IMMessageManager {
       messageRealm.setMessageExtensionType(1);
       messageRealm.setGroupId(model.getMessage().getGroup());
     }
-    mRealm.executeTransaction(realm -> {
-      realm.copyToRealm(messageRealm);
-      if (mIMMessageChangeListener != null) {
-        mIMMessageChangeListener.message(messageRealm);
-      }
-    });
+    mRealm.copyToRealm(messageRealm);
+    if (mIMMessageChangeListener != null && model.getAuthor().equals(MessageAuthor.OWN)) {
+      mIMMessageChangeListener.message(messageRealm);
+    }
     return messageRealm;
+  }
+
+  public void getMessages(IMListenerCollection.IMMessageNotificationListener listener) {
+    // 查询
+    connectRealm();
+  }
+
+  public void sendMessage(Message message, IMListenerCollection.IMMessageChangeListener listener) {
+    HermesEventBus.getDefault().postSticky(message);
+    setmIMMessageChangeListener(listener);
   }
 
   /**
