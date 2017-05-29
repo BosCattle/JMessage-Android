@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import tech.jiangtao.support.kit.model.type.TransportType;
 
 /**
- * Class: FilePath </br>
+ * Class: IMFilePath </br>
  * Description: 拿到文件位置 </br>
  * Creator: kevin </br>
  * Email: jiangtao103cp@gmail.com </br>
@@ -13,7 +13,7 @@ import tech.jiangtao.support.kit.model.type.TransportType;
  * Update: 28/12/2016 10:49 PM </br>
  **/
 
-public class FilePath implements Parcelable {
+public class IMFilePath implements Parcelable {
 
   public String resourceId;
   public boolean success;
@@ -31,10 +31,10 @@ public class FilePath implements Parcelable {
     dest.writeString(this.errorMessage);
   }
 
-  public FilePath() {
+  public IMFilePath() {
   }
 
-  protected FilePath(Parcel in) {
+  protected IMFilePath(Parcel in) {
     this.resourceId = in.readString();
     this.success = in.readByte() != 0;
     int tmpType = in.readInt();
@@ -42,13 +42,13 @@ public class FilePath implements Parcelable {
     this.errorMessage = in.readString();
   }
 
-  public static final Creator<FilePath> CREATOR = new Creator<FilePath>() {
-    @Override public FilePath createFromParcel(Parcel source) {
-      return new FilePath(source);
+  public static final Creator<IMFilePath> CREATOR = new Creator<IMFilePath>() {
+    @Override public IMFilePath createFromParcel(Parcel source) {
+      return new IMFilePath(source);
     }
 
-    @Override public FilePath[] newArray(int size) {
-      return new FilePath[size];
+    @Override public IMFilePath[] newArray(int size) {
+      return new IMFilePath[size];
     }
   };
 }

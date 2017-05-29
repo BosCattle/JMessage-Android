@@ -6,7 +6,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import rx.Observable;
-import tech.jiangtao.support.kit.model.FilePath;
+import tech.jiangtao.support.kit.model.IMFilePath;
 
 /**
  * Class: UpLoadServiceApi </br>
@@ -22,12 +22,12 @@ public interface UpLoadServiceApi {
   /**
    * 单个文件上传
    */
-  @Multipart @POST("file/upload") Observable<FilePath> upload(@Part MultipartBody.Part file,
+  @Multipart @POST("file/upload") Observable<IMFilePath> upload(@Part MultipartBody.Part file,
       @Part("type") RequestBody type);
 
   /**
    * 多个文件上传
    */
-  @Multipart @POST("file/uploadMultipleFile") Observable<FilePath> uploadMulti(
+  @Multipart @POST("file/uploadMultipleFile") Observable<IMFilePath> uploadMulti(
       @Part MultipartBody.Part[] files, @Part("types") String[] types);
 }

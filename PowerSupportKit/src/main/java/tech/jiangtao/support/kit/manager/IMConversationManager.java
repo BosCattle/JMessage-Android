@@ -9,10 +9,13 @@ import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.callback.IMListenerCollection;
 import tech.jiangtao.support.kit.eventbus.IMMessageResponseModel;
+import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.SessionRealm;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.util.StringSplitUtil;
 import xiaofei.library.hermeseventbus.HermesEventBus;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Class: IMConversationManager </br>
@@ -30,6 +33,7 @@ public class IMConversationManager {
   private SessionRealm mSessionRealm;
   private IMSettingManager mIMSettingManager;
   private IMListenerCollection.IMConversationChangeListener mIMConversationChangeListener;
+  private IMAccountManager mIMAccountManager;
 
   private IMConversationManager() {
     connectRealm();
@@ -54,46 +58,44 @@ public class IMConversationManager {
     IMContactManager.geInstance().readSingleContact(message, contactRealm -> {
       // 查询会话管理器
       mSessionRealm = querySession(message);
-      mRealm.executeTransaction(new Realm.Transaction() {
-        @Override public void execute(Realm realm) {
-          if (mSessionRealm != null) {
-            mSessionRealm.setMessageId(message.id);
-            mSessionRealm.setUnReadCount(mSessionRealm.getUnReadCount() + 1);
-            LogUtils.d("----->未读消息数据:", mSessionRealm.getUnReadCount() + "条");
-          } else {
-            mSessionRealm = new SessionRealm();
-            if (message.getAuthor().equals(MessageAuthor.OWN)) {
-              mSessionRealm.setSessionId(
-                  StringSplitUtil.splitDivider(message.getMessage().getMsgReceived()));
-            } else if (message.getAuthor().equals(MessageAuthor.FRIEND)) {
-              mSessionRealm.setSessionId(
-                  StringSplitUtil.splitDivider(message.getMessage().getMsgSender()));
-            }
-            mSessionRealm.setMessageId(message.id);
-            mSessionRealm.setUnReadCount(1);
+      mRealm.executeTransaction(realm -> {
+        if (mSessionRealm != null) {
+          mSessionRealm.setMessageId(message.id);
+          mSessionRealm.setUnReadCount(mSessionRealm.getUnReadCount() + 1);
+          LogUtils.d("----->未读消息数据:", mSessionRealm.getUnReadCount() + "条");
+        } else {
+          mSessionRealm = new SessionRealm();
+          if (message.getAuthor().equals(MessageAuthor.OWN)) {
+            mSessionRealm.setSessionId(
+                StringSplitUtil.splitDivider(message.getMessage().getMsgReceived()));
+          } else if (message.getAuthor().equals(MessageAuthor.FRIEND)) {
+            mSessionRealm.setSessionId(
+                StringSplitUtil.splitDivider(message.getMessage().getMsgSender()));
           }
-          mSessionRealm.setMessageType(
-              message.getMessage().getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())
-                  ? 1 : 0);
-          mSessionRealm.setContactRealm(contactRealm);
-          mSessionRealm.setMessageRealm(IMMessageManager.geInstance().storeMessage(message));
-          if (message.getMessage()
-              .getChatType()
-              .equals(MessageExtensionType.GROUP_CHAT.toString())) {
-            IMGroupManager.geInstance()
-                .readSingleGroupRealm(message, group -> mSessionRealm.setGroupRealm(group));
-          }
-          realm.copyToRealmOrUpdate(mSessionRealm);
-          if (mIMSettingManager.getNotification(context) && message.getAuthor()
-              .equals(MessageAuthor.FRIEND)) {
-            Intent intent = new Intent(context, clazz);
-            intent.putExtra(SupportIM.VCARD, contactRealm);
-            IMNotificationManager.geInstance()
-                .showMessageNotification(context, mSessionRealm, intent);
-          }
-          if (mIMConversationChangeListener != null) {
-            queryConversations(mIMConversationChangeListener);
-          }
+          mSessionRealm.setMessageId(message.id);
+          mSessionRealm.setUnReadCount(1);
+        }
+        mSessionRealm.setMessageType(
+            message.getMessage().getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())
+                ? 1 : 0);
+        mSessionRealm.setContactRealm(contactRealm);
+        mSessionRealm.setMessageRealm(IMMessageManager.geInstance().storeMessage(message));
+        if (message.getMessage()
+            .getChatType()
+            .equals(MessageExtensionType.GROUP_CHAT.toString())) {
+          IMGroupManager.geInstance()
+              .readSingleGroupRealm(message, group -> mSessionRealm.setGroupRealm(group));
+        }
+        realm.copyToRealmOrUpdate(mSessionRealm);
+        if (mIMSettingManager.getNotification(context) && message.getAuthor()
+            .equals(MessageAuthor.FRIEND)) {
+          Intent intent = new Intent(context, clazz);
+          intent.putExtra(SupportIM.VCARD, contactRealm);
+          IMNotificationManager.geInstance()
+              .showMessageNotification(context, mSessionRealm, intent);
+        }
+        if (mIMConversationChangeListener != null) {
+          queryConversations(mIMConversationChangeListener);
         }
       });
     });
@@ -137,6 +139,24 @@ public class IMConversationManager {
       listener.success();
       if (mIMConversationChangeListener != null) {
         queryConversations(mIMConversationChangeListener);
+      }
+    });
+  }
+
+  /**
+   * 设置消息为已读
+   * @param context
+   */
+  public void setChatConversationReadStatus(Context context,ContactRealm user){
+    mIMAccountManager = new IMAccountManager(context);
+    mRealm.executeTransaction(realm -> {
+      LogUtils.d(TAG, "onPause: 执行到.....");
+      SessionRealm sessionRealm = realm.where(SessionRealm.class)
+          .equalTo(SupportIM.SENDERFRIENDID, user.getUserId())
+          .findFirst();
+      if (sessionRealm != null) {
+        LogUtils.d(TAG, "onPause: 执行到.....对象不为空");
+        sessionRealm.setUnReadCount(0);
       }
     });
   }

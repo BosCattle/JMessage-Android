@@ -12,6 +12,7 @@ import tech.jiangtao.support.kit.eventbus.IMAccountExitRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMLoginRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMLoginResponseModel;
 import tech.jiangtao.support.kit.model.Account;
+import tech.jiangtao.support.kit.realm.ContactRealm;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -32,29 +33,23 @@ public class IMAccountManager {
 
   private IMListenerCollection.IMLoginListener mIMLoginListener;
 
-  public IMAccountManager(Context context){
-    if (!HermesEventBus.getDefault().isRegistered(this)) {
-      HermesEventBus.getDefault().register(this);
-    }
-    if (mRealms==null){
-      mRealms = Realm.getDefaultInstance();
-    }
+  public IMAccountManager(Context context) {
+    connectHermes();
+    connectRealm();
     mAppPreferences = new AppPreferences(context);
   }
 
-  public void login(IMLoginRequestModel param,IMListenerCollection.IMLoginListener callBack){
+  public void login(IMLoginRequestModel param, IMListenerCollection.IMLoginListener callBack) {
     mIMLoginListener = callBack;
-    mLoginParam  = param;
+    mLoginParam = param;
     HermesEventBus.getDefault().postSticky(param);
   }
 
   /**
    * 回调
-   * @param event
    */
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onLoginEvent(IMLoginResponseModel event){
-    if (mIMLoginListener!=null) {
+  @Subscribe(threadMode = ThreadMode.MAIN) public void onLoginEvent(IMLoginResponseModel event) {
+    if (mIMLoginListener != null) {
       if (event.result == null) {
         Account account = event.account;
         mAppPreferences.put(SupportIM.USER_ID, account.userId);
@@ -72,26 +67,54 @@ public class IMAccountManager {
 
   /**
    * 注销账户
-   * @param callBack
    */
   public void disConnect(IMListenerCollection.IMExitlistener callBack) {
     HermesEventBus.getDefault().post(new IMAccountExitRequestModel());
-    if (mRealms==null||mRealms.isClosed()){
-      mRealms = Realm.getDefaultInstance();
-    }
+    connectRealm();
     mRealms.executeTransactionAsync(realm -> realm.deleteAll(), () -> {
       callBack.exitSuccess();
-      mAppPreferences.put(SupportIM.USER,null);
+      mAppPreferences.put(SupportIM.USER, null);
     });
   }
 
   /**
    * 获取账户信息
-   * @return
    */
-  public Account account(){
-    String accountGson = mAppPreferences.getString(SupportIM.USER,null);
+  public Account account() {
+    String accountGson = mAppPreferences.getString(SupportIM.USER, null);
     Gson gson = new Gson();
-    return gson.fromJson(accountGson,Account.class);
+    return gson.fromJson(accountGson, Account.class);
+  }
+
+  public ContactRealm getAccount() {
+    connectRealm();
+    String userId = mAppPreferences.getString(SupportIM.USER_ID, null);
+    if (userId == null) {
+      return null;
+    }
+    ContactRealm contactRealm =
+        mRealms.where(ContactRealm.class).equalTo(SupportIM.USER_ID, userId).findFirst();
+    if (contactRealm == null) {
+      return null;
+    }
+    return contactRealm;
+  }
+
+  /**
+   * 判断服务是否连接
+   */
+  public void connectHermes() {
+    if (!HermesEventBus.getDefault().isRegistered(this)) {
+      HermesEventBus.getDefault().register(this);
+    }
+  }
+
+  /**
+   * 判断数据库是否连接
+   */
+  public void connectRealm() {
+    if (mRealms == null || mRealms.isClosed()) {
+      mRealms = Realm.getDefaultInstance();
+    }
   }
 }

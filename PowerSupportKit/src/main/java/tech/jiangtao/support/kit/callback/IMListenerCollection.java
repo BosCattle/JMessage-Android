@@ -6,6 +6,7 @@ import java.util.List;
 import tech.jiangtao.support.kit.eventbus.IMAddContactResponseModel;
 import tech.jiangtao.support.kit.eventbus.IMDeleteContactResponseModel;
 import tech.jiangtao.support.kit.model.Account;
+import tech.jiangtao.support.kit.model.IMFilePath;
 import tech.jiangtao.support.kit.model.Result;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.GroupRealm;
@@ -124,6 +125,12 @@ public interface IMListenerCollection {
      * @param result
      */
     void error(Result result);
+  }
+
+  //--------------------------------附加功能--------------------------------------//
+  interface IMFileUploadListener{
+    void success(IMFilePath path);
+    void failed(Result result);
   }
 
   //--------------------------------有关会话的-------------------------------------//

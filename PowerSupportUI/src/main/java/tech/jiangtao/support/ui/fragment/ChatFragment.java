@@ -1,5 +1,6 @@
 package tech.jiangtao.support.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -65,7 +67,10 @@ import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.callback.IMListenerCollection;
 import tech.jiangtao.support.kit.eventbus.ReceiveLastMessage;
 import tech.jiangtao.support.kit.SupportIM;
+import tech.jiangtao.support.kit.manager.IMAccountManager;
+import tech.jiangtao.support.kit.manager.IMConversationManager;
 import tech.jiangtao.support.kit.manager.IMMessageManager;
+import tech.jiangtao.support.kit.model.IMFilePath;
 import tech.jiangtao.support.kit.model.Result;
 import tech.jiangtao.support.kit.realm.ContactRealm;
 import tech.jiangtao.support.kit.realm.MessageRealm;
@@ -93,6 +98,7 @@ import tech.jiangtao.support.ui.view.AudioManager;
 import tech.jiangtao.support.ui.view.AudioRecordButton;
 import tech.jiangtao.support.ui.viewholder.ExtraFuncViewHolder;
 import work.wanghao.simplehud.SimpleHUD;
+
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 import static com.vincent.filepicker.activity.AudioPickActivity.IS_NEED_RECORDER;
@@ -109,7 +115,9 @@ import static com.vincent.filepicker.activity.VideoPickActivity.IS_NEED_CAMERA;
 public class ChatFragment extends BaseFragment
     implements TextWatcher, View.OnClickListener, EasyViewHolder.OnItemClickListener,
     View.OnLongClickListener, AudioRecordButton.onAudioFinishRecordListener,
-    SwipeRefreshLayout.OnRefreshListener, View.OnFocusChangeListener {
+    SwipeRefreshLayout.OnRefreshListener, View.OnFocusChangeListener,
+    IMListenerCollection.IMMessageNotificationListener, IMListenerCollection.IMFileUploadListener,
+    IMListenerCollection.IMMessageChangeListener, IBqmmSendMessageListener, View.OnTouchListener {
 
   @BindView(R2.id.recycler) RecyclerView mRecycler;
   @BindView(R2.id.swift_refresh) SwipeRefreshLayout mSwiftRefresh;
@@ -130,17 +138,14 @@ public class ChatFragment extends BaseFragment
   private ContactRealm mOwnContactRealm;
   private Realm mRealm;
   private BQMM mBQMM;
-  private UpLoadServiceApi mUpLoadServiceApi;
-  private boolean mIsRefresh;
   private int mLastVisibleItem;
   private LinearLayoutManager mLinearLayoutManager;
-  private String mUserJid;
   private int mPage = 1;
-  private RealmResults<MessageRealm> mMessageRealm;
+  private List<MessageRealm> mMessageRealm;
   private InputMethodManager mInputMethodManager;
-  private UserServiceApi mUserServiceApi;
-  private AppPreferences mAppPreferences;
-  private User mSelfUser;
+
+  public ChatFragment() {
+  }
 
   public static ChatFragment newInstance() {
     return new ChatFragment();
@@ -204,31 +209,14 @@ public class ChatFragment extends BaseFragment
   public void loadOwnRealm() {
     mMessages = new ArrayList<>();
     mContactRealm = getArguments().getParcelable(SupportIM.VCARD);
-    final AppPreferences appPreferences = new AppPreferences(getContext());
-    try {
-      mUserJid = appPreferences.getString(SupportIM.USER_ID);
-    } catch (ItemNotFoundException e) {
-      e.printStackTrace();
-    }
-    RealmResults<ContactRealm> realms = mRealm.where(ContactRealm.class)
-        .equalTo(SupportIM.USER_ID, StringSplitUtil.splitDivider(mUserJid))
-        .findAll();
-    if (realms.size() != 0) {
-      mOwnContactRealm = realms.first();
-    }
-    //jid中包含空和full jid,检查和进行处理
-    mMessageRealm = mRealm.where(MessageRealm.class)
-        .equalTo(SupportIM.SENDER, mContactRealm.getUserId())
-        .or()
-        .equalTo(SupportIM.RECEIVER, mContactRealm.getUserId())
-        .findAll();
-    updateItems(mMessageRealm, mUserJid, mPage);
+    mOwnContactRealm = new IMAccountManager(getContext()).getAccount();
+    IMMessageManager.geInstance().getMessages(mContactRealm, ChatFragment.this);
   }
 
   /**
    * 根据条件更新
    */
-  public void updateItems(RealmResults<MessageRealm> messageRealmse, String userJid, int page) {
+  public void updateItems(List<MessageRealm> messageRealmse, String userJid, int page) {
     mMessages.clear();
     LogUtils.d(TAG, "updateItems: 获取到消息的大小为:" + messageRealmse.size());
     for (int i =
@@ -310,16 +298,10 @@ public class ChatFragment extends BaseFragment
 
   private void init() {
     mRealm = Realm.getDefaultInstance();
-    mAppPreferences = new AppPreferences(getContext());
-    // 获取自己的信息
-    try {
-      String userGson = mAppPreferences.getString(SupportIM.USER);
-      mSelfUser = new Gson().fromJson(userGson, User.class);
-    } catch (ItemNotFoundException e) {
-      e.printStackTrace();
-    }
-    mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
-    mUpLoadServiceApi = ApiService.getInstance().createApiService(UpLoadServiceApi.class);
+    UserServiceApi mUserServiceApi =
+        ApiService.getInstance().createApiService(UserServiceApi.class);
+    UpLoadServiceApi mUpLoadServiceApi =
+        ApiService.getInstance().createApiService(UpLoadServiceApi.class);
     mInputMethodManager =
         (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
     setViewListener();
@@ -346,7 +328,8 @@ public class ChatFragment extends BaseFragment
           //已经跳到最后一项
           if (mPage > 1) {
             mPage -= 1;
-            new Handler().postDelayed(() -> updateItems(mMessageRealm, mUserJid, mPage), 2000);
+            new Handler().postDelayed(
+                () -> updateItems(mMessageRealm, mOwnContactRealm.getUserId(), mPage), 2000);
           }
         }
       }
@@ -358,26 +341,14 @@ public class ChatFragment extends BaseFragment
     });
   }
 
-  private void setUpBQMM() {
+  @SuppressLint("ClickableViewAccessibility") private void setUpBQMM() {
     mBQMM = BQMM.getInstance();
     mBQMM.setEditView(mChatInput);
     mBQMM.setKeyboard(mChatMsgInputBox);
     mBQMM.setSendButton(mChatSendMessage);
     mBQMM.load();
-    mChatInput.setOnTouchListener((v, event) -> {
-      mAddSmile.setChecked(false);
-      return false;
-    });
-    mBQMM.setBqmmSendMsgListener(new IBqmmSendMessageListener() {
-      //图文混排消息
-      @Override public void onSendMixedMessage(List<Object> list, boolean b) {
-      }
-
-      //单个大表情
-      @Override public void onSendFace(Emoji emoji) {
-
-      }
-    });
+    mChatInput.setOnTouchListener(this);
+    mBQMM.setBqmmSendMsgListener(this);
   }
 
   private void setViewListener() {
@@ -419,90 +390,10 @@ public class ChatFragment extends BaseFragment
 
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(ReceiveLastMessage message) {
-    LogUtils.d("----------->", "onMessage: " + message);
-    if (StringSplitUtil.splitDivider(message.userJID).equals(mContactRealm.getUserId())
-        || StringSplitUtil.splitDivider(message.ownJid).equals(mContactRealm.getUserId())) {
-      if (message.messageAuthor == MessageAuthor.FRIEND) {
-        Message message1 = new Message();
-        message1.paramContent = message.message;
-        if (message.messageType == DataExtensionType.TEXT) {
-          message1.paramContent = message.message;
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-              .avatar(ResourceAddress.url(mContactRealm.getAvatar(), TransportType.AVATAR))
-              .message(message1)
-              .build());
-        } else if (message.messageType == DataExtensionType.IMAGE) {
-          message1.fimePath = message.message;
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
-              .avatar(ResourceAddress.url(mContactRealm.getAvatar(), TransportType.AVATAR))
-              .message(message1)
-              .build());
-          LogUtils.d(TAG, "onMessage: " + message1);
-        } else if (message.messageType == DataExtensionType.AUDIO) {
-          message1.fimePath = message.message;
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
-              .avatar(ResourceAddress.url(mContactRealm.getAvatar(), TransportType.AVATAR))
-              .message(message1)
-              .build());
-          LogUtils.d(TAG, "onMessage: " + message1);
-        }
-      } else if (message.messageAuthor == MessageAuthor.OWN) {
-        Message message2 = new Message();
-        message2.paramContent = message.message;
-        if (message.messageType == DataExtensionType.TEXT) {
-          message2.type = FileType.TYPE_TEXT;
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
-              .avatar(mOwnContactRealm != null ? ResourceAddress.url(mOwnContactRealm.getAvatar(),
-                  TransportType.AVATAR) : null)
-              .message(message2)
-              .build());
-        } else if (message.messageType == DataExtensionType.IMAGE) {
-          message2.fimePath = message.message;
-          message2.type = FileType.TYPE_IMAGE;
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
-              .avatar(
-                  mOwnContactRealm != null && mOwnContactRealm.getAvatar() != null ? ResourceAddress
-                      .url(mOwnContactRealm.getAvatar(), TransportType.AVATAR) : null)
-              .message(message2)
-              .build());
-        } else if (message.messageType == DataExtensionType.AUDIO) {
-          message2.fimePath = message.message;
-          message2.time = 10;
-          message2.type = FileType.TYPE_AUDIO;
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
-              .avatar(
-                  mOwnContactRealm != null && mOwnContactRealm.getAvatar() != null ? ResourceAddress
-                      .url(mOwnContactRealm.getAvatar(), TransportType.AVATAR) : null)
-              .message(message2)
-              .build());
-        }
-      }
-    }
-    updateChatData();
-  }
-
   @Override public void onPause() {
     super.onPause();
     //将会话的为未读数目设置为0
-    if (mOwnContactRealm != null
-        && mContactRealm != null
-        && mOwnContactRealm.getUserId() != null
-        && mContactRealm.getUserId() != null
-        && StringSplitUtil.splitDivider(mContactRealm.getUserId()) != StringSplitUtil.splitDivider(
-        mOwnContactRealm.getUserId())) {
-      mRealm.executeTransactionAsync(realm -> {
-        LogUtils.d(TAG, "onPause: 执行到.....");
-        SessionRealm sessionRealm = realm.where(SessionRealm.class)
-            .equalTo(SupportIM.SENDERFRIENDID,
-                StringSplitUtil.splitDivider(mContactRealm.getUserId()))
-            .findFirst();
-        if (sessionRealm != null) {
-          LogUtils.d(TAG, "onPause: 执行到.....对象不为空");
-          sessionRealm.setUnReadCount(0);
-        }
-      });
-    }
+    IMConversationManager.geInstance().setChatConversationReadStatus(getContext(), mContactRealm);
   }
 
   @Override public void onItemClick(int position, View view) {
@@ -510,9 +401,6 @@ public class ChatFragment extends BaseFragment
   }
 
   @Override public boolean onLongClick(View v) {
-    int i = v.getId();
-    if (i == R.id.chat_speak) {
-    }
     return true;
   }
 
@@ -520,8 +408,8 @@ public class ChatFragment extends BaseFragment
       R2.id.chat_add_other_information, R2.id.chat_send_message, R2.id.add_smile,
       R2.id.chat_audio_record, R2.id.chat_speak
   }) public void onClick(View v) {
-    int i = v.getId();
-    if (i == R.id.chat_add_other_information) {
+    int id = v.getId();
+    if (id == R.id.chat_add_other_information) {
       LogUtils.d(TAG, "onClick: 点击了加号");
       hideKeyBoard();
       if (mChatSendOther.getVisibility() == View.VISIBLE) {
@@ -529,10 +417,10 @@ public class ChatFragment extends BaseFragment
       } else {
         mChatSendOther.setVisibility(View.VISIBLE);
       }
-    } else if (i == R.id.chat_send_message) {
+    } else if (id == R.id.chat_send_message) {
       sendMyFriendMessage(mChatInput.getText().toString(), DataExtensionType.TEXT,
           MessageExtensionType.CHAT);
-    } else if (i == R.id.add_smile) {
+    } else if (id == R.id.add_smile) {
       mChatSendOther.setVisibility(View.GONE);
       //切换键盘
       if (mInputMethodManager.isActive() && !isVisibleKeyBoard()) {
@@ -542,9 +430,9 @@ public class ChatFragment extends BaseFragment
       } else {
         hideKeyBoard();
       }
-    } else if (i == R.id.chat_audio_record) {
+    } else if (id == R.id.chat_audio_record) {
 
-    } else if (i == R.id.chat_speak) {
+    } else if (id == R.id.chat_speak) {
       if (mAudioRecord.getVisibility() == View.VISIBLE) {
         mChatInput.setVisibility(View.VISIBLE);
         mAudioRecord.setVisibility(View.GONE);
@@ -565,17 +453,9 @@ public class ChatFragment extends BaseFragment
     messageBody.setMessage(message);
     messageBody.setChatType(messageExtensionType.toString());
     messageBody.setType(type.toString());
-    messageBody.setMsgSender(mUserJid);
+    messageBody.setMsgSender(mOwnContactRealm.getUserId());
     messageBody.setMsgReceived(mContactRealm.getUserId());
-    IMMessageManager.geInstance().sendMessage(messageBody, new IMListenerCollection.IMMessageChangeListener() {
-      @Override public void message(MessageRealm messageRealm) {
-        // 消息发送成功
-      }
-
-      @Override public void error(Result result) {
-        // 消息发送失败
-      }
-    });
+    IMMessageManager.geInstance().sendMessage(messageBody, this);
     //将消息更新到本地
     mChatInput.setText("");
     hideKeyBoard();
@@ -602,11 +482,17 @@ public class ChatFragment extends BaseFragment
         uploadFile(list.get(0).getPath(), DataExtensionType.IMAGE.toString());
         mChatSendOther.setVisibility(View.GONE);
       } else if (requestCode == Constant.REQUEST_CODE_PICK_FILE) {
-
+        ArrayList<ImageFile> list = data.getParcelableArrayListExtra(Constant.RESULT_PICK_FILE);
+        uploadFile(list.get(0).getPath(), DataExtensionType.FILE.toString());
+        mChatSendOther.setVisibility(View.GONE);
       } else if (requestCode == Constant.REQUEST_CODE_PICK_AUDIO) {
-
+        ArrayList<ImageFile> list = data.getParcelableArrayListExtra(Constant.RESULT_PICK_AUDIO);
+        uploadFile(list.get(0).getPath(), DataExtensionType.AUDIO.toString());
+        mChatSendOther.setVisibility(View.GONE);
       } else if (requestCode == Constant.REQUEST_CODE_PICK_VIDEO) {
-
+        ArrayList<ImageFile> list = data.getParcelableArrayListExtra(Constant.RESULT_PICK_VIDEO);
+        uploadFile(list.get(0).getPath(), DataExtensionType.VIDEO.toString());
+        mChatSendOther.setVisibility(View.GONE);
       }
     }
   }
@@ -629,53 +515,74 @@ public class ChatFragment extends BaseFragment
     AudioManager.getInstance().onDestroy();
   }
 
+  /**
+   *
+   * @param path
+   * @param type
+   */
   public void uploadFile(String path, String type) {
-    // use the FileUtils to get the actual file by uri
-    File file = new File(path);
-    // create RequestBody instance from file
-    RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-    // MultipartBody.Part is used to send also the actual file name
-    MultipartBody.Part body =
-        MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-    RequestBody typeBody = RequestBody.create(MediaType.parse("multipart/form-data"), type);
-    mUpLoadServiceApi.upload(body, typeBody)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(filePath -> {
-          LogUtils.d(TAG, "uploadFile: " + filePath);
-          //发送消息添加到本地，然后发送拓展消息到对方
-          if (type.equals(DataExtensionType.IMAGE.toString())) {
-            sendMyFriendMessage(ResourceAddress.url(filePath.resourceId, TransportType.IMAGE),
-                DataExtensionType.IMAGE, MessageExtensionType.CHAT);
-          }
-          if (type.equals(DataExtensionType.AUDIO.toString())) {
-            sendMyFriendMessage(ResourceAddress.url(filePath.resourceId, TransportType.AUDIO),
-                DataExtensionType.AUDIO, MessageExtensionType.CHAT);
-          }
-          if (type.equals(DataExtensionType.VIDEO.toString())) {
-            sendMyFriendMessage(ResourceAddress.url(filePath.resourceId, TransportType.AUDIO),
-                DataExtensionType.VIDEO, MessageExtensionType.CHAT);
-          }
-        }, new ErrorAction() {
-          @Override public void call(Throwable throwable) {
-            super.call(throwable);
-            SimpleHUD.showErrorMessage(getContext(), "上传失败" + throwable.toString());
-          }
-        });
+    IMMessageManager.geInstance().uploadFile(path, type, this);
   }
 
   @Override public void onRefresh() {
     mPage += 1;
     LogUtils.d(TAG, "onRefresh: 打印出当前的mPage" + mPage);
-    updateItems(mMessageRealm, mUserJid, mPage);
+    updateItems(mMessageRealm, mOwnContactRealm.getUserId(), mPage);
   }
 
   @Override public void onFocusChange(View v, boolean hasFocus) {
     if (hasFocus) {
       hideKeyBoard();
-      LogUtils.d(TAG, "onFocusChange: 获取");
-    } else {
-      LogUtils.d(TAG, "失去焦点");
     }
+  }
+
+  @Override public void change(List<MessageRealm> messageRealms) {
+    mMessageRealm = messageRealms;
+    updateItems(messageRealms, mOwnContactRealm.getUserId(), mPage);
+    updateChatData();
+  }
+
+  @Override public void success(IMFilePath path) {
+    //发送消息添加到本地，然后发送拓展消息到对方
+    if (path.type.toString().equals(DataExtensionType.IMAGE.toString())) {
+      sendMyFriendMessage(ResourceAddress.url(path.resourceId, TransportType.IMAGE),
+          DataExtensionType.IMAGE, MessageExtensionType.CHAT);
+    }
+    if (path.type.toString().equals(DataExtensionType.AUDIO.toString())) {
+      sendMyFriendMessage(ResourceAddress.url(path.resourceId, TransportType.AUDIO),
+          DataExtensionType.AUDIO, MessageExtensionType.CHAT);
+    }
+    if (path.type.toString().equals(DataExtensionType.VIDEO.toString())) {
+      sendMyFriendMessage(ResourceAddress.url(path.resourceId, TransportType.AUDIO),
+          DataExtensionType.VIDEO, MessageExtensionType.CHAT);
+    }
+  }
+
+  @Override public void failed(Result result) {
+    LogUtils.d(TAG, "上传文件失败," + result.getMsg() + "    正在重试....");
+  }
+
+  @Override public void message(MessageRealm messageRealm) {
+    LogUtils.d(TAG, "消息发送成功....");
+  }
+
+  @Override public void error(Result result) {
+    LogUtils.e(TAG, "消息发送失败...." + result.getMsg());
+  }
+
+  /**
+   * 图文混排消息
+   */
+  @Override public void onSendMixedMessage(List<Object> list, boolean b) {
+
+  }
+
+  @Override public void onSendFace(Emoji emoji) {
+
+  }
+
+  @Override public boolean onTouch(View v, MotionEvent event) {
+    mAddSmile.setChecked(false);
+    return false;
   }
 }

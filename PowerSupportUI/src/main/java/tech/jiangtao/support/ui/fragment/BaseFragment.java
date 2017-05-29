@@ -7,13 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-import tech.jiangtao.support.kit.eventbus.IMNotificationConnection;
-import tech.jiangtao.support.kit.eventbus.ReceiveLastMessage;
 import tech.jiangtao.support.ui.view.AudioManager;
 import tech.jiangtao.support.ui.view.MediaManager;
-import tech.jiangtao.support.ui.view.MessageNotification;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -25,13 +20,12 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  * Update: 04/12/2016 2:46 AM </br>
  **/
 
-public abstract class BaseFragment extends Fragment implements MessageNotification {
+public abstract class BaseFragment extends Fragment {
 
   private View mLayoutView;
 
   @Override public void onStart() {
     super.onStart();
-    HermesEventBus.getDefault().register(this);
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,7 +40,6 @@ public abstract class BaseFragment extends Fragment implements MessageNotificati
 
   @Override public void onStop() {
     super.onStop();
-    HermesEventBus.getDefault().unregister(this);
   }
 
   @Override public void onDestroy() {
@@ -59,7 +52,7 @@ public abstract class BaseFragment extends Fragment implements MessageNotificati
   @Override public void onResume() {
     super.onResume();
     MediaManager.resume();
-    HermesEventBus.getDefault().post(new IMNotificationConnection(true));
+    //HermesEventBus.getDefault().post(new IMNotificationConnection(true));
   }
 
   @Override public void onPause() {
@@ -70,11 +63,5 @@ public abstract class BaseFragment extends Fragment implements MessageNotificati
 
   public View getView() {
     return mLayoutView;
-  }
-
-
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onMessage(ReceiveLastMessage message) {
-
   }
 }
