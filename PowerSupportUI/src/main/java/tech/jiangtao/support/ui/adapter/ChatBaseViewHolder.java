@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.ui.pattern.ConstructMessage;
 
 /**
@@ -17,5 +18,5 @@ public abstract class ChatBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
 
-    public abstract void bindTo(int position,ConstructMessage constructMessage);
+    public abstract void bindTo(int position,MessageRealm messageRealm);
 }

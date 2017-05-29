@@ -133,7 +133,7 @@ public class ChatFragment extends BaseFragment
   @BindView(R2.id.chat_bottom) RelativeLayout mChatBottom;
   @BindView(R2.id.chat_audio_record) AudioRecordButton mAudioRecord;
   private ChatMessageAdapter mChatMessageAdapter;
-  private List<ConstructMessage> mMessages;
+  private List<MessageRealm> mMessages;
   private ContactRealm mContactRealm;
   private ContactRealm mOwnContactRealm;
   private BQMM mBQMM;
@@ -142,6 +142,8 @@ public class ChatFragment extends BaseFragment
   private int mPage = 1;
   private List<MessageRealm> mMessageRealm;
   private InputMethodManager mInputMethodManager;
+  private int mTotalPage;
+  private int mCurrentPage = 1;
 
   public ChatFragment() {
   }
@@ -158,7 +160,7 @@ public class ChatFragment extends BaseFragment
     return getView();
   }
 
-  public void setExtraAdapter() {
+  public void inputAdapter() {
     BaseEasyAdapter mBaseEasyAdapter = new BaseEasyAdapter(getContext());
     mBaseEasyAdapter.viewHolderFactory(new BaseEasyViewHolderFactory(getContext()));
     mBaseEasyAdapter.setOnClickListener((position, view) -> {
@@ -205,89 +207,14 @@ public class ChatFragment extends BaseFragment
     mBaseEasyAdapter.notifyDataSetChanged();
   }
 
-  public void loadOwnRealm() {
-    mContactRealm = getArguments().getParcelable(SupportIM.VCARD);
-    mOwnContactRealm = new IMAccountManager(getContext()).getAccount();
-    IMMessageManager.geInstance().getMessages(mContactRealm, ChatFragment.this);
-  }
-
   /**
    * 根据条件更新
    */
   public void updateItems(List<MessageRealm> messageRealmse, String userJid, int page) {
     mMessages.clear();
-    LogUtils.d(TAG, "updateItems: 获取到消息的大小为:" + messageRealmse.size());
-    for (int i =
-        (messageRealmse.size() - (20 * page) > 20 ? messageRealmse.size() - (20 * page) : 0);
-        i < (messageRealmse.size() - (20 * (page - 1))); i++) {
-      if (StringSplitUtil.splitDivider(messageRealmse.get(i).getSender())
-          .equals(StringSplitUtil.splitDivider(userJid))) {
-        //自己的消息
-        Message message1 = new Message();
-        message1.paramContent = messageRealmse.get(i).getTextMessage();
-        if (messageRealmse.get(i).getMessageType().equals(DataExtensionType.TEXT.toString())) {
-          message1.type = FileType.TYPE_TEXT;
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
-              .avatar(mOwnContactRealm != null ? ResourceAddress.url(mOwnContactRealm.getAvatar(),
-                  TransportType.AVATAR) : null)
-              .message(message1)
-              .build());
-        } else if (messageRealmse.get(i)
-            .getMessageType()
-            .equals(DataExtensionType.IMAGE.toString())) {
-          message1.fimePath = messageRealmse.get(i).getTextMessage();
-          message1.type = FileType.TYPE_IMAGE;
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
-              .avatar(
-                  mOwnContactRealm != null && mOwnContactRealm.getAvatar() != null ? ResourceAddress
-                      .url(mOwnContactRealm.getAvatar(), TransportType.AVATAR) : null)
-              .message(message1)
-              .build());
-        } else if (messageRealmse.get(i)
-            .getMessageType()
-            .equals(DataExtensionType.AUDIO.toString())) {
-          message1.fimePath = messageRealmse.get(i).getTextMessage();
-          message1.time = 10;
-          message1.type = FileType.TYPE_AUDIO;
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
-              .avatar(
-                  mOwnContactRealm != null && mOwnContactRealm.getAvatar() != null ? ResourceAddress
-                      .url(mOwnContactRealm.getAvatar(), TransportType.AVATAR) : null)
-              .message(message1)
-              .build());
-        }
-      } else {
-        //别人发送的消息
-        Message message1 = new Message();
-        message1.paramContent = messageRealmse.get(i).getTextMessage();
-        if (messageRealmse.get(i).getMessageType().equals(DataExtensionType.TEXT.toString())) {
-          message1.paramContent = messageRealmse.get(i).getTextMessage();
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-              .avatar(ResourceAddress.url(mContactRealm.getAvatar(), TransportType.AVATAR))
-              .message(message1)
-              .build());
-        } else if (messageRealmse.get(i)
-            .getMessageType()
-            .equals(DataExtensionType.IMAGE.toString())) {
-          message1.fimePath = messageRealmse.get(i).getTextMessage();
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
-              .avatar(ResourceAddress.url(mContactRealm.getAvatar(), TransportType.AVATAR))
-              .message(message1)
-              .build());
-        } else if (messageRealmse.get(i)
-            .getMessageType()
-            .equals(DataExtensionType.AUDIO.toString())) {
-          message1.fimePath = messageRealmse.get(i).getTextMessage();
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
-              .avatar(ResourceAddress.url(mContactRealm.getAvatar(), TransportType.AVATAR))
-              .message(message1)
-              .build());
-        }
-      }
-    }
-    //将数据更新到上一个20
-    mRecycler.scrollToPosition(19);
-    mSwiftRefresh.setRefreshing(false);
+    mChatMessageAdapter.clear();
+    mMessages.addAll(messageRealmse);
+    mChatMessageAdapter.notifyDataSetChanged();
   }
 
   @Override public int layout() {
@@ -301,8 +228,7 @@ public class ChatFragment extends BaseFragment
     setUpRefreshing();
     setUpBQMM();
     setAdapter();
-    loadOwnRealm();
-    setExtraAdapter();
+    inputAdapter();
   }
 
   private void setUpRefreshing() {
@@ -361,7 +287,9 @@ public class ChatFragment extends BaseFragment
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
     mRecycler.setLayoutManager(mLinearLayoutManager);
     mRecycler.setAdapter(mChatMessageAdapter);
-    updateChatData();
+    mContactRealm = getArguments().getParcelable(SupportIM.VCARD);
+    mOwnContactRealm = new IMAccountManager(getContext()).getAccount();
+    IMMessageManager.geInstance().getMessages(mContactRealm, ChatFragment.this, mCurrentPage);
   }
 
   @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -496,6 +424,9 @@ public class ChatFragment extends BaseFragment
     uploadFile(filePath, DataExtensionType.AUDIO.toString());
   }
 
+  /**
+   * 当前的意思是，将位置放到最后一行
+   */
   public void updateChatData() {
     mChatMessageAdapter.notifyDataSetChanged();
     if (mMessages.size() > 1) {
@@ -517,10 +448,15 @@ public class ChatFragment extends BaseFragment
     IMMessageManager.geInstance().uploadFile(path, type, this);
   }
 
+  /**
+   * 下拉，加载历史消息
+   */
   @Override public void onRefresh() {
-    mPage += 1;
-    LogUtils.d(TAG, "onRefresh: 打印出当前的mPage" + mPage);
-    updateItems(mMessageRealm, mOwnContactRealm.getUserId(), mPage);
+    if (mCurrentPage!=mTotalPage) {
+      mCurrentPage += 1;
+      LogUtils.d(TAG, "onRefresh: 打印出当前的mPage" + mPage);
+      IMMessageManager.geInstance().getMessages(mContactRealm, ChatFragment.this, mCurrentPage);
+    }
   }
 
   @Override public void onFocusChange(View v, boolean hasFocus) {
@@ -529,12 +465,14 @@ public class ChatFragment extends BaseFragment
     }
   }
 
-  @Override public void change(List<MessageRealm> messageRealms) {
-    if (messageRealms!=null&&mOwnContactRealm!=null) {
+  @Override public void change(List<MessageRealm> messageRealms, int page) {
+    mTotalPage = page;
+    if (messageRealms != null && mOwnContactRealm != null) {
       mMessageRealm = messageRealms;
       updateItems(messageRealms, mOwnContactRealm.getUserId(), mPage);
       updateChatData();
     }
+    mSwiftRefresh.setRefreshing(false);
   }
 
   @Override public void success(IMFilePath path) {

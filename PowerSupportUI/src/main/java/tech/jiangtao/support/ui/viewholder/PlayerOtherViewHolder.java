@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ChatBaseViewHolder;
@@ -47,19 +48,21 @@ public class PlayerOtherViewHolder extends ChatBaseViewHolder {
   }
 
   @SuppressLint("SetTextI18n") @Override
-  public void bindTo(int position, ConstructMessage constructMessage) {
+  public void bindTo(int position, MessageRealm messageRealm) {
     Glide.with(mContext)
-        .load(Uri.parse(constructMessage.mAvatar!=null?constructMessage.mAvatar:""))
+        .load(Uri.parse(messageRealm.getContactRealm() != null
+            && messageRealm.getContactRealm().getAvatar() != null ? messageRealm.getContactRealm()
+            .getAvatar() : ""))
         .centerCrop()
         .error(R.mipmap.ic_chat_default)
         .placeholder(R.mipmap.ic_chat_default)
         .into(mItemChatAvatar);
-    mItemChatMessage.setText("" + constructMessage.mMessage.time);
+    mItemChatMessage.setText(10 + "s");
     mViewPlayerStyle.setOnClickListener(v -> {
       mViewPlayerStyle.setBackgroundResource(R.drawable.anim_player_animation);
       AnimationDrawable background = (AnimationDrawable) mViewPlayerStyle.getBackground();
       background.start();
-      MediaManager.playSound(constructMessage.mMessage.fimePath, mp -> {
+      MediaManager.playSound(messageRealm.getTextMessage(), mp -> {
         MediaManager.release();
         mViewPlayerStyle.setBackgroundResource(R.mipmap.ic_voice_right);
       });

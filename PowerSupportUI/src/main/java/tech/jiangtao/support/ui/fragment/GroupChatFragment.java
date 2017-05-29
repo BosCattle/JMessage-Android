@@ -120,7 +120,7 @@ public class GroupChatFragment extends BaseFragment
   @BindView(R2.id.chat_bottom) RelativeLayout mChatBottom;
   @BindView(R2.id.chat_audio_record) AudioRecordButton mAudioRecord;
   private ChatMessageAdapter mChatMessageAdapter;
-  private List<ConstructMessage> mMessages = new ArrayList<>();
+  private List<MessageRealm> mMessages = new ArrayList<>();
   private BQMM mBQMM;
   private UpLoadServiceApi mUpLoadServiceApi;
   private boolean mIsRefresh;
@@ -194,80 +194,80 @@ public class GroupChatFragment extends BaseFragment
    * 根据条件更新
    */
   public void updateItems(RealmResults<MessageRealm> messageRealmse, String groupId, int page) {
-    mMessages.clear();
-    LogUtils.d(TAG, "updateItems: 获取到消息的大小为:" + messageRealmse.size());
-    for (int i =
-        (messageRealmse.size() - (20 * page) > 20 ? messageRealmse.size() - (20 * page) : 0);
-        i < (messageRealmse.size() - (20 * (page - 1))); i++) {
-      LogUtils.d(TAG, "updateItems: 打印出当前的i值:" + i);
-      LogUtils.d(TAG, "updateItems: 打印出当前的page值:" + page);
-      String sender = messageRealmse.get(i).sender;
-      RealmResults<ContactRealm> contactRealm =
-          mRealm.where(ContactRealm.class).equalTo(SupportIM.USER_ID, sender).findAll();
-      ContactRealm contact = contactRealm.first();
-      LogUtils.d(TAG, "历史消息中的头像" + contact.getAvatar());
-      if (StringSplitUtil.splitDivider(sender).equals(StringSplitUtil.splitDivider(mMyUserId))) {
-        //自己的消息
-        Message message1 = new Message();
-        message1.paramContent = messageRealmse.get(i).getTextMessage();
-        if (messageRealmse.get(i).getMessageType().equals(DataExtensionType.TEXT.toString())) {
-          message1.type = FileType.TYPE_TEXT;
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
-              .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
-              .message(message1)
-              .build());
-        } else if (messageRealmse.get(i)
-            .getMessageType()
-            .equals(DataExtensionType.IMAGE.toString())) {
-          message1.fimePath = messageRealmse.get(i).getTextMessage();
-          message1.type = FileType.TYPE_IMAGE;
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
-              .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
-              .message(message1)
-              .build());
-        } else if (messageRealmse.get(i)
-            .getMessageType()
-            .equals(DataExtensionType.AUDIO.toString())) {
-          message1.fimePath = messageRealmse.get(i).getTextMessage();
-          message1.time = 10;
-          message1.type = FileType.TYPE_AUDIO;
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
-              .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
-              .message(message1)
-              .build());
-        }
-      } else {
-        //别人发送的消息
-        Message message1 = new Message();
-        message1.paramContent = messageRealmse.get(i).getTextMessage();
-        if (messageRealmse.get(i).getMessageType().equals(DataExtensionType.TEXT.toString())) {
-          message1.paramContent = messageRealmse.get(i).getTextMessage();
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-              .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
-              .message(message1)
-              .build());
-        } else if (messageRealmse.get(i)
-            .getMessageType()
-            .equals(DataExtensionType.IMAGE.toString())) {
-          message1.fimePath = messageRealmse.get(i).getTextMessage();
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
-              .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
-              .message(message1)
-              .build());
-        } else if (messageRealmse.get(i)
-            .getMessageType()
-            .equals(DataExtensionType.AUDIO.toString())) {
-          message1.fimePath = messageRealmse.get(i).getTextMessage();
-          mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
-              .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
-              .message(message1)
-              .build());
-        }
-      }
-    }
-    //将数据更新到上一个20
-    mRecycler.scrollToPosition(19);
-    mSwiftRefresh.setRefreshing(false);
+    //mMessages.clear();
+    //LogUtils.d(TAG, "updateItems: 获取到消息的大小为:" + messageRealmse.size());
+    //for (int i =
+    //    (messageRealmse.size() - (20 * page) > 20 ? messageRealmse.size() - (20 * page) : 0);
+    //    i < (messageRealmse.size() - (20 * (page - 1))); i++) {
+    //  LogUtils.d(TAG, "updateItems: 打印出当前的i值:" + i);
+    //  LogUtils.d(TAG, "updateItems: 打印出当前的page值:" + page);
+    //  String sender = messageRealmse.get(i).sender;
+    //  RealmResults<ContactRealm> contactRealm =
+    //      mRealm.where(ContactRealm.class).equalTo(SupportIM.USER_ID, sender).findAll();
+    //  ContactRealm contact = contactRealm.first();
+    //  LogUtils.d(TAG, "历史消息中的头像" + contact.getAvatar());
+    //  if (StringSplitUtil.splitDivider(sender).equals(StringSplitUtil.splitDivider(mMyUserId))) {
+    //    //自己的消息
+    //    Message message1 = new Message();
+    //    message1.paramContent = messageRealmse.get(i).getTextMessage();
+    //    if (messageRealmse.get(i).getMessageType().equals(DataExtensionType.TEXT.toString())) {
+    //      message1.type = FileType.TYPE_TEXT;
+    //      mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
+    //          .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
+    //          .message(message1)
+    //          .build());
+    //    } else if (messageRealmse.get(i)
+    //        .getMessageType()
+    //        .equals(DataExtensionType.IMAGE.toString())) {
+    //      message1.fimePath = messageRealmse.get(i).getTextMessage();
+    //      message1.type = FileType.TYPE_IMAGE;
+    //      mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
+    //          .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
+    //          .message(message1)
+    //          .build());
+    //    } else if (messageRealmse.get(i)
+    //        .getMessageType()
+    //        .equals(DataExtensionType.AUDIO.toString())) {
+    //      message1.fimePath = messageRealmse.get(i).getTextMessage();
+    //      message1.time = 10;
+    //      message1.type = FileType.TYPE_AUDIO;
+    //      mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
+    //          .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
+    //          .message(message1)
+    //          .build());
+    //    }
+    //  } else {
+    //    //别人发送的消息
+    //    Message message1 = new Message();
+    //    message1.paramContent = messageRealmse.get(i).getTextMessage();
+    //    if (messageRealmse.get(i).getMessageType().equals(DataExtensionType.TEXT.toString())) {
+    //      message1.paramContent = messageRealmse.get(i).getTextMessage();
+    //      mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
+    //          .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
+    //          .message(message1)
+    //          .build());
+    //    } else if (messageRealmse.get(i)
+    //        .getMessageType()
+    //        .equals(DataExtensionType.IMAGE.toString())) {
+    //      message1.fimePath = messageRealmse.get(i).getTextMessage();
+    //      mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
+    //          .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
+    //          .message(message1)
+    //          .build());
+    //    } else if (messageRealmse.get(i)
+    //        .getMessageType()
+    //        .equals(DataExtensionType.AUDIO.toString())) {
+    //      message1.fimePath = messageRealmse.get(i).getTextMessage();
+    //      mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
+    //          .avatar(ResourceAddress.url(contact.getAvatar(), TransportType.AVATAR))
+    //          .message(message1)
+    //          .build());
+    //    }
+    //  }
+    //}
+    ////将数据更新到上一个20
+    //mRecycler.scrollToPosition(19);
+    //mSwiftRefresh.setRefreshing(false);
   }
 
   @Override public int layout() {
@@ -356,71 +356,6 @@ public class GroupChatFragment extends BaseFragment
 
   @Override public void afterTextChanged(Editable s) {
 
-  }
-
-  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessage(ReceiveLastMessage message) {
-    LogUtils.d("----------->", "onMessage: " + message);
-    RealmResults<ContactRealm> contactRealmResult = mRealm.where(ContactRealm.class)
-        .equalTo(SupportIM.USER_ID, StringSplitUtil.splitDivider(message.getUserJID()))
-        .findAll();
-    ContactRealm contactRealm = null;
-    if (contactRealmResult.size() > 0) {
-      contactRealm = contactRealmResult.first();
-    } else {
-      contactRealm = new ContactRealm();
-    }
-    if (message.messageAuthor == MessageAuthor.FRIEND) {
-      Message message1 = new Message();
-      message1.paramContent = message.message;
-      if (message.messageType == DataExtensionType.TEXT) {
-        message1.paramContent = message.message;
-        LogUtils.d(TAG, "用户的头像为" + contactRealm.getAvatar());
-        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_OTHER)
-            .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
-            .message(message1)
-            .build());
-      } else if (message.messageType == DataExtensionType.IMAGE) {
-        message1.fimePath = message.message;
-        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_OTHER)
-            .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
-            .message(message1)
-            .build());
-        LogUtils.d(TAG, "onMessage: " + message1);
-      } else if (message.messageType == DataExtensionType.AUDIO) {
-        message1.fimePath = message.message;
-        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_OTHER)
-            .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
-            .message(message1)
-            .build());
-        LogUtils.d(TAG, "onMessage: " + message1);
-      }
-    } else if (message.messageAuthor == MessageAuthor.OWN) {
-      Message message2 = new Message();
-      message2.paramContent = message.message;
-      if (message.messageType == DataExtensionType.TEXT) {
-        message2.type = FileType.TYPE_TEXT;
-        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.TEXT_MESSAGE_MINE)
-            .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
-            .message(message2)
-            .build());
-      } else if (message.messageType == DataExtensionType.IMAGE) {
-        message2.fimePath = message.message;
-        message2.type = FileType.TYPE_IMAGE;
-        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.IMAGE_MESSAGE_MINE)
-            .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
-            .message(message2)
-            .build());
-      } else if (message.messageType == DataExtensionType.AUDIO) {
-        message2.fimePath = message.message;
-        message2.time = 10;
-        message2.type = FileType.TYPE_AUDIO;
-        mMessages.add(new ConstructMessage.Builder().itemType(MessageType.AUDIO_MESSAGE_MINE)
-            .avatar(ResourceAddress.url(contactRealm.getAvatar(), TransportType.AVATAR))
-            .message(message2)
-            .build());
-      }
-    }
-    updateChatData();
   }
 
   @Override public void onPause() {

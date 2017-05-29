@@ -9,6 +9,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import de.hdodenhof.circleimageview.CircleImageView;
+import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ChatBaseViewHolder;
@@ -31,16 +32,18 @@ public class TextMessageMineViewHolder extends ChatBaseViewHolder {
   public TextMessageMineViewHolder(Context context, ViewGroup parent) {
     super(context, parent, R.layout.list_item_message_mine);
     mContext = context;
-    ButterKnife.bind(this,itemView);
+    ButterKnife.bind(this, itemView);
   }
 
-  @Override public void bindTo(int position, ConstructMessage constructMessage) {
+  @Override public void bindTo(int position, MessageRealm messageRealm) {
     Glide.with(mContext)
-        .load(Uri.parse(constructMessage.mAvatar != null ? constructMessage.mAvatar : ""))
+        .load(Uri.parse(messageRealm.getContactRealm() != null
+            && messageRealm.getContactRealm().getAvatar() != null ? messageRealm.getContactRealm()
+            .getAvatar() : ""))
         .centerCrop()
         .error(R.mipmap.ic_chat_default)
         .placeholder(R.mipmap.ic_chat_default)
         .into(mItemChatAvatarW);
-    mItemChatMessage.setText(constructMessage.mMessage.paramContent);
+    mItemChatMessage.setText(messageRealm.getTextMessage());
   }
 }

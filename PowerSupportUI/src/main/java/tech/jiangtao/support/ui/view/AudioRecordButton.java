@@ -1,5 +1,6 @@
 package tech.jiangtao.support.ui.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -37,7 +38,7 @@ public class AudioRecordButton extends AppCompatButton{
   private AudioManager mAudioManager;
   private float mInTime;
   public onAudioFinishRecordListener  monAudioFinishRecordListener;
-  private Handler mHandler = new Handler() {
+  @SuppressLint("HandlerLeak") private Handler mHandler = new Handler() {
     @Override public void handleMessage(Message msg) {
       super.handleMessage(msg);
       switch (msg.what) {
@@ -45,17 +46,15 @@ public class AudioRecordButton extends AppCompatButton{
           mDialogManager.showRecordingDialog();
           isRecording = true;
           //获取音量大小
-          new Thread(new Runnable() {
-            @Override public void run() {
-              while (isRecording) {
-                try {
-                  Thread.sleep(100);
-                  mInTime += 0.1f;
-                } catch (InterruptedException e) {
-                  e.printStackTrace();
-                }
-                mHandler.sendEmptyMessage(MSG_VOICE_CHANG);
+          new Thread(() -> {
+            while (isRecording) {
+              try {
+                Thread.sleep(100);
+                mInTime += 0.1f;
+              } catch (InterruptedException e) {
+                e.printStackTrace();
               }
+              mHandler.sendEmptyMessage(MSG_VOICE_CHANG);
             }
           }).start();
           break;

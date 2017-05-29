@@ -2,7 +2,11 @@ package tech.jiangtao.support.kit.manager;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -64,7 +68,8 @@ public class IMMessageManager {
   /**
    * 存储消息
    */
-  public MessageRealm storeMessage(IMMessageResponseModel model,ContactRealm contactRealm,GroupRealm groupRealm) {
+  public MessageRealm storeMessage(IMMessageResponseModel model, ContactRealm contactRealm,
+      GroupRealm groupRealm) {
     // ---> 保存到消息表
     connectRealm();
     MessageRealm messageRealm = mRealm.createObject(MessageRealm.class, model.getId());
@@ -77,6 +82,7 @@ public class IMMessageManager {
     messageRealm.setType(model.getMessage().toString());
     messageRealm.setMessageType(model.getMessage().getType());
     messageRealm.setMessageStatus(false);
+    messageRealm.setAuthor(model.getAuthor().toString());
     if (model.getMessage().getChatType().equals(MessageExtensionType.CHAT.toString())) {
       messageRealm.setMessageExtensionType(0);
     } else if (model.getMessage()
@@ -94,8 +100,13 @@ public class IMMessageManager {
     return messageRealm;
   }
 
-  public void getMessages(ContactRealm contactRealm,IMListenerCollection.IMMessageNotificationListener listener) {
+  /**
+   * 获取所有的消息，并且，当消息改变时也会通知
+   */
+  public void getMessages(ContactRealm contactRealm,
+      IMListenerCollection.IMMessageNotificationListener listener, int page) {
     // 查询
+    int radice = 20;
     connectRealm();
     mRealm.executeTransaction(realm -> {
       mMessageRealms = mRealm.where(MessageRealm.class)
@@ -103,11 +114,67 @@ public class IMMessageManager {
           .or()
           .equalTo(SupportIM.RECEIVER, contactRealm.getUserId())
           .findAll();
-      listener.change(mMessageRealms);
-      mMessageRealms.addChangeListener(element -> listener.change(element));
+      mMessageRealms = mMessageRealms.sort("time", Sort.DESCENDING);
+      int allPage = page(mMessageRealms, radice);
+      if (allPage > 0 && page > 0) {
+        listener.change(getPageMessages(mMessageRealms, page, allPage, radice), allPage);
+      }
+      mMessageRealms.addChangeListener(element -> {
+        int totalPage = page(element, radice);
+        listener.change(getPageMessages(element, page, totalPage, radice), totalPage);
+      });
     });
   }
 
+  /**
+   * 计算page
+   */
+  private int page(List<MessageRealm> messageRealms, int redice) {
+    int size = messageRealms.size();
+    if (size == 0) {
+      return 0;
+    } else if (size > 0 && size < 20) {
+      return 1;
+    } else {
+      return size / redice + ((size % redice) > 0 ? 1 : 0);
+    }
+  }
+
+  /**
+   * @param messageRealms 所有的数据
+   * @param page 当前需要的页数
+   * @return 根据页数获取数据
+   * 此处需要反序取数据
+   */
+  private List<MessageRealm> getPageMessages(RealmResults<MessageRealm> messageRealms, int page,
+      int allPage, int radice) {
+    if (page <= allPage) {
+      if (allPage == 1) {
+        return messageRealms.sort("time", Sort.ASCENDING);
+      }
+      else if (page == allPage) {
+        List<MessageRealm> messages = new ArrayList<>();
+        for (int i = messageRealms.size()-1; i >= (page - 1) * radice; i--) {
+          messages.add(messageRealms.get(i));
+        }
+        return messages;
+      }
+      else {
+        List<MessageRealm> messages = new ArrayList<>();
+        for (int i = page * radice; i >= (page - 1) * radice; i--) {
+          messages.add(messageRealms.get(i));
+        }
+        return messages;
+      }
+    } else {
+      LogUtils.e(TAG, "妈的智障，总页数都没有这么多....");
+    }
+    return null;
+  }
+
+  /**
+   * 发送消息
+   */
   public void sendMessage(Message message, IMListenerCollection.IMMessageChangeListener listener) {
     HermesEventBus.getDefault().postSticky(message);
     setmIMMessageChangeListener(listener);
@@ -133,9 +200,6 @@ public class IMMessageManager {
 
   /**
    * 上传文件
-   * @param path
-   * @param type
-   * @param listener
    */
   public void uploadFile(String path, String type,
       IMListenerCollection.IMFileUploadListener listener) {
@@ -160,7 +224,7 @@ public class IMMessageManager {
           @Override public void call(Throwable throwable) {
             super.call(throwable);
             // 死循环上传
-            uploadFile(path,type,listener);
+            uploadFile(path, type, listener);
             listener.failed(new Result(400, throwable.getMessage()));
           }
         });

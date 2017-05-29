@@ -52,9 +52,19 @@ public class MessageRealm extends RealmObject implements Parcelable {
   // 消息拓展类型，包含单聊，群聊，推送
   public int messageExtensionType;
 
+  public String author;
+
   public ContactRealm contactRealm;
 
   public GroupRealm groupRealm;
+
+  public String getAuthor() {
+    return author;
+  }
+
+  public void setAuthor(String author) {
+    this.author = author;
+  }
 
   public ContactRealm getContactRealm() {
     return contactRealm;
@@ -179,6 +189,7 @@ public class MessageRealm extends RealmObject implements Parcelable {
     dest.writeString(this.messageType);
     dest.writeByte(this.messageStatus ? (byte) 1 : (byte) 0);
     dest.writeInt(this.messageExtensionType);
+    dest.writeString(this.author);
     dest.writeParcelable(this.contactRealm, flags);
     dest.writeParcelable(this.groupRealm, flags);
   }
@@ -196,6 +207,7 @@ public class MessageRealm extends RealmObject implements Parcelable {
     this.messageType = in.readString();
     this.messageStatus = in.readByte() != 0;
     this.messageExtensionType = in.readInt();
+    this.author = in.readString();
     this.contactRealm = in.readParcelable(ContactRealm.class.getClassLoader());
     this.groupRealm = in.readParcelable(GroupRealm.class.getClassLoader());
   }

@@ -139,13 +139,13 @@ public class SupportService extends Service
 
   @Subscribe(threadMode = ThreadMode.BACKGROUND)
   public void onMessage(IMNotificationConnection connection) {
-    //LogUtils.d(TAG, "是否连接" + mXMPPConnection.isConnected());
-    //LogUtils.d(TAG, "是否认证" + mXMPPConnection.isAuthenticated());
-    //if (connection.connectChoice && !mXMPPConnection.isConnected()) {
-    //  //收到广播，开始连接
-    //  LogUtils.d(TAG, "onMessage: 开始连接");
-    //  connect(true);
-    //}
+    LogUtils.i(TAG, "是否连接" + mXMPPConnection.isConnected());
+    LogUtils.i(TAG, "是否认证" + mXMPPConnection.isAuthenticated());
+    if (connection.connectChoice && !mXMPPConnection.isConnected()) {
+      //收到广播，开始连接
+      LogUtils.i(TAG, "onMessage: 开始连接");
+      connect(true);
+    }
   }
 
   @Override public IBinder onBind(Intent intent) {

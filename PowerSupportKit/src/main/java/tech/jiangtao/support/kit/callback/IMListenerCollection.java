@@ -107,7 +107,12 @@ public interface IMListenerCollection {
    * 获取消息
    */
   interface IMMessageNotificationListener {
-    void change(List<MessageRealm> messageRealms);
+    /**
+     * 返回当前消息
+     * @param messageRealms 当前页数的消息
+     * @param page 总页数
+     */
+    void change(List<MessageRealm> messageRealms,int page);
   }
 
   /**

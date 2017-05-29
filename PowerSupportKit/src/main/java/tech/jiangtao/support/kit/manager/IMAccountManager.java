@@ -107,7 +107,7 @@ public class IMAccountManager {
   /**
    * 判断服务是否连接
    */
-  public void connectHermes() {
+  private void connectHermes() {
     if (!HermesEventBus.getDefault().isRegistered(this)) {
       HermesEventBus.getDefault().register(this);
     }
@@ -116,7 +116,7 @@ public class IMAccountManager {
   /**
    * 判断数据库是否连接
    */
-  public void connectRealm() {
+  private void connectRealm() {
     if (mRealms == null || mRealms.isClosed()) {
       mRealms = Realm.getDefaultInstance();
     }

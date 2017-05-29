@@ -11,6 +11,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.ui.R;
 import tech.jiangtao.support.ui.R2;
 import tech.jiangtao.support.ui.adapter.ChatBaseViewHolder;
@@ -37,23 +38,24 @@ public class ChatImageMineViewHolder extends ChatBaseViewHolder {
     mContext = context;
   }
 
-  @Override public void bindTo(int position, ConstructMessage constructMessage) {
+  @Override public void bindTo(int position, MessageRealm messageRealm) {
     Glide.with(mContext)
-        .load(Uri.parse(constructMessage.mAvatar != null ? constructMessage.mAvatar : ""))
+        .load(Uri.parse(messageRealm.getContactRealm() != null
+            && messageRealm.getContactRealm().getAvatar() != null ? messageRealm.getContactRealm()
+            .getAvatar() : ""))
         .centerCrop()
         .error(R.mipmap.ic_chat_default)
         .placeholder(R.mipmap.ic_chat_default)
         .into(mItemChatAvatar);
 
     Glide.with(mContext)
-        .load(Uri.parse(constructMessage.mMessage.fimePath))
+        .load(Uri.parse(messageRealm.getTextMessage()))
         .error(R.mipmap.ic_mipmap_default_image)
         .placeholder(R.mipmap.ic_mipmap_default_image)
         .into(mItemChatImage);
 
     mItemChatImage.setOnClickListener(v -> {
-      ImageDialogManager manager =
-          new ImageDialogManager(mContext, constructMessage.mMessage.fimePath);
+      ImageDialogManager manager = new ImageDialogManager(mContext, messageRealm.getTextMessage());
       manager.showDialog();
     });
   }
