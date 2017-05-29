@@ -1,10 +1,8 @@
 package tech.jiangtao.support.kit.manager;
 
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import java.io.File;
-import java.util.List;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -13,15 +11,14 @@ import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.SupportIM;
 import tech.jiangtao.support.kit.api.ApiService;
 import tech.jiangtao.support.kit.api.service.UpLoadServiceApi;
-import tech.jiangtao.support.kit.archive.type.DataExtensionType;
 import tech.jiangtao.support.kit.archive.type.MessageAuthor;
 import tech.jiangtao.support.kit.archive.type.MessageExtensionType;
 import tech.jiangtao.support.kit.callback.IMListenerCollection;
 import tech.jiangtao.support.kit.eventbus.IMMessageResponseModel;
 import tech.jiangtao.support.kit.model.Result;
 import tech.jiangtao.support.kit.model.jackson.Message;
-import tech.jiangtao.support.kit.model.type.TransportType;
 import tech.jiangtao.support.kit.realm.ContactRealm;
+import tech.jiangtao.support.kit.realm.GroupRealm;
 import tech.jiangtao.support.kit.realm.MessageRealm;
 import tech.jiangtao.support.kit.util.ErrorAction;
 import tech.jiangtao.support.kit.util.LogUtils;
@@ -67,7 +64,7 @@ public class IMMessageManager {
   /**
    * 存储消息
    */
-  public MessageRealm storeMessage(IMMessageResponseModel model) {
+  public MessageRealm storeMessage(IMMessageResponseModel model,ContactRealm contactRealm,GroupRealm groupRealm) {
     // ---> 保存到消息表
     connectRealm();
     MessageRealm messageRealm = mRealm.createObject(MessageRealm.class, model.getId());
@@ -88,6 +85,8 @@ public class IMMessageManager {
       messageRealm.setMessageExtensionType(1);
       messageRealm.setGroupId(model.getMessage().getGroup());
     }
+    messageRealm.setContactRealm(contactRealm);
+    messageRealm.setGroupRealm(groupRealm);
     mRealm.copyToRealm(messageRealm);
     if (mIMMessageChangeListener != null && model.getAuthor().equals(MessageAuthor.OWN)) {
       mIMMessageChangeListener.message(messageRealm);

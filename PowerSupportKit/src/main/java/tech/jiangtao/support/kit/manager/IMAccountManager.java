@@ -30,6 +30,7 @@ public class IMAccountManager {
   private AppPreferences mAppPreferences;
   private IMLoginRequestModel mLoginParam;
   private Realm mRealms;
+  private Context mContext;
 
   private IMListenerCollection.IMLoginListener mIMLoginListener;
 
@@ -37,6 +38,7 @@ public class IMAccountManager {
     connectHermes();
     connectRealm();
     mAppPreferences = new AppPreferences(context);
+    mContext = context;
   }
 
   public void login(IMLoginRequestModel param, IMListenerCollection.IMLoginListener callBack) {
@@ -58,6 +60,8 @@ public class IMAccountManager {
         Gson gson = new Gson();
         String value = gson.toJson(account);
         mAppPreferences.put(SupportIM.USER, value);
+        // 存储用户信息
+        IMContactManager.geInstance().saveAdminContact(mContext);
         mIMLoginListener.loginSuccess(event.account);
       } else {
         mIMLoginListener.loginFailed(event.result);
@@ -95,7 +99,7 @@ public class IMAccountManager {
     ContactRealm contactRealm =
         mRealms.where(ContactRealm.class).equalTo(SupportIM.USER_ID, userId).findFirst();
     if (contactRealm == null) {
-      return null;
+      IMContactManager.geInstance().saveAdminContact(mContext);
     }
     return contactRealm;
   }

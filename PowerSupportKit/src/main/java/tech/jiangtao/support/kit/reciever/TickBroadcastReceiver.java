@@ -21,7 +21,7 @@ public class TickBroadcastReceiver extends BroadcastReceiver {
 
   @Override public void onReceive(Context context, Intent intent) {
     //LogUtils.d(TAG, "onReceive: 检测服务是否在运行");
-    HermesEventBus.getDefault().post(new IMNotificationConnection(true));
+    //HermesEventBus.getDefault().post(new IMNotificationConnection(true));
     boolean isServiceRunning = false;
     if (intent.getAction().equals(Intent.ACTION_TIME_TICK)) {
       ActivityManager manager = (ActivityManager) context.getApplicationContext()

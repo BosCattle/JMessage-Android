@@ -79,12 +79,15 @@ public class IMConversationManager {
             message.getMessage().getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())
                 ? 1 : 0);
         mSessionRealm.setContactRealm(contactRealm);
-        mSessionRealm.setMessageRealm(IMMessageManager.geInstance().storeMessage(message));
-        if (message.getMessage()
-            .getChatType()
-            .equals(MessageExtensionType.GROUP_CHAT.toString())) {
-          IMGroupManager.geInstance()
-              .readSingleGroupRealm(message, group -> mSessionRealm.setGroupRealm(group));
+        if (message.getMessage().getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())) {
+          IMGroupManager.geInstance().readSingleGroupRealm(message, group -> {
+            mSessionRealm.setGroupRealm(group);
+            mSessionRealm.setMessageRealm(
+                IMMessageManager.geInstance().storeMessage(message, contactRealm, group));
+          });
+        } else {
+          mSessionRealm.setMessageRealm(
+              IMMessageManager.geInstance().storeMessage(message, contactRealm, null));
         }
         realm.copyToRealmOrUpdate(mSessionRealm);
         if (mIMSettingManager.getNotification(context) && message.getAuthor()
@@ -145,9 +148,8 @@ public class IMConversationManager {
 
   /**
    * 设置消息为已读
-   * @param context
    */
-  public void setChatConversationReadStatus(Context context,ContactRealm user){
+  public void setChatConversationReadStatus(Context context, ContactRealm user) {
     mIMAccountManager = new IMAccountManager(context);
     mRealm.executeTransaction(realm -> {
       LogUtils.d(TAG, "onPause: 执行到.....");

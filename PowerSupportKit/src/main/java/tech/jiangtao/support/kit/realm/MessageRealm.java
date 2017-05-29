@@ -52,6 +52,26 @@ public class MessageRealm extends RealmObject implements Parcelable {
   // 消息拓展类型，包含单聊，群聊，推送
   public int messageExtensionType;
 
+  public ContactRealm contactRealm;
+
+  public GroupRealm groupRealm;
+
+  public ContactRealm getContactRealm() {
+    return contactRealm;
+  }
+
+  public void setContactRealm(ContactRealm contactRealm) {
+    this.contactRealm = contactRealm;
+  }
+
+  public GroupRealm getGroupRealm() {
+    return groupRealm;
+  }
+
+  public void setGroupRealm(GroupRealm groupRealm) {
+    this.groupRealm = groupRealm;
+  }
+
   public int getMessageExtensionType() {
     return messageExtensionType;
   }
@@ -159,6 +179,8 @@ public class MessageRealm extends RealmObject implements Parcelable {
     dest.writeString(this.messageType);
     dest.writeByte(this.messageStatus ? (byte) 1 : (byte) 0);
     dest.writeInt(this.messageExtensionType);
+    dest.writeParcelable(this.contactRealm, flags);
+    dest.writeParcelable(this.groupRealm, flags);
   }
 
   protected MessageRealm(Parcel in) {
@@ -174,6 +196,8 @@ public class MessageRealm extends RealmObject implements Parcelable {
     this.messageType = in.readString();
     this.messageStatus = in.readByte() != 0;
     this.messageExtensionType = in.readInt();
+    this.contactRealm = in.readParcelable(ContactRealm.class.getClassLoader());
+    this.groupRealm = in.readParcelable(GroupRealm.class.getClassLoader());
   }
 
   public static final Creator<MessageRealm> CREATOR = new Creator<MessageRealm>() {

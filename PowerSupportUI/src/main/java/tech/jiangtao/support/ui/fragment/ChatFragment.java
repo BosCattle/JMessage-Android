@@ -136,7 +136,6 @@ public class ChatFragment extends BaseFragment
   private List<ConstructMessage> mMessages;
   private ContactRealm mContactRealm;
   private ContactRealm mOwnContactRealm;
-  private Realm mRealm;
   private BQMM mBQMM;
   private int mLastVisibleItem;
   private LinearLayoutManager mLinearLayoutManager;
@@ -207,7 +206,6 @@ public class ChatFragment extends BaseFragment
   }
 
   public void loadOwnRealm() {
-    mMessages = new ArrayList<>();
     mContactRealm = getArguments().getParcelable(SupportIM.VCARD);
     mOwnContactRealm = new IMAccountManager(getContext()).getAccount();
     IMMessageManager.geInstance().getMessages(mContactRealm, ChatFragment.this);
@@ -297,18 +295,13 @@ public class ChatFragment extends BaseFragment
   }
 
   private void init() {
-    mRealm = Realm.getDefaultInstance();
-    UserServiceApi mUserServiceApi =
-        ApiService.getInstance().createApiService(UserServiceApi.class);
-    UpLoadServiceApi mUpLoadServiceApi =
-        ApiService.getInstance().createApiService(UpLoadServiceApi.class);
     mInputMethodManager =
         (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
     setViewListener();
     setUpRefreshing();
     setUpBQMM();
-    loadOwnRealm();
     setAdapter();
+    loadOwnRealm();
     setExtraAdapter();
   }
 
@@ -362,6 +355,7 @@ public class ChatFragment extends BaseFragment
   }
 
   public void setAdapter() {
+    mMessages = new ArrayList<>();
     mChatMessageAdapter = new ChatMessageAdapter(getContext(), mMessages);
     mLinearLayoutManager =
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -511,7 +505,6 @@ public class ChatFragment extends BaseFragment
 
   @Override public void onDestroyView() {
     super.onDestroyView();
-    mRealm.close();
     AudioManager.getInstance().onDestroy();
   }
 
@@ -537,9 +530,11 @@ public class ChatFragment extends BaseFragment
   }
 
   @Override public void change(List<MessageRealm> messageRealms) {
-    mMessageRealm = messageRealms;
-    updateItems(messageRealms, mOwnContactRealm.getUserId(), mPage);
-    updateChatData();
+    if (messageRealms!=null&&mOwnContactRealm!=null) {
+      mMessageRealm = messageRealms;
+      updateItems(messageRealms, mOwnContactRealm.getUserId(), mPage);
+      updateChatData();
+    }
   }
 
   @Override public void success(IMFilePath path) {

@@ -52,7 +52,6 @@ public abstract class BaseFragment extends Fragment {
   @Override public void onResume() {
     super.onResume();
     MediaManager.resume();
-    //HermesEventBus.getDefault().post(new IMNotificationConnection(true));
   }
 
   @Override public void onPause() {

@@ -9,6 +9,7 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import java.util.Collections;
 import java.util.List;
+import net.grandcentrix.tray.AppPreferences;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import rx.android.schedulers.AndroidSchedulers;
@@ -87,7 +88,7 @@ public class IMContactManager {
     RealmQuery<ContactRealm> realmQuery = mRealm.where(ContactRealm.class);
     // 查询,根据nickName进行排序
     RealmResults<ContactRealm> contactRealms = realmQuery.findAllSorted(SupportIM.PINYIN);
-    if (realmIMRealmChangeListener!=null) {
+    if (realmIMRealmChangeListener != null) {
       realmIMRealmChangeListener.change(contactRealms);
     }
   }
@@ -104,14 +105,14 @@ public class IMContactManager {
     if (model.getMessage().getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())) {
       userId = StringSplitUtil.splitDivider(model.getMessage().getMsgSender());
     }
-    LogUtils.d(TAG,userId);
+    LogUtils.d(TAG, userId);
     ContactRealm contactRealm =
         mRealm.where(ContactRealm.class).equalTo(SupportIM.USER_ID, userId).findFirst();
     if (contactRealm != null) {
       listener.result(contactRealm);
     } else {
       // 通过http获取用户信息
-      LogUtils.d(TAG,"通讯录中没有该用户信息，通过网络获取");
+      LogUtils.d(TAG, "通讯录中没有该用户信息，通过网络获取");
       mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
       mUserServiceApi.selfAccount(userId)
           .subscribeOn(Schedulers.io())
@@ -364,5 +365,26 @@ public class IMContactManager {
       mDealFriendInvitedListener.success();
       mDealFriendInvitedListener.failed();
     }
+  }
+
+  public void saveAdminContact(Context context) {
+    AppPreferences mAppPreferences = new AppPreferences(context);
+    String userId = mAppPreferences.getString(SupportIM.USER_ID, null);
+    mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
+    mUserServiceApi.selfAccount(userId)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(user -> {
+          ContactRealm realm = new ContactRealm();
+          realm.setUid(user.getUid());
+          realm.setAvatar(user.getAvatar());
+          realm.setSignature(user.getSignature());
+          realm.setSex(user.isSex());
+          realm.setNickName(user.nickName);
+          realm.setUserId(user.getUserId());
+          realm.setRelative(user.relative);
+          realm.setNid(user.nid);
+          updateSingleIMContactRealm(realm, null);
+        });
   }
 }
