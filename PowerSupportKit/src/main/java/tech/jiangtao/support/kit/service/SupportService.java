@@ -12,6 +12,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.UUID;
 import net.grandcentrix.tray.AppPreferences;
@@ -22,6 +23,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionListener;
+import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.StanzaListener;
 import org.jivesoftware.smack.XMPPConnection;
@@ -44,6 +46,7 @@ import org.jivesoftware.smackx.iqregister.AccountManager;
 import org.jivesoftware.smackx.muc.InvitationListener;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.jivesoftware.smackx.muc.MultiUserChatManager;
+import org.jivesoftware.smackx.muc.RoomInfo;
 import org.jivesoftware.smackx.offline.OfflineMessageManager;
 import org.jivesoftware.smackx.ping.PingManager;
 import org.jivesoftware.smackx.ping.android.ServerPingWithAlarmManager;
@@ -53,7 +56,10 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
+import org.jivesoftware.smackx.xdata.Form;
+import org.jivesoftware.smackx.xdata.FormField;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tech.jiangtao.support.kit.SupportAIDLConnection;
@@ -77,6 +83,7 @@ import tech.jiangtao.support.kit.eventbus.IMLoginResponseModel;
 import tech.jiangtao.support.kit.eventbus.IMDeleteContactRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMNotificationConnection;
 import tech.jiangtao.support.kit.eventbus.IMMessageResponseModel;
+import tech.jiangtao.support.kit.eventbus.IMRoomRequestModel;
 import tech.jiangtao.support.kit.eventbus.QueryUser;
 import tech.jiangtao.support.kit.eventbus.QueryUserResult;
 import tech.jiangtao.support.kit.eventbus.IMContactDealModel;
@@ -98,9 +105,11 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 import static xiaofei.library.hermes.Hermes.getContext;
 
 public class SupportService extends Service
-    implements ChatManagerListener, ConnectionListener, RosterListener,InvitationListener {
+    implements ChatManagerListener, ConnectionListener, RosterListener, InvitationListener,
+    MessageListener {
 
   private static final String TAG = SupportService.class.getSimpleName();
+  private static final String GROUP_AVATAR = "avatar";
   private XMPPTCPConnection mXMPPConnection;
   private AccountManager mAccountManager;
   private Roster mRoster;
@@ -173,12 +182,14 @@ public class SupportService extends Service
       if (messageBody != null) {
         if (messageBody.getChatType().equals(MessageExtensionType.CHAT.toString())) {
           HermesEventBus.getDefault()
-              .post(new IMMessageResponseModel(UUID.randomUUID().toString(), messageBody, new Date(),
-                  chat1.getThreadID(), false, MessageAuthor.FRIEND));
+              .post(
+                  new IMMessageResponseModel(UUID.randomUUID().toString(), messageBody, new Date(),
+                      chat1.getThreadID(), false, MessageAuthor.FRIEND));
         } else if (messageBody.getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())) {
           HermesEventBus.getDefault()
-              .post(new IMMessageResponseModel(UUID.randomUUID().toString(), messageBody, new Date(),
-                  chat1.getThreadID(), false, MessageAuthor.FRIEND));
+              .post(
+                  new IMMessageResponseModel(UUID.randomUUID().toString(), messageBody, new Date(),
+                      chat1.getThreadID(), false, MessageAuthor.FRIEND));
         } else if (messageBody.getChatType().equals(MessageExtensionType.PUSH.toString())) {
           // 发送广播
           Intent intent = new Intent(this.getClass().getCanonicalName());
@@ -220,13 +231,13 @@ public class SupportService extends Service
         if (message.getChatType().equals(MessageExtensionType.CHAT.toString())) {
           HermesEventBus.getDefault()
               .postSticky(
-                  new IMMessageResponseModel(UUID.randomUUID().toString(), message, new Date(), s.getThread(),
-                      false, MessageAuthor.OWN));
+                  new IMMessageResponseModel(UUID.randomUUID().toString(), message, new Date(),
+                      s.getThread(), false, MessageAuthor.OWN));
         } else if (message.getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())) {
           HermesEventBus.getDefault()
               .postSticky(
-                  new IMMessageResponseModel(UUID.randomUUID().toString(), message, new Date(), s.getThread(),
-                      false, MessageAuthor.OWN));
+                  new IMMessageResponseModel(UUID.randomUUID().toString(), message, new Date(),
+                      s.getThread(), false, MessageAuthor.OWN));
         }
       }
     }, new ErrorAction() {
@@ -416,20 +427,21 @@ public class SupportService extends Service
             LogUtils.d(TAG, "获取到离线消息:" + message.getBody());
             tech.jiangtao.support.kit.model.jackson.Message messageBody = null;
             try {
-              messageBody =
-                  gson.fromJson(message.getBody(), tech.jiangtao.support.kit.model.jackson.Message.class);
+              messageBody = gson.fromJson(message.getBody(),
+                  tech.jiangtao.support.kit.model.jackson.Message.class);
             } catch (JsonSyntaxException e) {
               LogUtils.e(TAG, "你根本不是司机，请发送json格式的数据---->" + message.getBody());
             }
             if (messageBody != null) {
               if (messageBody.getChatType().equals(MessageExtensionType.CHAT.toString())) {
                 HermesEventBus.getDefault()
-                    .post(new IMMessageResponseModel(UUID.randomUUID().toString(), messageBody, new Date(),
-                        UUID.randomUUID().toString(), false, MessageAuthor.FRIEND));
-              } else if (messageBody.getChatType().equals(MessageExtensionType.GROUP_CHAT.toString())) {
+                    .post(new IMMessageResponseModel(UUID.randomUUID().toString(), messageBody,
+                        new Date(), UUID.randomUUID().toString(), false, MessageAuthor.FRIEND));
+              } else if (messageBody.getChatType()
+                  .equals(MessageExtensionType.GROUP_CHAT.toString())) {
                 HermesEventBus.getDefault()
-                    .post(new IMMessageResponseModel(UUID.randomUUID().toString(), messageBody, new Date(),
-                        UUID.randomUUID().toString(), false, MessageAuthor.FRIEND));
+                    .post(new IMMessageResponseModel(UUID.randomUUID().toString(), messageBody,
+                        new Date(), UUID.randomUUID().toString(), false, MessageAuthor.FRIEND));
               } else if (messageBody.getChatType().equals(MessageExtensionType.PUSH.toString())) {
                 // 发送广播
                 Intent intent = new Intent(this.getClass().getCanonicalName());
@@ -846,22 +858,124 @@ public class SupportService extends Service
 
   /**
    * 接收到群邀请信息
-   * @param conn
-   * @param room
-   * @param inviter
-   * @param reason
-   * @param password
-   * @param message
    */
   @Override public void invitationReceived(XMPPConnection conn, MultiUserChat room, String inviter,
       String reason, String password, Message message) {
 
   }
 
-  //@Subscribe(threadMode = ThreadMode.MAIN)
-  //public void createRoom(){
-  //  MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat()
-  //}
+  /**
+   * 已经创建了一个群，白白嫩嫩
+   */
+  @Subscribe(threadMode = ThreadMode.MAIN) public void createRoom(IMRoomRequestModel model) {
+    MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat(
+        model.roomName + "@muc." + mXMPPConnection.getServiceName());
+    Observable.create((Observable.OnSubscribe<Form>) subscriber -> {
+      try {
+        multiUserChat.create(model.nickName);
+        subscriber.onNext(multiUserChat.getConfigurationForm());
+      } catch (XMPPException.XMPPErrorException | SmackException e) {
+        e.printStackTrace();
+        subscriber.onError(e);
+      }
+    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(form -> {
+      // 根据原始表单创建一个要提交的新表单。
+      Form submitForm = form.createAnswerForm();
+      List<FormField> fields = form.getFields();
+      for (FormField field : fields) {
+        LogUtils.d(TAG, field != null ? "配置信息为: 类型-->"
+            + field.getType().toString()
+            + "  变量: --->"
+            + field.getVariable() : "配置为空....");
+        if (!FormField.Type.hidden.name().equals(field.getType().toString())
+            && field.getVariable() != null) {
+          submitForm.setDefaultAnswer(field.getVariable());
+        }
+      }
+      //设置房间名称
+      submitForm.setAnswer("muc#roomconfig_roomname", model.roomName);
+      //设置房间描述
+      submitForm.setAnswer("muc#roomconfig_roomdesc", model.roomDesc);
+      // 房间是永久的
+      submitForm.setAnswer("muc#roomconfig_persistentroom", true);
+      // 房间可搜索
+      submitForm.setAnswer("muc#roomconfig_publicroom", true);
+      //是否允许修改主题
+      submitForm.setAnswer("muc#roomconfig_changesubject", true);
+      // 房间仅对成员开放
+      submitForm.setAnswer("muc#roomconfig_membersonly", true);
+      // 添加群组头像
+      FormField field = new FormField(GROUP_AVATAR);
+      field.addValue(model.avatar);
+      submitForm.addField(field);
+      Observable.create(subscriber -> {
+        try {
+          multiUserChat.sendConfigurationForm(submitForm);
+          multiUserChat.join(model.nickName);
+          subscriber.onNext(null);
+        } catch (SmackException.NoResponseException | XMPPException.XMPPErrorException | SmackException.NotConnectedException e) {
+          e.printStackTrace();
+          subscriber.onError(e);
+        }
+      }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+        // 发送成功消息咯
+        LogUtils.i(TAG, "房间创建成功");
+      }, new ErrorAction() {
+        @Override public void call(Throwable throwable) {
+          super.call(throwable);
+          LogUtils.e(TAG, "配置房间错误...." + throwable.getMessage());
+        }
+      });
+    }, new ErrorAction() {
+      @Override public void call(Throwable throwable) {
+        super.call(throwable);
+        LogUtils.e(TAG, "创建房间错误..." + throwable.getMessage());
+      }
+    });
+  }
+
+  /**
+   * 获取群组信息
+   */
+  public void getSingleRoom() {
+
+  }
+
+  /**
+   * 获取群组信息
+   */
+  public void getRoomsInformation() {
+    Observable.create((Observable.OnSubscribe<Set<String>>) subscriber -> subscriber.onNext(
+        mMultiUserChatManager.getJoinedRooms()))
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(rooms -> {
+          for (String s : rooms) {
+            mMultiUserChatManager.getMultiUserChat(s).addMessageListener(SupportService.this);
+            Observable.create((Observable.OnSubscribe<RoomInfo>) subscriber -> {
+              try {
+                subscriber.onNext(mMultiUserChatManager.getRoomInfo(s));
+              } catch (SmackException.NoResponseException | SmackException.NotConnectedException | XMPPException.XMPPErrorException e) {
+                e.printStackTrace();
+                subscriber.onError(e);
+              }
+            })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(roomInfo -> {
+                  // 保存群组信息
+
+                });
+          }
+        });
+  }
+
+  /**
+   * 获取到群组信息
+   */
+  @Override public void processMessage(Message message) {
+
+  }
 
   private class SupportServiceConnection implements ServiceConnection {
 

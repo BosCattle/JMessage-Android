@@ -119,6 +119,11 @@
         android:enabled="true"
         android:exported="false">
     </receiver>
+
+    <activity android:name=".ui.activity.RoomInstanceActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.NoActionBar">
+    </activity>
   </application>
 
 </manifest>

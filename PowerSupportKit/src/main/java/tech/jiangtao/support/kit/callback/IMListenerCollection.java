@@ -171,4 +171,13 @@ public interface IMListenerCollection {
   interface IMGroupQueryListener {
     void result(GroupRealm group);
   }
+
+  //---------------------------------------Room-----------------------------------//
+  interface IMRoomCreateListener{
+    /**
+     * 创建群组的回调
+     * @param groupRealm
+     */
+    void result(GroupRealm groupRealm);
+  }
 }

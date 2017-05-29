@@ -75,20 +75,17 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
         .setmFriendNotificationListener(new IMListenerCollection.IMFriendNotificationListener() {
           @Override public void receivedUserInvited(ContactRealm contactRealm) {
             LogUtils.d("---->:", contactRealm.getNickName() + "请求加你为好友");
-            SimpleHUD.showSuccessMessage(MainActivity.this,
-                contactRealm.getNickName() + "请求加你为好友");
+            SimpleHUD.showSuccessMessage(MainActivity.this, contactRealm.getNickName() + "请求加你为好友");
           }
 
           @Override public void receivedAgreeInvited(ContactRealm contactRealm) {
             LogUtils.d("---->:", contactRealm.getNickName() + "同意加你为好友");
-            SimpleHUD.showSuccessMessage(MainActivity.this,
-                contactRealm.getNickName() + "同意加你为好友");
+            SimpleHUD.showSuccessMessage(MainActivity.this, contactRealm.getNickName() + "同意加你为好友");
           }
 
           @Override public void receivedRejectInvited(ContactRealm contactRealm) {
             LogUtils.d("---->:", contactRealm.getNickName() + "拒绝加你为好友");
-            SimpleHUD.showSuccessMessage(MainActivity.this,
-                contactRealm.getNickName() + "拒绝加你为好友");
+            SimpleHUD.showSuccessMessage(MainActivity.this, contactRealm.getNickName() + "拒绝加你为好友");
           }
         });
   }
@@ -163,7 +160,7 @@ public class MainActivity extends BaseActivity implements ContactItemCallback {
           GroupSearchActivity.startGroupSearch(MainActivity.this);
           break;
         case R.id.free_call:
-
+          RoomInstanceActivity.startRegister(MainActivity.this);
           break;
         case R.id.audio_meet:
 
