@@ -41,6 +41,8 @@ import org.jivesoftware.smack.roster.RosterListener;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.jivesoftware.smackx.iqregister.AccountManager;
+import org.jivesoftware.smackx.muc.InvitationListener;
+import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.jivesoftware.smackx.muc.MultiUserChatManager;
 import org.jivesoftware.smackx.offline.OfflineMessageManager;
 import org.jivesoftware.smackx.ping.PingManager;
@@ -96,7 +98,7 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 import static xiaofei.library.hermes.Hermes.getContext;
 
 public class SupportService extends Service
-    implements ChatManagerListener, ConnectionListener, RosterListener {
+    implements ChatManagerListener, ConnectionListener, RosterListener,InvitationListener {
 
   private static final String TAG = SupportService.class.getSimpleName();
   private XMPPTCPConnection mXMPPConnection;
@@ -386,6 +388,7 @@ public class SupportService extends Service
     mChatManager = ChatManager.getInstanceFor(mXMPPConnection);
     mChatManager.addChatListener(this);
     mMultiUserChatManager = MultiUserChatManager.getInstanceFor(mXMPPConnection);
+    mMultiUserChatManager.addInvitationListener(this);
     mOfflineMessageManager = new OfflineMessageManager(mXMPPConnection);
     pullOfflineMessage();
     rosterPresence();
@@ -729,12 +732,7 @@ public class SupportService extends Service
 
   /**
    * 获取所有的好友,有点唐突
-   * java.lang.NullPointerException: Attempt to invoke interface method
-   * 'org.jivesoftware.smack.PacketCollector org.jivesoftware.smack.
-   * XMPPConnection.createPacketCollectorAndSend(org.jivesoftware.smack.packet.IQ)'
-   * on a null object reference
    */
-  // TODO: 27/05/2017 将所有
   @Subscribe(threadMode = ThreadMode.MAIN) public void contactCollection(
       IMContactRequestModel model) {
     mRoster = Roster.getInstanceFor(mXMPPConnection);
@@ -845,6 +843,25 @@ public class SupportService extends Service
     mXMPPConnection.disconnect();
     connect(false);
   }
+
+  /**
+   * 接收到群邀请信息
+   * @param conn
+   * @param room
+   * @param inviter
+   * @param reason
+   * @param password
+   * @param message
+   */
+  @Override public void invitationReceived(XMPPConnection conn, MultiUserChat room, String inviter,
+      String reason, String password, Message message) {
+
+  }
+
+  //@Subscribe(threadMode = ThreadMode.MAIN)
+  //public void createRoom(){
+  //  MultiUserChat multiUserChat = mMultiUserChatManager.getMultiUserChat()
+  //}
 
   private class SupportServiceConnection implements ServiceConnection {
 
