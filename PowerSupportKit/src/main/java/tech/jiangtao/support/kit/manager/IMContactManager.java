@@ -49,10 +49,6 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
  * Date: 27/05/2017 02:50</br>
  * Update: 27/05/2017 02:50 </br>
  **/
-// TODO: 27/05/2017 添加通讯录好友
-// TODO: 27/05/2017 修改通讯录好友
-// TODO: 27/05/2017 删除通讯录中的好友
-// TODO: 27/05/2017 读通讯到UI
 public class IMContactManager {
 
   public static final String TAG = IMContactManager.class.getCanonicalName();
@@ -93,6 +89,47 @@ public class IMContactManager {
     }
   }
 
+  public void readSingleContact(String userId,
+      IMListenerCollection.IMRealmQueryListener<ContactRealm> listener) {
+    connectRealm();
+    LogUtils.d(TAG, userId);
+    ContactRealm contactRealm =
+        mRealm.where(ContactRealm.class).equalTo(SupportIM.USER_ID, userId).findFirst();
+    if (contactRealm != null) {
+      listener.result(contactRealm);
+    } else {
+      // 通过http获取用户信息
+      LogUtils.d(TAG, "通讯录中没有该用户信息，通过网络获取");
+      mUserServiceApi = ApiService.getInstance().createApiService(UserServiceApi.class);
+      mUserServiceApi.selfAccount(userId)
+          .subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(user -> {
+            ContactRealm realm = new ContactRealm();
+            realm.setUid(user.getUid());
+            realm.setAvatar(user.getAvatar());
+            realm.setSignature(user.getSignature());
+            realm.setSex(user.isSex());
+            realm.setNickName(user.nickName);
+            realm.setUserId(user.getUserId());
+            realm.setRelative(user.relative);
+            realm.setNid(user.nid);
+            updateSingleIMContactRealm(realm, null);
+            listener.result(realm);
+          }, new ErrorAction() {
+            @Override public void call(Throwable throwable) {
+              super.call(throwable);
+              LogUtils.d(TAG, "在通讯录管理器中获取用户信息失败" + throwable.getMessage());
+            }
+          });
+    }
+  }
+
+  /**
+   * 获取通讯录
+   * @param model
+   * @param listener
+   */
   public void readSingleContact(IMMessageResponseModel model,
       IMListenerCollection.IMRealmQueryListener<ContactRealm> listener) {
     connectRealm();

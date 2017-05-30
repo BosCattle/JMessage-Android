@@ -48,7 +48,7 @@ public class GroupChatActivity extends tech.jiangtao.support.ui.activity.BaseAct
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
     GroupChatFragment fragment = GroupChatFragment.newInstance();
     Bundle bundle = new Bundle();
-    bundle.putParcelable(SupportIM.GROUP, mGroups);
+    bundle.putSerializable(SupportIM.GROUP, mGroups);
     fragment.setArguments(bundle);
     fragmentTransaction.add(R.id.chat_func_detail, fragment);
     fragmentTransaction.commit();

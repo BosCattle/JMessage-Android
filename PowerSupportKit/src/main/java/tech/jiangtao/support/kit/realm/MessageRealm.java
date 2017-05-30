@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
@@ -27,7 +28,7 @@ import java.sql.Date;
  * Date: 27/05/2017 02:51</br>
  * Update: 27/05/2017 02:51 </br>
  **/
-public class MessageRealm extends RealmObject implements Parcelable {
+public class MessageRealm extends RealmObject implements Serializable {
 
   @PrimaryKey
   public String id;
@@ -172,53 +173,4 @@ public class MessageRealm extends RealmObject implements Parcelable {
 
   public MessageRealm() {
   }
-
-  @Override public int describeContents() {
-    return 0;
-  }
-
-  @Override public void writeToParcel(Parcel dest, int flags) {
-    dest.writeString(this.id);
-    dest.writeString(this.sender);
-    dest.writeString(this.receiver);
-    dest.writeString(this.groupId);
-    dest.writeString(this.textMessage);
-    dest.writeLong(this.time != null ? this.time.getTime() : -1);
-    dest.writeString(this.thread);
-    dest.writeString(this.type);
-    dest.writeString(this.messageType);
-    dest.writeByte(this.messageStatus ? (byte) 1 : (byte) 0);
-    dest.writeInt(this.messageExtensionType);
-    dest.writeString(this.author);
-    dest.writeParcelable(this.contactRealm, flags);
-    dest.writeParcelable(this.groupRealm, flags);
-  }
-
-  protected MessageRealm(Parcel in) {
-    this.id = in.readString();
-    this.sender = in.readString();
-    this.receiver = in.readString();
-    this.groupId = in.readString();
-    this.textMessage = in.readString();
-    long tmpTime = in.readLong();
-    this.time = tmpTime == -1 ? null : new java.util.Date(tmpTime);
-    this.thread = in.readString();
-    this.type = in.readString();
-    this.messageType = in.readString();
-    this.messageStatus = in.readByte() != 0;
-    this.messageExtensionType = in.readInt();
-    this.author = in.readString();
-    this.contactRealm = in.readParcelable(ContactRealm.class.getClassLoader());
-    this.groupRealm = in.readParcelable(GroupRealm.class.getClassLoader());
-  }
-
-  public static final Creator<MessageRealm> CREATOR = new Creator<MessageRealm>() {
-    @Override public MessageRealm createFromParcel(Parcel source) {
-      return new MessageRealm(source);
-    }
-
-    @Override public MessageRealm[] newArray(int size) {
-      return new MessageRealm[size];
-    }
-  };
 }

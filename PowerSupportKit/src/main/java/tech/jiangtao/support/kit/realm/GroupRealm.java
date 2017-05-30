@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ import java.util.List;
  * Update: 10/01/2017 11:52 PM </br>
  **/
 
-public class GroupRealm extends RealmObject {
+public class GroupRealm extends RealmObject  implements Serializable {
   public Long uid;
   @PrimaryKey public String groupId;
   public String name;

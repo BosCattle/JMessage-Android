@@ -27,8 +27,10 @@ import tech.jiangtao.support.kit.SupportAIDLConnection;
 import tech.jiangtao.support.kit.eventbus.IMContactRequestNotificationModel;
 import tech.jiangtao.support.kit.eventbus.IMMessageResponseModel;
 import tech.jiangtao.support.kit.SupportIM;
+import tech.jiangtao.support.kit.eventbus.IMRoomStoreModel;
 import tech.jiangtao.support.kit.manager.IMConversationManager;
 import tech.jiangtao.support.kit.manager.IMNotificationManager;
+import tech.jiangtao.support.kit.manager.IMRoomManager;
 import tech.jiangtao.support.kit.manager.IMSettingManager;
 import tech.jiangtao.support.kit.util.LogUtils;
 import tech.jiangtao.support.kit.api.ApiService;
@@ -98,10 +100,23 @@ public class XMPPService extends Service {
     return START_STICKY;
   }
 
+  /**
+   * 存储消息
+   * @param message
+   */
   @Subscribe(threadMode = ThreadMode.MAIN)
   public void onRecieveMessage(IMMessageResponseModel message) {
     // TODO: 28/05/2017  需要获取到是单聊还是群聊
     IMConversationManager.geInstance().storeConversation(message, this, mChatClass);
+  }
+
+  /**
+   * 存储群组
+   * @param model
+   */
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void saveRooms(IMRoomStoreModel model){
+    IMRoomManager.geInstance().storeRoom(model);
   }
 
   /**

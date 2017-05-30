@@ -57,7 +57,7 @@ public class GroupDetailActivity extends BaseActivity {
     GroupDetailFragment fragment = GroupDetailFragment.newInstance();
     Bundle bundle = new Bundle();
     GroupRealm groupRealm = getIntent().getParcelableExtra(SupportIM.GROUP);
-    bundle.putParcelable(SupportIM.GROUP, groupRealm);
+    bundle.putSerializable(SupportIM.GROUP, groupRealm);
     fragment.setArguments(bundle);
     fragmentTransaction.add(R.id.groupDetailContainer, fragment);
     fragmentTransaction.commit();

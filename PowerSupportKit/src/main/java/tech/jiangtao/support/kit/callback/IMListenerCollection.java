@@ -178,6 +178,8 @@ public interface IMListenerCollection {
      * 创建群组的回调
      * @param groupRealm
      */
-    void result(GroupRealm groupRealm);
+    void success(GroupRealm groupRealm);
+
+    void error(Result result);
   }
 }

@@ -275,7 +275,7 @@ public class GroupChatFragment extends BaseFragment
   }
 
   private void init() {
-    mGroup = getArguments().getParcelable(SupportIM.GROUP);
+    mGroup = (GroupRealm) getArguments().getSerializable(SupportIM.GROUP);
     mAppPreferences = new AppPreferences(getContext());
     try {
       mMyUserId = mAppPreferences.getString(SupportIM.USER_ID);
@@ -293,9 +293,12 @@ public class GroupChatFragment extends BaseFragment
   }
 
   private void loadRealmData() {
-    mMessageRealm =
-        mRealm.where(MessageRealm.class).equalTo(SupportIM.GROUPID, mGroup.getGroupId()).findAll();
-    updateItems(mMessageRealm, mGroup.getGroupId(), mPage);
+    if (mGroup != null && mGroup.getGroupId() != null) {
+      mMessageRealm = mRealm.where(MessageRealm.class)
+          .equalTo(SupportIM.GROUPID, mGroup.getGroupId())
+          .findAll();
+      updateItems(mMessageRealm, mGroup.getGroupId(), mPage);
+    }
   }
 
   private void setUpBQMM() {
@@ -428,23 +431,25 @@ public class GroupChatFragment extends BaseFragment
    * 发送消息到对方，并且添加到本地
    */
   public void sendMyFriendMessage(String message, DataExtensionType type) {
-    tech.jiangtao.support.kit.model.jackson.Message messageBody = new tech.jiangtao.support.kit.model.jackson.Message();
+    tech.jiangtao.support.kit.model.jackson.Message messageBody =
+        new tech.jiangtao.support.kit.model.jackson.Message();
     messageBody.setChatType(MessageExtensionType.GROUP_CHAT.toString());
     messageBody.setGroup(mGroup.getGroupId());
     messageBody.setMessage(message);
     messageBody.setMsgSender(mMyUserId);
     messageBody.setMsgReceived(mGroup.getGroupId());
     messageBody.setType(type.toString());
-    IMMessageManager.geInstance().sendMessage(messageBody, new IMListenerCollection.IMMessageChangeListener() {
-      @Override public void message(MessageRealm messageRealm) {
-        // 发送成功
-      }
+    IMMessageManager.geInstance()
+        .sendMessage(messageBody, new IMListenerCollection.IMMessageChangeListener() {
+          @Override public void message(MessageRealm messageRealm) {
+            // 发送成功
+          }
 
-      @Override public void error(Result result) {
-        // 发送失败
+          @Override public void error(Result result) {
+            // 发送失败
 
-      }
-    });
+          }
+        });
     //将消息更新到本地
     mChatInput.setText("");
     hideKeyBoard();
