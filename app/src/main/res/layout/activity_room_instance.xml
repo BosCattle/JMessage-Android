@@ -40,4 +40,25 @@
       android:padding="@dimen/activity_horizontal_margin"
       android:layout_margin="@dimen/activity_horizontal_margin"
       />
+
+  <android.support.v7.widget.AppCompatEditText
+      android:layout_below="@id/push"
+      android:id="@+id/userJid"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="用户全称"
+      android:padding="@dimen/activity_horizontal_margin"
+      android:layout_margin="@dimen/activity_horizontal_margin"
+      />
+
+  <Button
+      android:layout_below="@id/userJid"
+      android:id="@+id/invited"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="邀请用户入群"
+      android:padding="@dimen/activity_horizontal_margin"
+      android:layout_margin="@dimen/activity_horizontal_margin"
+      />
+
 </RelativeLayout>

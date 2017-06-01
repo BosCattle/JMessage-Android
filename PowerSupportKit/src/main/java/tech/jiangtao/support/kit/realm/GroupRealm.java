@@ -1,12 +1,9 @@
 package tech.jiangtao.support.kit.realm;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Class: GroupRealm </br>
@@ -23,6 +20,7 @@ public class GroupRealm extends RealmObject  implements Serializable {
   public String name;
   public String avatar;
   public String description;
+  // 用户信息的realm
   public RealmList<ContactRealm> contactRealms;
 
   public RealmList<ContactRealm> getContactRealms() {
