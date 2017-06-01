@@ -93,6 +93,7 @@ import tech.jiangtao.support.kit.eventbus.IMLoginResponseModel;
 import tech.jiangtao.support.kit.eventbus.IMDeleteContactRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMNotificationConnection;
 import tech.jiangtao.support.kit.eventbus.IMMessageResponseModel;
+import tech.jiangtao.support.kit.eventbus.IMRoomInviteRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMRoomRequestModel;
 import tech.jiangtao.support.kit.eventbus.IMRoomResponseModel;
 import tech.jiangtao.support.kit.eventbus.IMRoomStoreModel;
@@ -119,7 +120,7 @@ import static xiaofei.library.hermes.Hermes.getContext;
 public class SupportService extends Service
     implements ChatManagerListener, ConnectionListener, RosterListener, InvitationListener,
     MessageListener, UserStatusListener, InvitationRejectionListener, SubjectUpdatedListener,
-    PresenceListener,ParticipantStatusListener {
+    PresenceListener, ParticipantStatusListener {
 
   private static final String TAG = SupportService.class.getSimpleName();
   private static final String GROUP_AVATAR = "avatar";
@@ -977,7 +978,7 @@ public class SupportService extends Service
         }, new ErrorAction() {
           @Override public void call(Throwable throwable) {
             super.call(throwable);
-            LogUtils.d(TAG,"获取群组成员错误"+throwable.getMessage());
+            LogUtils.d(TAG, "获取群组成员错误" + throwable.getMessage());
           }
         });
   }
@@ -1094,25 +1095,27 @@ public class SupportService extends Service
   /**
    * 邀请加入群组
    */
-  public void invitedUsertoGroup() {
-    Observable.create(new Observable.OnSubscribe<Object>() {
-      @Override public void call(Subscriber<? super Object> subscriber) {
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void invitedUsertoGroup(IMRoomInviteRequestModel model) {
+    for (String s : model.users) {
+      Observable.create(subscriber -> {
         try {
-          mMultiUserChatManager.getMultiUserChat("ddd").invite("", "");
+          mMultiUserChatManager.getMultiUserChat(model.groupId)
+              .invite(s, mAppPreferences.getString(SupportIM.USER_NAME, null) + "邀请你加入群.");
           subscriber.onNext(null);
         } catch (SmackException.NotConnectedException e) {
           e.printStackTrace();
           subscriber.onError(e);
         }
-      }
-    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
-
-    }, new ErrorAction() {
-      @Override public void call(Throwable throwable) {
-        super.call(throwable);
-        LogUtils.e(TAG, "发送邀请失败，失败原因-->" + throwable.getMessage());
-      }
-    });
+      }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+        LogUtils.d(TAG, "邀请发送成功.");
+      }, new ErrorAction() {
+        @Override public void call(Throwable throwable) {
+          super.call(throwable);
+          LogUtils.e(TAG, "发送邀请失败，失败原因-->" + throwable.getMessage());
+        }
+      });
+    }
   }
 
   /**
@@ -1122,7 +1125,7 @@ public class SupportService extends Service
     Observable.create(new Observable.OnSubscribe<Object>() {
       @Override public void call(Subscriber<? super Object> subscriber) {
         try {
-          mMultiUserChatManager.getMultiUserChat("ddd").banUser("dd","");
+          mMultiUserChatManager.getMultiUserChat("ddd").banUser("dd", "");
           subscriber.onNext(null);
         } catch (SmackException.NoResponseException | SmackException.NotConnectedException | XMPPException.XMPPErrorException e) {
           e.printStackTrace();
@@ -1144,18 +1147,18 @@ public class SupportService extends Service
    */
   @Override public void invitationReceived(XMPPConnection conn, MultiUserChat room, String inviter,
       String reason, String password, Message message) {
-    LogUtils.e(TAG,"接受到"+room.getNickname()+"的邀请。原因是:"+reason+"。邀请者是"+inviter);
+    LogUtils.e(TAG, "接受到" + room.getNickname() + "的邀请。原因是:" + reason + "。邀请者是" + inviter);
   }
 
   @Override public void invitationDeclined(String invitee, String reason) {
-    LogUtils.e(TAG,invitee+"拒绝了你的请求。原因是你不帅."+reason);
+    LogUtils.e(TAG, invitee + "拒绝了你的请求。原因是你不帅." + reason);
   }
 
   /**
    * 获取到群组信息
    */
   @Override public void processMessage(Message message) {
-    LogUtils.d(TAG,"群消息来了"+message.getBody());
+    LogUtils.d(TAG, "群消息来了" + message.getBody());
   }
 
   @Override public void kicked(String actor, String reason) {
@@ -1207,7 +1210,7 @@ public class SupportService extends Service
   }
 
   @Override public void subjectUpdated(String subject, String from) {
-    LogUtils.d(TAG,"主题改变成了:"+subject);
+    LogUtils.d(TAG, "主题改变成了:" + subject);
   }
 
   @Override public void processPresence(Presence presence) {
@@ -1273,10 +1276,6 @@ public class SupportService extends Service
   @Override public void nicknameChanged(String participant, String newNickname) {
 
   }
-
-
-
-
 
   //--------------------------------------------->没有任何卵用<-------------------------------------------//
   private class SupportServiceConnection implements ServiceConnection {
