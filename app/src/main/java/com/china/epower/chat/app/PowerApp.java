@@ -11,6 +11,8 @@ import com.china.epower.chat.ui.activity.AllInvitedActivity;
 import com.china.epower.chat.ui.activity.ChatActivity;
 import com.china.epower.chat.ui.activity.GroupChatActivity;
 import work.wanghao.simplehud.SimpleHUD;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 /**
  * Class: PowerApp </br>
@@ -35,5 +37,11 @@ public class PowerApp extends Application {
         .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
         .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
         .build());
+  }
+
+  @Override
+  protected void attachBaseContext(Context base) {
+    super.attachBaseContext(base);
+    MultiDex.install(this);
   }
 }

@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'realm-android'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.github.dcendents.android-maven'
 
 
@@ -29,7 +28,6 @@ android {
 
 
   dexOptions {
-    incremental = true
     preDexLibraries = false
     javaMaxHeapSize "4g"
   }
@@ -59,4 +57,4 @@ dependencies {
   compile 'com.squareup.okhttp3:logging-interceptor:' + rootProject.ext.depsVersion.logginginterceptorVersion
 //  compile 'tech.jiangtao.im:JMessage-Common:'+rootProject.ext.depsVersion.JMessageCommonVersion
 }
-apply from: '../nexus_kit_upload.gradle'
+//apply from: '../nexus_kit_upload.gradle'

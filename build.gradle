@@ -1,13 +1,14 @@
 apply from: 'version.gradle'
 buildscript {
   repositories {
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    google()
     jcenter()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
-    maven { url 'http://172.104.87.49:8081/repository/maven-public/' }
     mavenCentral()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.3.2'
+    classpath 'com.android.tools.build:gradle:3.2.1'
     classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     classpath 'io.realm:realm-gradle-plugin:2.2.0'
     classpath 'com.jakewharton:butterknife-gradle-plugin:8.4.0'
@@ -18,6 +19,8 @@ buildscript {
 
 allprojects {
   repositories {
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    google()
     jcenter()
     mavenCentral()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
@@ -25,7 +28,6 @@ allprojects {
     maven { url 'https://raw.githubusercontent.com/Pgyer/mvn_repo_pgyer/master' }
     maven { url 'https://jitpack.io' }
     maven { url 'https://github.com/uPhyca/stetho-realm/raw/master/maven-repo' }
-    maven { url 'http://172.104.87.49:8081/repository/maven-public/' }
   }
   tasks.withType(Javadoc) {
     options.addStringOption('Xdoclint:none', '-quiet')

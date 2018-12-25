@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
 apply plugin: 'realm-android'
-apply plugin: 'me.tatarka.retrolambda'
 
 def gitVersionCode() {
   def cmd = 'git rev-list HEAD --all  --count'
@@ -56,13 +54,10 @@ android {
     exclude 'META-INF/LGPL2.1'
   }
   dexOptions {
-    incremental = true
     preDexLibraries = false
     javaMaxHeapSize "4g"
   }
-  retrolambda {
-    jvmArgs '-noverify'
-  }
+
   compileOptions {
     sourceCompatibility rootProject.ext.android.javaVersion
     targetCompatibility rootProject.ext.android.javaVersion
@@ -103,21 +98,23 @@ android {
 }
 
 dependencies {
-  compile fileTree(include: ['*.jar'], dir: 'libs')
-  compile project(':PowerSupportUI')
-  compile 'com.android.support:multidex:' + rootProject.ext.depsVersion.multidexVersion
-  compile 'com.github.Doublemine:SimpleHud:' + rootProject.ext.depsVersion.simpleHudVersion
-  compile 'io.reactivex:rxandroid:' + rootProject.ext.depsVersion.rxAndroidVersion
-  compile 'io.reactivex:rxjava:' + rootProject.ext.depsVersion.rxJavaVersion
-  compile 'com.roughike:bottom-bar:' + rootProject.ext.depsVersion.bottombarVersion
-  compile 'com.github.BosCattle:ViewCollection:' + rootProject.ext.depsVersion.viewcollectionVersion
-  compile 'com.pgyersdk:sdk:' + rootProject.ext.depsVersion.pgyersdkVersion
-  compile 'com.afollestad.material-dialogs:core:' + rootProject.ext.depsVersion.materialDialogsVersion
-  compile 'com.github.BosCattle:MultiType-FilePicker:' + rootProject.ext.depsVersion.multiTypeFilePickerVersion
-  compile 'com.jakewharton:butterknife:' + rootProject.ext.depsVersion.butterknifeVersion
+  configurations {
+    all*.exclude group: 'com.android.support', module: 'support-v13'
+  }
+  api fileTree(include: ['*.jar'], dir: 'libs')
+  api project(':PowerSupportUI')
+  api 'com.android.support:multidex:' + rootProject.ext.depsVersion.multidexVersion
+  api 'com.github.Doublemine:SimpleHud:' + rootProject.ext.depsVersion.simpleHudVersion
+  api 'io.reactivex:rxandroid:' + rootProject.ext.depsVersion.rxAndroidVersion
+  api 'io.reactivex:rxjava:' + rootProject.ext.depsVersion.rxJavaVersion
+  api 'com.roughike:bottom-bar:' + rootProject.ext.depsVersion.bottombarVersion
+  api 'com.github.BosCattle:ViewCollection:' + rootProject.ext.depsVersion.viewcollectionVersion
+  api 'com.pgyersdk:sdk:' + rootProject.ext.depsVersion.pgyersdkVersion
+  api 'com.afollestad.material-dialogs:core:' + rootProject.ext.depsVersion.materialDialogsVersion
+  api 'com.github.BosCattle:MultiType-FilePicker:' + rootProject.ext.depsVersion.multiTypeFilePickerVersion
+  api 'com.jakewharton:butterknife:' + rootProject.ext.depsVersion.butterknifeVersion
   annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
-  apt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
-  debugCompile 'com.squareup.leakcanary:leakcanary-android:' + rootProject.ext.depsVersion.leakcanaryAndroidVersion
-  releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:' + rootProject.ext.depsVersion.leakcanaryAndroidVersion
-  compile 'com.tbruyelle.rxpermissions:rxpermissions:' + rootProject.ext.depsVersion.rxpermissionsVersion
+  debugApi 'com.squareup.leakcanary:leakcanary-android:' + rootProject.ext.depsVersion.leakcanaryAndroidVersion
+  releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:' + rootProject.ext.depsVersion.leakcanaryAndroidVersion
+  api 'com.tbruyelle.rxpermissions:rxpermissions:' + rootProject.ext.depsVersion.rxpermissionsVersion
 }
