@@ -1,3 +1,5 @@
+The project is no longer maintained
+
 [![](https://jitpack.io/v/BosCattle/JMessage.svg)](https://jitpack.io/#BosCattle/JMessage)
 ## 介绍
 Android版本聊天Library，基于XMPP开发，支持单聊，群聊。聊天类型支持文字，图片，表情，语音，视频，文件，地理位置。
